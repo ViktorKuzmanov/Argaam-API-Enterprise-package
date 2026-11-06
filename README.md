@@ -1,5 +1,4 @@
-# apiEnterprisePackage
-Preconfigured Python Project that will boost your productivity and improve your workflow
+# Argaam API Enterprise Package
 
 A minimal tool that pulls data from the Argaam REST APIs with Python, saves every response as a local `.json` file, and shows it in a simple web page where you pick fields, preview them in a table, and export CSV/JSON.
 
