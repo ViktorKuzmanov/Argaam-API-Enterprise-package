@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API Data Viewer</title>
+<style>
+  :root { --bg:#fafafa; --fg:#1a1a1a; --muted:#666; --line:#ddd; --card:#fff; --accent:#0b6bcb; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 system-ui, sans-serif; background:var(--bg); color:var(--fg); }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px; }
+  h1 { font-size:20px; margin:0 0 16px; }
+  h2 { font-size:15px; margin:0 0 8px; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px; margin-bottom:16px; }
+  label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
+  input, select, button { font:inherit; padding:7px 10px; border:1px solid var(--line); border-radius:6px; }
+  input, select { width:100%; }
+  .row { display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px; }
+  button { background:var(--accent); color:#fff; border-color:var(--accent); cursor:pointer; }
+  button.secondary { background:#fff; color:var(--fg); border-color:var(--line); }
+  .status { margin-left:10px; color:var(--muted); }
+  .error { color:#b00020; }
+  .fields { display:flex; flex-wrap:wrap; gap:6px 16px; margin:8px 0 12px; }
+  .fields label { display:flex; gap:6px; align-items:center; color:var(--fg); font-size:13px; margin:0; }
+  .fields input { width:auto; }
+  .table-wrap { overflow:auto; max-height:520px; border:1px solid var(--line); border-radius:6px; }
+  table { border-collapse:collapse; width:100%; font-size:13px; }
+  th, td { text-align:left; padding:6px 10px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th { position:sticky; top:0; background:#f3f3f3; }
+  pre { background:#f6f6f6; padding:12px; border-radius:6px; overflow:auto; max-height:400px; font-size:12px; }
+  details summary { cursor:pointer; color:var(--muted); }
+  .hidden { display:none; }
+  @media (max-width:640px) { .row { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>API Data Viewer</h1>
+
+  <section>
+    <div class="row">
+      <div><label for="base">API base URL</label><input id="base"></div>
+      <div><label for="endpoint">Endpoint</label><select id="endpoint"></select></div>
+    </div>
+    <div style="margin-bottom:12px"><label for="path">Path (edit to fill in {placeholders})</label><input id="path"></div>
+    <button id="fetchBtn">Fetch</button><span id="status" class="status"></span>
+  </section>
+
+  <section id="results" class="hidden">
+    <h2>Fields <span id="count" class="status"></span></h2>
+    <button class="secondary" id="allBtn">All</button>
+    <button class="secondary" id="noneBtn">None</button>
+    <div id="fields" class="fields"></div>
+    <div style="margin-bottom:12px">
+      <button id="csvBtn">Export CSV</button>
+      <button id="jsonBtn">Export JSON</button>
+    </div>
+    <div class="table-wrap"><table id="table"></table></div>
+    <details style="margin-top:12px"><summary>Raw JSON</summary><pre id="raw"></pre></details>
+  </section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let endpoints = [], rows = [], columns = [];
+
+// Find the list of records in a response: the array itself, or the first array of objects inside it.
+function findRecords(data) {
+  if (Array.isArray(data)) return data;
+  if (data && typeof data === "object") {
+    for (const v of Object.values(data)) {
+      if (Array.isArray(v) && v.length && typeof v[0] === "object") return v;
+    }
+    for (const v of Object.values(data)) {
+      const found = v && typeof v === "object" ? findRecords(v) : null;
+      if (found && found.length) return found;
+    }
+    return [data];
+  }
+  return [{ value: data }];
+}
+
+// Flatten nested objects into dotted keys: {name:{en:"x"}} -> {"name.en":"x"}
+function flatten(obj, prefix = "", out = {}) {
+  if (obj === null || typeof obj !== "object") { out[prefix || "value"] = obj; return out; }
+  for (const [k, v] of Object.entries(obj)) {
+    const key = prefix ? `${prefix}.${k}` : k;
+    if (v && typeof v === "object" && !Array.isArray(v)) flatten(v, key, out);
+    else out[key] = Array.isArray(v) ? JSON.stringify(v) : v;
+  }
+  return out;
+}
+
+// Expand a nested list of objects (e.g. subGroups) into one row per item, keeping the parent's fields.
+function expand(rec) {
+  const key = Object.keys(rec).find(k => Array.isArray(rec[k]) && rec[k].length && typeof rec[k][0] === "object");
+  if (!key) return [rec];
+  const { [key]: items, ...parent } = rec;
+  return items.flatMap(item => expand(item).map(child =>
+    ({ ...parent, ...Object.fromEntries(Object.entries(child).map(([k, v]) => [`${key}.${k}`, v])) })));
+}
+
+const selected = () => [...document.querySelectorAll("#fields input:checked")].map(c => c.value);
+
+function renderTable() {
+  const cols = selected();
+  const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  $("table").innerHTML =
+    `<thead><tr>${cols.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
+    `<tbody>${rows.map(r => `<tr>${cols.map(c => `<td>${esc(r[c])}</td>`).join("")}</tr>`).join("")}</tbody>`;
+}
+
+function show(data) {
+  rows = findRecords(data).flatMap(expand).map(r => flatten(r));
+  columns = [...new Set(rows.flatMap(Object.keys))];
+  $("fields").innerHTML = columns.map(c =>
+    `<label><input type="checkbox" value="${c}" checked>${c}</label>`).join("");
+  $("count").textContent = `${rows.length} rows · ${columns.length} fields`;
+  $("raw").textContent = JSON.stringify(data, null, 2);
+  $("results").classList.remove("hidden");
+  renderTable();
+}
+
+function download(name, text, type) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name;
+  a.click();
+}
+
+function selectedData() {
+  const cols = selected();
+  return rows.map(r => Object.fromEntries(cols.map(c => [c, r[c]])));
+}
+
+$("csvBtn").onclick = () => {
+  const cols = selected();
+  const cell = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const csv = [cols.map(cell).join(","), ...rows.map(r => cols.map(c => cell(r[c])).join(","))].join("\n");
+  download("export.csv", "﻿" + csv, "text/csv");  // BOM so Excel shows Arabic correctly
+};
+$("jsonBtn").onclick = () => download("export.json", JSON.stringify(selectedData(), null, 2), "application/json");
+$("fields").onchange = renderTable;
+$("allBtn").onclick = () => { document.querySelectorAll("#fields input").forEach(c => c.checked = true); renderTable(); };
+$("noneBtn").onclick = () => { document.querySelectorAll("#fields input").forEach(c => c.checked = false); renderTable(); };
+$("endpoint").onchange = () => { $("path").value = endpoints[$("endpoint").value].path; };
+
+$("fetchBtn").onclick = async () => {
+  const ep = endpoints[$("endpoint").value];
+  $("status").className = "status";
+  $("status").textContent = "Fetching…";
+  try {
+    const res = await fetch("/api/fetch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ base: $("base").value, path: $("path").value, save_as: ep.save_as }),
+    });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error);
+    $("status").textContent = `Done · saved to data/${body.saved_to}`;
+    show(body.data);
+  } catch (e) {
+    $("status").className = "status error";
+    $("status").textContent = e.message;
+  }
+};
+
+fetch("/api/config").then(r => r.json()).then(cfg => {
+  endpoints = cfg.endpoints;
+  $("base").value = cfg.base;
+  $("endpoint").innerHTML = endpoints.map((e, i) => `<option value="${i}">${e.name}</option>`).join("");
+  $("path").value = endpoints[0].path;
+});
+</script>
+</body>
+</html>
