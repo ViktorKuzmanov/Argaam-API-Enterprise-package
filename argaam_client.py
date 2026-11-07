@@ -26,7 +26,19 @@ def fetch(path, base=None, params=None):
         timeout=30,
     )
     resp.raise_for_status()
-    return resp.json()
+    if resp.status_code == 204 or not resp.content.strip():
+        raise LookupError(
+            f"No data returned (HTTP {resp.status_code}) for {path}. "
+            "The ID may not exist, or there is no data for it (common in the sandbox). "
+            "List a group's valid fields with /indicators/groups/{groupId}/fields."
+        )
+    try:
+        return resp.json()
+    except ValueError:
+        ctype = resp.headers.get("content-type", "unknown")
+        raise ValueError(
+            f"Response is not JSON (HTTP {resp.status_code}, {ctype}): {resp.text[:300]}"
+        ) from None
 
 
 def save(data, name):

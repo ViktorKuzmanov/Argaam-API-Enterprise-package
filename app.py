@@ -10,6 +10,7 @@ from argaam_client import API_BASE, fetch_and_save
 # Add new endpoints here as the project grows.
 ENDPOINTS = [
     {"name": "Indicator groups", "path": "/indicators/groups", "save_as": "indicator_groups"},
+    {"name": "Indicator group fields", "path": "/indicators/groups/{groupId}/fields", "save_as": None},
     {"name": "Indicator series", "path": "/indicators/groups/{groupId}/fields/{fieldId}/values", "save_as": None},
 ]
 
@@ -36,6 +37,8 @@ def fetch_endpoint():
         data, file = fetch_and_save(path, name=body.get("save_as"), base=body.get("base") or None)
     except requests.HTTPError as e:
         return jsonify({"error": f"{e.response.status_code}: {e.response.text[:500]}"}), 502
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
     except Exception as e:  # missing key, network error, bad JSON...
         return jsonify({"error": str(e)}), 500
     return jsonify({"data": data, "saved_to": str(file.name)})
