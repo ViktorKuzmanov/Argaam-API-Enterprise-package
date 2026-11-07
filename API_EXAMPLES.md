@@ -1,6 +1,6 @@
 # API Examples
 
-Two real examples that each use all three endpoints, step by step. Every response below is a real response from the sandbox.
+Three real examples that each use all three endpoints, step by step. Every response below is a real response from the sandbox.
 
 ## How to try it
 
@@ -146,8 +146,89 @@ A reporter wants the real GDP growth rate, which is growth with inflation remove
 
 ---
 
+## Example 3: Is the government spending more than it earns?
+
+### The question
+
+> **"Will the Saudi government run a deficit in 2026?"**
+
+A business owner who sells to government agencies wants to know if the state budget is tight this year. If spending is higher than revenue, the government has a deficit and may cut or delay projects.
+
+```
+1. Which topics exist?                     → "Govt Budget" (50) → sub-group "Public Budget Estimates" → groupId = 51
+2. What is inside Public Budget Estimates? → "Expected Surplus (Deficit)" → fieldId = 105
+3. Give me the number                      → 2026 = -165
+```
+
+### Step 1: Find the topic
+
+```
+/indicators/groups
+```
+
+**What you get:** the topic list. This time the topic is under **Govt Budget**:
+
+```json
+{ "groupID": 50, "nameEn": "Govt Budget", "subGroups": [
+    { "groupID": 51,  "nameEn": "Public Budget Estimates" },
+    { "groupID": 52,  "nameEn": "Actual Revenue & Expenditure" },
+    { "groupID": 53,  "nameEn": "Public Debt" }
+]}
+```
+
+There are two levels here:
+
+- **Govt Budget (`50`)** is a **main group**. It is only a folder that holds related tables.
+- **Public Budget Estimates (`51`)** is a **sub-group** inside it. This is the actual table with the indicators.
+
+The next step needs the **sub-group** ID. `/indicators/groups/50/fields` returns no data (HTTP 204), and `/indicators/groups/51/fields` returns the indicators.
+
+They want the plan for this year, not past results, so they pick **Public Budget Estimates → `groupId = 51`**.
+
+### Step 2: Find the indicator
+
+```
+/indicators/groups/51/fields
+```
+
+**What you get:** the five indicators in the budget plan:
+
+```json
+[
+  { "fieldID": 103, "displayNameEn": "Total Revenues" },
+  { "fieldID": 104, "displayNameEn": "Total Expenditures" },
+  { "fieldID": 105, "displayNameEn": "Expected Surplus (Deficit)" },
+  { "fieldID": 297, "displayNameEn": "Oil Revenue" },
+  { "fieldID": 298, "displayNameEn": "Other Revenues" }
+]
+```
+
+The surplus or deficit answers the question directly, so **`fieldId = 105`**.
+
+### Step 3: Get the number
+
+```
+/indicators/groups/51/fields/105/values
+```
+
+**What you get:**
+
+```json
+{
+  "economicIndicatorFieldID": 105,
+  "displayNameEn": "Expected Surplus (Deficit)",
+  "values": [
+    { "year": 2026, "fiscalPeriodTypeID": 4, "fiscalPeriodID": 1, "value": -165 }
+  ]
+}
+```
+
+**Answer:** yes. The minus sign means a deficit of **165** (most likely billion SAR). To see why, fetch fields `103` and `104` the same way: revenue is **1147** and spending is **1313**.
+
+---
+
 ## Good to know
 
-- **The sandbox is mostly empty in step 3.** `33/125` and `33/128` are the only fields we found that return numbers. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
+- **The sandbox is mostly empty in step 3.** Fields with numbers: `33/125`, `33/128` and `51/103`, `51/104`, `51/105`. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
 - **HTTP 429** means you called too fast. Wait a few seconds and retry.
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).
