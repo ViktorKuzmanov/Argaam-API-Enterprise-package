@@ -21,6 +21,7 @@ static/index.html          # the whole UI
 data/                      # saved API responses (ready to push to a database)
 .env                       # your API base + key (not committed)
 EXPLAINED.md               # what data each endpoint returns, with real examples
+API_EXAMPLES.md            # one real question answered with all three endpoints
 ```
 
 ### 1. Clone/Download the Repository
