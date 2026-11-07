@@ -20,6 +20,7 @@ app.py                     # web viewer server (list of endpoints lives here)
 static/index.html          # the whole UI
 data/                      # saved API responses (ready to push to a database)
 .env                       # your API base + key (not committed)
+EXPLAINED.md               # what data each endpoint returns, with real examples
 ```
 
 ### 1. Clone/Download the Repository
