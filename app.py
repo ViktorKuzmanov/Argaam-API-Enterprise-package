@@ -2,10 +2,13 @@
 
 Run:  python app.py   ->   http://127.0.0.1:5001
 """
+import json
+import os
+
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 
-from argaam_client import API_BASE, fetch_and_save
+from argaam_client import API_BASE, DATA_DIR, fetch_and_save
 
 # Add new endpoints here as the project grows.
 ENDPOINTS = [
@@ -27,6 +30,37 @@ def config():
     return jsonify({"base": API_BASE, "endpoints": ENDPOINTS})
 
 
+def cached(path, name):
+    """Return data/<name>.json if it was saved before, otherwise fetch the path and save it."""
+    file = DATA_DIR / f"{name}.json"
+    if file.exists():
+        return json.loads(file.read_text(encoding="utf-8"))
+    data, _ = fetch_and_save(path, name=name)
+    return data
+
+
+def lookup(path, name):
+    """Serve a cached lookup list (used by the Group / Field dropdowns)."""
+    try:
+        return jsonify(cached(path, name))
+    except requests.HTTPError as e:
+        return jsonify({"error": f"{e.response.status_code}: {e.response.text[:300]}"}), 502
+    except LookupError as e:
+        return jsonify({"error": str(e)}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.get("/api/groups")
+def groups():
+    return lookup("/indicators/groups", "indicator_groups")
+
+
+@app.get("/api/groups/<int:group_id>/fields")
+def group_fields(group_id):
+    return lookup(f"/indicators/groups/{group_id}/fields", f"indicators_groups_{group_id}_fields")
+
+
 @app.post("/api/fetch")
 def fetch_endpoint():
     body = request.get_json(force=True)
@@ -45,4 +79,4 @@ def fetch_endpoint():
 
 
 if __name__ == "__main__":
-    app.run(port=5001, debug=True)
+    app.run(port=int(os.getenv("PORT", 5001)), debug=True)

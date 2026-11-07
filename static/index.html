@@ -30,6 +30,9 @@
   pre { background:#f6f6f6; padding:12px; border-radius:6px; overflow:auto; max-height:400px; font-size:12px; }
   details summary { cursor:pointer; color:var(--muted); }
   .hidden { display:none; }
+  .hint { font-size:13px; color:var(--muted); margin:-4px 0 12px; }
+  .hint b { color:var(--fg); font-weight:600; }
+  select:disabled { color:var(--muted); background:#f3f3f3; }
   @media (max-width:640px) { .row { grid-template-columns:1fr; } }
 </style>
 </head>
@@ -42,7 +45,12 @@
       <div><label for="base">API base URL</label><input id="base"></div>
       <div><label for="endpoint">Endpoint</label><select id="endpoint"></select></div>
     </div>
-    <div style="margin-bottom:12px"><label for="path">Path (edit to fill in {placeholders})</label><input id="path"></div>
+    <div id="pickers" class="row hidden">
+      <div><label for="group">Group</label><select id="group"></select></div>
+      <div id="fieldWrap"><label for="field">Field</label><select id="field" disabled></select></div>
+    </div>
+    <div style="margin-bottom:12px"><label for="path">Path (filled in from the pickers, or edit by hand)</label><input id="path"></div>
+    <div id="hint" class="hint"></div>
     <button id="fetchBtn">Fetch</button><span id="status" class="status"></span>
   </section>
 
@@ -143,7 +151,83 @@ $("jsonBtn").onclick = () => download("export.json", JSON.stringify(selectedData
 $("fields").onchange = renderTable;
 $("allBtn").onclick = () => { document.querySelectorAll("#fields input").forEach(c => c.checked = true); renderTable(); };
 $("noneBtn").onclick = () => { document.querySelectorAll("#fields input").forEach(c => c.checked = false); renderTable(); };
-$("endpoint").onchange = () => { $("path").value = endpoints[$("endpoint").value].path; };
+// ---- Group / Field pickers: choose by name instead of typing IDs ----
+let groupNames = {};   // groupID -> "Parent › Name"
+let fieldNames = {};   // fieldID -> name
+const escAttr = s => String(s ?? "").trim().replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+async function getJSON(url) {
+  const res = await fetch(url);
+  const body = await res.json();
+  if (!res.ok) throw new Error(body.error || res.statusText);
+  return body;
+}
+
+async function loadGroups() {
+  try {
+    const groups = await getJSON("/api/groups");
+    $("group").innerHTML = `<option value="">Choose a group…</option>` + groups.map(g => {
+      const subs = g.subGroups || [];
+      groupNames[g.groupID] = g.nameEn.trim();
+      if (!subs.length) return `<option value="${g.groupID}">${escAttr(g.nameEn)} (${g.groupID})</option>`;
+      return `<optgroup label="${escAttr(g.nameEn)} (${g.groupID})">` + subs.map(sg => {
+        groupNames[sg.groupID] = `${g.nameEn.trim()} › ${sg.nameEn.trim()}`;
+        return `<option value="${sg.groupID}">${escAttr(sg.nameEn)} (${sg.groupID})</option>`;
+      }).join("") + `</optgroup>`;
+    }).join("");
+  } catch (e) {
+    $("group").innerHTML = `<option value="">Could not load groups: ${escAttr(e.message)}</option>`;
+  }
+}
+
+async function loadFields(groupId) {
+  fieldNames = {};
+  const sel = $("field");
+  sel.disabled = true;
+  if (!groupId) { sel.innerHTML = `<option value="">Choose a group first</option>`; return; }
+  sel.innerHTML = `<option value="">Loading fields…</option>`;
+  try {
+    const fields = await getJSON(`/api/groups/${groupId}/fields`);
+    fields.forEach(f => fieldNames[f.fieldID] = (f.displayNameEn || "").trim());
+    sel.innerHTML = `<option value="">Choose a field…</option>` + fields.map(f =>
+      `<option value="${f.fieldID}">${escAttr(f.displayNameEn)} (${f.fieldID})</option>`).join("");
+    sel.disabled = false;
+  } catch (e) {
+    sel.innerHTML = `<option value="">No fields: ${escAttr(e.message)}</option>`;
+  }
+}
+
+// Build the path from the endpoint template and the picked IDs; unpicked ones stay as {placeholders}.
+function buildPath() {
+  const ep = endpoints[$("endpoint").value];
+  let path = ep.path;
+  if ($("group").value) path = path.replace("{groupId}", $("group").value);
+  if ($("field").value) path = path.replace("{fieldId}", $("field").value);
+  $("path").value = path;
+  updateHint();
+}
+
+// Say in words what the IDs in the current path mean, e.g. "33 = National Accounts".
+function updateHint() {
+  const m = $("path").value.match(/groups\/(\d+)(?:\/fields\/(\d+))?/);
+  const parts = [];
+  if (m && m[1]) parts.push(`Group <b>${m[1]}</b> = ${escAttr(groupNames[m[1]] || "unknown group")}`);
+  if (m && m[2]) parts.push(`Field <b>${m[2]}</b> = ${escAttr(fieldNames[m[2]] || "not in this group's field list")}`);
+  $("hint").innerHTML = parts.join(" &nbsp;·&nbsp; ");
+}
+
+function onEndpointChange() {
+  const ep = endpoints[$("endpoint").value];
+  const needsGroup = ep.path.includes("{groupId}");
+  $("pickers").classList.toggle("hidden", !needsGroup);
+  $("fieldWrap").classList.toggle("hidden", !ep.path.includes("{fieldId}"));
+  if (needsGroup) buildPath(); else { $("path").value = ep.path; updateHint(); }
+}
+
+$("endpoint").onchange = onEndpointChange;
+$("group").onchange = async () => { buildPath(); await loadFields($("group").value); buildPath(); };
+$("field").onchange = buildPath;
+$("path").oninput = updateHint;
 
 $("fetchBtn").onclick = async () => {
   const ep = endpoints[$("endpoint").value];
@@ -169,7 +253,9 @@ fetch("/api/config").then(r => r.json()).then(cfg => {
   endpoints = cfg.endpoints;
   $("base").value = cfg.base;
   $("endpoint").innerHTML = endpoints.map((e, i) => `<option value="${i}">${e.name}</option>`).join("");
-  $("path").value = endpoints[0].path;
+  onEndpointChange();
+  loadFields("");
+  loadGroups().then(updateHint);
 });
 </script>
 </body>
