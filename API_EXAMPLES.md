@@ -1,8 +1,16 @@
 # API Examples
 
-One real example that uses all three endpoints, step by step. Every response below is a real response from the sandbox.
+Two real examples that each use all three endpoints, step by step. Every response below is a real response from the sandbox.
 
-## The question
+## How to try it
+
+Run `python app.py`, open http://127.0.0.1:5001, paste each path below into the **Path** box and click **Fetch**.
+
+---
+
+## Example 1: How big is the economy?
+
+### The question
 
 > **"How big is Saudi Arabia's economy?"**
 
@@ -14,13 +22,9 @@ An analyst wants Saudi GDP, the total value of everything the country produces i
 3. Give me the number                → 2026 = 4431
 ```
 
-## How to try it
-
-Run `python app.py`, open http://127.0.0.1:5001, paste each path below into the **Path** box and click **Fetch**.
-
 ---
 
-## Step 1: Find the topic
+### Step 1: Find the topic
 
 ```
 /indicators/groups
@@ -40,7 +44,7 @@ Run `python app.py`, open http://127.0.0.1:5001, paste each path below into the 
 
 GDP is a whole-economy number, so it sits under **Macro → National Accounts**. That gives you **`groupId = 33`**.
 
-## Step 2: Find the indicator
+### Step 2: Find the indicator
 
 ```
 /indicators/groups/33/fields
@@ -59,7 +63,7 @@ GDP is a whole-economy number, so it sits under **Macro → National Accounts**.
 
 GDP is **`fieldId = 125`**.
 
-## Step 3: Get the number
+### Step 3: Get the number
 
 ```
 /indicators/groups/33/fields/125/values
@@ -81,8 +85,69 @@ GDP is **`fieldId = 125`**.
 
 ---
 
+## Example 2: Is the economy growing?
+
+### The question
+
+> **"How fast did Saudi Arabia's economy grow this year?"**
+
+A reporter wants the real GDP growth rate, which is growth with inflation removed. That's the number news outlets quote ("the economy grew 3.5%"):
+
+```
+1. Which topics exist?               → "National Accounts"       → groupId = 33
+2. What is inside National Accounts? → "GDP Growth (Chain-Linked)" → fieldId = 128
+3. Give me the number                → 2026 = 3.5
+```
+
+### Step 1: Find the topic
+
+```
+/indicators/groups
+```
+
+**What you get:** the same topic list as in Example 1. Growth is a whole-economy number, so it's under **Macro → National Accounts**. That gives you **`groupId = 33`**.
+
+### Step 2: Find the indicator
+
+```
+/indicators/groups/33/fields
+```
+
+**What you get:** the indicators inside National Accounts. There are two growth figures:
+
+```json
+[
+  { "fieldID": 127, "displayNameEn": "GDP Growth at Current Prices" },
+  { "fieldID": 128, "displayNameEn": "GDP Growth at Chain-Linked Methodology" }
+]
+```
+
+"Current prices" includes inflation. "Chain-linked" removes inflation, so it shows real growth. You want real growth, so that's **`fieldId = 128`**.
+
+### Step 3: Get the number
+
+```
+/indicators/groups/33/fields/128/values
+```
+
+**What you get:**
+
+```json
+{
+  "economicIndicatorFieldID": 128,
+  "displayNameEn": "GDP Growth at Chain-Linked Methodology",
+  "values": [
+    { "year": 2026, "fiscalPeriodTypeID": 4, "fiscalPeriodID": 1, "value": 3.5 }
+  ]
+}
+```
+
+**Answer:** the Saudi economy grew **3.5%** in real terms in 2026.
+
+---
+
 ## Good to know
 
-- **The sandbox is mostly empty in step 3.** `33/125` is the only field we found that returns numbers. Others, such as fuel prices (`143/760`) and unemployment (`130/484`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
+- **The sandbox is mostly empty in step 3.** `33/125` and `33/128` are the only fields we found that return numbers. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
 - **HTTP 429** means you called too fast. Wait a few seconds and retry.
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).
