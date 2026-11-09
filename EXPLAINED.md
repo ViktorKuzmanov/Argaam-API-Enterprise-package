@@ -155,6 +155,81 @@ Another example, `/indicators/groups/277/fields` (GDP Growth Rates %), breaks gr
 
 ---
 
+## Fundamentals: analyst estimates
+
+**Path:** `GET /companies/{stockSymbol}/analyst-estimates?marketId=3&period=year`
+**Parameters:**
+
+| Parameter | Required | Values |
+|-----------|----------|--------|
+| `stockSymbol` | yes | Tadawul symbol, e.g. `2222` (Saudi Aramco), `1120` (Al Rajhi Bank) |
+| `marketId` | yes | `3` = TASI, `14` = NOMU. Without it the API answers "This Market is not Supported". Dubai, Abu Dhabi, Kuwait, Qatar, Muscat and Bahrain were all rejected in the sandbox |
+| `period` | no | `year` (default) or `quarter` |
+
+**Saved as:** `data/analyst_estimates_{marketId}_{symbol}_{period}.json`
+
+### What data it returns
+Broker forecasts of a company's financial statement lines. There is **one row per broker, per metric, per period**, so you combine rows yourself to get a consensus.
+
+The metrics differ by company. Aramco has Net Income, Sales and Total Income. Al Rajhi Bank has Net Income, Operating Income, Operating Profit, Total Assets, Customer Deposits and Net Financing Investments.
+
+### Fields
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `analystEstimatesFinancialStatementValueID` | number | ID of this one estimate (unique per row) |
+| `analystEstimatesFinancialStatementID` | number | ID of the broker's submission; one submission can cover several metrics |
+| `fsFieldCategoryID` | number | Statement section: `1` for income statement lines, `2` for balance sheet lines (inferred from the metrics) |
+| `fsFieldID` | number | Metric ID, e.g. `54` = Net Income |
+| `fsFieldNameEn` / `fsFieldNameAr` | text | Metric name in English / Arabic |
+| `marketID` | number | Market, e.g. `3` = TASI |
+| `companyID` | number | Argaam's company ID (not the stock symbol: Aramco is `3509`) |
+| `companyNameEn` / `companyNameAr` | text | Company name |
+| `forYear` | number | Year being forecast |
+| `fiscalPeriodValue` | text | `YEAR`, `Q1`, `Q2`, `Q3` or `Q4` |
+| `fiscalPeriodID` | text | Numeric period code: `1` = year, `2`-`5` = Q1-Q4 |
+| `forDate` | date | Last day of the period being forecast |
+| `value` | number or null | The forecast. Can be null |
+| `brokerID` | number | Broker ID. The response has no broker names |
+
+### Example
+`/companies/2222/analyst-estimates?marketId=3&period=year` (shortened)
+
+```json
+{
+  "data": {
+    "companyId": 3509,
+    "marketId": 3,
+    "period": "year",
+    "estimates": [
+      {
+        "fsFieldID": 54,
+        "fsFieldNameEn": "IS Net Income",
+        "companyNameEn": "Saudi Arabian Oil Co.",
+        "forYear": 2029,
+        "fiscalPeriodValue": "YEAR",
+        "forDate": "2029-12-31T00:00:00",
+        "value": 560966.0,
+        "brokerID": 3939
+      }
+    ]
+  }
+}
+```
+
+### What to watch for
+- **Not in the response:** broker names, the date an estimate was made, currency or units, actual results, target prices and recommendations.
+- **Units:** not stated, but Saudi companies' values line up with millions of SAR.
+- **Revisions:** a broker can have several rows for the same metric and period. With no estimate date, the highest `analystEstimatesFinancialStatementValueID` is the best guess at the newest.
+- **Past periods stay in the data.** Al Rajhi goes back to 2014. These are old forecasts, not reported results.
+- **Thin coverage:** far-out years can have one or two brokers, and some metrics disagree wildly (one Al Rajhi metric ranges from 12,550 to 240,000 for 2018), possibly because brokers define it differently. Prefer the median and check the broker count.
+- **Rate limit:** 5 requests a minute and 100 a day for this endpoint in the sandbox.
+
+### In practice
+"What do analysts expect Aramco to earn in 2026?" Fetch symbol `2222` on TASI, annual, and look at the rows where `forYear` is 2026 and `fsFieldNameEn` is `IS Net Income`: 5 brokers, median 402,000, ranging from 368,000 to 488,000.
+
+---
+
 ## Adding a new endpoint to this file
 When you add an endpoint to `ENDPOINTS` in `app.py`, add a section here with the same parts:
 

@@ -33,7 +33,11 @@
   .hint { font-size:13px; color:var(--muted); margin:-4px 0 12px; }
   .hint b { color:var(--fg); font-weight:600; }
   select:disabled { color:var(--muted); background:#f3f3f3; }
-  @media (max-width:640px) { .row { grid-template-columns:1fr; } }
+  .row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .tabs { display:flex; gap:4px; border-bottom:1px solid var(--line); margin-bottom:16px; }
+  .tabs button { background:none; color:var(--muted); border:0; border-bottom:2px solid transparent; border-radius:0; margin-bottom:-1px; }
+  .tabs button.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:600; }
+  @media (max-width:640px) { .row, .row.three { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -41,6 +45,28 @@
   <h1>API Data Viewer</h1>
   <p id="savedNote" class="hint hidden">This shared version shows saved data only, so the dropdowns list just what has been saved.</p>
 
+  <!-- To add another API: add a button here and a matching <div id="tab-NAME" class="hidden"> below. -->
+  <nav class="tabs" id="tabs">
+    <button data-tab="macro" class="active">Macroeconomic</button>
+    <button data-tab="fundamentals">Fundamentals</button>
+  </nav>
+
+  <div id="tab-fundamentals" class="hidden">
+    <section>
+      <h2>Analyst estimates</h2>
+      <div class="row three">
+        <div><label for="market">Market</label><select id="market"><option value="3">TASI</option><option value="14">NOMU</option></select></div>
+        <div><label for="symbol">Stock symbol</label><input id="symbol" placeholder="e.g. 2222 for Saudi Aramco"></div>
+        <div><label for="period">Period</label><select id="period"><option value="year">Annual</option><option value="quarter">Quarterly</option></select></div>
+      </div>
+      <div id="fHint" class="hint">The sandbox allows 5 requests a minute and 100 a day, so a company you have already fetched loads from <b>data/</b> until you re-fetch it.</div>
+      <button id="fFetchBtn">Fetch</button>
+      <button id="fRefreshBtn" class="secondary">Re-fetch from API</button>
+      <span id="fStatus" class="status"></span>
+    </section>
+  </div>
+
+  <div id="tab-macro">
   <section>
     <div class="row">
       <div><label for="base">API base URL</label><input id="base"></div>
@@ -54,6 +80,7 @@
     <div id="hint" class="hint"></div>
     <button id="fetchBtn">Fetch</button><span id="status" class="status"></span>
   </section>
+  </div>
 
   <section id="results" class="hidden">
     <h2>Fields <span id="count" class="status"></span></h2>
@@ -129,6 +156,26 @@ function show(data) {
   $("results").classList.remove("hidden");
   renderTable();
 }
+
+// ---- Tabs: each keeps its own last response, shown in the shared Fields / table section ----
+let activeTab = "macro";
+const lastData = {};
+
+function display(tab, data) {
+  lastData[tab] = data;
+  if (tab === activeTab) show(data);
+}
+
+function showTab(name) {
+  activeTab = name;
+  document.querySelectorAll("#tabs button").forEach(b => {
+    b.classList.toggle("active", b.dataset.tab === name);
+    $(`tab-${b.dataset.tab}`).classList.toggle("hidden", b.dataset.tab !== name);
+  });
+  if (lastData[name]) show(lastData[name]); else $("results").classList.add("hidden");
+}
+
+$("tabs").onclick = e => { if (e.target.dataset.tab) showTab(e.target.dataset.tab); };
 
 function download(name, text, type) {
   const a = document.createElement("a");
@@ -266,7 +313,7 @@ $("fetchBtn").onclick = async () => {
       if (!savedFiles.has(file)) throw new Error("No saved data for this path. Choose a group and field from the dropdowns.");
       const data = await getJSON(`data/${file}`);
       $("status").textContent = "Done · showing saved data";
-      show(data);
+      display("macro", data);
       return;
     }
     const res = await fetch("/api/fetch", {
@@ -277,12 +324,60 @@ $("fetchBtn").onclick = async () => {
     const body = await res.json();
     if (!res.ok) throw new Error(body.error);
     $("status").textContent = `Done · saved to data/${body.saved_to}`;
-    show(body.data);
+    display("macro", body.data);
   } catch (e) {
     $("status").className = "status error";
     $("status").textContent = e.message;
   }
 };
+
+// ---- Fundamentals: analyst estimates ----
+const marketNames = { 3: "TASI", 14: "NOMU" };  // the other Argaam markets return "This Market is not Supported"
+const estimatesFile = (marketId, symbol, period) => `analyst_estimates_${marketId}_${symbol}_${period}.json`;
+
+function clearEstimates() {
+  delete lastData.fundamentals;
+  if (activeTab === "fundamentals") $("results").classList.add("hidden");
+}
+
+async function fetchEstimates(refresh) {
+  const symbol = $("symbol").value.trim();
+  const marketId = $("market").value;
+  const period = $("period").value;
+  $("fStatus").className = "status";
+  $("fStatus").textContent = "Fetching…";
+  try {
+    let body;
+    if (savedFiles) {
+      const file = estimatesFile(marketId, symbol, period);
+      if (!savedFiles.has(file)) throw new Error("No saved data for this company and period.");
+      body = { data: await getJSON(`data/${file}`), saved_to: file, from_cache: true };
+    } else {
+      const query = new URLSearchParams({ symbol, marketId, period, ...(refresh ? { refresh: "1" } : {}) });
+      body = await getJSON(`/api/fundamentals/analyst-estimates?${query}`);
+    }
+    if (!body.data.data.estimates.length) throw new Error("The API returned no estimates for this company and period.");
+    display("fundamentals", body.data);
+    $("fStatus").textContent = body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`;
+  } catch (e) {
+    clearEstimates();
+    $("fStatus").className = "status error";
+    $("fStatus").textContent = e.message;
+  }
+}
+
+// On the published page, say which companies have saved estimates.
+function showSavedEstimates() {
+  const saved = [...savedFiles].map(f => f.match(/^analyst_estimates_(\d+)_([A-Za-z0-9]+)_(year|quarter)\.json$/)).filter(Boolean);
+  $("fRefreshBtn").remove();
+  $("fHint").textContent = saved.length
+    ? "Saved: " + saved.map(([, m, s, p]) => `${s} (${marketNames[m] || `market ${m}`}, ${p})`).join(", ")
+    : "No analyst estimates have been saved yet.";
+}
+
+$("fFetchBtn").onclick = () => fetchEstimates(false);
+$("fRefreshBtn").onclick = () => fetchEstimates(true);
+$("symbol").onkeydown = e => { if (e.key === "Enter") fetchEstimates(false); };
 
 async function init() {
   const saved = await fetch("saved_files.json").catch(() => null);
@@ -301,6 +396,7 @@ async function init() {
   onEndpointChange();
   loadFields("");
   loadGroups().then(updateHint);
+  if (savedFiles) showSavedEstimates();
 }
 init();
 </script>

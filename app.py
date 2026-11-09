@@ -4,6 +4,7 @@ Run:  python app.py   ->   http://127.0.0.1:5001
 """
 import json
 import os
+import re
 from pathlib import Path
 
 import requests
@@ -56,6 +57,51 @@ def groups():
 @app.get("/api/groups/<int:group_id>/fields")
 def group_fields(group_id):
     return lookup(f"/indicators/groups/{group_id}/fields", f"indicators_groups_{group_id}_fields")
+
+
+def upstream_error(e):
+    """Turn an API error response into a short message the page can show."""
+    resp = e.response
+    if resp.status_code == 429:
+        wait = resp.headers.get("Retry-After", "60")
+        return jsonify({"error": f"Rate limit reached (sandbox allows 5 requests a minute, 100 a day). Try again in {wait} seconds."}), 429
+    try:
+        message = resp.json()["error"]["message"]
+    except (ValueError, KeyError, TypeError):
+        message = resp.text[:300]
+    return jsonify({"error": f"{resp.status_code}: {message}"}), 502
+
+
+@app.get("/api/fundamentals/analyst-estimates")
+def analyst_estimates():
+    """Estimates for one company. Reuses the saved copy unless refresh=1, because the sandbox limit is tight."""
+    symbol = request.args.get("symbol", "").strip()
+    market_id = request.args.get("marketId", "")
+    period = request.args.get("period", "year")
+    if not re.fullmatch(r"[A-Za-z0-9]+", symbol):
+        return jsonify({"error": "Enter a stock symbol, e.g. 2222."}), 400
+    if not market_id.isdigit():
+        return jsonify({"error": "Choose a market."}), 400
+    if period not in ("year", "quarter"):
+        return jsonify({"error": "Period must be year or quarter."}), 400
+
+    name = f"analyst_estimates_{market_id}_{symbol}_{period}"
+    file = DATA_DIR / f"{name}.json"
+    if file.exists() and request.args.get("refresh") != "1":
+        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": file.name, "from_cache": True})
+    try:
+        data, file = fetch_and_save(
+            f"/companies/{symbol}/analyst-estimates",
+            name=name,
+            params={"marketId": market_id, "period": period},
+        )
+    except requests.HTTPError as e:
+        return upstream_error(e)
+    except LookupError:
+        return jsonify({"error": f"No analyst estimates for symbol {symbol} on this market."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify({"data": data, "saved_to": file.name, "from_cache": False})
 
 
 @app.post("/api/fetch")

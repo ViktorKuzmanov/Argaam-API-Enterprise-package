@@ -58,6 +58,11 @@ python app.py
 ```
 Choose an endpoint, click **Fetch**, tick the fields you want, then **Export CSV** or **Export JSON**. Each fetch is also saved under `data/`.
 
+The **Fundamentals** tab fetches analyst estimates: pick a market, type a stock symbol (e.g. `2222`) and a period. The sandbox allows 5 requests a minute and 100 a day per endpoint, so a saved company loads from `data/` until you click **Re-fetch from API**. See `EXPLAINED.md` for what the data contains.
+
+## Adding a new API tab
+Add a button to `<nav id="tabs">` in `static/index.html` and a matching `<div id="tab-NAME" class="hidden">`. Call `display("NAME", response)` to show a response in the shared Fields / table / export section.
+
 ## Adding a new endpoint
 Add one line to `ENDPOINTS` in `app.py`, e.g.
 ```python
