@@ -39,6 +39,7 @@
 <body>
 <main>
   <h1>API Data Viewer</h1>
+  <p id="savedNote" class="hint hidden">This shared version shows saved data only, so the dropdowns list just what has been saved.</p>
 
   <section>
     <div class="row">
@@ -163,18 +164,42 @@ async function getJSON(url) {
   return body;
 }
 
+// On GitHub Pages there is no Flask server: savedFiles lists the JSON files published with the page.
+// It stays null when running locally through app.py.
+let savedFiles = null;
+let allGroups = [];
+
+// Same file name the Python client saves under (argaam_client.save).
+const fileFor = name => name.replace(/[^A-Za-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "") + ".json";
+const valuesFile = (groupId, fieldId) => `indicators_groups_${groupId}_fields_${fieldId}_values.json`;
+
+// With saved data, offer only the groups that have something saved for the chosen endpoint.
+function groupHasData(groupId) {
+  if (!savedFiles) return true;
+  if (!endpoints[$("endpoint").value].path.includes("{fieldId}")) return savedFiles.has(`indicators_groups_${groupId}_fields.json`);
+  return [...savedFiles].some(f => f.startsWith(`indicators_groups_${groupId}_fields_`) && f.endsWith("_values.json"));
+}
+
+function renderGroups() {
+  const previous = $("group").value;
+  $("group").innerHTML = `<option value="">Choose a group…</option>` + allGroups.map(g => {
+    const subs = g.subGroups || [];
+    groupNames[g.groupID] = g.nameEn.trim();
+    if (!subs.length) return groupHasData(g.groupID) ? `<option value="${g.groupID}">${escAttr(g.nameEn)} (${g.groupID})</option>` : "";
+    subs.forEach(sg => groupNames[sg.groupID] = `${g.nameEn.trim()} › ${sg.nameEn.trim()}`);
+    const shown = subs.filter(sg => groupHasData(sg.groupID));
+    if (!shown.length) return "";
+    return `<optgroup label="${escAttr(g.nameEn)} (${g.groupID})">` + shown.map(sg =>
+      `<option value="${sg.groupID}">${escAttr(sg.nameEn)} (${sg.groupID})</option>`).join("") + `</optgroup>`;
+  }).join("");
+  $("group").value = previous;
+  if ($("group").value !== previous || !previous) { $("group").value = ""; loadFields(""); }
+}
+
 async function loadGroups() {
   try {
-    const groups = await getJSON("/api/groups");
-    $("group").innerHTML = `<option value="">Choose a group…</option>` + groups.map(g => {
-      const subs = g.subGroups || [];
-      groupNames[g.groupID] = g.nameEn.trim();
-      if (!subs.length) return `<option value="${g.groupID}">${escAttr(g.nameEn)} (${g.groupID})</option>`;
-      return `<optgroup label="${escAttr(g.nameEn)} (${g.groupID})">` + subs.map(sg => {
-        groupNames[sg.groupID] = `${g.nameEn.trim()} › ${sg.nameEn.trim()}`;
-        return `<option value="${sg.groupID}">${escAttr(sg.nameEn)} (${sg.groupID})</option>`;
-      }).join("") + `</optgroup>`;
-    }).join("");
+    allGroups = await getJSON(savedFiles ? "data/indicator_groups.json" : "/api/groups");
+    renderGroups();
   } catch (e) {
     $("group").innerHTML = `<option value="">Could not load groups: ${escAttr(e.message)}</option>`;
   }
@@ -187,9 +212,10 @@ async function loadFields(groupId) {
   if (!groupId) { sel.innerHTML = `<option value="">Choose a group first</option>`; return; }
   sel.innerHTML = `<option value="">Loading fields…</option>`;
   try {
-    const fields = await getJSON(`/api/groups/${groupId}/fields`);
+    const fields = await getJSON(savedFiles ? `data/indicators_groups_${groupId}_fields.json` : `/api/groups/${groupId}/fields`);
     fields.forEach(f => fieldNames[f.fieldID] = (f.displayNameEn || "").trim());
-    sel.innerHTML = `<option value="">Choose a field…</option>` + fields.map(f =>
+    const shown = savedFiles ? fields.filter(f => savedFiles.has(valuesFile(groupId, f.fieldID))) : fields;
+    sel.innerHTML = `<option value="">Choose a field…</option>` + shown.map(f =>
       `<option value="${f.fieldID}">${escAttr(f.displayNameEn)} (${f.fieldID})</option>`).join("");
     sel.disabled = false;
   } catch (e) {
@@ -221,6 +247,7 @@ function onEndpointChange() {
   const needsGroup = ep.path.includes("{groupId}");
   $("pickers").classList.toggle("hidden", !needsGroup);
   $("fieldWrap").classList.toggle("hidden", !ep.path.includes("{fieldId}"));
+  if (savedFiles) renderGroups();
   if (needsGroup) buildPath(); else { $("path").value = ep.path; updateHint(); }
 }
 
@@ -234,6 +261,14 @@ $("fetchBtn").onclick = async () => {
   $("status").className = "status";
   $("status").textContent = "Fetching…";
   try {
+    if (savedFiles) {
+      const file = fileFor(ep.save_as || $("path").value);
+      if (!savedFiles.has(file)) throw new Error("No saved data for this path. Choose a group and field from the dropdowns.");
+      const data = await getJSON(`data/${file}`);
+      $("status").textContent = "Done · showing saved data";
+      show(data);
+      return;
+    }
     const res = await fetch("/api/fetch", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -249,14 +284,25 @@ $("fetchBtn").onclick = async () => {
   }
 };
 
-fetch("/api/config").then(r => r.json()).then(cfg => {
-  endpoints = cfg.endpoints;
-  $("base").value = cfg.base;
+async function init() {
+  const saved = await fetch("saved_files.json").catch(() => null);
+  if (saved && saved.ok) {
+    savedFiles = new Set(await saved.json());
+    $("savedNote").classList.remove("hidden");
+    $("base").parentElement.remove();  // the API base only matters for live requests
+    $("endpoint").parentElement.style.gridColumn = "1 / -1";
+    endpoints = await getJSON("endpoints.json");
+  } else {
+    const cfg = await getJSON("/api/config");
+    endpoints = cfg.endpoints;
+    $("base").value = cfg.base;
+  }
   $("endpoint").innerHTML = endpoints.map((e, i) => `<option value="${i}">${e.name}</option>`).join("");
   onEndpointChange();
   loadFields("");
   loadGroups().then(updateHint);
-});
+}
+init();
 </script>
 </body>
 </html>

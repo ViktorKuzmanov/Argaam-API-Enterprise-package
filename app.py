@@ -4,20 +4,17 @@ Run:  python app.py   ->   http://127.0.0.1:5001
 """
 import json
 import os
+from pathlib import Path
 
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 
 from argaam_client import API_BASE, DATA_DIR, fetch_and_save
 
-# Add new endpoints here as the project grows.
-ENDPOINTS = [
-    {"name": "Indicator groups", "path": "/indicators/groups", "save_as": "indicator_groups"},
-    {"name": "Indicator group fields", "path": "/indicators/groups/{groupId}/fields", "save_as": None},
-    {"name": "Indicator series", "path": "/indicators/groups/{groupId}/fields/{fieldId}/values", "save_as": None},
-]
-
 app = Flask(__name__, static_folder="static")
+
+# Add new endpoints in this file as the project grows; the published page reads it too.
+ENDPOINTS = json.loads((Path(app.static_folder) / "endpoints.json").read_text(encoding="utf-8"))
 
 
 @app.get("/")
