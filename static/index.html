@@ -332,7 +332,6 @@ $("fetchBtn").onclick = async () => {
 };
 
 // ---- Fundamentals: analyst estimates ----
-const marketNames = { 3: "TASI", 14: "NOMU" };  // the other Argaam markets return "This Market is not Supported"
 const estimatesFile = (marketId, symbol, period) => `analyst_estimates_${marketId}_${symbol}_${period}.json`;
 
 function clearEstimates() {
@@ -366,12 +365,12 @@ async function fetchEstimates(refresh) {
   }
 }
 
-// On the published page, say which companies have saved estimates.
+// On the published page, data comes only from saved files, so there is nothing to re-fetch.
 function showSavedEstimates() {
-  const saved = [...savedFiles].map(f => f.match(/^analyst_estimates_(\d+)_([A-Za-z0-9]+)_(year|quarter)\.json$/)).filter(Boolean);
+  const hasSaved = [...savedFiles].some(f => f.startsWith("analyst_estimates_"));
   $("fRefreshBtn").remove();
-  $("fHint").textContent = saved.length
-    ? "Saved: " + saved.map(([, m, s, p]) => `${s} (${marketNames[m] || `market ${m}`}, ${p})`).join(", ")
+  $("fHint").textContent = hasSaved
+    ? "Enter a stock symbol to load its saved estimates. Companies without saved estimates show a no-data message."
     : "No analyst estimates have been saved yet.";
 }
 
