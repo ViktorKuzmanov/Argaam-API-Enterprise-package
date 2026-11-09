@@ -78,7 +78,9 @@
     </div>
     <div style="margin-bottom:12px"><label for="path">Path (filled in from the pickers, or edit by hand)</label><input id="path"></div>
     <div id="hint" class="hint"></div>
-    <button id="fetchBtn">Fetch</button><span id="status" class="status"></span>
+    <button id="fetchBtn">Fetch</button>
+    <button id="refreshBtn" class="secondary">Re-fetch from API</button>
+    <span id="status" class="status"></span>
   </section>
   </div>
 
@@ -303,7 +305,7 @@ $("group").onchange = async () => { buildPath(); await loadFields($("group").val
 $("field").onchange = buildPath;
 $("path").oninput = updateHint;
 
-$("fetchBtn").onclick = async () => {
+async function fetchMacro(refresh) {
   const ep = endpoints[$("endpoint").value];
   $("status").className = "status";
   $("status").textContent = "Fetching…";
@@ -319,17 +321,20 @@ $("fetchBtn").onclick = async () => {
     const res = await fetch("/api/fetch", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ base: $("base").value, path: $("path").value, save_as: ep.save_as }),
+      body: JSON.stringify({ base: $("base").value, path: $("path").value, save_as: ep.save_as, refresh }),
     });
     const body = await res.json();
     if (!res.ok) throw new Error(body.error);
-    $("status").textContent = `Done · saved to data/${body.saved_to}`;
+    $("status").textContent = body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`;
     display("macro", body.data);
   } catch (e) {
     $("status").className = "status error";
     $("status").textContent = e.message;
   }
-};
+}
+
+$("fetchBtn").onclick = () => fetchMacro(false);
+$("refreshBtn").onclick = () => fetchMacro(true);
 
 // ---- Fundamentals: analyst estimates ----
 const estimatesFile = (marketId, symbol, period) => `analyst_estimates_${marketId}_${symbol}_${period}.json`;
@@ -383,6 +388,7 @@ async function init() {
   if (saved && saved.ok) {
     savedFiles = new Set(await saved.json());
     $("savedNote").classList.remove("hidden");
+    $("refreshBtn").remove();
     $("base").parentElement.remove();  // the API base only matters for live requests
     $("endpoint").parentElement.style.gridColumn = "1 / -1";
     endpoints = await getJSON("endpoints.json");

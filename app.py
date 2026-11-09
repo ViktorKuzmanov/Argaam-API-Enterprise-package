@@ -10,7 +10,7 @@ from pathlib import Path
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 
-from argaam_client import API_BASE, DATA_DIR, fetch_and_save
+from argaam_client import API_BASE, DATA_DIR, fetch_and_save, file_for
 
 app = Flask(__name__, static_folder="static")
 
@@ -106,19 +106,25 @@ def analyst_estimates():
 
 @app.post("/api/fetch")
 def fetch_endpoint():
+    """Reuses the saved copy unless refresh is set. Saved files come from API_BASE, so another base always fetches."""
     body = request.get_json(force=True)
     path = body.get("path", "")
     if "{" in path:
         return jsonify({"error": "Fill in the {placeholders} in the path first."}), 400
+    name = body.get("save_as") or path
+    file = file_for(name)
+    same_base = (body.get("base") or API_BASE).rstrip("/") == API_BASE
+    if file.exists() and same_base and not body.get("refresh"):
+        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": file.name, "from_cache": True})
     try:
-        data, file = fetch_and_save(path, name=body.get("save_as"), base=body.get("base") or None)
+        data, file = fetch_and_save(path, name=name, base=body.get("base") or None)
     except requests.HTTPError as e:
         return jsonify({"error": f"{e.response.status_code}: {e.response.text[:500]}"}), 502
     except LookupError as e:
         return jsonify({"error": str(e)}), 404
     except Exception as e:  # missing key, network error, bad JSON...
         return jsonify({"error": str(e)}), 500
-    return jsonify({"data": data, "saved_to": str(file.name)})
+    return jsonify({"data": data, "saved_to": file.name, "from_cache": False})
 
 
 if __name__ == "__main__":

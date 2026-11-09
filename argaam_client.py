@@ -41,11 +41,16 @@ def fetch(path, base=None, params=None):
         ) from None
 
 
+def file_for(name):
+    """Return the data/ path a response called name is saved under."""
+    safe = re.sub(r"[^A-Za-z0-9_-]+", "_", name).strip("_") or "response"
+    return DATA_DIR / f"{safe}.json"
+
+
 def save(data, name):
     """Write data to data/<name>.json and return the file path."""
     DATA_DIR.mkdir(exist_ok=True)
-    safe = re.sub(r"[^A-Za-z0-9_-]+", "_", name).strip("_") or "response"
-    path = DATA_DIR / f"{safe}.json"
+    path = file_for(name)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
 
