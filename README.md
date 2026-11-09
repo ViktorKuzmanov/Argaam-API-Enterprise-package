@@ -60,6 +60,12 @@ Choose an endpoint, click **Fetch**, tick the fields you want, then **Export CSV
 
 The **Fundamentals** tab fetches analyst estimates: pick a market, type a stock symbol (e.g. `2222`) and a period. The sandbox allows 5 requests a minute and 100 a day per endpoint, so a saved company loads from `data/` until you click **Re-fetch from API**. See `EXPLAINED.md` for what the data contains.
 
+### Download all analyst estimates
+```
+python fetch_all_analyst_estimates.py
+```
+Saves every TASI and NOMU company (year and quarter) to `data/`, in the same files the Fundamentals tab reads. It uses `ARGAAM_API_KEYS` and the `DATA_IMPULSE_*` proxy settings from `.env`. Each response is saved as soon as it arrives, and running the script again continues where it stopped. Add `--dry-run` to see what is left, `--limit 5` for a small test, or `--refresh` to download everything again. Progress is kept in `.fetch_state/`, which is not committed.
+
 ## Adding a new API tab
 Add a button to `<nav id="tabs">` in `static/index.html` and a matching `<div id="tab-NAME" class="hidden">`. Call `display("NAME", response)` to show a response in the shared Fields / table / export section.
 
