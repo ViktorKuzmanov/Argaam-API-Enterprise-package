@@ -1,6 +1,6 @@
 # API Examples
 
-Three real examples that each use all three endpoints, step by step. Every response below is a real response from the sandbox.
+Real examples you can try in the app. Examples 1 to 3 use the three indicator endpoints, step by step. Examples 4 to 13 use analyst estimates from both markets. Every response below is a real response from the sandbox.
 
 ## How to try it
 
@@ -227,8 +227,145 @@ The surplus or deficit answers the question directly, so **`fieldId = 105`**.
 
 ---
 
+## Analyst estimates examples
+
+### How to try them
+
+Open the **Fundamentals** tab, enter the **Market**, **Stock symbol** and **Period** shown in the example, then click **Fetch**. The data is already saved, so this uses no API calls.
+
+You get one row per broker, per metric, per period. This is one real row from Example 4, shortened:
+
+```json
+{
+  "fsFieldNameEn": "IS Net Income",
+  "companyNameEn": "Saudi Arabian Oil Co.",
+  "forYear": 2029,
+  "fiscalPeriodValue": "YEAR",
+  "value": 560966.0,
+  "brokerID": 3939
+}
+```
+
+To answer each question, find the rows with the year and metric it names. Values appear to be in millions of SAR, but the API doesn't state the unit.
+
+| Example | Market | Symbol | Period | Company |
+|---------|--------|--------|--------|---------|
+| 4 | TASI | `2222` | Annual | Saudi Aramco |
+| 5 | TASI | `1120` | Annual | Al Rajhi Bank |
+| 6 | TASI | `7010` | Annual | Saudi Telecom |
+| 7 | TASI | `2280` | Annual | Almarai |
+| 8 | TASI | `4190` | Annual | Jarir Marketing |
+| 9 | TASI | `2010` | Quarterly | SABIC |
+| 10 | NOMU | `9522` | Annual | Alhasoob |
+| 11 | NOMU | `9626` | Annual | Basma Adeem Medical |
+| 12 | NOMU | `9570` | Annual | Tam Development |
+| 13 | NOMU | `9615` | Annual | Mufeed |
+
+---
+
+## TASI examples
+
+### Example 4: Saudi Aramco's expected profit
+
+> **"How much do analysts expect Aramco to earn in 2026?"**
+
+**Enter:** TASI, `2222`, Annual
+**Find:** `forYear` = 2026 and `fsFieldNameEn` = IS Net Income
+
+**Answer:** **5 brokers**, with a median of **402,000**. The forecasts range from 368,000 to 488,000.
+
+### Example 5: Al Rajhi Bank's expected profit
+
+> **"How much is Al Rajhi Bank expected to earn in 2026?"**
+
+**Enter:** TASI, `1120`, Annual
+**Find:** `forYear` = 2026 and `fsFieldNameEn` = IS Net Income
+
+**Answer:** **8 brokers**, with a median of **27,795.5**. The forecasts range from 26,785 to 30,210.
+
+### Example 6: Saudi Telecom's expected sales
+
+> **"What sales do analysts expect from STC in 2026?"**
+
+**Enter:** TASI, `7010`, Annual
+**Find:** `forYear` = 2026 and `fsFieldNameEn` = Sales
+
+**Answer:** **9 brokers**, with a median of **81,204**. The forecasts range from 78,451 to 84,876.
+
+### Example 7: Is Almarai's profit expected to grow?
+
+> **"Do analysts expect Almarai's profit to rise between 2026 and 2029?"**
+
+**Enter:** TASI, `2280`, Annual
+**Find:** `fsFieldNameEn` = IS Net Income, for `forYear` 2026 and 2029
+
+**Answer:** yes. The median goes from **2,558** in 2026 (13 brokers) to **3,303** in 2029 (4 brokers).
+
+### Example 8: Do analysts agree on Jarir?
+
+> **"How close together are the 2026 profit forecasts for Jarir?"**
+
+**Enter:** TASI, `4190`, Annual
+**Find:** `forYear` = 2026 and `fsFieldNameEn` = IS Net Income
+
+**Answer:** very close. **5 brokers** range only from **1,080 to 1,140**, with a median of 1,111.2.
+
+### Example 9: A quarterly forecast for SABIC
+
+> **"What do analysts expect SABIC to earn in the third quarter of 2026?"**
+
+**Enter:** TASI, `2010`, Quarterly
+**Find:** `forYear` = 2026, `fiscalPeriodValue` = Q3 and `fsFieldNameEn` = IS Net Income
+
+**Answer:** **11 brokers**, with a median of **342**. They disagree a lot: the forecasts range from -673 to 2,264, and a minus sign means a loss.
+
+---
+
+## NOMU examples
+
+NOMU companies usually have one broker per forecast, so there is no median or range to compare. The NOMU data is annual only.
+
+### Example 10: Alhasoob's 2025 forecast
+
+> **"What sales and profit were forecast for Alhasoob in 2025?"**
+
+**Enter:** NOMU, `9522`, Annual
+**Find:** `forYear` = 2025, with `fsFieldNameEn` = Sales and IS Net Income
+
+**Answer:** sales of **303.1** and net income of **12.6**.
+
+### Example 11: Basma Adeem Medical's long-term forecast
+
+> **"How much is Basma Adeem Medical's profit forecast to grow by 2029?"**
+
+**Enter:** NOMU, `9626`, Annual
+**Find:** `fsFieldNameEn` = IS Net Income, for `forYear` 2025 and 2029
+
+**Answer:** from **9.7** in 2025 to **21.5** in 2029.
+
+### Example 12: Tam Development in 2026
+
+> **"What are the 2026 forecasts for Tam Development?"**
+
+**Enter:** NOMU, `9570`, Annual
+**Find:** `forYear` = 2026
+
+**Answer:** sales of **358** and net income of **75**.
+
+### Example 13: Mufeed's profit by year
+
+> **"What profit is forecast for Mufeed each year?"**
+
+**Enter:** NOMU, `9615`, Annual
+**Find:** all 3 rows, which are all IS Net Income
+
+**Answer:** **35.626** in 2025, **37.23** in 2026 and **39.091** in 2027.
+
+---
+
 ## Good to know
 
+- **Not every company has estimates.** 212 companies do. For the rest, including any NOMU company with the Quarterly period, the app shows a no-data message. That is expected and is not a bug.
 - **The sandbox is mostly empty in step 3.** Fields with numbers: `33/125`, `33/128` and `51/103`, `51/104`, `51/105`. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
 - **HTTP 429** means you called too fast. Wait a few seconds and retry.
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).
