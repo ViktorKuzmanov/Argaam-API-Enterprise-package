@@ -9,7 +9,7 @@ import re
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 
-from argaam_client import API_BASE, ENDPOINTS, fetch_and_save, match_path, saved_file, saved_name
+from argaam_client import API_BASE, ENDPOINTS, fetch_and_save, known_no_data, match_path, saved_file, saved_name
 
 app = Flask(__name__, static_folder="static")
 # Endpoints live in static/endpoints.json (loaded by argaam_client); the published page reads that file too.
@@ -69,6 +69,13 @@ def upstream_error(e):
     return jsonify({"error": f"{resp.status_code}: {message}"}), 502
 
 
+def no_data_answer(entry, what):
+    """Argaam already had no data for this (recorded in _progress.json), so do not spend a call asking again."""
+    when = f" on {entry['fetched_at'][:10]}" if entry.get("fetched_at") else ""
+    return jsonify({"error": f"{what} (Argaam had no data when this was checked{when}). "
+                             "Click Re-fetch from API to ask again."}), 404
+
+
 @app.get("/api/fundamentals/analyst-estimates")
 def analyst_estimates():
     """Estimates for one company. Reuses the saved copy unless refresh=1, because the sandbox limit is tight."""
@@ -84,8 +91,11 @@ def analyst_estimates():
 
     values = {"marketId": market_id, "symbol": symbol, "period": period}
     file = saved_file("analyst_estimates", **values)
-    if file.exists() and request.args.get("refresh") != "1":
+    refresh = request.args.get("refresh") == "1"
+    if file.exists() and not refresh:
         return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
+    if not refresh and (entry := known_no_data("analyst_estimates", **values)):
+        return no_data_answer(entry, f"No analyst estimates for symbol {symbol} on this market")
     try:
         data, file = fetch_and_save("analyst_estimates", **values)
     except requests.HTTPError as e:
@@ -114,6 +124,8 @@ def fetch_endpoint():
     same_base = (body.get("base") or API_BASE).rstrip("/") == API_BASE
     if file.exists() and same_base and not body.get("refresh"):
         return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
+    if same_base and not body.get("refresh") and (entry := known_no_data(endpoint_id, **values)):
+        return no_data_answer(entry, "No data for this path")
     try:
         data, file = fetch_and_save(endpoint_id, base=body.get("base") or None, **values)
     except requests.HTTPError as e:

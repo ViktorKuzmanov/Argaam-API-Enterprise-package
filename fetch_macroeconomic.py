@@ -21,19 +21,8 @@ import argparse
 import json
 import math
 
-from argaam_client import MACRO_DIR  # also loads .env
-from argaam_downloader import (
-    DAILY_LIMIT,
-    KeyUsage,
-    Progress,
-    calls_left,
-    endpoint_task,
-    fetch_one,
-    log,
-    make_slots,
-    run_tasks,
-    stop,
-)
+from argaam_client import MACRO_DIR, KeyUsage, Progress, endpoint_task  # also loads .env
+from argaam_downloader import DAILY_LIMIT, calls_left, fetch_one, log, make_slots, run_tasks, stop
 
 
 def load(task):

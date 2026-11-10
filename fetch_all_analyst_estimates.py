@@ -16,8 +16,8 @@ import argparse
 import json
 import re
 
-from argaam_client import FUNDAMENTALS_DIR  # also loads .env
-from argaam_downloader import KeyUsage, Progress, calls_left, endpoint_task, fetch_one, log, make_slots, run_tasks
+from argaam_client import FUNDAMENTALS_DIR, KeyUsage, Progress, endpoint_task  # also loads .env
+from argaam_downloader import calls_left, fetch_one, log, make_slots, run_tasks
 
 
 def count_estimates(body):

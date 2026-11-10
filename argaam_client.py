@@ -1,12 +1,18 @@
-"""Small Argaam API client: GET a path, save the JSON response under data/<api>/.
+"""Shared Argaam basics, used by the web app and by every fetch script.
 
-Used by the web app for one request at a time. Bulk downloads (many keys, proxy,
-retries, resume) live in argaam_downloader.py.
+  - Endpoints and file names: static/endpoints.json says where every response is saved.
+  - Bookkeeping: key usage (.fetch_state/key_usage.json) and per-API progress (data/<api>/_progress.json).
+  - Single requests for the app: fetch() and fetch_and_save(), which also do the bookkeeping.
+
+Bulk downloads (many keys, proxy, pacing, retries, resume) live in argaam_downloader.py.
 """
+import hashlib
 import json
 import os
 import re
 import threading
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -20,33 +26,6 @@ DATA_DIR = Path(__file__).parent / "data"
 # One folder per API, so each API's saved responses stay together.
 MACRO_DIR = DATA_DIR / "macroeconomic"       # /indicators/... (macroeconomic API)
 FUNDAMENTALS_DIR = DATA_DIR / "fundamentals"  # /companies/..., /markets/... (fundamentals API)
-
-
-def fetch(path, base=None, params=None):
-    """GET {base}{path} with the apikey header and return the parsed JSON."""
-    if not API_KEY or API_KEY == "your_sandbox_api_key_here":
-        raise RuntimeError("Set ARGAAM_SANDBOX_API_KEY in .env")
-    url = (base or API_BASE).rstrip("/") + "/" + path.lstrip("/")
-    resp = requests.get(
-        url,
-        headers={"Accept": "application/json", "apikey": API_KEY},
-        params=params,
-        timeout=30,
-    )
-    resp.raise_for_status()
-    if resp.status_code == 204 or not resp.content.strip():
-        raise LookupError(
-            f"No data returned (HTTP {resp.status_code}) for {path}. "
-            "The ID may not exist, or there is no data for it (common in the sandbox). "
-            "List a group's valid fields with /indicators/groups/{groupId}/fields."
-        )
-    try:
-        return resp.json()
-    except ValueError:
-        ctype = resp.headers.get("content-type", "unknown")
-        raise ValueError(
-            f"Response is not JSON (HTTP {resp.status_code}, {ctype}): {resp.text[:300]}"
-        ) from None
 
 
 # ---- Endpoints and file names -------------------------------------------------------------------
@@ -110,15 +89,188 @@ def write_json(path, data):
     os.replace(tmp, path)
 
 
-def fetch_and_save(endpoint_id, base=None, **values):
-    """Fetch one endpoint for these values and save it where saved_file() says. Returns (data, file)."""
-    path, params = api_request(endpoint_id, **values)
-    data = fetch(path, base=base, params=params or None)
-    file = saved_file(endpoint_id, **values)
-    write_json(file, data)
-    return data, file
-
-
 def saved_name(file):
     """Path of a saved file relative to data/, e.g. macroeconomic/indicator_groups.json."""
     return file.relative_to(DATA_DIR).as_posix()
+
+
+# ---- Bookkeeping, shared by the app and every fetch script --------------------------------------
+# .fetch_state/key_usage.json  calls each API key used today. Not committed: it lives outside data/,
+#                              because everything in data/ is published to GitHub Pages.
+# data/<api>/_progress.json    what happened to each item and where it came from. Committed.
+# Both files are re-read before every write, so the app and a fetch script running at the same
+# time do not undo each other's updates.
+
+STATE_DIR = Path(__file__).parent / ".fetch_state"
+USAGE_FILE = STATE_DIR / "key_usage.json"
+lock = threading.Lock()
+
+
+def today():
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def now():
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def fingerprint(key):
+    """First 8 characters of the key's SHA-256 hash: tells keys apart, but cannot be turned back into the key.
+    Counts stay with the right key even if the order of ARGAAM_API_KEYS in .env changes."""
+    return hashlib.sha256(key.encode()).hexdigest()[:8]
+
+
+def used_from_headers(resp):
+    """Calls this key used today according to Argaam's headers, or None when they are missing."""
+    left, limit = resp.headers.get("X-RateLimit-Remaining-Day"), resp.headers.get("X-RateLimit-Limit-Day")
+    return int(limit) - int(left) if left is not None and limit is not None else None
+
+
+class KeyUsage:
+    """Calls each API key used today. Stored as {"2026-11-10": {"<fingerprint>": 39, ...}}; only today (UTC) is kept."""
+
+    def __init__(self, path=None):
+        self.path = path or USAGE_FILE
+        self.counts = self.load()
+
+    def load(self):
+        try:
+            data = json.loads(self.path.read_text(encoding="utf-8"))
+        except (FileNotFoundError, ValueError):
+            data = {}
+        return data.get(today(), {})
+
+    def used(self, fp):
+        return self.counts.get(fp, 0)
+
+    def record(self, fp, used=None):
+        """Set this key's count to used (from Argaam's headers), or add 1 when the headers are missing."""
+        with lock:
+            self.counts = self.load()
+            self.counts[fp] = used if used is not None else self.counts.get(fp, 0) + 1
+            write_json(self.path, {today(): self.counts})
+
+
+@dataclass
+class Task:
+    """One request to make: GET path with params, and save the response to file."""
+    name: str    # the key in _progress.json and in the log, e.g. analyst_estimates/3_2222_year
+    path: str    # API path, e.g. /companies/2222/analyst-estimates
+    file: Path   # where the response is saved
+    params: dict = field(default_factory=dict)
+    attempts: int = 0
+
+
+def endpoint_task(endpoint_id, **values):
+    """A Task for one endpoint in static/endpoints.json: its path, query, file and name all come from there."""
+    path, params = api_request(endpoint_id, **values)
+    return Task(name=item_name(endpoint_id, **values), path=path, file=saved_file(endpoint_id, **values), params=params)
+
+
+class Progress:
+    """One API's progress file, data/<api>/_progress.json.
+
+    One entry per item, keyed by the task name: status (saved, no_data or failed) plus where it came from
+    (base, path, params) and when. Saved and no_data items are skipped on the next run; failed ones are retried.
+    """
+
+    def __init__(self, folder):
+        self.api = folder.name
+        self.path = folder / "_progress.json"
+        self.items = self.load()
+
+    def load(self):
+        try:
+            return json.loads(self.path.read_text(encoding="utf-8")).get("items", {})
+        except FileNotFoundError:
+            return {}
+
+    def status(self, name):
+        return self.items.get(name, {}).get("status")
+
+    def is_done(self, name):
+        return self.status(name) in ("saved", "no_data")
+
+    def record(self, task, status, base=None, **extra):
+        entry = {"status": status}
+        if status == "saved":
+            entry["file"] = task.file.relative_to(DATA_DIR).as_posix()
+        entry.update(base=base or API_BASE, path=task.path, params=task.params, fetched_at=now(), **extra)
+        with lock:
+            self.items = self.load()  # pick up what the app or another script recorded meanwhile
+            if status == "failed" and self.is_done(task.name):
+                return  # keep what an earlier run saved; a failed --refresh does not undo it
+            self.items[task.name] = entry
+            write_json(self.path, {"api": self.api, "items": dict(sorted(self.items.items()))})
+
+
+def progress_for(endpoint_id):
+    return Progress(DATA_DIR / ENDPOINTS[endpoint_id]["api"])
+
+
+def known_no_data(endpoint_id, **values):
+    """The progress entry if Argaam is already recorded as having no data for this, else None."""
+    entry = progress_for(endpoint_id).items.get(item_name(endpoint_id, **values))
+    return entry if entry and entry["status"] == "no_data" else None
+
+
+# ---- Single requests, used by the app -----------------------------------------------------------
+
+class NoData(LookupError):
+    """Argaam answered, but had no data for this request (HTTP 204 or an empty body)."""
+
+    def __init__(self, message, status):
+        super().__init__(message)
+        self.status = status
+
+
+def fetch(path, base=None, params=None):
+    """GET {base}{path} with the apikey header, count the call in key_usage.json, and return the parsed JSON."""
+    if not API_KEY or API_KEY == "your_sandbox_api_key_here":
+        raise RuntimeError("Set ARGAAM_SANDBOX_API_KEY in .env")
+    url = (base or API_BASE).rstrip("/") + "/" + path.lstrip("/")
+    resp = requests.get(
+        url,
+        headers={"Accept": "application/json", "apikey": API_KEY},
+        params=params,
+        timeout=30,
+    )
+    KeyUsage().record(fingerprint(API_KEY), used_from_headers(resp))
+    resp.raise_for_status()
+    if resp.status_code == 204 or not resp.content.strip():
+        raise NoData(
+            f"No data returned (HTTP {resp.status_code}) for {path}. "
+            "The ID may not exist, or there is no data for it (common in the sandbox). "
+            "List a group's valid fields with /indicators/groups/{groupId}/fields.",
+            resp.status_code,
+        )
+    try:
+        return resp.json()
+    except ValueError:
+        ctype = resp.headers.get("content-type", "unknown")
+        raise ValueError(
+            f"Response is not JSON (HTTP {resp.status_code}, {ctype}): {resp.text[:300]}"
+        ) from None
+
+
+def fetch_and_save(endpoint_id, base=None, **values):
+    """Fetch one endpoint for these values, save it where saved_file() says, and record the result
+    in data/<api>/_progress.json, the same way the fetch scripts do. Returns (data, file)."""
+    task = endpoint_task(endpoint_id, **values)
+    progress = progress_for(endpoint_id)
+    base = (base or API_BASE).rstrip("/")
+    try:
+        data = fetch(task.path, base=base, params=task.params or None)
+    except NoData as e:
+        progress.record(task, "no_data", base=base, http=e.status)
+        raise
+    except requests.HTTPError as e:
+        code = e.response.status_code
+        if code == 404:
+            progress.record(task, "no_data", base=base, http=404)
+        elif code not in (401, 403, 429):  # a key or rate-limit problem is not the item's fault
+            progress.record(task, "failed", base=base, reason=f"HTTP {code}")
+        raise
+    write_json(task.file, data)
+    progress.record(task, "saved", base=base)
+    return data, task.file

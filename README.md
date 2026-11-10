@@ -14,7 +14,7 @@ A minimal tool that pulls data from the Argaam REST APIs with Python, saves ever
 ## Project Structure
 
 ```
-argaam_client.py           # fetch(path) + save JSON to data/<api>/ (one request at a time, used by app.py)
+argaam_client.py           # shared basics: endpoints and file names, progress and key usage, single fetches for app.py
 argaam_downloader.py       # shared bulk download code for the fetch scripts: keys, proxy, pacing, retries, resume
 fetch_all_analyst_estimates.py  # script: every company's analyst estimates -> data/fundamentals/
 fetch_macroeconomic.py     # script: every indicator group, field and series -> data/macroeconomic/
@@ -88,10 +88,12 @@ Saves every indicator group, every group's fields and every field's values (the 
 
 Start with `--dry-run`: it makes no calls and shows how many are left and about how many days that takes. A full download is about 7,000 calls, roughly 4 days with 22 keys at 100 calls a day each. The number of fields in groups whose field list isn't saved yet is estimated from the groups already saved. The script uses the same keys, proxy, flags (`--limit`, `--refresh`) and resume as the analyst estimates script. In the sandbox many fields return no data; those are recorded as `no_data` and skipped next time.
 
-### How the fetch scripts track their work
-Two files, the same for every API:
+### How fetches are tracked
+Two files, the same for every API. The fetch scripts and the web app both write to them, so a company fetched in the browser counts against the key's quota and is skipped by the next script run:
 - `data/<api>/_progress.json` (committed) has one entry per item: `saved`, `no_data` (Argaam returned nothing) or `failed`, with the API base, path, parameters and fetch time. Saved and no-data entries are skipped on the next run; failed ones are tried again. Entries marked `"backfilled": true` were filled in from files saved before this file existed.
 - `.fetch_state/key_usage.json` (not committed) counts the calls each key made today, shared by every fetch script. Keys are stored as a short fingerprint (part of a SHA-256 hash), never as the key itself, so reordering `ARGAAM_API_KEYS` keeps each count with the right key.
+
+When something is recorded as `no_data`, the web app answers from the progress file instead of calling Argaam again, and says when it was checked. **Re-fetch from API** always asks again.
 
 ## Adding a new endpoint
 Add one entry to `static/endpoints.json`, e.g.

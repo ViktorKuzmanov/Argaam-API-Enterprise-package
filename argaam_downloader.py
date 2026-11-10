@@ -5,27 +5,30 @@ HOW: each key in ARGAAM_API_KEYS gets its own worker thread, HTTP session and Da
 Impulse exit IP, requests are paced and retried, rate limits are respected, and every
 response is written to disk as soon as it arrives, so a stopped run can resume.
 
-The web app does not use this file; it uses the single-request helpers in argaam_client.py.
-
-Two files track the work:
-  .fetch_state/key_usage.json   calls each key used today, shared by every fetch script (not committed)
-  data/<api>/_progress.json     per API: what happened to each item and where it came from (committed)
+The bookkeeping it writes (key usage and data/<api>/_progress.json) is defined in
+argaam_client.py, because the web app records its own fetches in the same files.
 """
-import hashlib
-import json
 import os
 import queue
 import random
 import threading
 import time
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from pathlib import Path
+from datetime import datetime
 from urllib.parse import quote
 
 import requests
 
-from argaam_client import API_BASE, DATA_DIR, api_request, item_name, saved_file, write_json  # also loads .env
+from argaam_client import (  # also loads .env
+    API_BASE,
+    KeyUsage,
+    Progress,
+    Task,
+    endpoint_task,
+    fingerprint,
+    lock,
+    used_from_headers,
+    write_json,
+)
 
 KEYS = [k.strip() for k in os.getenv("ARGAAM_API_KEYS", "").split(",") if k.strip()]
 DAILY_LIMIT = int(os.getenv("ARGAAM_DAILY_LIMIT_PER_KEY", "100"))
@@ -42,106 +45,11 @@ PROXY_COUNTRY = os.getenv("DATA_IMPULSE_PROXY_COUNTRY", "")
 
 MAX_CONSECUTIVE_429 = 5
 
-# Key usage lives outside data/, because everything in data/ is published to GitHub Pages.
-STATE_DIR = Path(__file__).parent / ".fetch_state"
-USAGE_FILE = STATE_DIR / "key_usage.json"
-
-lock = threading.Lock()
 stop = threading.Event()
 
 
 def log(message):
     print(f"{datetime.now():%H:%M:%S} {message}", flush=True)
-
-
-def today():
-    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
-
-def now():
-    return datetime.now(timezone.utc).isoformat(timespec="seconds")
-
-
-def fingerprint(key):
-    """First 8 characters of the key's SHA-256 hash: tells keys apart, but cannot be turned back into the key.
-    Counts stay with the right key even if the order of ARGAAM_API_KEYS in .env changes."""
-    return hashlib.sha256(key.encode()).hexdigest()[:8]
-
-
-class KeyUsage:
-    """Calls each API key used today, shared by every fetch script.
-
-    Stored as {"2026-11-10": {"<fingerprint>": 39, ...}}. Only today (UTC) is kept.
-    Each update re-reads the file first, so two scripts running at once do not undo each other's counts.
-    """
-
-    def __init__(self, path=USAGE_FILE):
-        self.path = path
-        self.counts = self.load()
-
-    def load(self):
-        try:
-            data = json.loads(self.path.read_text(encoding="utf-8"))
-        except (FileNotFoundError, ValueError):
-            data = {}
-        return data.get(today(), {})
-
-    def used(self, fp):
-        return self.counts.get(fp, 0)
-
-    def record(self, fp, used=None):
-        """Set this key's count to used (from Argaam's headers), or add 1 when the headers are missing."""
-        with lock:
-            self.counts = self.load()
-            self.counts[fp] = used if used is not None else self.counts.get(fp, 0) + 1
-            write_json(self.path, {today(): self.counts})
-
-
-class Progress:
-    """One API's progress file, data/<api>/_progress.json.
-
-    One entry per item, keyed by the task name: status (saved, no_data or failed) plus where it came from
-    (base, path, params) and when. Saved and no_data items are skipped on the next run; failed ones are retried.
-    """
-
-    def __init__(self, folder):
-        self.api = folder.name
-        self.path = folder / "_progress.json"
-        data = json.loads(self.path.read_text(encoding="utf-8")) if self.path.exists() else {}
-        self.items = data.get("items", {})
-
-    def status(self, name):
-        return self.items.get(name, {}).get("status")
-
-    def is_done(self, name):
-        return self.status(name) in ("saved", "no_data")
-
-    def record(self, task, status, **extra):
-        entry = {"status": status}
-        if status == "saved":
-            entry["file"] = task.file.relative_to(DATA_DIR).as_posix()
-        entry.update(base=API_BASE, path=task.path, params=task.params, fetched_at=now(), **extra)
-        with lock:
-            if status == "failed" and self.is_done(task.name):
-                return  # keep what an earlier run saved; a failed --refresh does not undo it
-            self.items[task.name] = entry
-            write_json(self.path, {"api": self.api, "items": dict(sorted(self.items.items()))})
-
-
-@dataclass
-class Task:
-    """One request to make: GET path with params, and save the response to file."""
-    name: str    # shown in the log and used as the key in the progress file
-    path: str    # API path, e.g. /companies/2222/analyst-estimates
-    file: Path   # where the response is saved
-    params: dict = field(default_factory=dict)
-    attempts: int = 0
-
-
-def endpoint_task(endpoint_id, **values):
-    """A Task for one endpoint in static/endpoints.json: its path, query, file and name all come from there."""
-    path, params = api_request(endpoint_id, **values)
-    return Task(name=item_name(endpoint_id, **values), path=path, file=saved_file(endpoint_id, **values), params=params)
 
 
 class Slot:
@@ -194,12 +102,8 @@ class Slot:
         return resp
 
     def record_quota(self, resp):
+        self.usage.record(self.fp, used_from_headers(resp))
         day_left = resp.headers.get("X-RateLimit-Remaining-Day")
-        day_limit = resp.headers.get("X-RateLimit-Limit-Day")
-        if day_left is not None and day_limit is not None:
-            self.usage.record(self.fp, int(day_limit) - int(day_left))
-        else:
-            self.usage.record(self.fp)
         if day_left is not None and int(day_left) <= 0:
             self.retire("daily limit reached")
         elif resp.headers.get("X-RateLimit-Remaining-Minute") == "0":
