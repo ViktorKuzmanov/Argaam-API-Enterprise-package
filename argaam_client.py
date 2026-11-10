@@ -127,7 +127,9 @@ def used_from_headers(resp):
 
 
 class KeyUsage:
-    """Calls each API key used today. Stored as {"2026-11-10": {"<fingerprint>": 39, ...}}; only today (UTC) is kept."""
+    """Calls each API key used today, per endpoint: Argaam's daily limit (100) counts each endpoint separately,
+    so one key can make 100 indicator_values calls and still 100 fund_history calls on the same day.
+    Stored as {"2026-11-10": {"<fingerprint>": {"indicator_values": 39, ...}, ...}}; only today (UTC) is kept."""
 
     def __init__(self, path=None):
         self.path = path or USAGE_FILE
@@ -138,16 +140,18 @@ class KeyUsage:
             data = json.loads(self.path.read_text(encoding="utf-8"))
         except (FileNotFoundError, ValueError):
             data = {}
-        return data.get(today(), {})
+        # Older files had one number per key; those counts cannot be split by endpoint, so they are dropped.
+        return {fp: per for fp, per in data.get(today(), {}).items() if isinstance(per, dict)}
 
-    def used(self, fp):
-        return self.counts.get(fp, 0)
+    def used(self, fp, endpoint):
+        return self.counts.get(fp, {}).get(endpoint, 0)
 
-    def record(self, fp, used=None):
-        """Set this key's count to used (from Argaam's headers), or add 1 when the headers are missing."""
+    def record(self, fp, endpoint, used=None):
+        """Set this key's count for this endpoint to used (from Argaam's headers), or add 1 when they are missing."""
         with lock:
             self.counts = self.load()
-            self.counts[fp] = used if used is not None else self.counts.get(fp, 0) + 1
+            per = self.counts.setdefault(fp, {})
+            per[endpoint] = used if used is not None else per.get(endpoint, 0) + 1
             write_json(self.path, {today(): self.counts})
 
 
@@ -158,13 +162,15 @@ class Task:
     path: str    # API path, e.g. /companies/2222/analyst-estimates
     file: Path   # where the response is saved
     params: dict = field(default_factory=dict)
+    endpoint: str = ""  # endpoint id, e.g. analyst_estimates: Argaam's daily limit is counted per endpoint
     attempts: int = 0
 
 
 def endpoint_task(endpoint_id, **values):
     """A Task for one endpoint in static/endpoints.json: its path, query, file and name all come from there."""
     path, params = api_request(endpoint_id, **values)
-    return Task(name=item_name(endpoint_id, **values), path=path, file=saved_file(endpoint_id, **values), params=params)
+    return Task(name=item_name(endpoint_id, **values), path=path, file=saved_file(endpoint_id, **values),
+                params=params, endpoint=endpoint_id)
 
 
 class Progress:
@@ -224,8 +230,9 @@ class NoData(LookupError):
         self.status = status
 
 
-def fetch(path, base=None, params=None):
-    """GET {base}{path} with the apikey header, count the call in key_usage.json, and return the parsed JSON."""
+def fetch(path, base=None, params=None, endpoint="other"):
+    """GET {base}{path} with the apikey header, count the call in key_usage.json under this endpoint id,
+    and return the parsed JSON."""
     if not API_KEY or API_KEY == "your_sandbox_api_key_here":
         raise RuntimeError("Set ARGAAM_SANDBOX_API_KEY in .env")
     url = (base or API_BASE).rstrip("/") + "/" + path.lstrip("/")
@@ -235,7 +242,7 @@ def fetch(path, base=None, params=None):
         params=params,
         timeout=30,
     )
-    KeyUsage().record(fingerprint(API_KEY), used_from_headers(resp))
+    KeyUsage().record(fingerprint(API_KEY), endpoint, used_from_headers(resp))
     resp.raise_for_status()
     if resp.status_code == 204 or not resp.content.strip():
         raise NoData(
@@ -260,7 +267,7 @@ def fetch_and_save(endpoint_id, base=None, **values):
     progress = progress_for(endpoint_id)
     base = (base or API_BASE).rstrip("/")
     try:
-        data = fetch(task.path, base=base, params=task.params or None)
+        data = fetch(task.path, base=base, params=task.params or None, endpoint=endpoint_id)
     except NoData as e:
         progress.record(task, "no_data", base=base, http=e.status)
         raise

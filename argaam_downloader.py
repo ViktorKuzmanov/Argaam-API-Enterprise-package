@@ -63,7 +63,8 @@ class Slot:
         self.usage = usage
         self.rotation = 0
         self.next_at = time.monotonic() + random.uniform(0, DELAY_MAX)
-        self.retired = None
+        self.retired = None        # reason this key stopped for the whole run (rejected, rate limited)
+        self.exhausted = set()     # endpoints whose daily limit this key reached today
         self.consecutive_429 = 0
         self.session = requests.Session()
         self.session.trust_env = False
@@ -82,30 +83,35 @@ class Slot:
         self.session.close()
         self.apply_proxy()
 
-    @property
-    def used(self):
-        return self.usage.used(self.fp)
+    def used(self, endpoint):
+        return self.usage.used(self.fp, endpoint)
+
+    def can_call(self, endpoint):
+        """False once this key reached its daily limit for this endpoint (Argaam counts each endpoint separately)."""
+        return endpoint not in self.exhausted and self.used(endpoint) < DAILY_LIMIT
 
     def retire(self, reason):
         if not self.retired:
             self.retired = reason
             log(f"{self.label} stopped for this run: {reason}")
 
-    def get(self, url, params=None):
+    def get(self, url, endpoint, params=None):
         """Wait for this key's turn, send one request and record the quota it used."""
         pause = self.next_at - time.monotonic()
         if pause > 0 and stop.wait(pause):
             return None
         self.next_at = time.monotonic() + random.uniform(DELAY_MIN, DELAY_MAX)
         resp = self.session.get(url, params=params, timeout=TIMEOUT)
-        self.record_quota(resp)
+        self.record_quota(resp, endpoint)
         return resp
 
-    def record_quota(self, resp):
-        self.usage.record(self.fp, used_from_headers(resp))
+    def record_quota(self, resp, endpoint):
+        self.usage.record(self.fp, endpoint, used_from_headers(resp))
         day_left = resp.headers.get("X-RateLimit-Remaining-Day")
         if day_left is not None and int(day_left) <= 0:
-            self.retire("daily limit reached")
+            if endpoint not in self.exhausted:
+                log(f"{self.label} reached today's limit for {endpoint}")
+            self.exhausted.add(endpoint)
         elif resp.headers.get("X-RateLimit-Remaining-Minute") == "0":
             self.cool_down(resp)
 
@@ -124,9 +130,9 @@ def make_slots(usage):
     return [Slot(i, key, usage) for i, key in enumerate(KEYS)]
 
 
-def calls_left(slots):
-    """Calls all keys together may still make today."""
-    return sum(max(0, DAILY_LIMIT - s.used) for s in slots)
+def calls_left(slots, endpoint):
+    """Calls all keys together may still make today to this endpoint."""
+    return sum(max(0, DAILY_LIMIT - s.used(endpoint)) for s in slots if not s.retired)
 
 
 def fetch_one(slots, task, progress):
@@ -134,10 +140,10 @@ def fetch_one(slots, task, progress):
     trying each key in turn. Returns the response body."""
     url = f"{API_BASE}{task.path}"
     for slot in slots:
-        if slot.used >= DAILY_LIMIT:
+        if slot.retired or not slot.can_call(task.endpoint):
             continue
         try:
-            resp = slot.get(url, task.params)
+            resp = slot.get(url, task.endpoint, task.params)
         except requests.RequestException as e:
             log(f"{slot.label} could not get {task.name}: {type(e).__name__}")
             slot.new_ip()
@@ -215,12 +221,12 @@ class Run:
             self.saved += 1
             self.with_rows += 1 if rows else 0
         detail = f"{rows} rows, " if rows is not None else ""
-        log(f"{slot.label} saved {task.name} ({detail}{slot.used}/{DAILY_LIMIT} today)")
+        log(f"{slot.label} saved {task.name} ({detail}{slot.used(task.endpoint)}/{DAILY_LIMIT} {task.endpoint} today)")
         self.finish()
 
     def handle(self, slot, task):
         try:
-            resp = slot.get(f"{API_BASE}{task.path}", task.params)
+            resp = slot.get(f"{API_BASE}{task.path}", task.endpoint, task.params)
         except requests.RequestException as e:
             # The class name only: exception text can contain the proxy URL.
             slot.new_ip()
@@ -258,8 +264,6 @@ class Run:
 
     def worker(self, slot):
         while not stop.is_set():
-            if slot.used >= DAILY_LIMIT:
-                slot.retire("daily limit reached")
             if slot.retired:
                 return
             task = self.next_task()
@@ -268,6 +272,10 @@ class Run:
             if task is None:
                 stop.wait(1)
                 continue
+            if not slot.can_call(task.endpoint):
+                self.requeue(task)  # another key may still have calls left for it
+                log(f"{slot.label} has no {task.endpoint} calls left today; stopping it for this run.")
+                return
             try:
                 self.handle(slot, task)
             except Exception as e:  # keep the other workers and the saved data safe

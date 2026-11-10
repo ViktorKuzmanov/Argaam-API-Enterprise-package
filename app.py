@@ -9,7 +9,7 @@ import re
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 
-from argaam_client import API_BASE, ENDPOINTS, fetch_and_save, known_no_data, match_path, saved_file, saved_name
+from argaam_client import API_BASE, ENDPOINTS, fetch_and_save, known_no_data, match_path, saved_file, saved_name, today
 
 app = Flask(__name__, static_folder="static")
 # Endpoints live in static/endpoints.json (loaded by argaam_client); the published page reads that file too.
@@ -102,6 +102,42 @@ def analyst_estimates():
         return upstream_error(e)
     except LookupError:
         return jsonify({"error": f"No analyst estimates for symbol {symbol} on this market."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
+
+
+FUNDS_FROM = "1980-01-01"  # same as fetch_funds.py: before the oldest fund, so the history is complete
+
+
+@app.get("/api/funds/<endpoint_id>")
+def funds(endpoint_id):
+    """Funds tab: any funds endpoint in static/endpoints.json, with managerId / fundId as needed.
+    Reuses the saved copy unless refresh=1. Lists (managers, a manager's funds) feed the dropdowns."""
+    ep = ENDPOINTS.get(endpoint_id)
+    if not ep or ep["api"] != "funds":
+        return jsonify({"error": f"{endpoint_id} is not a funds endpoint in static/endpoints.json."}), 404
+    values = {}
+    for name in ("managerId", "fundId"):
+        if "{" + name + "}" in ep["path"]:
+            value = request.args.get(name, "")
+            if not value.isdigit():
+                return jsonify({"error": f"Choose a {'fund manager' if name == 'managerId' else 'fund'}."}), 400
+            values[name] = value
+    if "from" in ep.get("query", []):
+        values.update({"from": FUNDS_FROM, "to": today()})
+    file = saved_file(endpoint_id, **values)
+    refresh = request.args.get("refresh") == "1"
+    if file.exists() and not refresh:
+        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
+    if not refresh and (entry := known_no_data(endpoint_id, **values)):
+        return no_data_answer(entry, "No data for this fund")
+    try:
+        data, file = fetch_and_save(endpoint_id, **values)
+    except requests.HTTPError as e:
+        return upstream_error(e)
+    except LookupError:
+        return jsonify({"error": "Argaam has no data for this fund."}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})

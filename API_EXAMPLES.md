@@ -391,7 +391,7 @@ NOMU companies usually have one broker per forecast, so there is no median or ra
 
 ## Investment funds examples
 
-The app has no Funds tab yet, so open the saved files under `data/funds/` directly. They are already downloaded, so this uses no API calls.
+Open the **Investment funds** tab, choose what to **Show**, then a **Fund manager** and a **Fund**. The examples below are already saved, so they use no API calls. You can also open the files under `data/funds/` directly.
 
 ### Example 14: Who manages funds in Saudi Arabia?
 
@@ -415,6 +415,29 @@ The app has no Funds tab yet, so open the saved files under `data/funds/` direct
 **Find:** `managementFeePercent`, `managementFeeTypeEn`, `subscriptionFeePercent`, `custodianFeePercent`
 **Answer:** **1.75%** a year to manage, **1%** to subscribe and **0.035%** a year for the custodian (plus $10 a transaction). The fund started on 30 December 2009 at 10 riyals a unit and holds about **63 million riyals**.
 
+### Example 17: How has a fund performed?
+
+> **"Has the Riyad Emaar Fund made money?"**
+
+**Show:** Price history · **Manager:** Riyad Capital · **Fund:** Riyad Emaar Fund
+(file `data/funds/fund_history/2501_260.json`)
+**Answer:** the unit price was **20.35** on 5 Nov 2026, down **10.2%** this year and **18.1%** over 12 months. It has still roughly doubled (**+103%**) since its first price in 2009. Hover over the chart for any day's price.
+
+### Example 18: A steady savings fund
+
+> **"How has Al Rajhi's US dollar savings fund grown since 1990?"**
+
+**Show:** Price history · **Manager:** Al Rajhi Capital Company · **Fund:** AL RAJHI SAVING AND LIQUIDITY FUND - USD
+(file `data/funds/fund_history/2604_2.json`)
+**Answer:** from **1,000** a unit in December 1990 to **2,827.70** on 5 Nov 2026 (**+183%**), and **+3.4%** so far this year. The chart is a slow, steady climb, as expected for a liquidity fund.
+
+### Example 19: Which funds moved most this year?
+
+> **"Which funds are up and down the most this year?"**
+
+**Show:** Top-moving funds this year (file `data/funds/fund_movers.json`)
+**Answer:** the top gainer is **SNB Capital Emerging Markets Index Fund, +25.8%**, and the top loser is **AlAhli SEDCO Residential Development Fund, -67.0%**. The table lists the 10 of each.
+
 ---
 
 ## Good to know
@@ -422,4 +445,5 @@ The app has no Funds tab yet, so open the saved files under `data/funds/` direct
 - **Not every company has estimates.** 212 companies do. For the rest, including any NOMU company with the Quarterly period, the app shows a no-data message. That is expected and is not a bug.
 - **The sandbox is mostly empty in step 3.** Fields with numbers: `33/125`, `33/128` and `51/103`, `51/104`, `51/105`. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
 - **HTTP 429** means you called too fast. Wait a few seconds and retry.
+- **Investment funds saved so far:** Al Rajhi Capital, Riyad Capital and SNB Capital (145 funds, 114 with prices). The other managers' funds are fetched when you choose them, or all at once with `fetch_funds.py`.
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).

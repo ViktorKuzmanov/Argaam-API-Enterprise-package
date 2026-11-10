@@ -232,17 +232,19 @@ The metrics differ by company. Aramco has Net Income, Sales and Total Income. Al
 
 ---
 
-## Investment funds: managers, their funds, and fund details
+## Investment funds: managers, funds, details, price history, movers
 
-Three levels, like the indicators. Each level gives you the IDs for the next one:
+Like the indicators, each level gives you the IDs for the next one. The real numbers are in the price history:
 
 ```
-/funds/managers                                   -> "Which fund managers exist?"   (gives fundManagerID)
-  └─ /funds/managers/{managerId}/funds            -> "Which funds does a manager run?" (gives fundID)
-       └─ /funds/managers/{managerId}/funds/{fundId} -> "What is this fund?"
+/funds/managers                                      -> "Which fund managers exist?"       (gives fundManagerID)
+  └─ /funds/managers/{managerId}/funds               -> "Which funds does a manager run?"  (gives fundID)
+       ├─ /funds/managers/{managerId}/funds/{fundId}  -> "What is this fund, what does it cost?"
+       └─ .../funds/{fundId}/values/history?from=&to= -> "What was it worth each day?"
+/funds/movers                                        -> "Which funds moved most this year?"
 ```
 
-**Saved as:** `data/funds/fund_managers.json`, `data/funds/manager_funds/<managerId>.json` and `data/funds/fund_details/<managerId>_<fundId>.json`
+**Saved as:** `data/funds/fund_managers.json`, `manager_funds/<managerId>.json`, `fund_details/<managerId>_<fundId>.json`, `fund_history/<managerId>_<fundId>.json` and `fund_movers.json`, all under `data/funds/`. `fetch_funds.py` fetches them in that order, and the **Investment funds** tab shows them.
 
 ### 1. Fund managers: `GET /funds/managers`
 A list of the 46 fund-management firms Argaam tracks.
@@ -304,12 +306,48 @@ One object describing the fund.
 ```
 
 ### What to watch for
-- **Less than the docs promise.** Argaam's docs say fund details include the benchmark, distribution policy, latest NAV and reference dates. The sandbox returns none of them. NAVs come from the `/values` and `/values/history` endpoints, which this project does not fetch yet.
+- **Less than the docs promise.** Argaam's docs say fund details include the benchmark, distribution policy, latest NAV and reference dates. The sandbox returns none of them. Prices come from the price history (section 4).
 - **Odd values.** Al Rajhi's US dollar savings fund (`2604/2`) shows a management fee of `16.0` percent with no fee type, which is not believable for a liquidity fund. Check fees before relying on them.
 - **Missing values.** `fundSize` and the fee type can be null.
 
 ### In practice
 "What does the Riyad Emaar Fund invest in, and what does it cost?" Fetch `/funds/managers/2501/funds/260`: Saudi building, real estate and cement shares, a 1.75% yearly management fee and a 1% subscription fee.
+
+### 4. Price history: `GET /funds/managers/{managerId}/funds/{fundId}/values/history?from=yyyy-MM-dd&to=yyyy-MM-dd`
+Every end-of-day price of the fund between the two dates. **Without `from` and `to` it returns HTTP 204 (no data)**, so `fetch_funds.py` and the app always ask from `1980-01-01` to today, which gives the whole history in one call. The file name has no dates, so a later `--refresh` replaces it with a longer history.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `fundManagerID`, `fundID`, `fundNameEn` / `fundNameAr` | | The fund |
+| `values[].valueDate` | date | The day of the price |
+| `values[].unitPrice` | number | Price of one unit that day, in the fund's currency. This is what an investor's return follows |
+| `values[].netAssetValue` | number | Total value of the fund that day (NAV), in its currency. It moves with money coming in and out, not only with performance |
+| `values[].ytd` | number | Return since the start of that year, in percent |
+
+```json
+{
+  "fundID": 2,
+  "fundNameEn": "AL RAJHI SAVING AND LIQUIDITY FUND - USD",
+  "values": [
+    {"valueDate": "2026-11-05T00:00:00", "ytd": 3.3904, "unitPrice": 2827.6998, "netAssetValue": 85359730.77},
+    {"valueDate": "1990-12-01T00:00:00", "ytd": 0, "unitPrice": 1000.0, "netAssetValue": 448044318.0}
+  ]
+}
+```
+
+- **Not in date order.** Sort `values` by `valueDate` yourself (the app does).
+- **Daily or weekly.** Most funds have a price every working day; older years can be weekly or sparse (Al Rajhi's USD fund has almost nothing between 1991 and 2001).
+- **Some funds have none.** 31 of the first 145 funds returned HTTP 204, often funds that have closed. They are recorded as `no_data`.
+- **Size:** a typical fund has about 1,750 prices (up to about 3,100), roughly 150 KB of JSON.
+- In practice: "How has the Riyad Emaar Fund done?" Its unit price was **20.35** on 5 Nov 2026: **-10.2%** this year, **-18.1%** over 12 months, and **+103%** since its first price in 2009.
+
+### 5. Top-moving funds: `GET /funds/movers`
+Two lists of 10: `gainers` and `losers`, ranked by this year's return. Each row has `fundID`, `fundNameEn` / `Ar`, `assetTypeNameEn` (e.g. `Growth`, `Income & Growth`), `currencyNameEn`, `valueDate`, `unitPrice`, `ytd` (percent) and `nav`.
+
+- `fundManagerID` is always `0` here, so to open the fund elsewhere, find its `fundID` in the managers' fund lists.
+- `netAssetValue` is null; use `nav` instead. `totalRecords` (356) looks like the number of funds that were ranked.
+- Each fund's `valueDate` is its own latest price, which can be months old (the biggest loser's is 30 June 2026).
+- In practice: on 5 Nov 2026 the biggest gainer was **SNB Capital Emerging Markets Index Fund, +25.8%** this year. The biggest loser was **AlAhli SEDCO Residential Development Fund, -67.0%** (as of 30 June).
 
 ---
 

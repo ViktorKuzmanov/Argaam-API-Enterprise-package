@@ -67,7 +67,7 @@ def main():
     if args.limit is not None:
         tasks = tasks[: args.limit]
     log(f"{total} company/period combinations, {left} left to fetch, {len(tasks)} this run.")
-    log(f"{len(slots)} keys with {calls_left(slots)} calls left today.")
+    log(f"{len(slots)} keys with {calls_left(slots, "analyst_estimates")} analyst estimates calls left today.")
     if args.dry_run or not tasks:
         return
 

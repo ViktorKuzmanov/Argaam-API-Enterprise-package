@@ -23,5 +23,12 @@
    "description": "The funds run by one fund manager"},
   {"api": "funds", "id": "fund_details", "name": "Fund details",
    "path": "/funds/managers/{managerId}/funds/{fundId}", "file": "fund_details/{managerId}_{fundId}",
-   "description": "One fund in full: objective, fees, benchmark, distribution policy, latest NAV"}
+   "description": "One fund in full: objective, strategy, eligibility, fees, minimums, size, start date"},
+  {"api": "funds", "id": "fund_history", "name": "Fund price history",
+   "path": "/funds/managers/{managerId}/funds/{fundId}/values/history", "query": ["from", "to"],
+   "file": "fund_history/{managerId}_{fundId}",
+   "description": "Every end-of-day unit price and net asset value of one fund between two dates (yyyy-MM-dd)"},
+  {"api": "funds", "id": "fund_movers", "name": "Top-moving funds",
+   "path": "/funds/movers", "file": "fund_movers",
+   "description": "The 10 funds that gained most and the 10 that lost most this year"}
 ]

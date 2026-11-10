@@ -18,6 +18,7 @@ argaam_client.py           # shared basics: endpoints and file names, progress a
 argaam_downloader.py       # shared bulk download code for the fetch scripts: keys, proxy, pacing, retries, resume
 fetch_fundamentals.py      # script: every company's analyst estimates -> data/fundamentals/
 fetch_macroeconomic.py     # script: every indicator group, field and series -> data/macroeconomic/
+fetch_funds.py             # script: every fund manager, fund, fund details and price history -> data/funds/
 app.py                     # web viewer server
 static/index.html          # the whole UI
 static/endpoints.json      # the one list of endpoints: API, Argaam path, and where each response is saved
@@ -32,12 +33,14 @@ data/                      # saved API responses (ready to push to a database), 
     market_companies/3.json        # /markets/3/companies
     analyst_estimates/3_2222_year.json  # /companies/2222/analyst-estimates?marketId=3&period=year
     _progress.json                 # what the fetch script did with each item, and where it came from
-  funds/                           # investment funds API (sample files so far, no fetch script yet)
+  funds/
     fund_managers.json             # /funds/managers
+    fund_movers.json               # /funds/movers
     manager_funds/2604.json        # /funds/managers/2604/funds
     fund_details/2604_2.json       # /funds/managers/2604/funds/2
+    fund_history/2604_2.json       # /funds/managers/2604/funds/2/values/history?from=1980-01-01&to=<today>
     _progress.json                 # what was fetched, and where it came from
-.fetch_state/key_usage.json  # calls each API key used today, shared by the fetch scripts and the app (not committed)
+.fetch_state/key_usage.json  # calls each API key used today per endpoint, shared by the fetch scripts and the app (not committed)
 .env                       # your API base + key (not committed)
 EXPLAINED.md               # what data each endpoint returns, with real examples
 API_EXAMPLES.md            # real questions answered with both APIs, and how to use the downloaded files
@@ -74,6 +77,8 @@ Choose an endpoint, click **Fetch**, tick the fields you want, then **Export CSV
 
 The **Fundamentals** tab fetches analyst estimates: pick a market, type a stock symbol (e.g. `2222`) and a period. The sandbox allows 5 requests a minute and 100 a day per endpoint, so a saved company loads from `data/fundamentals/` until you click **Re-fetch from API**. See `EXPLAINED.md` for what the data contains.
 
+The **Investment funds** tab shows one fund's price history (a chart of the unit price, with the latest price, this year's and the last 12 months' return), its details (objective, strategy, fees, size), or this year's top-moving funds. Pick what to show, a fund manager and a fund. Saved funds load from `data/funds/`; choosing a manager or fund that isn't saved yet fetches it.
+
 ### Download all fundamentals data (analyst estimates)
 ```
 python fetch_fundamentals.py
@@ -91,26 +96,41 @@ Saves every indicator group, every group's fields and every field's values (the 
 2. `indicator_fields/<groupId>.json`: 1 call per sub-group, its fields.
 3. `indicator_values/<groupId>_<fieldId>.json`: 1 call per field, its values.
 
-Start with `--dry-run`: it makes no calls and shows how many are left and about how many days that takes. A full download is about 7,000 calls, roughly 4 days with 22 keys at 100 calls a day each. The number of fields in groups whose field list isn't saved yet is estimated from the groups already saved. The script uses the same keys, proxy, flags (`--limit`, `--refresh`) and resume as the analyst estimates script. In the sandbox many fields return no data; those are recorded as `no_data` and skipped next time.
+Start with `--dry-run`: it makes no calls and shows how many are left and about how many days that takes. A full download is about 5,300 calls (5,031 fields are known): about 3 days with 22 keys, because nearly all of them go to one endpoint (values), which gets 100 calls a day per key. The number of fields in groups whose field list isn't saved yet is estimated from the groups already saved. The script uses the same keys, proxy, flags (`--limit`, `--refresh`) and resume as the analyst estimates script. In the sandbox many fields return no data; those are recorded as `no_data` and skipped next time.
+
+### Download investment funds data
+```
+python fetch_funds.py --dry-run
+python fetch_funds.py --managers 2604 2501 2930
+python fetch_funds.py
+```
+Saves fund managers, their funds, each fund's details and each fund's full price history to `data/funds/`, in the same files the Investment funds tab reads. Four stages, because each list says what to fetch next:
+
+1. `fund_managers.json`: 1 call, the 46 fund managers. Also `fund_movers.json`, 1 call, this year's top 10 gainers and losers.
+2. `manager_funds/<managerId>.json`: 1 call per manager, its funds.
+3. `fund_details/<managerId>_<fundId>.json`: 1 call per fund, what it is and what it costs.
+4. `fund_history/<managerId>_<fundId>.json`: 1 call per fund, every end-of-day unit price and net asset value since 1980 (in practice since the fund started).
+
+`--managers` limits the run to some managers (IDs from `fund_managers.json`). The dry run guesses about 2,200 funds from the managers saved so far, but those are the three biggest, so the real number is likely lower (`fund_movers.json` reports 356 funds with current prices). That is two calls per fund, one to details and one to history, and since each endpoint has its own daily limit (2,200 a day with 22 keys) it fits in about a day. Funds without prices (often closed ones) are recorded as `no_data`. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts. Use `--refresh` to get newer prices.
 
 ### How fetches are tracked
 Two files, the same for every API. The fetch scripts and the web app both write to them, so a company fetched in the browser counts against the key's quota and is skipped by the next script run:
 - `data/<api>/_progress.json` (committed) has one entry per item: `saved`, `no_data` (Argaam returned nothing) or `failed`, with the API base, path, parameters and fetch time. Saved and no-data entries are skipped on the next run; failed ones are tried again. Entries marked `"backfilled": true` were filled in from files saved before this file existed.
-- `.fetch_state/key_usage.json` (not committed) counts the calls each key made today, shared by every fetch script. Keys are stored as a short fingerprint (part of a SHA-256 hash), never as the key itself, so reordering `ARGAAM_API_KEYS` keeps each count with the right key.
+- `.fetch_state/key_usage.json` (not committed) counts the calls each key made today **per endpoint**, shared by every fetch script and the app. Argaam's limit of 100 calls a day counts each endpoint separately: a key that used 100 `indicator_values` calls can still make 100 `fund_history` calls that day. A key stops for an endpoint when Argaam says none are left for it. Keys are stored as a short fingerprint (part of a SHA-256 hash), never as the key itself, so reordering `ARGAAM_API_KEYS` keeps each count with the right key.
 
 When something is recorded as `no_data`, the web app answers from the progress file instead of calling Argaam again, and says when it was checked. **Re-fetch from API** always asks again.
 
 ## The standard for every API
-Fundamentals and Macroeconomic follow the same pattern, and a new Argaam API should too:
+Fundamentals, Macroeconomic and Investment funds follow the same pattern, and a new Argaam API should too:
 
 | What | Where | Same for every API? |
 |------|-------|---------------------|
 | Its endpoints | entries in `static/endpoints.json` with `"api": "<api>"` | yes, the same fields |
 | Saved responses | `data/<api>/<endpoint>/<values>.json`, from each entry's `file` template | yes |
 | What happened to each item | `data/<api>/_progress.json` (committed) | yes |
-| Calls each key used today | `.fetch_state/key_usage.json` (shared by all APIs) | yes, one file |
+| Calls each key used today, per endpoint | `.fetch_state/key_usage.json` (shared by all APIs) | yes, one file |
 | How to fetch (keys, proxy, pacing, retries, resume) | `argaam_downloader.py` | yes, shared code |
-| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_fundamentals.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
+| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_fundamentals.py`, `fetch_funds.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
 | Docs | a "Download all ..." section here, the endpoint in `EXPLAINED.md`, examples in `API_EXAMPLES.md` | yes |
 
 Every fetch script takes `--dry-run` (calls left and about how many days, no calls made), `--limit N` and `--refresh`.

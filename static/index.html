@@ -37,6 +37,19 @@
   .tabs { display:flex; gap:4px; border-bottom:1px solid var(--line); margin-bottom:16px; }
   .tabs button { background:none; color:var(--muted); border:0; border-bottom:2px solid transparent; border-radius:0; margin-bottom:-1px; }
   .tabs button.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:600; }
+  table.wrap td { white-space:normal; }
+  table.wrap td:first-child { white-space:nowrap; color:var(--muted); }
+  .stats { display:grid; grid-template-columns:repeat(auto-fit, minmax(110px, 1fr)); gap:12px; margin-bottom:12px; }
+  .stat { border:1px solid var(--line); border-radius:6px; padding:8px 12px; }
+  .stat .k { font-size:12px; color:var(--muted); }
+  .stat .v { font-size:18px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .stat .s { font-size:12px; color:var(--muted); }
+  .chart { position:relative; }
+  .chart svg { display:block; width:100%; height:auto; }
+  .chart .grid line { stroke:#eee; }
+  .chart .axis text { fill:var(--muted); font-size:11px; }
+  .chart .tip { position:absolute; pointer-events:none; background:#fff; border:1px solid var(--line); border-radius:6px;
+                padding:6px 8px; font-size:12px; box-shadow:0 2px 6px rgba(0,0,0,.08); white-space:nowrap; }
   @media (max-width:640px) { .row, .row.three { grid-template-columns:1fr; } }
 </style>
 </head>
@@ -49,7 +62,32 @@
   <nav class="tabs" id="tabs">
     <button data-tab="macro" class="active">Macroeconomic</button>
     <button data-tab="fundamentals">Fundamentals</button>
+    <button data-tab="funds">Investment funds</button>
   </nav>
+
+  <div id="tab-funds" class="hidden">
+    <section>
+      <h2>Investment funds</h2>
+      <div class="row three">
+        <div><label for="fundShow">Show</label><select id="fundShow">
+          <option value="fund_history">Price history</option>
+          <option value="fund_details">Fund details</option>
+          <option value="fund_movers">Top-moving funds this year</option>
+        </select></div>
+        <div id="managerWrap"><label for="manager">Fund manager</label><select id="manager"></select></div>
+        <div id="fundWrap"><label for="fund">Fund</label><select id="fund" disabled></select></div>
+      </div>
+      <div id="fundHint" class="hint">The sandbox allows 5 requests a minute and 100 a day per endpoint, so a fund you have already fetched loads from <b>data/funds/</b> until you re-fetch it.</div>
+      <button id="fundFetchBtn">Fetch</button>
+      <button id="fundRefreshBtn" class="secondary">Re-fetch from API</button>
+      <span id="fundStatus" class="status"></span>
+    </section>
+    <section id="fundView" class="hidden">
+      <h2 id="fundTitle"></h2>
+      <div id="fundStats" class="stats"></div>
+      <div id="chartWrap" class="chart"></div>
+    </section>
+  </div>
 
   <div id="tab-fundamentals" class="hidden">
     <section>
@@ -154,6 +192,7 @@ function show(data) {
   $("fields").innerHTML = columns.map(c =>
     `<label><input type="checkbox" value="${c}" checked>${c}</label>`).join("");
   $("count").textContent = `${rows.length} rows · ${columns.length} fields`;
+  $("table").classList.toggle("wrap", columns.join() === "field,value");  // field/value lists (fund details) have long texts
   $("raw").textContent = JSON.stringify(data, null, 2);
   $("results").classList.remove("hidden");
   renderTable();
@@ -399,6 +438,194 @@ $("fFetchBtn").onclick = () => fetchEstimates(false);
 $("fRefreshBtn").onclick = () => fetchEstimates(true);
 $("symbol").onkeydown = e => { if (e.key === "Enter") fetchEstimates(false); };
 
+// ---- Investment funds: price history, fund details, top movers ----
+// Saved files come from static/endpoints.json like every API: funds/fund_history/<managerId>_<fundId>.json etc.
+
+const fundNeeds = id => allEndpoints[id].path.includes("{fundId}");
+const num = (v, digits = 2) => v == null ? "–" : Number(v).toLocaleString("en", { minimumFractionDigits: digits, maximumFractionDigits: digits });
+const day = d => (d || "").slice(0, 10);
+const plainText = html => { const el = document.createElement("div"); el.innerHTML = html || ""; return el.textContent.replace(/\s+/g, " ").trim(); };
+
+// Where a funds response comes from: the saved file on the published page, the Flask route locally.
+async function getFunds(id, values = {}, refresh = false) {
+  if (savedFiles) {
+    const file = savedPath(id, values);
+    if (!savedFiles.has(file)) throw new Error("No saved data for this. Only fetched funds are published.");
+    return { data: await getJSON(`data/${file}`), saved_to: file, from_cache: true };
+  }
+  const query = new URLSearchParams({ ...values, ...(refresh ? { refresh: "1" } : {}) });
+  return getJSON(`/api/funds/${id}?${query}`);
+}
+
+async function loadManagers() {
+  try {
+    let managers = (await getFunds("fund_managers")).data;
+    if (savedFiles) managers = managers.filter(m => savedFiles.has(savedPath("manager_funds", { managerId: m.fundManagerID })));
+    managers.sort((a, b) => a.companyNameEn.trim().localeCompare(b.companyNameEn.trim()));
+    $("manager").innerHTML = `<option value="">Choose a fund manager…</option>` + managers.map(m =>
+      `<option value="${m.fundManagerID}">${escAttr(m.companyNameEn)} (${m.fundManagerID})</option>`).join("");
+  } catch (e) {
+    $("manager").innerHTML = `<option value="">Could not load managers: ${escAttr(e.message)}</option>`;
+  }
+}
+
+async function loadFunds() {
+  const managerId = $("manager").value, sel = $("fund");
+  sel.disabled = true;
+  if (!managerId) { sel.innerHTML = `<option value="">Choose a fund manager first</option>`; return; }
+  sel.innerHTML = `<option value="">Loading funds…</option>`;
+  try {
+    let funds = (await getFunds("manager_funds", { managerId })).data;
+    if (savedFiles) funds = funds.filter(f => savedFiles.has(savedPath($("fundShow").value, { managerId, fundId: f.fundID })));
+    sel.innerHTML = `<option value="">Choose a fund… (${funds.length})</option>` + funds.map(f =>
+      `<option value="${f.fundID}">${escAttr(f.fundNameEn)} (${f.fundID})</option>`).join("");
+    sel.disabled = false;
+  } catch (e) {
+    sel.innerHTML = `<option value="">No funds: ${escAttr(e.message)}</option>`;
+  }
+}
+
+function onFundShowChange() {
+  const needsFund = fundNeeds($("fundShow").value);
+  $("managerWrap").style.visibility = needsFund ? "" : "hidden";
+  $("fundWrap").style.visibility = needsFund ? "" : "hidden";
+  if (savedFiles && needsFund) loadFunds();
+}
+
+const stat = (k, v, s = "") => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
+
+function showFundView(title, stats, chartPoints) {
+  $("fundTitle").textContent = title;
+  $("fundStats").innerHTML = stats;
+  $("chartWrap").innerHTML = "";
+  if (chartPoints) drawPriceChart(chartPoints);
+  $("fundView").classList.remove("hidden");
+}
+
+// One series, so one color and no legend; the title names it. Hover shows the nearest day's price.
+function drawPriceChart(points) {
+  const W = 1000, H = 300, m = { l: 56, r: 12, t: 10, b: 26 };
+  const t = points.map(p => p.t), y = points.map(p => p.y);
+  const t0 = Math.min(...t), t1 = Math.max(...t);
+  let y0 = Math.min(...y), y1 = Math.max(...y);
+  const pad = (y1 - y0) * 0.05 || 1; y0 -= pad; y1 += pad;
+  const X = v => m.l + (v - t0) / (t1 - t0 || 1) * (W - m.l - m.r);
+  const Y = v => H - m.b - (v - y0) / (y1 - y0) * (H - m.t - m.b);
+  const yTicks = Array.from({ length: 5 }, (_, i) => y0 + (y1 - y0) * i / 4);
+  const years = [], first = new Date(t0).getUTCFullYear(), last = new Date(t1).getUTCFullYear();
+  const step = Math.max(1, Math.ceil((last - first + 1) / 10));
+  for (let yr = first + 1; yr <= last; yr += step) years.push(Date.UTC(yr, 0, 1));
+  const line = points.map((p, i) => `${i ? "L" : "M"}${X(p.t).toFixed(1)},${Y(p.y).toFixed(1)}`).join("");
+  $("chartWrap").innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Unit price over time">
+      <g class="grid">${yTicks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/>`).join("")}</g>
+      <g class="axis">
+        ${yTicks.map(v => `<text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${num(v)}</text>`).join("")}
+        ${years.map(v => `<text x="${X(v)}" y="${H - 8}" text-anchor="middle">${new Date(v).getUTCFullYear()}</text>`).join("")}
+      </g>
+      <path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+      <line id="cross" y1="${m.t}" y2="${H - m.b}" stroke="#999" stroke-dasharray="3 3" visibility="hidden"/>
+      <circle id="dot" r="4" fill="var(--accent)" stroke="#fff" stroke-width="2" visibility="hidden"/>
+      <rect x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="transparent" id="hit"/>
+    </svg><div class="tip hidden" id="tip"></div>`;
+  const svg = $("chartWrap").querySelector("svg");
+  const hide = () => { $("cross").setAttribute("visibility", "hidden"); $("dot").setAttribute("visibility", "hidden"); $("tip").classList.add("hidden"); };
+  $("hit").onmouseleave = hide;
+  $("hit").onmousemove = e => {
+    const box = svg.getBoundingClientRect(), scale = W / box.width;
+    const at = t0 + ((e.clientX - box.left) * scale - m.l) / (W - m.l - m.r) * (t1 - t0);
+    let lo = 0, hi = points.length - 1;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (points[mid].t < at) lo = mid + 1; else hi = mid; }
+    const p = lo > 0 && at - points[lo - 1].t < points[lo].t - at ? points[lo - 1] : points[lo];
+    const x = X(p.t), yy = Y(p.y);
+    $("cross").setAttribute("x1", x); $("cross").setAttribute("x2", x); $("cross").setAttribute("visibility", "visible");
+    $("dot").setAttribute("cx", x); $("dot").setAttribute("cy", yy); $("dot").setAttribute("visibility", "visible");
+    const tip = $("tip");
+    tip.innerHTML = `<b>${day(p.row.valueDate)}</b><br>Unit price ${num(p.y, 4)}<br>NAV ${num(p.row.netAssetValue, 0)}<br>YTD ${num(p.row.ytd)}%`;
+    tip.classList.remove("hidden");
+    const left = x / scale, top = yy / scale;
+    tip.style.left = `${Math.min(left + 12, box.width - tip.offsetWidth - 4)}px`;
+    tip.style.top = `${Math.max(0, top - tip.offsetHeight - 8)}px`;
+  };
+}
+
+function showHistory(body) {
+  const values = [...(body.values || [])].sort((a, b) => a.valueDate.localeCompare(b.valueDate));  // Argaam does not sort them
+  if (!values.length) throw new Error("Argaam returned no prices for this fund.");
+  const first = values[0], last = values[values.length - 1];
+  const change = (last.unitPrice / first.unitPrice - 1) * 100;
+  const yearAgo = values.filter(v => v.valueDate <= `${Number(day(last.valueDate).slice(0, 4)) - 1}${day(last.valueDate).slice(4)}`).pop();
+  showFundView(`${body.fundNameEn} · unit price`,
+    stat("Latest unit price", num(last.unitPrice, 4), day(last.valueDate)) +
+    stat("This year (YTD)", `${num(last.ytd)}%`, "as reported by Argaam") +
+    stat("Last 12 months", yearAgo ? `${num((last.unitPrice / yearAgo.unitPrice - 1) * 100)}%` : "–", yearAgo ? `from ${day(yearAgo.valueDate)}` : "not enough history") +
+    stat("Since first price", `${num(change)}%`, `from ${day(first.valueDate)}`) +
+    stat("Net asset value", num(last.netAssetValue, 0), "latest") +
+    stat("Prices", values.length.toLocaleString("en"), `${day(first.valueDate).slice(0, 4)}–${day(last.valueDate).slice(0, 4)}`),
+    values.map(v => ({ t: Date.parse(v.valueDate + "Z"), y: v.unitPrice, row: v })));
+  display("funds", [...values].reverse().map(v => ({ date: day(v.valueDate), unitPrice: v.unitPrice, netAssetValue: v.netAssetValue, ytd: v.ytd })));
+}
+
+const DETAIL_LABELS = {
+  fundObjectiveEn: "Objective", investmentStrategyEn: "Strategy", eligibilityEn: "Who can invest", valuationNotesEn: "Valuation",
+  inceptionDate: "Started", inceptionPrice: "Starting unit price", fundSize: "Fund size", currencyNameEn: "Currency",
+  managementFeePercent: "Management fee %", managementFeeTypeEn: "Management fee type", performanceFeePercent: "Performance fee %",
+  subscriptionFeePercent: "Subscription fee %", custodianFeePercent: "Custodian fee %", custodianFeeAdditionalInformationEn: "Custodian fee details",
+  minSubscriptionFee: "minSubscriptionFee", minRedemption: "Minimum redemption", subscriptionChargeAmount: "subscriptionChargeAmount",
+};
+
+function showDetails(d) {
+  showFundView(d.fundNameEn,
+    stat("Manager", escAttr(d.fundManagerNameEn)) +
+    stat("Management fee", d.managementFeePercent == null ? "–" : `${num(d.managementFeePercent)}%`, d.managementFeeTypeEn || "") +
+    stat("Subscription fee", d.subscriptionFeePercent == null ? "–" : `${num(d.subscriptionFeePercent)}%`) +
+    stat("Fund size", num(d.fundSize, 0), d.currencyNameEn || "") +
+    stat("Started", day(d.inceptionDate), `at ${num(d.inceptionPrice)} a unit`));
+  // One row per field, so long texts read top to bottom: the labelled English fields first, then the rest by raw name.
+  const order = Object.keys(DETAIL_LABELS);
+  const rank = k => order.includes(k) ? order.indexOf(k) : order.length;
+  display("funds", Object.entries(d).sort(([a], [b]) => rank(a) - rank(b)).map(([k, v]) => ({
+    field: DETAIL_LABELS[k] || k,
+    value: k.startsWith("investmentStrategy") ? plainText(v) : k === "inceptionDate" ? day(v) : v,
+  })));
+}
+
+function showMovers(d) {
+  const rows = [...(d.gainers || []).map(r => ({ list: "Gainer", ...r })), ...(d.losers || []).map(r => ({ list: "Loser", ...r }))];
+  if (!rows.length) throw new Error("Argaam returned no movers.");
+  const top = d.gainers?.[0], bottom = d.losers?.[0];
+  showFundView("Top-moving funds this year",
+    // Each fund's latest price can be from a different day, so each tile says its own date.
+    (top ? stat("Biggest gainer", `${num(top.ytd)}%`, `${escAttr(top.fundNameEn)} · ${day(top.valueDate)}`) : "") +
+    (bottom ? stat("Biggest loser", `${num(bottom.ytd)}%`, `${escAttr(bottom.fundNameEn)} · ${day(bottom.valueDate)}`) : ""));
+  display("funds", rows.map(r => ({ list: r.list, fund: r.fundNameEn, fundID: r.fundID, type: r.assetTypeNameEn, currency: r.currencyNameEn,
+                                    ytd: r.ytd, unitPrice: r.unitPrice, nav: r.nav, date: day(r.valueDate) })));
+}
+
+async function fetchFund(refresh) {
+  const id = $("fundShow").value, managerId = $("manager").value, fundId = $("fund").value;
+  $("fundStatus").className = "status";
+  try {
+    if (fundNeeds(id) && !(managerId && fundId)) throw new Error("Choose a fund manager and a fund.");
+    $("fundStatus").textContent = "Fetching…";
+    const body = await getFunds(id, fundNeeds(id) ? { managerId, fundId } : {}, refresh);
+    ({ fund_history: showHistory, fund_details: showDetails, fund_movers: showMovers })[id](body.data);
+    $("fundStatus").textContent = body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`;
+  } catch (e) {
+    delete lastData.funds;
+    $("fundView").classList.add("hidden");
+    if (activeTab === "funds") $("results").classList.add("hidden");
+    $("fundStatus").className = "status error";
+    $("fundStatus").textContent = e.message;
+  }
+}
+
+$("fundShow").onchange = onFundShowChange;
+$("manager").onchange = loadFunds;
+$("fund").onchange = () => fetchFund(false);
+$("fundFetchBtn").onclick = () => fetchFund(false);
+$("fundRefreshBtn").onclick = () => fetchFund(true);
+
 async function init() {
   const saved = await fetch("saved_files.json").catch(() => null);
   if (saved && saved.ok) {
@@ -420,6 +647,10 @@ async function init() {
   loadFields("");
   loadGroups().then(updateHint);
   if (savedFiles) showSavedEstimates();
+  if (savedFiles) { $("fundRefreshBtn").remove(); $("fundHint").textContent = "Only the funds fetched so far are listed."; }
+  loadManagers();
+  loadFunds();
+  onFundShowChange();
 }
 init();
 </script>

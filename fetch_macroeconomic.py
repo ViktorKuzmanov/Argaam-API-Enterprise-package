@@ -121,8 +121,11 @@ def main():
         unseen = "plus an unknown number until some field lists are saved"
     log(f"Stage 3: {len(values_left)} of {len(values)} known fields left to fetch, {unseen} "
         f"in the {unknown_groups} groups whose field list is not saved yet.")
-    log(f"{'About ' if known_groups else 'At least '}{total} calls in all. {len(slots)} keys with {calls_left(slots)} calls left today, "
-        f"{per_day} a day: about {math.ceil(total / per_day) if total else 0} day(s).")
+    # Argaam's daily limit counts each endpoint separately, so field lists and values each get per_day calls a day.
+    days = math.ceil(max(len(fields_left), len(values_left) + guess) / per_day)
+    log(f"{'About ' if known_groups else 'At least '}{total} calls in all. {len(slots)} keys with "
+        f"{calls_left(slots, 'indicator_fields')} field-list and {calls_left(slots, 'indicator_values')} values calls left today, "
+        f"{per_day} a day for each endpoint: about {days} day(s).")
     if args.dry_run:
         return
 
