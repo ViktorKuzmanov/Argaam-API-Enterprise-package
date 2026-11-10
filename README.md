@@ -16,8 +16,8 @@ A minimal tool that pulls data from the Argaam REST APIs with Python, saves ever
 ```
 argaam_client.py           # fetch(path) + save JSON to data/<api>/ (one request at a time, used by app.py)
 argaam_downloader.py       # shared bulk download code for the fetch scripts: keys, proxy, pacing, retries, resume
-fetch_indicator_groups.py  # script: pull /indicators/groups -> data/macroeconomic/indicator_groups.json
 fetch_all_analyst_estimates.py  # script: every company's analyst estimates -> data/fundamentals/
+fetch_macroeconomic.py     # script: every indicator group, field and series -> data/macroeconomic/
 app.py                     # web viewer server
 static/index.html          # the whole UI
 static/endpoints.json      # the one list of endpoints: API, Argaam path, and where each response is saved
@@ -27,6 +27,7 @@ data/                      # saved API responses (ready to push to a database), 
     indicator_groups.json          # /indicators/groups
     indicator_fields/33.json       # /indicators/groups/33/fields
     indicator_values/33_125.json   # /indicators/groups/33/fields/125/values
+    _progress.json                 # what the fetch script did with each item, and where it came from
   fundamentals/
     market_companies/3.json        # /markets/3/companies
     analyst_estimates/3_2222_year.json  # /companies/2222/analyst-estimates?marketId=3&period=year
@@ -60,12 +61,7 @@ The key is sent in the `apikey` header.
 
 ### 5. Run the project
 
-Pull indicator groups from the command line (saves `data/macroeconomic/indicator_groups.json`):
-```
-python fetch_indicator_groups.py
-```
-
-Or start the web viewer and open http://127.0.0.1:5001 :
+Start the web viewer and open http://127.0.0.1:5001 :
 ```
 python app.py
 ```
@@ -79,8 +75,22 @@ python fetch_all_analyst_estimates.py
 ```
 Saves every TASI and NOMU company (year and quarter) to `data/fundamentals/`, in the same files the Fundamentals tab reads. It uses `ARGAAM_API_KEYS` and the `DATA_IMPULSE_*` proxy settings from `.env`. Each response is saved as soon as it arrives, and running the script again continues where it stopped. Add `--dry-run` to see what is left, `--limit 5` for a small test, or `--refresh` to download everything again.
 
-Two files track the work:
-- `data/fundamentals/_progress.json` (committed) has one entry per company and period: `saved`, `no_data` (Argaam returned nothing) or `failed`, with the API base, path, parameters and fetch time. Saved and no-data entries are skipped on the next run; failed ones are tried again.
+### Download all macroeconomic data
+```
+python fetch_macroeconomic.py --dry-run
+python fetch_macroeconomic.py
+```
+Saves every indicator group, every group's fields and every field's values (the numbers over time) to `data/macroeconomic/`, in the same files the Macroeconomic tab reads. It works in three stages, because each list says what to fetch next:
+
+1. `indicator_groups.json`: 1 call, the 29 main groups and their 301 sub-groups.
+2. `indicator_fields/<groupId>.json`: 1 call per sub-group, its fields.
+3. `indicator_values/<groupId>_<fieldId>.json`: 1 call per field, its values.
+
+Start with `--dry-run`: it makes no calls and shows how many are left and about how many days that takes. A full download is about 7,000 calls, roughly 4 days with 22 keys at 100 calls a day each. The number of fields in groups whose field list isn't saved yet is estimated from the groups already saved. The script uses the same keys, proxy, flags (`--limit`, `--refresh`) and resume as the analyst estimates script. In the sandbox many fields return no data; those are recorded as `no_data` and skipped next time.
+
+### How the fetch scripts track their work
+Two files, the same for every API:
+- `data/<api>/_progress.json` (committed) has one entry per item: `saved`, `no_data` (Argaam returned nothing) or `failed`, with the API base, path, parameters and fetch time. Saved and no-data entries are skipped on the next run; failed ones are tried again. Entries marked `"backfilled": true` were filled in from files saved before this file existed.
 - `.fetch_state/key_usage.json` (not committed) counts the calls each key made today, shared by every fetch script. Keys are stored as a short fingerprint (part of a SHA-256 hash), never as the key itself, so reordering `ARGAAM_API_KEYS` keeps each count with the right key.
 
 ## Adding a new endpoint

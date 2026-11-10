@@ -227,6 +227,32 @@ The surplus or deficit answers the question directly, so **`fieldId = 105`**.
 
 ---
 
+## Using the downloaded macroeconomic files
+
+After `python fetch_macroeconomic.py`, every series is a file in `data/macroeconomic/indicator_values/`, named `<groupId>_<fieldId>.json`. This turns all of them into one table, ready for a spreadsheet or a database:
+
+```python
+import json, pathlib
+
+rows = []
+for file in sorted(pathlib.Path("data/macroeconomic/indicator_values").glob("*.json")):
+    series = json.loads(file.read_text(encoding="utf-8"))
+    for point in series["values"]:
+        rows.append({"field": series["displayNameEn"], "year": point["year"], "value": point["value"]})
+```
+
+With the three series saved today, `rows` holds the answers to Examples 1 to 3:
+
+```
+{'field': 'Gross Domestic Product at Current Prices (Base year 2010)', 'year': 2026, 'value': 4431}
+{'field': 'GDP Growth at Chain-Linked Methodology', 'year': 2026, 'value': 3.5}
+{'field': 'Expected Surplus (Deficit)', 'year': 2026, 'value': -165}
+```
+
+To see what has been downloaded so far, and what Argaam had no data for, open `data/macroeconomic/_progress.json`: each entry's `status` is `saved`, `no_data` or `failed`.
+
+---
+
 ## Analyst estimates examples
 
 ### How to try them

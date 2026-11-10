@@ -24,6 +24,8 @@ A real path through the tree:
 | 2 | `/indicators/groups/33/fields` | Group 33 has field **125 "Gross Domestic Product at Current Prices (Base year 2010)"** |
 | 3 | `/indicators/groups/33/fields/125/values` | GDP for **2026 = 4431** |
 
+`fetch_macroeconomic.py` walks this whole tree for you: every group, then every group's fields, then every field's values. It saves each response under `data/macroeconomic/` (see the README for how to run it).
+
 ---
 
 ## 1. Indicator groups
