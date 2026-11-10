@@ -4,10 +4,10 @@ Each key in ARGAAM_API_KEYS gets its own worker and its own Data Impulse exit IP
 Every response is written to disk as soon as it arrives, so stopping early (rate
 limit, crash, Ctrl+C) loses nothing. Run it again and it continues where it stopped.
 
-    python fetch_all_analyst_estimates.py              # everything still missing
-    python fetch_all_analyst_estimates.py --limit 5    # a small test
-    python fetch_all_analyst_estimates.py --dry-run    # show what is left
-    python fetch_all_analyst_estimates.py --refresh    # download everything again
+    python fetch_fundamentals.py              # everything still missing
+    python fetch_fundamentals.py --limit 5    # a small test
+    python fetch_fundamentals.py --dry-run    # show what is left
+    python fetch_fundamentals.py --refresh    # download everything again
 
 This file only decides WHAT to fetch. HOW (keys, proxy, pacing, retries, saving)
 is shared with every other fetch script and lives in argaam_downloader.py.

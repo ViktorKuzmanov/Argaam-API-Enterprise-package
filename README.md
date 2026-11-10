@@ -16,7 +16,7 @@ A minimal tool that pulls data from the Argaam REST APIs with Python, saves ever
 ```
 argaam_client.py           # shared basics: endpoints and file names, progress and key usage, single fetches for app.py
 argaam_downloader.py       # shared bulk download code for the fetch scripts: keys, proxy, pacing, retries, resume
-fetch_all_analyst_estimates.py  # script: every company's analyst estimates -> data/fundamentals/
+fetch_fundamentals.py      # script: every company's analyst estimates -> data/fundamentals/
 fetch_macroeconomic.py     # script: every indicator group, field and series -> data/macroeconomic/
 app.py                     # web viewer server
 static/index.html          # the whole UI
@@ -69,9 +69,9 @@ Choose an endpoint, click **Fetch**, tick the fields you want, then **Export CSV
 
 The **Fundamentals** tab fetches analyst estimates: pick a market, type a stock symbol (e.g. `2222`) and a period. The sandbox allows 5 requests a minute and 100 a day per endpoint, so a saved company loads from `data/fundamentals/` until you click **Re-fetch from API**. See `EXPLAINED.md` for what the data contains.
 
-### Download all analyst estimates
+### Download all fundamentals data (analyst estimates)
 ```
-python fetch_all_analyst_estimates.py
+python fetch_fundamentals.py
 ```
 Saves every TASI and NOMU company (year and quarter) to `data/fundamentals/`, in the same files the Fundamentals tab reads. It uses `ARGAAM_API_KEYS` and the `DATA_IMPULSE_*` proxy settings from `.env`. Each response is saved as soon as it arrives, and running the script again continues where it stopped. Add `--dry-run` to see what is left, `--limit 5` for a small test, or `--refresh` to download everything again.
 
@@ -105,7 +105,7 @@ Fundamentals and Macroeconomic follow the same pattern, and a new Argaam API sho
 | What happened to each item | `data/<api>/_progress.json` (committed) | yes |
 | Calls each key used today | `.fetch_state/key_usage.json` (shared by all APIs) | yes, one file |
 | How to fetch (keys, proxy, pacing, retries, resume) | `argaam_downloader.py` | yes, shared code |
-| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_all_analyst_estimates.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
+| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_fundamentals.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
 | Docs | a "Download all ..." section here, the endpoint in `EXPLAINED.md`, examples in `API_EXAMPLES.md` | yes |
 
 Every fetch script takes `--dry-run` (calls left and about how many days, no calls made), `--limit N` and `--refresh`.
