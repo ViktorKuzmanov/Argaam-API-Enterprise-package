@@ -389,6 +389,34 @@ NOMU companies usually have one broker per forecast, so there is no median or ra
 
 ---
 
+## Investment funds examples
+
+The app has no Funds tab yet, so open the saved files under `data/funds/` directly. They are already downloaded, so this uses no API calls.
+
+### Example 14: Who manages funds in Saudi Arabia?
+
+> **"Which firms run investment funds?"**
+
+**Open:** `data/funds/fund_managers.json`
+**Answer:** 46 managers, e.g. Al Rajhi Capital (`2604`), Riyad Capital (`2501`), SNB Capital (`2930`) and Jadwa Investment (`3772`).
+
+### Example 15: How many funds does Al Rajhi Capital run?
+
+> **"What funds can I buy from Al Rajhi Capital?"**
+
+**Open:** `data/funds/manager_funds/2604.json` (from `/funds/managers/2604/funds`)
+**Answer:** **40** funds, e.g. AL RAJHI SAVING AND LIQUIDITY FUND - USD (`2`) and AL RAJHI ARAB EQUITY MARKETS FUND (`15`).
+
+### Example 16: What does a fund cost?
+
+> **"What are the fees on the Riyad Emaar Fund?"**
+
+**Open:** `data/funds/fund_details/2501_260.json` (from `/funds/managers/2501/funds/260`)
+**Find:** `managementFeePercent`, `managementFeeTypeEn`, `subscriptionFeePercent`, `custodianFeePercent`
+**Answer:** **1.75%** a year to manage, **1%** to subscribe and **0.035%** a year for the custodian (plus $10 a transaction). The fund started on 30 December 2009 at 10 riyals a unit and holds about **63 million riyals**.
+
+---
+
 ## Good to know
 
 - **Not every company has estimates.** 212 companies do. For the rest, including any NOMU company with the Quarterly period, the app shows a no-data message. That is expected and is not a bug.

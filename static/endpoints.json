@@ -14,5 +14,14 @@
   {"api": "fundamentals", "id": "analyst_estimates", "name": "Analyst estimates",
    "path": "/companies/{symbol}/analyst-estimates", "query": ["marketId", "period"],
    "file": "analyst_estimates/{marketId}_{symbol}_{period}",
-   "description": "Analyst estimates for one company, yearly or quarterly"}
+   "description": "Analyst estimates for one company, yearly or quarterly"},
+  {"api": "funds", "id": "fund_managers", "name": "Fund managers",
+   "path": "/funds/managers", "file": "fund_managers",
+   "description": "Every fund-management firm Argaam tracks, with how many funds each has"},
+  {"api": "funds", "id": "manager_funds", "name": "Funds of a manager",
+   "path": "/funds/managers/{managerId}/funds", "file": "manager_funds/{managerId}",
+   "description": "The funds run by one fund manager"},
+  {"api": "funds", "id": "fund_details", "name": "Fund details",
+   "path": "/funds/managers/{managerId}/funds/{fundId}", "file": "fund_details/{managerId}_{fundId}",
+   "description": "One fund in full: objective, fees, benchmark, distribution policy, latest NAV"}
 ]

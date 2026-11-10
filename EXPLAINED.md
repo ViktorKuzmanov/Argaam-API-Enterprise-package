@@ -232,6 +232,87 @@ The metrics differ by company. Aramco has Net Income, Sales and Total Income. Al
 
 ---
 
+## Investment funds: managers, their funds, and fund details
+
+Three levels, like the indicators. Each level gives you the IDs for the next one:
+
+```
+/funds/managers                                   -> "Which fund managers exist?"   (gives fundManagerID)
+  └─ /funds/managers/{managerId}/funds            -> "Which funds does a manager run?" (gives fundID)
+       └─ /funds/managers/{managerId}/funds/{fundId} -> "What is this fund?"
+```
+
+**Saved as:** `data/funds/fund_managers.json`, `data/funds/manager_funds/<managerId>.json` and `data/funds/fund_details/<managerId>_<fundId>.json`
+
+### 1. Fund managers: `GET /funds/managers`
+A list of the 46 fund-management firms Argaam tracks.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `fundManagerID` | number | Manager ID, used in the next two paths |
+| `companyNameEn` / `companyNameAr` | text | Firm name in English / Arabic. Some have a trailing space |
+
+The Argaam docs also promise the licensing jurisdiction and a fund count, but the sandbox does not return them.
+
+### 2. Funds of a manager: `GET /funds/managers/{managerId}/funds`
+A list of that manager's funds: Al Rajhi Capital (`2604`) has 40, Riyad Capital (`2501`) has 41.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `fundID` | number | Fund ID, used with the manager ID in the next path |
+| `fundNameEn` / `fundNameAr` | text | Fund name |
+
+### 3. Fund details: `GET /funds/managers/{managerId}/funds/{fundId}`
+One object describing the fund.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `fundID`, `fundNameEn` / `fundNameAr` | | The fund |
+| `fundManagerID`, `fundManagerNameEn` / `fundManagerNameAr` | | Its manager |
+| `fundObjectiveEn` / `Ar` | text | What the fund aims for, in one or two sentences |
+| `investmentStrategyEn` / `Ar` | HTML | How it invests. Contains HTML tags and `&nbsp;`, so strip them before showing it as text |
+| `valuationNotesEn` / `Ar` | text | How the fund is valued |
+| `eligibilityEn` / `Ar` | text | Who can invest |
+| `inceptionDate` | date | When the fund started |
+| `inceptionPrice` | number | Unit price at the start |
+| `fundSize` | number or null | Size of the fund, in its currency |
+| `currencyNameEn` / `Ar` | text | e.g. `Riyal`, `USD` |
+| `minSubscriptionFee` | number | Despite the name, looks like the minimum first investment (`100` for a fund with a 5,000 minimum is unlikely to be a fee) |
+| `minRedemption` | number | Minimum amount you can take out |
+| `subscriptionChargeAmount` | number | Probably the minimum subscription amount |
+| `managementFeePercent`, `managementFeeTypeEn` / `Ar` | number, text | Management fee and how often, e.g. `1.75`, `Per annum` |
+| `performanceFeePercent`, `subscriptionFeePercent`, `custodianFeePercent` | number | Other fees, in percent |
+| `custodianFeeAdditionalInformationEn` / `Ar` | text or null | Extra detail on the custodian fee |
+
+### Example
+`/funds/managers/2501/funds/260` (shortened)
+
+```json
+{
+  "fundID": 260,
+  "fundNameEn": "Riyad Emaar Fund",
+  "fundManagerNameEn": "Riyad Capital ",
+  "fundObjectiveEn": "The fund aims to achieve long term capital growth through investing primarily in stocks of listed Saudi companies engaged in building, construction, real estate and cement.",
+  "inceptionDate": "2009-12-30T00:00:00",
+  "inceptionPrice": 10.0,
+  "fundSize": 62961821.0,
+  "currencyNameEn": "Riyal",
+  "managementFeePercent": 1.75,
+  "managementFeeTypeEn": "Per annum",
+  "subscriptionFeePercent": 1.0
+}
+```
+
+### What to watch for
+- **Less than the docs promise.** Argaam's docs say fund details include the benchmark, distribution policy, latest NAV and reference dates. The sandbox returns none of them. NAVs come from the `/values` and `/values/history` endpoints, which this project does not fetch yet.
+- **Odd values.** Al Rajhi's US dollar savings fund (`2604/2`) shows a management fee of `16.0` percent with no fee type, which is not believable for a liquidity fund. Check fees before relying on them.
+- **Missing values.** `fundSize` and the fee type can be null.
+
+### In practice
+"What does the Riyad Emaar Fund invest in, and what does it cost?" Fetch `/funds/managers/2501/funds/260`: Saudi building, real estate and cement shares, a 1.75% yearly management fee and a 1% subscription fee.
+
+---
+
 ## Adding a new endpoint to this file
 When you add an endpoint to `ENDPOINTS` in `app.py`, add a section here with the same parts:
 

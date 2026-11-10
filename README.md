@@ -32,6 +32,11 @@ data/                      # saved API responses (ready to push to a database), 
     market_companies/3.json        # /markets/3/companies
     analyst_estimates/3_2222_year.json  # /companies/2222/analyst-estimates?marketId=3&period=year
     _progress.json                 # what the fetch script did with each item, and where it came from
+  funds/                           # investment funds API (sample files so far, no fetch script yet)
+    fund_managers.json             # /funds/managers
+    manager_funds/2604.json        # /funds/managers/2604/funds
+    fund_details/2604_2.json       # /funds/managers/2604/funds/2
+    _progress.json                 # what was fetched, and where it came from
 .fetch_state/key_usage.json  # calls each API key used today, shared by the fetch scripts and the app (not committed)
 .env                       # your API base + key (not committed)
 EXPLAINED.md               # what data each endpoint returns, with real examples
