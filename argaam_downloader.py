@@ -25,7 +25,7 @@ from urllib.parse import quote
 
 import requests
 
-from argaam_client import API_BASE, DATA_DIR, write_json  # also loads .env
+from argaam_client import API_BASE, DATA_DIR, api_request, item_name, saved_file, write_json  # also loads .env
 
 KEYS = [k.strip() for k in os.getenv("ARGAAM_API_KEYS", "").split(",") if k.strip()]
 DAILY_LIMIT = int(os.getenv("ARGAAM_DAILY_LIMIT_PER_KEY", "100"))
@@ -136,6 +136,12 @@ class Task:
     file: Path   # where the response is saved
     params: dict = field(default_factory=dict)
     attempts: int = 0
+
+
+def endpoint_task(endpoint_id, **values):
+    """A Task for one endpoint in static/endpoints.json: its path, query, file and name all come from there."""
+    path, params = api_request(endpoint_id, **values)
+    return Task(name=item_name(endpoint_id, **values), path=path, file=saved_file(endpoint_id, **values), params=params)
 
 
 class Slot:

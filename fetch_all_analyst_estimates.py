@@ -17,22 +17,7 @@ import json
 import re
 
 from argaam_client import FUNDAMENTALS_DIR  # also loads .env
-from argaam_downloader import KeyUsage, Progress, Task, calls_left, fetch_one, log, make_slots, run_tasks
-
-
-def company_list_task(market):
-    name = f"companies_market_{market}"
-    return Task(name=name, path=f"/markets/{market}/companies", file=FUNDAMENTALS_DIR / f"{name}.json")
-
-
-def estimate_task(market, symbol, period):
-    name = f"analyst_estimates_{market}_{symbol}_{period}"
-    return Task(
-        name=name,
-        path=f"/companies/{symbol}/analyst-estimates",
-        file=FUNDAMENTALS_DIR / f"{name}.json",
-        params={"marketId": market, "period": period},
-    )
+from argaam_downloader import KeyUsage, Progress, calls_left, endpoint_task, fetch_one, log, make_slots, run_tasks
 
 
 def count_estimates(body):
@@ -41,7 +26,7 @@ def count_estimates(body):
 
 def company_symbols(market, slots, progress, refresh):
     """Return the market's symbols, using the saved company list when there is one."""
-    task = company_list_task(market)
+    task = endpoint_task("market_companies", marketId=market)
     if task.file.exists() and not refresh:
         body = json.loads(task.file.read_text(encoding="utf-8"))
     else:
@@ -73,7 +58,7 @@ def main():
         for symbol in company_symbols(market, slots, progress, args.refresh):
             for period in args.periods:
                 total += 1
-                task = estimate_task(market, symbol, period)
+                task = endpoint_task("analyst_estimates", marketId=market, symbol=symbol, period=period)
                 done = progress.is_done(task.name) or task.file.exists()
                 if args.refresh or not done:
                     tasks.append(task)

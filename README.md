@@ -18,12 +18,19 @@ argaam_client.py           # fetch(path) + save JSON to data/<api>/ (one request
 argaam_downloader.py       # shared bulk download code for the fetch scripts: keys, proxy, pacing, retries, resume
 fetch_indicator_groups.py  # script: pull /indicators/groups -> data/macroeconomic/indicator_groups.json
 fetch_all_analyst_estimates.py  # script: every company's analyst estimates -> data/fundamentals/
-app.py                     # web viewer server (list of endpoints lives here)
+app.py                     # web viewer server
 static/index.html          # the whole UI
-data/                      # saved API responses (ready to push to a database), one folder per API:
-  macroeconomic/           #   indicator groups, group fields, indicator series (/indicators/...)
-  fundamentals/            #   analyst estimates and company lists (/companies/..., /markets/...)
-  <api>/_progress.json     #   what the fetch script did with each item, and where it came from
+static/endpoints.json      # the one list of endpoints: API, Argaam path, and where each response is saved
+data/                      # saved API responses (ready to push to a database), one folder per API,
+                           # one subfolder per endpoint: data/<api>/<endpoint>/<values>.json
+  macroeconomic/
+    indicator_groups.json          # /indicators/groups
+    indicator_fields/33.json       # /indicators/groups/33/fields
+    indicator_values/33_125.json   # /indicators/groups/33/fields/125/values
+  fundamentals/
+    market_companies/3.json        # /markets/3/companies
+    analyst_estimates/3_2222_year.json  # /companies/2222/analyst-estimates?marketId=3&period=year
+    _progress.json                 # what the fetch script did with each item, and where it came from
 .fetch_state/key_usage.json  # calls each API key used today, shared by all fetch scripts (not committed)
 .env                       # your API base + key (not committed)
 EXPLAINED.md               # what data each endpoint returns, with real examples
@@ -76,12 +83,20 @@ Two files track the work:
 - `data/fundamentals/_progress.json` (committed) has one entry per company and period: `saved`, `no_data` (Argaam returned nothing) or `failed`, with the API base, path, parameters and fetch time. Saved and no-data entries are skipped on the next run; failed ones are tried again.
 - `.fetch_state/key_usage.json` (not committed) counts the calls each key made today, shared by every fetch script. Keys are stored as a short fingerprint (part of a SHA-256 hash), never as the key itself, so reordering `ARGAAM_API_KEYS` keeps each count with the right key.
 
-## Adding a new API tab
-Add a button to `<nav id="tabs">` in `static/index.html` and a matching `<div id="tab-NAME" class="hidden">`. Call `display("NAME", response)` to show a response in the shared Fields / table / export section. Save that API's responses in their own folder: add a `NAME_DIR = DATA_DIR / "NAME"` next to `MACRO_DIR` and `FUNDAMENTALS_DIR` in `argaam_client.py` and pass it to `fetch_and_save`.
-
 ## Adding a new endpoint
-Add one line to `ENDPOINTS` in `app.py`, e.g.
-```python
-{"name": "Indicator series", "path": "/indicators/groups/{groupId}/fields/{fieldId}/values", "save_as": None},
+Add one entry to `static/endpoints.json`, e.g.
+```json
+{"api": "fundamentals", "id": "analyst_estimates", "name": "Analyst estimates",
+ "path": "/companies/{symbol}/analyst-estimates", "query": ["marketId", "period"],
+ "file": "analyst_estimates/{marketId}_{symbol}_{period}",
+ "description": "Analyst estimates for one company, yearly or quarterly"}
 ```
-Paths with `{placeholders}` can be edited in the UI before fetching.
+- `api` is the folder under `data/`.
+- `path` is the Argaam path; `{placeholders}` are filled in with values.
+- `query` lists values sent as `?name=value` instead of in the path.
+- `file` is where a response is saved inside `data/<api>/` (without `.json`). Values may only contain letters, digits and `-`.
+
+Python (`saved_file`, `fetch_and_save` in `argaam_client.py`, `endpoint_task` in `argaam_downloader.py`) and the page (`savedPath` in `index.html`) all read these templates, so no file name is typed by hand anywhere. Macroeconomic endpoints show up in the Macroeconomic tab's dropdown, and their paths can be edited there before fetching.
+
+## Adding a new API tab
+Add a button to `<nav id="tabs">` in `static/index.html` and a matching `<div id="tab-NAME" class="hidden">`. Call `display("NAME", response)` to show a response in the shared Fields / table / export section. Add the API's endpoints to `static/endpoints.json` with `"api": "NAME"`, and its responses are saved under `data/NAME/`.

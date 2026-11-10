@@ -219,19 +219,31 @@ async function getJSON(url) {
 let savedFiles = null;
 let allGroups = [];
 
-// Each API's saved files live in their own folder under data/ (MACRO_DIR / FUNDAMENTALS_DIR in argaam_client.py).
-const MACRO = "macroeconomic/";
-const FUNDAMENTALS = "fundamentals/";
+// File names come from static/endpoints.json: each endpoint's "file" template says where its responses
+// are saved under data/<api>/. Python uses the same templates (saved_file in argaam_client.py), so the
+// page never builds a file name by hand. Example: analyst_estimates -> fundamentals/analyst_estimates/3_2222_year.json
+let allEndpoints = {};  // id -> endpoint, for every API; `endpoints` holds the macroeconomic ones for the dropdown
+const fill = (template, values) => template.replace(/\{(\w+)\}/g, (_, k) => values[k]);
+const savedPath = (id, values = {}) => `${allEndpoints[id].api}/${fill(allEndpoints[id].file, values)}.json`;
+const savedFolder = id => { const ep = allEndpoints[id]; return `${ep.api}/${ep.file.slice(0, ep.file.lastIndexOf("/") + 1)}`; };
 
-// Same file name the Python client saves under (argaam_client.save).
-const fileFor = name => MACRO + name.replace(/[^A-Za-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "") + ".json";
-const valuesFile = (groupId, fieldId) => `${MACRO}indicators_groups_${groupId}_fields_${fieldId}_values.json`;
+// Which macroeconomic endpoint a typed path belongs to, and its values (same as match_path in argaam_client.py).
+function matchPath(path) {
+  for (const ep of endpoints) {
+    const parts = ep.path.split(/\{(\w+)\}/);  // literal, name, literal, name, ...
+    const re = new RegExp("^" + parts.map((p, i) => i % 2 ? "([A-Za-z0-9-]+)" : p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("") + "$");
+    const m = path.trim().replace(/\/+$/, "").match(re);
+    if (m) return { id: ep.id, values: Object.fromEntries(parts.filter((_, i) => i % 2).map((name, j) => [name, m[j + 1]])) };
+  }
+  return null;
+}
 
 // With saved data, offer only the groups that have something saved for the chosen endpoint.
 function groupHasData(groupId) {
   if (!savedFiles) return true;
-  if (!endpoints[$("endpoint").value].path.includes("{fieldId}")) return savedFiles.has(`${MACRO}indicators_groups_${groupId}_fields.json`);
-  return [...savedFiles].some(f => f.startsWith(`${MACRO}indicators_groups_${groupId}_fields_`) && f.endsWith("_values.json"));
+  if (!endpoints[$("endpoint").value].path.includes("{fieldId}")) return savedFiles.has(savedPath("indicator_fields", { groupId }));
+  const prefix = savedPath("indicator_values", { groupId, fieldId: "" }).slice(0, -".json".length);  // e.g. macroeconomic/indicator_values/33_
+  return [...savedFiles].some(f => f.startsWith(prefix));
 }
 
 function renderGroups() {
@@ -252,7 +264,7 @@ function renderGroups() {
 
 async function loadGroups() {
   try {
-    allGroups = await getJSON(savedFiles ? `data/${MACRO}indicator_groups.json` : "/api/groups");
+    allGroups = await getJSON(savedFiles ? `data/${savedPath("indicator_groups")}` : "/api/groups");
     renderGroups();
   } catch (e) {
     $("group").innerHTML = `<option value="">Could not load groups: ${escAttr(e.message)}</option>`;
@@ -266,9 +278,9 @@ async function loadFields(groupId) {
   if (!groupId) { sel.innerHTML = `<option value="">Choose a group first</option>`; return; }
   sel.innerHTML = `<option value="">Loading fields…</option>`;
   try {
-    const fields = await getJSON(savedFiles ? `data/${MACRO}indicators_groups_${groupId}_fields.json` : `/api/groups/${groupId}/fields`);
+    const fields = await getJSON(savedFiles ? `data/${savedPath("indicator_fields", { groupId })}` : `/api/groups/${groupId}/fields`);
     fields.forEach(f => fieldNames[f.fieldID] = (f.displayNameEn || "").trim());
-    const shown = savedFiles ? fields.filter(f => savedFiles.has(valuesFile(groupId, f.fieldID))) : fields;
+    const shown = savedFiles ? fields.filter(f => savedFiles.has(savedPath("indicator_values", { groupId, fieldId: f.fieldID }))) : fields;
     sel.innerHTML = `<option value="">Choose a field…</option>` + shown.map(f =>
       `<option value="${f.fieldID}">${escAttr(f.displayNameEn)} (${f.fieldID})</option>`).join("");
     sel.disabled = false;
@@ -311,13 +323,13 @@ $("field").onchange = buildPath;
 $("path").oninput = updateHint;
 
 async function fetchMacro(refresh) {
-  const ep = endpoints[$("endpoint").value];
   $("status").className = "status";
   $("status").textContent = "Fetching…";
   try {
     if (savedFiles) {
-      const file = fileFor(ep.save_as || $("path").value);
-      if (!savedFiles.has(file)) throw new Error("No saved data for this path. Choose a group and field from the dropdowns.");
+      const match = matchPath($("path").value);
+      const file = match && savedPath(match.id, match.values);
+      if (!file || !savedFiles.has(file)) throw new Error("No saved data for this path. Choose a group and field from the dropdowns.");
       const data = await getJSON(`data/${file}`);
       $("status").textContent = "Done · showing saved data";
       display("macro", data);
@@ -326,7 +338,7 @@ async function fetchMacro(refresh) {
     const res = await fetch("/api/fetch", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ base: $("base").value, path: $("path").value, save_as: ep.save_as, refresh }),
+      body: JSON.stringify({ base: $("base").value, path: $("path").value, refresh }),
     });
     const body = await res.json();
     if (!res.ok) throw new Error(body.error);
@@ -342,7 +354,6 @@ $("fetchBtn").onclick = () => fetchMacro(false);
 $("refreshBtn").onclick = () => fetchMacro(true);
 
 // ---- Fundamentals: analyst estimates ----
-const estimatesFile = (marketId, symbol, period) => `${FUNDAMENTALS}analyst_estimates_${marketId}_${symbol}_${period}.json`;
 
 function clearEstimates() {
   delete lastData.fundamentals;
@@ -358,7 +369,7 @@ async function fetchEstimates(refresh) {
   try {
     let body;
     if (savedFiles) {
-      const file = estimatesFile(marketId, symbol, period);
+      const file = savedPath("analyst_estimates", { marketId, symbol, period });
       if (!savedFiles.has(file)) throw new Error("No saved data for this company and period.");
       body = { data: await getJSON(`data/${file}`), saved_to: file, from_cache: true };
     } else {
@@ -377,7 +388,7 @@ async function fetchEstimates(refresh) {
 
 // On the published page, data comes only from saved files, so there is nothing to re-fetch.
 function showSavedEstimates() {
-  const hasSaved = [...savedFiles].some(f => f.startsWith(FUNDAMENTALS + "analyst_estimates_"));
+  const hasSaved = [...savedFiles].some(f => f.startsWith(savedFolder("analyst_estimates")));
   $("fRefreshBtn").remove();
   $("fHint").textContent = hasSaved
     ? "Enter a stock symbol to load its saved estimates. Companies without saved estimates show a no-data message."
@@ -402,6 +413,8 @@ async function init() {
     endpoints = cfg.endpoints;
     $("base").value = cfg.base;
   }
+  allEndpoints = Object.fromEntries(endpoints.map(e => [e.id, e]));
+  endpoints = endpoints.filter(e => e.api === "macroeconomic");  // the Macroeconomic tab's dropdown
   $("endpoint").innerHTML = endpoints.map((e, i) => `<option value="${i}">${e.name}</option>`).join("");
   onEndpointChange();
   loadFields("");

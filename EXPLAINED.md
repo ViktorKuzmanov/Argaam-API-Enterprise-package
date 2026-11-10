@@ -78,7 +78,7 @@ All 29 main groups (with how many sub-groups each has): Macro (22), Building & C
 
 **Path:** `GET /indicators/groups/{groupId}/fields`
 **Parameters:** `groupId` is a sub-group ID from endpoint 1 (e.g. `33`)
-**Saved as:** `data/macroeconomic/indicators_groups_<id>_fields.json` (named after the path)
+**Saved as:** `data/macroeconomic/indicator_fields/<groupId>.json`, e.g. `indicator_fields/33.json`
 
 ### What data it returns
 The list of **indicators (measurements)** inside one group, such as "Population", "GDP per capita" or "Debt to GDP". Like endpoint 1, it has no numbers yet, only the names and IDs. You use it to find the `fieldID`.
@@ -115,7 +115,7 @@ Another example, `/indicators/groups/277/fields` (GDP Growth Rates %), breaks gr
 
 **Path:** `GET /indicators/groups/{groupId}/fields/{fieldId}/values`
 **Parameters:** `groupId` from endpoint 1 and `fieldId` from endpoint 2
-**Saved as:** `data/macroeconomic/indicators_groups_<g>_fields_<f>_values.json`
+**Saved as:** `data/macroeconomic/indicator_values/<groupId>_<fieldId>.json`, e.g. `indicator_values/33_125.json`
 
 ### What data it returns
 **The actual numbers.** It returns a time series for one indicator, meaning one value per year and period.
@@ -166,7 +166,7 @@ Another example, `/indicators/groups/277/fields` (GDP Growth Rates %), breaks gr
 | `marketId` | yes | `3` = TASI, `14` = NOMU. Without it the API answers "This Market is not Supported". Dubai, Abu Dhabi, Kuwait, Qatar, Muscat and Bahrain were all rejected in the sandbox |
 | `period` | no | `year` (default) or `quarter` |
 
-**Saved as:** `data/fundamentals/analyst_estimates_{marketId}_{symbol}_{period}.json`
+**Saved as:** `data/fundamentals/analyst_estimates/<marketId>_<symbol>_<period>.json`, e.g. `analyst_estimates/3_2222_year.json`
 
 ### What data it returns
 Broker forecasts of a company's financial statement lines. There is **one row per broker, per metric, per period**, so you combine rows yourself to get a consensus.

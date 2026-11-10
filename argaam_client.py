@@ -49,10 +49,57 @@ def fetch(path, base=None, params=None):
         ) from None
 
 
-def file_for(name, folder):
-    """Return the path inside folder (e.g. MACRO_DIR) a response called name is saved under."""
-    safe = re.sub(r"[^A-Za-z0-9_-]+", "_", name).strip("_") or "response"
-    return folder / f"{safe}.json"
+# ---- Endpoints and file names -------------------------------------------------------------------
+# static/endpoints.json is the one list of endpoints, read by Python and by the page. Each entry says
+# which API it belongs to (the folder under data/), its Argaam path, which values go in the query
+# string, and its "file" template: where a response is saved inside data/<api>/.
+# Example: analyst_estimates with marketId=3, symbol=2222, period=year
+#          -> GET /companies/2222/analyst-estimates?marketId=3&period=year
+#          -> data/fundamentals/analyst_estimates/3_2222_year.json
+
+ENDPOINTS = {e["id"]: e for e in json.loads((Path(__file__).parent / "static" / "endpoints.json").read_text(encoding="utf-8"))}
+VALUE = r"[A-Za-z0-9-]+"  # allowed in a filled-in value; no "_" or "/", so file names stay unambiguous
+
+
+def check_values(endpoint_id, values):
+    ep = ENDPOINTS[endpoint_id]
+    needed = set(re.findall(r"\{(\w+)\}", ep["path"] + ep["file"])) | set(ep.get("query", []))
+    if set(values) != needed:
+        raise ValueError(f"{endpoint_id} needs {sorted(needed)}, got {sorted(values)}")
+    for name, value in values.items():
+        if not re.fullmatch(VALUE, str(value)):
+            raise ValueError(f"{name} must be letters, digits or '-', got {value!r}")
+
+
+def item_name(endpoint_id, **values):
+    """The file template filled in, e.g. analyst_estimates/3_2222_year. Also the key in _progress.json."""
+    check_values(endpoint_id, values)
+    return ENDPOINTS[endpoint_id]["file"].format(**values)
+
+
+def saved_file(endpoint_id, **values):
+    """Where this endpoint's response for these values is saved, e.g. data/fundamentals/analyst_estimates/3_2222_year.json."""
+    return DATA_DIR / ENDPOINTS[endpoint_id]["api"] / f"{item_name(endpoint_id, **values)}.json"
+
+
+def api_request(endpoint_id, **values):
+    """The Argaam path and query parameters for these values."""
+    check_values(endpoint_id, values)
+    ep = ENDPOINTS[endpoint_id]
+    return ep["path"].format(**values), {k: values[k] for k in ep.get("query", [])}
+
+
+def match_path(path, api):
+    """Which endpoint of this API a typed path belongs to: returns (endpoint_id, values), or None."""
+    for ep in ENDPOINTS.values():
+        if ep["api"] != api or ep.get("query"):
+            continue
+        parts = re.split(r"\{(\w+)\}", ep["path"])  # literal, name, literal, name, ...
+        pattern = "".join(re.escape(p) if i % 2 == 0 else f"(?P<{p}>{VALUE})" for i, p in enumerate(parts))
+        m = re.fullmatch(pattern, path.strip().rstrip("/") or "/")
+        if m:
+            return ep["id"], m.groupdict()
+    return None
 
 
 def write_json(path, data):
@@ -63,16 +110,12 @@ def write_json(path, data):
     os.replace(tmp, path)
 
 
-def save(data, name, folder):
-    """Write data to <folder>/<name>.json and return the file path."""
-    path = file_for(name, folder)
-    write_json(path, data)
-    return path
-
-
-def fetch_and_save(path, folder, name=None, base=None, params=None):
-    data = fetch(path, base=base, params=params)
-    file = save(data, name or path, folder)
+def fetch_and_save(endpoint_id, base=None, **values):
+    """Fetch one endpoint for these values and save it where saved_file() says. Returns (data, file)."""
+    path, params = api_request(endpoint_id, **values)
+    data = fetch(path, base=base, params=params or None)
+    file = saved_file(endpoint_id, **values)
+    write_json(file, data)
     return data, file
 
 

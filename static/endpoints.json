@@ -1,5 +1,18 @@
 [
-  {"name": "Indicator groups", "path": "/indicators/groups", "save_as": "indicator_groups"},
-  {"name": "Indicator group fields", "path": "/indicators/groups/{groupId}/fields", "save_as": null},
-  {"name": "Indicator series", "path": "/indicators/groups/{groupId}/fields/{fieldId}/values", "save_as": null}
+  {"api": "macroeconomic", "id": "indicator_groups", "name": "Indicator groups",
+   "path": "/indicators/groups", "file": "indicator_groups",
+   "description": "Every indicator group and its sub-groups"},
+  {"api": "macroeconomic", "id": "indicator_fields", "name": "Indicator group fields",
+   "path": "/indicators/groups/{groupId}/fields", "file": "indicator_fields/{groupId}",
+   "description": "The fields (indicators) inside one group"},
+  {"api": "macroeconomic", "id": "indicator_values", "name": "Indicator series",
+   "path": "/indicators/groups/{groupId}/fields/{fieldId}/values", "file": "indicator_values/{groupId}_{fieldId}",
+   "description": "The values over time for one field"},
+  {"api": "fundamentals", "id": "market_companies", "name": "Companies in a market",
+   "path": "/markets/{marketId}/companies", "file": "market_companies/{marketId}",
+   "description": "Every company listed on a market (3 = TASI, 14 = NOMU)"},
+  {"api": "fundamentals", "id": "analyst_estimates", "name": "Analyst estimates",
+   "path": "/companies/{symbol}/analyst-estimates", "query": ["marketId", "period"],
+   "file": "analyst_estimates/{marketId}_{symbol}_{period}",
+   "description": "Analyst estimates for one company, yearly or quarterly"}
 ]

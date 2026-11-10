@@ -5,17 +5,14 @@ Run:  python app.py   ->   http://127.0.0.1:5001
 import json
 import os
 import re
-from pathlib import Path
 
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 
-from argaam_client import API_BASE, FUNDAMENTALS_DIR, MACRO_DIR, fetch_and_save, file_for, saved_name
+from argaam_client import API_BASE, ENDPOINTS, fetch_and_save, match_path, saved_file, saved_name
 
 app = Flask(__name__, static_folder="static")
-
-# Add new endpoints in this file as the project grows; the published page reads it too.
-ENDPOINTS = json.loads((Path(app.static_folder) / "endpoints.json").read_text(encoding="utf-8"))
+# Endpoints live in static/endpoints.json (loaded by argaam_client); the published page reads that file too.
 
 
 @app.get("/")
@@ -25,22 +22,22 @@ def index():
 
 @app.get("/api/config")
 def config():
-    return jsonify({"base": API_BASE, "endpoints": ENDPOINTS})
+    return jsonify({"base": API_BASE, "endpoints": list(ENDPOINTS.values())})
 
 
-def cached(path, name):
-    """Return data/macroeconomic/<name>.json if it was saved before, otherwise fetch the path and save it."""
-    file = MACRO_DIR / f"{name}.json"
+def cached(endpoint_id, **values):
+    """Return the saved response if there is one, otherwise fetch it and save it."""
+    file = saved_file(endpoint_id, **values)
     if file.exists():
         return json.loads(file.read_text(encoding="utf-8"))
-    data, _ = fetch_and_save(path, MACRO_DIR, name=name)
+    data, _ = fetch_and_save(endpoint_id, **values)
     return data
 
 
-def lookup(path, name):
+def lookup(endpoint_id, **values):
     """Serve a cached lookup list (used by the Group / Field dropdowns)."""
     try:
-        return jsonify(cached(path, name))
+        return jsonify(cached(endpoint_id, **values))
     except requests.HTTPError as e:
         return jsonify({"error": f"{e.response.status_code}: {e.response.text[:300]}"}), 502
     except LookupError as e:
@@ -51,12 +48,12 @@ def lookup(path, name):
 
 @app.get("/api/groups")
 def groups():
-    return lookup("/indicators/groups", "indicator_groups")
+    return lookup("indicator_groups")
 
 
 @app.get("/api/groups/<int:group_id>/fields")
 def group_fields(group_id):
-    return lookup(f"/indicators/groups/{group_id}/fields", f"indicators_groups_{group_id}_fields")
+    return lookup("indicator_fields", groupId=group_id)
 
 
 def upstream_error(e):
@@ -85,17 +82,12 @@ def analyst_estimates():
     if period not in ("year", "quarter"):
         return jsonify({"error": "Period must be year or quarter."}), 400
 
-    name = f"analyst_estimates_{market_id}_{symbol}_{period}"
-    file = FUNDAMENTALS_DIR / f"{name}.json"
+    values = {"marketId": market_id, "symbol": symbol, "period": period}
+    file = saved_file("analyst_estimates", **values)
     if file.exists() and request.args.get("refresh") != "1":
         return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
     try:
-        data, file = fetch_and_save(
-            f"/companies/{symbol}/analyst-estimates",
-            FUNDAMENTALS_DIR,
-            name=name,
-            params={"marketId": market_id, "period": period},
-        )
+        data, file = fetch_and_save("analyst_estimates", **values)
     except requests.HTTPError as e:
         return upstream_error(e)
     except LookupError:
@@ -108,18 +100,22 @@ def analyst_estimates():
 @app.post("/api/fetch")
 def fetch_endpoint():
     """Macroeconomic tab: saves under data/macroeconomic/. Reuses the saved copy unless refresh is set.
+    The path must match one of the macroeconomic endpoints in static/endpoints.json, which decides the file.
     Saved files come from API_BASE, so another base always fetches."""
     body = request.get_json(force=True)
     path = body.get("path", "")
     if "{" in path:
         return jsonify({"error": "Fill in the {placeholders} in the path first."}), 400
-    name = body.get("save_as") or path
-    file = file_for(name, MACRO_DIR)
+    matched = match_path(path, "macroeconomic")
+    if not matched:
+        return jsonify({"error": "This path is not one of the endpoints in static/endpoints.json. Add it there first."}), 400
+    endpoint_id, values = matched
+    file = saved_file(endpoint_id, **values)
     same_base = (body.get("base") or API_BASE).rstrip("/") == API_BASE
     if file.exists() and same_base and not body.get("refresh"):
         return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
     try:
-        data, file = fetch_and_save(path, MACRO_DIR, name=name, base=body.get("base") or None)
+        data, file = fetch_and_save(endpoint_id, base=body.get("base") or None, **values)
     except requests.HTTPError as e:
         return jsonify({"error": f"{e.response.status_code}: {e.response.text[:500]}"}), 502
     except LookupError as e:
