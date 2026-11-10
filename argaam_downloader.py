@@ -6,7 +6,12 @@ Impulse exit IP, requests are paced and retried, rate limits are respected, and 
 response is written to disk as soon as it arrives, so a stopped run can resume.
 
 The web app does not use this file; it uses the single-request helpers in argaam_client.py.
+
+Two files track the work:
+  .fetch_state/key_usage.json   calls each key used today, shared by every fetch script (not committed)
+  data/<api>/_progress.json     per API: what happened to each item and where it came from (committed)
 """
+import hashlib
 import json
 import os
 import queue
@@ -20,7 +25,7 @@ from urllib.parse import quote
 
 import requests
 
-from argaam_client import API_BASE, write_json  # also loads .env
+from argaam_client import API_BASE, DATA_DIR, write_json  # also loads .env
 
 KEYS = [k.strip() for k in os.getenv("ARGAAM_API_KEYS", "").split(",") if k.strip()]
 DAILY_LIMIT = int(os.getenv("ARGAAM_DAILY_LIMIT_PER_KEY", "100"))
@@ -37,8 +42,9 @@ PROXY_COUNTRY = os.getenv("DATA_IMPULSE_PROXY_COUNTRY", "")
 
 MAX_CONSECUTIVE_429 = 5
 
-# Progress files live here, outside data/, because everything in data/ is published to GitHub Pages.
+# Key usage lives outside data/, because everything in data/ is published to GitHub Pages.
 STATE_DIR = Path(__file__).parent / ".fetch_state"
+USAGE_FILE = STATE_DIR / "key_usage.json"
 
 lock = threading.Lock()
 stop = threading.Event()
@@ -52,30 +58,74 @@ def today():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
-class FetchState:
-    """A script's progress file: items that had no data, and calls each key used today."""
+def now():
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
-    def __init__(self, path):
+
+def fingerprint(key):
+    """First 8 characters of the key's SHA-256 hash: tells keys apart, but cannot be turned back into the key.
+    Counts stay with the right key even if the order of ARGAAM_API_KEYS in .env changes."""
+    return hashlib.sha256(key.encode()).hexdigest()[:8]
+
+
+class KeyUsage:
+    """Calls each API key used today, shared by every fetch script.
+
+    Stored as {"2026-11-10": {"<fingerprint>": 39, ...}}. Only today (UTC) is kept.
+    Each update re-reads the file first, so two scripts running at once do not undo each other's counts.
+    """
+
+    def __init__(self, path=USAGE_FILE):
         self.path = path
-        data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
-        data.setdefault("no_data", {})
-        data.setdefault("usage", {})
-        data["usage"] = {today(): data["usage"].get(today(), {})}
-        self.data = data
+        self.counts = self.load()
 
-    @property
-    def no_data(self):
-        return self.data["no_data"]
+    def load(self):
+        try:
+            data = json.loads(self.path.read_text(encoding="utf-8"))
+        except (FileNotFoundError, ValueError):
+            data = {}
+        return data.get(today(), {})
 
-    def today_usage(self):
-        return self.data["usage"].setdefault(today(), {})
+    def used(self, fp):
+        return self.counts.get(fp, 0)
 
-    def used(self, label):
-        return self.today_usage().get(label, 0)
+    def record(self, fp, used=None):
+        """Set this key's count to used (from Argaam's headers), or add 1 when the headers are missing."""
+        with lock:
+            self.counts = self.load()
+            self.counts[fp] = used if used is not None else self.counts.get(fp, 0) + 1
+            write_json(self.path, {today(): self.counts})
 
-    def save(self):
-        """Call while holding the lock."""
-        write_json(self.path, self.data)
+
+class Progress:
+    """One API's progress file, data/<api>/_progress.json.
+
+    One entry per item, keyed by the task name: status (saved, no_data or failed) plus where it came from
+    (base, path, params) and when. Saved and no_data items are skipped on the next run; failed ones are retried.
+    """
+
+    def __init__(self, folder):
+        self.api = folder.name
+        self.path = folder / "_progress.json"
+        data = json.loads(self.path.read_text(encoding="utf-8")) if self.path.exists() else {}
+        self.items = data.get("items", {})
+
+    def status(self, name):
+        return self.items.get(name, {}).get("status")
+
+    def is_done(self, name):
+        return self.status(name) in ("saved", "no_data")
+
+    def record(self, task, status, **extra):
+        entry = {"status": status}
+        if status == "saved":
+            entry["file"] = task.file.relative_to(DATA_DIR).as_posix()
+        entry.update(base=API_BASE, path=task.path, params=task.params, fetched_at=now(), **extra)
+        with lock:
+            if status == "failed" and self.is_done(task.name):
+                return  # keep what an earlier run saved; a failed --refresh does not undo it
+            self.items[task.name] = entry
+            write_json(self.path, {"api": self.api, "items": dict(sorted(self.items.items()))})
 
 
 @dataclass
@@ -91,11 +141,12 @@ class Task:
 class Slot:
     """One API key with its own HTTP session, proxy IP and pacing."""
 
-    def __init__(self, index, key, state):
-        self.label = f"key{index + 1:02d}"
+    def __init__(self, index, key, usage):
+        self.label = f"key{index + 1:02d}"  # for the log only; usage is counted by fingerprint
         self.index = index
         self.key = key
-        self.state = state
+        self.fp = fingerprint(key)
+        self.usage = usage
         self.rotation = 0
         self.next_at = time.monotonic() + random.uniform(0, DELAY_MAX)
         self.retired = None
@@ -119,7 +170,7 @@ class Slot:
 
     @property
     def used(self):
-        return self.state.used(self.label)
+        return self.usage.used(self.fp)
 
     def retire(self, reason):
         if not self.retired:
@@ -139,13 +190,10 @@ class Slot:
     def record_quota(self, resp):
         day_left = resp.headers.get("X-RateLimit-Remaining-Day")
         day_limit = resp.headers.get("X-RateLimit-Limit-Day")
-        with lock:
-            usage = self.state.today_usage()
-            if day_left is not None and day_limit is not None:
-                usage[self.label] = int(day_limit) - int(day_left)
-            else:
-                usage[self.label] = usage.get(self.label, 0) + 1
-            self.state.save()
+        if day_left is not None and day_limit is not None:
+            self.usage.record(self.fp, int(day_limit) - int(day_left))
+        else:
+            self.usage.record(self.fp)
         if day_left is not None and int(day_left) <= 0:
             self.retire("daily limit reached")
         elif resp.headers.get("X-RateLimit-Remaining-Minute") == "0":
@@ -157,13 +205,13 @@ class Slot:
         self.next_at = max(self.next_at, time.monotonic() + seconds + 1)
 
 
-def make_slots(state):
+def make_slots(usage):
     """One Slot per key in ARGAAM_API_KEYS. Stops the script if keys or proxy login are missing."""
     if not KEYS:
         raise SystemExit("Set ARGAAM_API_KEYS in .env (comma separated).")
     if not (PROXY_LOGIN and PROXY_PASSWORD):
         raise SystemExit("Set DATA_IMPULSE_LOGIN and DATA_IMPULSE_PASSWORD in .env.")
-    return [Slot(i, key, state) for i, key in enumerate(KEYS)]
+    return [Slot(i, key, usage) for i, key in enumerate(KEYS)]
 
 
 def calls_left(slots):
@@ -171,33 +219,37 @@ def calls_left(slots):
     return sum(max(0, DAILY_LIMIT - s.used) for s in slots)
 
 
-def fetch_one(slots, path, what, params=None):
-    """Fetch a single response (e.g. a list to discover what to fetch next), trying each key in turn."""
-    url = f"{API_BASE}{path}"
+def fetch_one(slots, task, progress):
+    """Fetch, save and record one task right away (e.g. a list that tells the script what to fetch next),
+    trying each key in turn. Returns the response body."""
+    url = f"{API_BASE}{task.path}"
     for slot in slots:
         if slot.used >= DAILY_LIMIT:
             continue
         try:
-            resp = slot.get(url, params)
+            resp = slot.get(url, task.params)
         except requests.RequestException as e:
-            log(f"{slot.label} could not get {what}: {type(e).__name__}")
+            log(f"{slot.label} could not get {task.name}: {type(e).__name__}")
             slot.new_ip()
             continue
         if resp is not None and resp.status_code == 200:
-            return resp.json()
+            body = resp.json()
+            write_json(task.file, body)
+            progress.record(task, "saved")
+            return body
         if resp is not None:
-            log(f"{slot.label} {what}: HTTP {resp.status_code}")
-    raise SystemExit(f"Could not download {what}.")
+            log(f"{slot.label} {task.name}: HTTP {resp.status_code}")
+    raise SystemExit(f"Could not download {task.name}.")
 
 
 class Run:
     """Works through a queue of Tasks with one worker per key."""
 
-    def __init__(self, tasks, state, count_rows=None):
+    def __init__(self, tasks, progress, count_rows=None):
         self.tasks = queue.Queue()
         for task in tasks:
             self.tasks.put(task)
-        self.state = state
+        self.progress = progress
         self.count_rows = count_rows  # optional: body -> number of rows, shown in the log
         self.in_flight = 0
         self.saved = 0
@@ -226,6 +278,7 @@ class Run:
     def fail(self, task, reason):
         with lock:
             self.failed.append(task.name)
+        self.progress.record(task, "failed", reason=reason)
         log(f"FAILED {task.name}: {reason}")
         self.finish()
 
@@ -238,9 +291,8 @@ class Run:
             self.requeue(task)
 
     def mark_no_data(self, slot, task, status):
+        self.progress.record(task, "no_data", http=status)
         with lock:
-            self.state.no_data[task.name] = status
-            self.state.save()
             self.no_data += 1
         log(f"{slot.label} no data {task.name} (HTTP {status})")
         self.finish()
@@ -248,6 +300,7 @@ class Run:
     def store(self, slot, task, body):
         write_json(task.file, body)
         rows = self.count_rows(body) if self.count_rows else None
+        self.progress.record(task, "saved", **({"rows": rows} if rows is not None else {}))
         with lock:
             self.saved += 1
             self.with_rows += 1 if rows else 0
@@ -311,9 +364,9 @@ class Run:
                 self.fail(task, type(e).__name__)
 
 
-def run_tasks(tasks, slots, state, count_rows=None):
+def run_tasks(tasks, slots, progress, count_rows=None):
     """Fetch every task with one worker thread per key. Ctrl+C stops cleanly. Returns the Run."""
-    run = Run(tasks, state, count_rows)
+    run = Run(tasks, progress, count_rows)
     threads = [threading.Thread(target=run.worker, args=(s,), daemon=True) for s in slots]
     for thread in threads:
         thread.start()

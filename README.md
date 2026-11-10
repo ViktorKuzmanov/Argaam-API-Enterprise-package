@@ -23,6 +23,8 @@ static/index.html          # the whole UI
 data/                      # saved API responses (ready to push to a database), one folder per API:
   macroeconomic/           #   indicator groups, group fields, indicator series (/indicators/...)
   fundamentals/            #   analyst estimates and company lists (/companies/..., /markets/...)
+  <api>/_progress.json     #   what the fetch script did with each item, and where it came from
+.fetch_state/key_usage.json  # calls each API key used today, shared by all fetch scripts (not committed)
 .env                       # your API base + key (not committed)
 EXPLAINED.md               # what data each endpoint returns, with real examples
 API_EXAMPLES.md            # one real question answered with all three endpoints
@@ -68,7 +70,11 @@ The **Fundamentals** tab fetches analyst estimates: pick a market, type a stock 
 ```
 python fetch_all_analyst_estimates.py
 ```
-Saves every TASI and NOMU company (year and quarter) to `data/fundamentals/`, in the same files the Fundamentals tab reads. It uses `ARGAAM_API_KEYS` and the `DATA_IMPULSE_*` proxy settings from `.env`. Each response is saved as soon as it arrives, and running the script again continues where it stopped. Add `--dry-run` to see what is left, `--limit 5` for a small test, or `--refresh` to download everything again. Progress is kept in `.fetch_state/`, which is not committed.
+Saves every TASI and NOMU company (year and quarter) to `data/fundamentals/`, in the same files the Fundamentals tab reads. It uses `ARGAAM_API_KEYS` and the `DATA_IMPULSE_*` proxy settings from `.env`. Each response is saved as soon as it arrives, and running the script again continues where it stopped. Add `--dry-run` to see what is left, `--limit 5` for a small test, or `--refresh` to download everything again.
+
+Two files track the work:
+- `data/fundamentals/_progress.json` (committed) has one entry per company and period: `saved`, `no_data` (Argaam returned nothing) or `failed`, with the API base, path, parameters and fetch time. Saved and no-data entries are skipped on the next run; failed ones are tried again.
+- `.fetch_state/key_usage.json` (not committed) counts the calls each key made today, shared by every fetch script. Keys are stored as a short fingerprint (part of a SHA-256 hash), never as the key itself, so reordering `ARGAAM_API_KEYS` keeps each count with the right key.
 
 ## Adding a new API tab
 Add a button to `<nav id="tabs">` in `static/index.html` and a matching `<div id="tab-NAME" class="hidden">`. Call `display("NAME", response)` to show a response in the shared Fields / table / export section. Save that API's responses in their own folder: add a `NAME_DIR = DATA_DIR / "NAME"` next to `MACRO_DIR` and `FUNDAMENTALS_DIR` in `argaam_client.py` and pass it to `fetch_and_save`.

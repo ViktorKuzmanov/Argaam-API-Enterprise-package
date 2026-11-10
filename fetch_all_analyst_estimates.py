@@ -16,10 +16,13 @@ import argparse
 import json
 import re
 
-from argaam_client import FUNDAMENTALS_DIR, write_json  # also loads .env
-from argaam_downloader import STATE_DIR, FetchState, Task, calls_left, fetch_one, log, make_slots, run_tasks
+from argaam_client import FUNDAMENTALS_DIR  # also loads .env
+from argaam_downloader import KeyUsage, Progress, Task, calls_left, fetch_one, log, make_slots, run_tasks
 
-STATE_FILE = STATE_DIR / "analyst_estimates.json"
+
+def company_list_task(market):
+    name = f"companies_market_{market}"
+    return Task(name=name, path=f"/markets/{market}/companies", file=FUNDAMENTALS_DIR / f"{name}.json")
 
 
 def estimate_task(market, symbol, period):
@@ -36,14 +39,13 @@ def count_estimates(body):
     return len((body.get("data") or {}).get("estimates") or [])
 
 
-def company_symbols(market, slots, refresh):
+def company_symbols(market, slots, progress, refresh):
     """Return the market's symbols, using the saved company list when there is one."""
-    file = FUNDAMENTALS_DIR / f"companies_market_{market}.json"
-    if file.exists() and not refresh:
-        body = json.loads(file.read_text(encoding="utf-8"))
+    task = company_list_task(market)
+    if task.file.exists() and not refresh:
+        body = json.loads(task.file.read_text(encoding="utf-8"))
     else:
-        body = fetch_one(slots, f"/markets/{market}/companies", what=f"the company list for market {market}")
-        write_json(file, body)
+        body = fetch_one(slots, task, progress)
     symbols = []
     for company in body["data"]["companies"]:
         raw = str(company.get("stockSymbol") or "")
@@ -64,15 +66,15 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="only report what is left to fetch")
     args = parser.parse_args()
 
-    state = FetchState(STATE_FILE)
-    slots = make_slots(state)
+    progress = Progress(FUNDAMENTALS_DIR)
+    slots = make_slots(KeyUsage())
     tasks, total = [], 0
     for market in args.markets:
-        for symbol in company_symbols(market, slots, args.refresh):
+        for symbol in company_symbols(market, slots, progress, args.refresh):
             for period in args.periods:
                 total += 1
                 task = estimate_task(market, symbol, period)
-                done = task.file.exists() or task.name in state.no_data
+                done = progress.is_done(task.name) or task.file.exists()
                 if args.refresh or not done:
                     tasks.append(task)
 
@@ -84,7 +86,7 @@ def main():
     if args.dry_run or not tasks:
         return
 
-    run = run_tasks(tasks, slots, state, count_rows=count_estimates)
+    run = run_tasks(tasks, slots, progress, count_rows=count_estimates)
     remaining = left - run.saved - run.no_data
     log(f"Done: {run.saved} saved ({run.with_rows} with estimates), {run.no_data} without data, "
         f"{len(run.failed)} failed.")
