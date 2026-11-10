@@ -14,7 +14,8 @@ A minimal tool that pulls data from the Argaam REST APIs with Python, saves ever
 ## Project Structure
 
 ```
-argaam_client.py           # fetch(path) + save JSON to data/<api>/
+argaam_client.py           # fetch(path) + save JSON to data/<api>/ (one request at a time, used by app.py)
+argaam_downloader.py       # shared bulk download code for the fetch scripts: keys, proxy, pacing, retries, resume
 fetch_indicator_groups.py  # script: pull /indicators/groups -> data/macroeconomic/indicator_groups.json
 fetch_all_analyst_estimates.py  # script: every company's analyst estimates -> data/fundamentals/
 app.py                     # web viewer server (list of endpoints lives here)

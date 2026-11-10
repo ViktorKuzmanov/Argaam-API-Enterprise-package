@@ -1,7 +1,12 @@
-"""Small Argaam API client: GET a path, save the JSON response under data/<api>/."""
+"""Small Argaam API client: GET a path, save the JSON response under data/<api>/.
+
+Used by the web app for one request at a time. Bulk downloads (many keys, proxy,
+retries, resume) live in argaam_downloader.py.
+"""
 import json
 import os
 import re
+import threading
 from pathlib import Path
 
 import requests
@@ -50,11 +55,18 @@ def file_for(name, folder):
     return folder / f"{safe}.json"
 
 
+def write_json(path, data):
+    """Write through a temp file so a crash can never leave half a JSON file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f"{path.name}.{threading.get_ident()}.tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    os.replace(tmp, path)
+
+
 def save(data, name, folder):
     """Write data to <folder>/<name>.json and return the file path."""
-    folder.mkdir(parents=True, exist_ok=True)
     path = file_for(name, folder)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    write_json(path, data)
     return path
 
 
@@ -62,7 +74,6 @@ def fetch_and_save(path, folder, name=None, base=None, params=None):
     data = fetch(path, base=base, params=params)
     file = save(data, name or path, folder)
     return data, file
-
 
 
 def saved_name(file):
