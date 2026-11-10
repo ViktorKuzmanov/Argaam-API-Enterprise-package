@@ -19,6 +19,7 @@ argaam_downloader.py       # shared bulk download code for the fetch scripts: ke
 fetch_fundamentals.py      # script: every company's analyst estimates -> data/fundamentals/
 fetch_macroeconomic.py     # script: every indicator group, field and series -> data/macroeconomic/
 fetch_funds.py             # script: every fund manager, fund, fund details and price history -> data/funds/
+fetch_ma.py                # script: every M&A deal list and deal record -> data/m&a/
 app.py                     # web viewer server
 static/index.html          # the whole UI
 static/endpoints.json      # the one list of endpoints: API, Argaam path, and where each response is saved
@@ -40,10 +41,14 @@ data/                      # saved API responses (ready to push to a database), 
     fund_details/2604_2.json       # /funds/managers/2604/funds/2
     fund_history/2604_2.json       # /funds/managers/2604/funds/2/values/history?from=1980-01-01&to=<today>
     _progress.json                 # what was fetched, and where it came from
+  m&a/
+    market_deals/3.json            # /markets/3/mergers-acquisitions
+    deal_details/720.json          # /markets/mergers-acquisitions/720
+    _progress.json                 # what was fetched, and where it came from
 .fetch_state/key_usage.json  # calls each API key used today per endpoint, shared by the fetch scripts and the app (not committed)
 .env                       # your API base + key (not committed)
 EXPLAINED.md               # what data each endpoint returns, with real examples
-API_EXAMPLES.md            # real questions answered with both APIs, and how to use the downloaded files
+API_EXAMPLES.md            # real questions answered with every API, and how to use the downloaded files
 ```
 
 ### 1. Clone/Download the Repository
@@ -113,6 +118,21 @@ Saves fund managers, their funds, each fund's details and each fund's full price
 
 `--managers` limits the run to some managers (IDs from `fund_managers.json`). A full download (done on 10 Nov 2026) is 499 funds from the 46 managers, two calls per fund (details and history), so about 1,050 calls. Since each endpoint has its own daily limit, it took about 10 minutes with 22 keys. 358 funds have prices (about 445,000 daily prices, 63 MB), and 356 of them are still priced in 2026, the same 356 that `fund_movers.json` ranks. Funds without prices (often closed ones) are recorded as `no_data`. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts. Use `--refresh` to get newer prices.
 
+The **M&A & Transactions** tab shows every merger, acquisition and stake deal in a market (TASI or NOMU): tiles for the number of deals, disclosed values, the median and largest deal (in USD) and the share completed or cancelled, plus a chart of deals per year by status. Filter by type, status, year or company, or pick one deal to see its full record, including how it was financed. Saved data loads from `data/m&a/`.
+
+### Download M&A data
+```
+python fetch_ma.py --dry-run
+python fetch_ma.py --sample 15
+python fetch_ma.py
+```
+Saves both markets' deal lists and every deal's full record to `data/m&a/`, in the same files the M&A & Transactions tab reads. Two stages, because the lists say which deals to fetch:
+
+1. `market_deals/<marketId>.json`: 1 call per market, every deal in it. TASI (`3`) has 615 deals, NOMU (`14`) 19. Other markets answer HTTP 400.
+2. `deal_details/<dealId>.json`: 1 call per deal, its full record, including how it was financed.
+
+`--markets 14` limits the run to some markets, and `--sample N` fetches at most N new items per stage, picked to mix deal types and statuses. A full download is about 636 calls. Each endpoint has its own daily limit, so 22 keys (2,200 calls a day per endpoint) finish it in one run of about 10 minutes. The company endpoint (`/companies/{symbol}/mergers-acquisitions`) is not fetched: it returns the same records as the market list. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts. Use `--refresh` to pick up new deals.
+
 ### How fetches are tracked
 Two files, the same for every API. The fetch scripts and the web app both write to them, so a company fetched in the browser counts against the key's quota and is skipped by the next script run:
 - `data/<api>/_progress.json` (committed) has one entry per item: `saved`, `no_data` (Argaam returned nothing) or `failed`, with the API base, path, parameters and fetch time. Saved and no-data entries are skipped on the next run; failed ones are tried again. Entries marked `"backfilled": true` were filled in from files saved before this file existed.
@@ -121,7 +141,7 @@ Two files, the same for every API. The fetch scripts and the web app both write 
 When something is recorded as `no_data`, the web app answers from the progress file instead of calling Argaam again, and says when it was checked. **Re-fetch from API** always asks again.
 
 ## The standard for every API
-Fundamentals, Macroeconomic and Investment funds follow the same pattern, and a new Argaam API should too:
+Fundamentals, Macroeconomic, Investment funds and M&A & Transactions follow the same pattern, and a new Argaam API should too:
 
 | What | Where | Same for every API? |
 |------|-------|---------------------|
@@ -130,7 +150,7 @@ Fundamentals, Macroeconomic and Investment funds follow the same pattern, and a 
 | What happened to each item | `data/<api>/_progress.json` (committed) | yes |
 | Calls each key used today, per endpoint | `.fetch_state/key_usage.json` (shared by all APIs) | yes, one file |
 | How to fetch (keys, proxy, pacing, retries, resume) | `argaam_downloader.py` | yes, shared code |
-| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_fundamentals.py`, `fetch_funds.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
+| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_fundamentals.py`, `fetch_funds.py`, `fetch_ma.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
 | Docs | a "Download all ..." section here, the endpoint in `EXPLAINED.md`, examples in `API_EXAMPLES.md` | yes |
 
 Every fetch script takes `--dry-run` (calls left and about how many days, no calls made), `--limit N` and `--refresh`.

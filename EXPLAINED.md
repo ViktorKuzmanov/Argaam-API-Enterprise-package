@@ -351,6 +351,100 @@ Two lists of 10: `gainers` and `losers`, ranked by this year's return. Each row 
 
 ---
 
+## M&A & Transactions: market deals, deal details
+
+Mergers, acquisitions and stake purchases by listed Saudi companies. The market list gives the deal IDs for the second endpoint:
+
+```
+/markets/{marketId}/mergers-acquisitions      -> "Which deals happened in this market?"  (gives mergerID)
+  └─ /markets/mergers-acquisitions/{dealId}   -> "How was this one deal financed?"
+```
+
+**Saved as:** `data/m&a/market_deals/<marketId>.json` and `data/m&a/deal_details/<dealId>.json`. `fetch_ma.py` fetches them in that order, and the **M&A & Transactions** tab shows them.
+
+**Skipped:** `/companies/{stockSymbol}/mergers-acquisitions`. For Saudi Aramco (`2222`) it returned 22 deals, exactly the same records as the TASI list, so the tab filters the market list by company instead of spending one call per company.
+
+### 1. Market deals: `GET /markets/{marketId}/mergers-acquisitions`
+
+| Parameter | Required | Meaning |
+|-----------|----------|---------|
+| `marketId` | yes | `3` = TASI (615 deals), `14` = NOMU (19 deals). Markets `1`, `4` and `5` answer HTTP 400. The two lists share no deals |
+
+All deals in one call, newest first, with no pages. The answer is `{"marketId": 3, "deals": [...]}`.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `mergerID` | number | Deal ID, used in the next path |
+| `announcedOn` | text | Announcement date as `dd-mm-yyyy` (the details endpoint uses `yyyy-mm-ddT00:00:00`) |
+| `acquisitionValue` | number or null | Deal value, in `acquisitionValueCurrency`. Null when not disclosed (228 of 615 TASI deals) |
+| `acquisitionValueCurrency` | text | `Million USD` or `Million Riyal` |
+| `acquisitionTypeNameEn` / `Ar` | text | `Acquisition`, `Stake`, `Merger`, `Participate in Foundation`, `Acquisition of remaining interest` and 8 rarer types |
+| `acquisitionStatusNameEn` / `Ar` | text | `Completed`, `Certain` (agreed, not closed), `Negotiation` or `Cancelled` |
+| `acquirers` / `targets` / `relatedCompanies` | list | Companies, each with `companyID`, `companyNameEn` and `companyNameAr` |
+
+### Example
+`/markets/3/mergers-acquisitions` (one deal of 615)
+```json
+{
+  "mergerID": 720,
+  "announcedOn": "09-09-2026",
+  "acquisitionValue": 17.3,
+  "acquisitionValueCurrency": "Million USD",
+  "acquisitionTypeNameEn": "Acquisition",
+  "acquisitionStatusNameEn": "Certain",
+  "acquirers": [{"companyID": 55, "companyNameEn": "QACCO"}],
+  "targets": [{"companyID": 19749, "companyNameEn": "E-Mix For Ready Mix Concrete"}],
+  "relatedCompanies": []
+}
+```
+
+### What to watch for
+- **Two currencies.** 428 TASI deals are in `Million USD`, 187 in `Million Riyal`. A null value always comes with some currency, which means nothing. The tab converts riyals to dollars at 3.75 to compare.
+- **A unit mistake.** Deal `477` (Sulaiman Al Habib → Tamkeen, 2022) says `66,250,000` million riyals, which is 66 trillion. It is probably in riyals, not millions. The tab leaves values over a trillion dollars out of "Largest deal".
+- **The real largest deal** is `17`: Saudi Aramco buying SABIC for **$69,000 million**.
+- **Several companies per side.** 30 deals have more than one acquirer and 19 more than one target. Deal `485` has neither, and deal `47` has no target.
+- **"Related" companies** are parents or partners, e.g. PIF on Aramco's HUMAIN deal.
+- **Less history early on.** Only 1 deal in 2004 and none in 2005. From 2010 there are 19–57 a year, with the most in 2023 (57).
+
+### In practice
+"How many deals did TASI companies cancel?" Load market `3`: **103** of 615 (17%) were cancelled, including 18 of the 43 mergers.
+
+### 2. Deal details: `GET /markets/mergers-acquisitions/{dealId}`
+One deal, as `{"dealId": 720, "deal": {...}}`. `dealId` is a `mergerID` from either market list. It holds the same date, value, type and status as the list, plus:
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `financialWaysList` | list or null | How the deal was paid for: `Internal Resources`, `Borrowing/Loans`, `Share Swap`, sometimes two |
+| `acquirersCompanies` / `targerCompanies` | list of text | English names only, no IDs. `targer` is Argaam's spelling |
+| `otherRelatedCompanies` | list of text or null | The related companies, by name |
+
+### Example
+`/markets/mergers-acquisitions/648`
+```json
+{
+  "mergerID": 648,
+  "announcedOn": "2025-06-19T00:00:00",
+  "acquisitionValue": null,
+  "acquisitionValueCurrency": "Million Riyal",
+  "acquisitionTypeNameEn": "Merger",
+  "acquisitionStatusNameEn": "Cancelled",
+  "financialWaysList": ["Share Swap"],
+  "acquirersCompanies": ["UCA"],
+  "targerCompanies": ["AICC"],
+  "otherRelatedCompanies": null
+}
+```
+
+### What to watch for
+- **Less than the docs promise.** Argaam's docs say this endpoint has a written description, closing conditions and signing and clearance dates. The sandbox returns none of them; the only new data is `financialWaysList`.
+- **No company IDs.** To link a deal to a company, use the IDs in the market list.
+- `financialWaysList` is null for many stakes and deals in negotiation.
+
+### In practice
+"How did Aramco pay for its 2024 deal for Petro Rabigh?" Fetch `/markets/mergers-acquisitions/600`: an "Acquisition of majority Assets" worth **$702 million**, completed, paid from **internal resources**, with Sumitomo Chemical as the related company.
+
+---
+
 ## Adding a new endpoint to this file
 When you add an endpoint to `ENDPOINTS` in `app.py`, add a section here with the same parts:
 

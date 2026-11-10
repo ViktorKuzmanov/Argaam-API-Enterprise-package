@@ -143,6 +143,37 @@ def funds(endpoint_id):
     return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
 
 
+@app.get("/api/m&a/<endpoint_id>")
+def mergers(endpoint_id):
+    """M&A tab: market_deals (marketId) or deal_details (dealId) from static/endpoints.json.
+    Reuses the saved copy unless refresh=1."""
+    ep = ENDPOINTS.get(endpoint_id)
+    if not ep or ep["api"] != "m&a":
+        return jsonify({"error": f"{endpoint_id} is not an M&A endpoint in static/endpoints.json."}), 404
+    values = {}
+    for name in ("marketId", "dealId"):
+        if "{" + name + "}" in ep["path"]:
+            value = request.args.get(name, "")
+            if not value.isdigit():
+                return jsonify({"error": f"Choose a {'market' if name == 'marketId' else 'deal'}."}), 400
+            values[name] = value
+    file = saved_file(endpoint_id, **values)
+    refresh = request.args.get("refresh") == "1"
+    if file.exists() and not refresh:
+        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
+    if not refresh and (entry := known_no_data(endpoint_id, **values)):
+        return no_data_answer(entry, "No data for this")
+    try:
+        data, file = fetch_and_save(endpoint_id, **values)
+    except requests.HTTPError as e:
+        return upstream_error(e)
+    except LookupError:
+        return jsonify({"error": "Argaam has no data for this."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
+
+
 @app.post("/api/fetch")
 def fetch_endpoint():
     """Macroeconomic tab: saves under data/macroeconomic/. Reuses the saved copy unless refresh is set.

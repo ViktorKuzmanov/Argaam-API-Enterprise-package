@@ -30,5 +30,11 @@
    "description": "Every end-of-day unit price and net asset value of one fund between two dates (yyyy-MM-dd)"},
   {"api": "funds", "id": "fund_movers", "name": "Top-moving funds",
    "path": "/funds/movers", "file": "fund_movers",
-   "description": "The 10 funds that gained most and the 10 that lost most this year"}
+   "description": "The 10 funds that gained most and the 10 that lost most this year"},
+  {"api": "m&a", "id": "market_deals", "name": "M&A deals in a market",
+   "path": "/markets/{marketId}/mergers-acquisitions", "file": "market_deals/{marketId}",
+   "description": "Every merger, acquisition and stake deal in one market (3 = TASI, 14 = NOMU), newest first: date, value, type, status, acquirers, targets"},
+  {"api": "m&a", "id": "deal_details", "name": "M&A deal details",
+   "path": "/markets/mergers-acquisitions/{dealId}", "file": "deal_details/{dealId}",
+   "description": "One deal's full record: everything in the market list plus how it was financed (financialWaysList)"}
 ]

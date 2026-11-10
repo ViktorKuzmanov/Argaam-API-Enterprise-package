@@ -1,6 +1,6 @@
 # API Examples
 
-Real examples you can try in the app. Examples 1 to 3 use the three indicator endpoints, step by step. Examples 4 to 13 use analyst estimates from both markets. Every response below is a real response from the sandbox.
+Real examples you can try in the app. Examples 1 to 3 use the three indicator endpoints, step by step. Examples 4 to 13 use analyst estimates from both markets. Examples 14 to 19 use investment funds, and 20 to 24 use M&A deals. Every response below is a real response from the sandbox.
 
 ## How to try it
 
@@ -440,10 +440,53 @@ Open the **Investment funds** tab, choose what to **Show**, then a **Fund manage
 
 ---
 
+## M&A & Transactions examples
+
+Open the **M&A & Transactions** tab, choose a **Market** and click **Show deals**. The filters (type, status, year, company) update the tiles, chart and table straight away. To see one deal's full record, pick it in **One deal's full record**. The examples below are already saved, so they use no API calls. You can also open the files under `data/m&a/` directly.
+
+### Example 20: How busy is the Saudi M&A market?
+
+> **"How many deals do TASI companies make, and how many go through?"**
+
+**Market:** TASI (3) · **Show deals** (file `data/m&a/market_deals/3.json`)
+**Answer:** **615** deals from 2004 to 2026. **68%** completed and **17%** were cancelled. The chart shows the busiest years: **2023 (57)**, 2022 (55) and 2025 (53). In 2026 so far, 10 of the 30 deals are still in negotiation.
+
+### Example 21: Saudi Aramco's deals
+
+> **"What has Aramco bought, and what was the biggest deal?"**
+
+**Market:** TASI · **Company:** `aramco`
+**Answer:** **23** deals (19 completed). The "Largest deal" tile shows Aramco buying **SABIC for $69,000 million** (deal `17`). The table lists the others, newest first, e.g. Sahel (2026) and HUMAIN (2025, with PIF as related company).
+
+### Example 22: How was a deal paid for?
+
+> **"How did Aramco pay for its Petro Rabigh deal?"**
+
+**Company:** `aramco` · **One deal's full record:** `2024-08-07 · SAUDI ARAMCO → PETRO RABIGH (600)`
+(file `data/m&a/deal_details/600.json`)
+**Answer:** an "Acquisition of majority Assets", **completed**, worth **702 million USD**, financed by **Internal Resources**. Sumitomo Chemical is listed as the related company.
+
+### Example 23: Mergers that fell apart
+
+> **"How often are mergers cancelled?"**
+
+**Market:** TASI · **Deal type:** Merger · **Status:** Cancelled
+**Answer:** **18** of the 43 mergers were cancelled. One of them is UCA and AICC (deal `648`, June 2025). Pick it in **One deal's full record**: it was to be paid by **Share Swap**, and no value was disclosed.
+
+### Example 24: Deals on NOMU
+
+> **"Do the smaller NOMU companies do deals too?"**
+
+**Market:** NOMU (14) · **Show deals** (file `data/m&a/market_deals/14.json`)
+**Answer:** **19** deals since 2020, 10 completed. Pick `ALRASHEED → Taif Shipping (715)`: an acquisition worth **24.6 million USD**, agreed ("Certain"), paid from internal resources and loans.
+
+---
+
 ## Good to know
 
 - **Not every company has estimates.** 212 companies do. For the rest, including any NOMU company with the Quarterly period, the app shows a no-data message. That is expected and is not a bug.
 - **The sandbox is mostly empty in step 3.** Fields with numbers: `33/125`, `33/128` and `51/103`, `51/104`, `51/105`. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
 - **HTTP 429** means you called too fast. Wait a few seconds and retry.
 - **Investment funds are all saved:** 46 managers and 499 funds, 358 of them with price history. The other 141 returned no prices (HTTP 204), often because they have closed.
+- **M&A values are in two currencies** (million USD or million riyals), and deal `477` has a value that is off by a million. The tab compares in USD (3.75 riyals a dollar) and leaves that deal out of "Largest deal".
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).

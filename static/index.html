@@ -50,6 +50,9 @@
   .chart .axis text { fill:var(--muted); font-size:11px; }
   .chart .tip { position:absolute; pointer-events:none; background:#fff; border:1px solid var(--line); border-radius:6px;
                 padding:6px 8px; font-size:12px; box-shadow:0 2px 6px rgba(0,0,0,.08); white-space:nowrap; }
+  .legend { display:flex; flex-wrap:wrap; gap:4px 16px; font-size:12px; color:var(--muted); margin-bottom:6px; }
+  .legend span { display:inline-flex; align-items:center; gap:6px; }
+  .legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }
   @media (max-width:640px) { .row, .row.three { grid-template-columns:1fr; } }
 </style>
 </head>
@@ -63,7 +66,36 @@
     <button data-tab="macro" class="active">Macroeconomic</button>
     <button data-tab="fundamentals">Fundamentals</button>
     <button data-tab="funds">Investment funds</button>
+    <button data-tab="m&amp;a">M&amp;A &amp; Transactions</button>
   </nav>
+
+  <div id="tab-m&amp;a" class="hidden">
+    <section>
+      <h2>Mergers &amp; acquisitions</h2>
+      <div class="row three">
+        <div><label for="maMarket">Market</label><select id="maMarket"></select></div>
+        <div><label for="maType">Deal type</label><select id="maType"></select></div>
+        <div><label for="maStatus">Status</label><select id="maStatus"></select></div>
+      </div>
+      <div class="row three">
+        <div><label for="maYear">Year announced</label><select id="maYear"></select></div>
+        <div><label for="maCompany">Company (acquirer, target or related)</label><input id="maCompany" placeholder="e.g. Aramco or SABIC"></div>
+        <div><label for="maDeal">One deal's full record</label><select id="maDeal"></select></div>
+      </div>
+      <div id="maHint" class="hint">The market list is one call; a deal's full record is one call per deal. Saved copies load from <b>data/m&amp;a/</b> until you re-fetch them.</div>
+      <button id="maFetchBtn">Show deals</button>
+      <button id="maRefreshBtn" class="secondary">Re-fetch from API</button>
+      <span id="maStatusLine" class="status"></span>
+    </section>
+    <section id="maView" class="hidden">
+      <h2 id="maTitle"></h2>
+      <div id="maStats" class="stats"></div>
+      <div id="maChartBox">
+        <div id="maLegend" class="legend"></div>
+        <div id="maChart" class="chart"></div>
+      </div>
+    </section>
+  </div>
 
   <div id="tab-funds" class="hidden">
     <section>
@@ -626,6 +658,209 @@ $("fund").onchange = () => fetchFund(false);
 $("fundFetchBtn").onclick = () => fetchFund(false);
 $("fundRefreshBtn").onclick = () => fetchFund(true);
 
+// ---- M&A & Transactions: every deal in a market, filtered here; one deal's full record ----
+// Saved files come from static/endpoints.json: m&a/market_deals/<marketId>.json, m&a/deal_details/<dealId>.json.
+
+const MA_MARKETS = { 3: "TASI", 14: "NOMU" };
+const MA_STATUSES = ["Completed", "Certain", "Negotiation", "Cancelled"];  // fixed order, so a status keeps its color
+const MA_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"];          // validated categorical slots 1-4
+const SAR_PER_USD = 3.75;
+const TOO_BIG = 1e6;  // USD millions: a value above a trillion dollars is a unit mistake in Argaam's data (e.g. deal 477)
+let maDeals = [];
+
+const maDate = s => s && /^\d\d-\d\d-\d{4}$/.test(s) ? `${s.slice(6)}-${s.slice(3, 5)}-${s.slice(0, 2)}` : day(s);  // list: dd-mm-yyyy
+const maNames = list => (list || []).map(c => (c.companyNameEn || "").trim()).join(", ");
+const maUsd = d => d.acquisitionValue == null ? null : d.acquisitionValueCurrency === "Million Riyal" ? d.acquisitionValue / SAR_PER_USD : d.acquisitionValue;
+
+async function getMA(id, values = {}, refresh = false) {
+  if (savedFiles) {
+    const file = savedPath(id, values);
+    if (!savedFiles.has(file)) throw new Error("No saved data for this. Only fetched deals are published.");
+    return { data: await getJSON(`data/${encodeURI(file).replace(/&/g, "%26")}`), saved_to: file, from_cache: true };
+  }
+  const query = new URLSearchParams({ ...values, ...(refresh ? { refresh: "1" } : {}) });
+  return getJSON(`/api/m%26a/${id}?${query}`);
+}
+
+function maOptions(sel, label, values) {
+  const previous = sel.value;
+  sel.innerHTML = `<option value="">${label}</option>` + values.map(v => `<option value="${escAttr(v)}">${escAttr(v)}</option>`).join("");
+  sel.value = values.includes(previous) ? previous : "";
+}
+
+function maFiltered() {
+  const type = $("maType").value, status = $("maStatus").value, year = $("maYear").value;
+  const company = $("maCompany").value.trim().toLowerCase();
+  return maDeals.filter(d => (!type || d.acquisitionTypeNameEn === type) && (!status || d.acquisitionStatusNameEn === status)
+    && (!year || maDate(d.announcedOn).startsWith(year))
+    && (!company || [d.acquirers, d.targets, d.relatedCompanies].flat().some(c =>
+      `${c.companyNameEn} ${c.companyNameAr}`.toLowerCase().includes(company))));
+}
+
+function maStatus(text, error = false) {
+  $("maStatusLine").className = error ? "status error" : "status";
+  $("maStatusLine").textContent = text;
+}
+
+async function loadMarket(refresh = false) {
+  const marketId = $("maMarket").value;
+  $("maDeal").value = "";
+  if (!marketId) return;
+  maStatus("Fetching…");
+  try {
+    const body = await getMA("market_deals", { marketId }, refresh);
+    maDeals = body.data.data.deals || [];
+    const count = key => [...new Set(maDeals.map(key))].sort();
+    maOptions($("maType"), "All types", count(d => d.acquisitionTypeNameEn));
+    maOptions($("maStatus"), "All statuses", MA_STATUSES.filter(s => maDeals.some(d => d.acquisitionStatusNameEn === s)));
+    maOptions($("maYear"), "All years", count(d => maDate(d.announcedOn).slice(0, 4)).reverse());
+    showDeals();
+    maStatus(body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`);
+  } catch (e) {
+    maDeals = [];
+    $("maView").classList.add("hidden");
+    delete lastData["m&a"];
+    if (activeTab === "m&a") $("results").classList.add("hidden");
+    maStatus(e.message, true);
+  }
+}
+
+function fillDealPicker(deals) {
+  const shown = savedFiles ? deals.filter(d => savedFiles.has(savedPath("deal_details", { dealId: d.mergerID }))) : deals;
+  const previous = $("maDeal").value;
+  $("maDeal").innerHTML = `<option value="">${shown.length ? `Choose a deal… (${shown.length})` : "No saved deal records in this list"}</option>` +
+    shown.map(d => `<option value="${d.mergerID}">${maDate(d.announcedOn)} · ${escAttr(maNames(d.acquirers) || "?")} → ${escAttr(maNames(d.targets) || "?")} (${d.mergerID})</option>`).join("");
+  $("maDeal").value = shown.some(d => String(d.mergerID) === previous) ? previous : "";
+}
+
+function showDeals() {
+  const deals = maFiltered();
+  fillDealPicker(deals);
+  const valued = deals.map(maUsd).filter(v => v != null);
+  const plausible = deals.filter(d => maUsd(d) != null && maUsd(d) < TOO_BIG).sort((a, b) => maUsd(b) - maUsd(a));
+  const sorted = plausible.map(maUsd).sort((a, b) => a - b);
+  const median = sorted.length ? sorted[Math.floor((sorted.length - 1) / 2)] : null;
+  const share = s => deals.length ? `${Math.round(deals.filter(d => d.acquisitionStatusNameEn === s).length / deals.length * 100)}%` : "–";
+  const big = plausible[0], skipped = valued.length - plausible.length;
+  $("maTitle").textContent = `${MA_MARKETS[$("maMarket").value] || "Market"} · ${deals.length === maDeals.length ? "all deals" : "filtered deals"}`;
+  $("maStats").innerHTML =
+    stat("Deals", deals.length.toLocaleString("en"), deals.length ? `${maDate(deals[deals.length - 1].announcedOn).slice(0, 4)}–${maDate(deals[0].announcedOn).slice(0, 4)}` : "") +
+    stat("Value disclosed", `${valued.length}`, deals.length ? `${Math.round(valued.length / deals.length * 100)}% of deals` : "") +
+    stat("Median value", median == null ? "–" : `$${num(median, 1)}m`, "of disclosed values, in USD") +
+    stat("Largest deal", big ? `$${num(maUsd(big), 0)}m` : "–", big ? `${escAttr(maNames(big.acquirers))} → ${escAttr(maNames(big.targets))}${skipped ? ` · ${skipped} implausible value left out` : ""}` : "") +
+    stat("Completed", share("Completed"), "of these deals") +
+    stat("Cancelled", share("Cancelled"), "of these deals");
+  $("maChartBox").classList.remove("hidden");
+  drawDealsChart(deals);
+  $("maView").classList.remove("hidden");
+  display("m&a", deals.map(d => ({
+    dealId: d.mergerID, announced: maDate(d.announcedOn), type: d.acquisitionTypeNameEn, status: d.acquisitionStatusNameEn,
+    value: d.acquisitionValue, currency: d.acquisitionValueCurrency, valueUsdMillions: maUsd(d) == null ? null : Math.round(maUsd(d) * 10) / 10,
+    acquirers: maNames(d.acquirers), targets: maNames(d.targets), related: maNames(d.relatedCompanies),
+  })));
+}
+
+// Deals announced per year, stacked by status. Legend above; hover a bar for its counts.
+function drawDealsChart(deals) {
+  const years = {};
+  deals.forEach(d => { const y = maDate(d.announcedOn).slice(0, 4); (years[y] ||= Object.fromEntries(MA_STATUSES.map(s => [s, 0])))[d.acquisitionStatusNameEn]++; });
+  const keys = Object.keys(years).sort();
+  if (!keys.length) { $("maChart").innerHTML = ""; $("maLegend").innerHTML = ""; return; }
+  const first = +keys[0], last = +keys[keys.length - 1], all = Array.from({ length: last - first + 1 }, (_, i) => String(first + i));
+  const total = y => years[y] ? MA_STATUSES.reduce((a, s) => a + years[y][s], 0) : 0;
+  const W = 1000, H = 260, m = { l: 36, r: 8, t: 10, b: 26 };
+  const max = Math.max(...all.map(total));
+  const step = max > 20 ? 10 : max > 8 ? 5 : max > 4 ? 2 : 1, top = Math.ceil(max / step) * step;
+  const band = (W - m.l - m.r) / all.length, bw = Math.max(4, Math.min(36, band * 0.7));
+  const Y = v => H - m.b - v / top * (H - m.t - m.b);
+  const ticks = Array.from({ length: top / step + 1 }, (_, i) => i * step);
+  const every = Math.ceil(all.length / 12);
+  const bars = all.map((y, i) => {
+    let base = 0;
+    const x = m.l + band * i + (band - bw) / 2;
+    const segs = MA_STATUSES.map((s, k) => {
+      const n = years[y]?.[s] || 0;
+      if (!n) return "";
+      const y1 = Y(base), y2 = Y(base + n); base += n;
+      const h = Math.max(0, y1 - y2 - 2);  // 2px surface gap between segments
+      return `<rect x="${x}" y="${y2}" width="${bw}" height="${h}" fill="${MA_COLORS[k]}" rx="${base === total(y) ? 3 : 0}"/>`;
+    }).join("");
+    return `<g data-year="${y}">${segs}<rect x="${m.l + band * i}" y="${m.t}" width="${band}" height="${H - m.t - m.b}" fill="transparent" class="hit"/></g>`;
+  }).join("");
+  $("maLegend").innerHTML = MA_STATUSES.map((s, k) => `<span><i style="background:${MA_COLORS[k]}"></i>${s}</span>`).join("");
+  $("maChart").innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Deals announced per year, by status">
+      <g class="grid">${ticks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/>`).join("")}</g>
+      <g class="axis">
+        ${ticks.map(v => `<text x="${m.l - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`).join("")}
+        ${all.map((y, i) => i % every ? "" : `<text x="${m.l + band * (i + 0.5)}" y="${H - 8}" text-anchor="middle">${y}</text>`).join("")}
+      </g>
+      ${bars}
+    </svg><div class="tip hidden" id="maTip"></div>`;
+  const svg = $("maChart").querySelector("svg"), tip = $("maTip");
+  svg.querySelectorAll("g[data-year]").forEach(g => {
+    g.onmouseleave = () => tip.classList.add("hidden");
+    g.onmousemove = e => {
+      const y = g.dataset.year, box = $("maChart").getBoundingClientRect();
+      tip.innerHTML = `<b>${y}</b> · ${total(y)} deal${total(y) === 1 ? "" : "s"}<br>` +
+        MA_STATUSES.map((s, k) => `<span style="color:${MA_COLORS[k]}">■</span> ${s}: ${years[y]?.[s] || 0}`).join("<br>");
+      tip.classList.remove("hidden");
+      tip.style.left = `${Math.min(e.clientX - box.left + 12, box.width - tip.offsetWidth - 4)}px`;
+      tip.style.top = `${Math.max(0, e.clientY - box.top - tip.offsetHeight - 8)}px`;
+    };
+  });
+}
+
+const DEAL_LABELS = {
+  mergerID: "Deal ID", announcedOn: "Announced", acquisitionTypeNameEn: "Type", acquisitionStatusNameEn: "Status",
+  acquisitionValue: "Value", acquisitionValueCurrency: "Currency", financialWaysList: "Financed by",
+  acquirersCompanies: "Acquirers", targerCompanies: "Targets", otherRelatedCompanies: "Related companies",
+};
+
+async function showDeal(refresh = false) {
+  const dealId = $("maDeal").value;
+  if (!dealId) { if (maDeals.length) showDeals(); return; }
+  maStatus("Fetching…");
+  try {
+    const body = await getMA("deal_details", { dealId }, refresh);
+    const d = body.data.data.deal;
+    const list = v => Array.isArray(v) ? v.join(", ") : v;
+    $("maTitle").textContent = `Deal ${d.mergerID}: ${list(d.acquirersCompanies) || "?"} → ${list(d.targerCompanies) || "?"}`;
+    $("maStats").innerHTML =
+      stat("Announced", day(d.announcedOn)) +
+      stat("Type", escAttr(d.acquisitionTypeNameEn)) +
+      stat("Status", escAttr(d.acquisitionStatusNameEn)) +
+      stat("Value", d.acquisitionValue == null ? "–" : num(d.acquisitionValue, 1), d.acquisitionValue == null ? "not disclosed" : escAttr(d.acquisitionValueCurrency)) +
+      stat("Financed by", escAttr(list(d.financialWaysList) || "–"));
+    $("maChartBox").classList.add("hidden");
+    $("maView").classList.remove("hidden");
+    const order = Object.keys(DEAL_LABELS), rank = k => order.includes(k) ? order.indexOf(k) : order.length;
+    display("m&a", Object.entries(d).sort(([a], [b]) => rank(a) - rank(b)).map(([k, v]) => ({
+      field: DEAL_LABELS[k] || k, value: k === "announcedOn" ? day(v) : list(v),
+    })));
+    maStatus(body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`);
+  } catch (e) {
+    maStatus(e.message, true);
+  }
+}
+
+async function initMA() {
+  const markets = Object.keys(MA_MARKETS).filter(m => !savedFiles || savedFiles.has(savedPath("market_deals", { marketId: m })));
+  $("maMarket").innerHTML = markets.length
+    ? markets.map(m => `<option value="${m}">${MA_MARKETS[m]} (${m})</option>`).join("")
+    : `<option value="">No M&A data saved yet</option>`;
+  maOptions($("maType"), "All types", []); maOptions($("maStatus"), "All statuses", []); maOptions($("maYear"), "All years", []);
+  fillDealPicker([]);
+  if (savedFiles) { $("maRefreshBtn").remove(); $("maHint").textContent = "Every deal in the market list is here; only the deals whose full record was fetched are in the last dropdown."; }
+}
+
+$("maMarket").onchange = () => loadMarket(false);
+["maType", "maStatus", "maYear"].forEach(id => $(id).onchange = () => { $("maDeal").value = ""; if (maDeals.length) showDeals(); });
+$("maCompany").oninput = () => { $("maDeal").value = ""; if (maDeals.length) showDeals(); };
+$("maDeal").onchange = () => showDeal(false);
+$("maFetchBtn").onclick = () => { $("maDeal").value = ""; maDeals.length ? showDeals() : loadMarket(false); };
+$("maRefreshBtn").onclick = () => $("maDeal").value ? showDeal(true) : loadMarket(true);
+
 async function init() {
   const saved = await fetch("saved_files.json").catch(() => null);
   if (saved && saved.ok) {
@@ -651,6 +886,7 @@ async function init() {
   loadManagers();
   loadFunds();
   onFundShowChange();
+  initMA();
 }
 init();
 </script>
