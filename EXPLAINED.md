@@ -337,7 +337,7 @@ Every end-of-day price of the fund between the two dates. **Without `from` and `
 
 - **Not in date order.** Sort `values` by `valueDate` yourself (the app does).
 - **Daily or weekly.** Most funds have a price every working day; older years can be weekly or sparse (Al Rajhi's USD fund has almost nothing between 1991 and 2001).
-- **Some funds have none.** 31 of the first 145 funds returned HTTP 204, often funds that have closed. They are recorded as `no_data`.
+- **Some funds have none.** 141 of the 499 funds returned HTTP 204, often funds that have closed. They are recorded as `no_data`.
 - **Size:** a typical fund has about 1,750 prices (up to about 3,100), roughly 150 KB of JSON.
 - In practice: "How has the Riyad Emaar Fund done?" Its unit price was **20.35** on 5 Nov 2026: **-10.2%** this year, **-18.1%** over 12 months, and **+103%** since its first price in 2009.
 

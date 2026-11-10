@@ -445,5 +445,5 @@ Open the **Investment funds** tab, choose what to **Show**, then a **Fund manage
 - **Not every company has estimates.** 212 companies do. For the rest, including any NOMU company with the Quarterly period, the app shows a no-data message. That is expected and is not a bug.
 - **The sandbox is mostly empty in step 3.** Fields with numbers: `33/125`, `33/128` and `51/103`, `51/104`, `51/105`. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
 - **HTTP 429** means you called too fast. Wait a few seconds and retry.
-- **Investment funds saved so far:** Al Rajhi Capital, Riyad Capital and SNB Capital (145 funds, 114 with prices). The other managers' funds are fetched when you choose them, or all at once with `fetch_funds.py`.
+- **Investment funds are all saved:** 46 managers and 499 funds, 358 of them with price history. The other 141 returned no prices (HTTP 204), often because they have closed.
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).
