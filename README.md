@@ -32,10 +32,10 @@ data/                      # saved API responses (ready to push to a database), 
     market_companies/3.json        # /markets/3/companies
     analyst_estimates/3_2222_year.json  # /companies/2222/analyst-estimates?marketId=3&period=year
     _progress.json                 # what the fetch script did with each item, and where it came from
-.fetch_state/key_usage.json  # calls each API key used today, shared by all fetch scripts (not committed)
+.fetch_state/key_usage.json  # calls each API key used today, shared by the fetch scripts and the app (not committed)
 .env                       # your API base + key (not committed)
 EXPLAINED.md               # what data each endpoint returns, with real examples
-API_EXAMPLES.md            # one real question answered with all three endpoints
+API_EXAMPLES.md            # real questions answered with both APIs, and how to use the downloaded files
 ```
 
 ### 1. Clone/Download the Repository
@@ -95,6 +95,21 @@ Two files, the same for every API. The fetch scripts and the web app both write 
 
 When something is recorded as `no_data`, the web app answers from the progress file instead of calling Argaam again, and says when it was checked. **Re-fetch from API** always asks again.
 
+## The standard for every API
+Fundamentals and Macroeconomic follow the same pattern, and a new Argaam API should too:
+
+| What | Where | Same for every API? |
+|------|-------|---------------------|
+| Its endpoints | entries in `static/endpoints.json` with `"api": "<api>"` | yes, the same fields |
+| Saved responses | `data/<api>/<endpoint>/<values>.json`, from each entry's `file` template | yes |
+| What happened to each item | `data/<api>/_progress.json` (committed) | yes |
+| Calls each key used today | `.fetch_state/key_usage.json` (shared by all APIs) | yes, one file |
+| How to fetch (keys, proxy, pacing, retries, resume) | `argaam_downloader.py` | yes, shared code |
+| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_all_analyst_estimates.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
+| Docs | a "Download all ..." section here, the endpoint in `EXPLAINED.md`, examples in `API_EXAMPLES.md` | yes |
+
+Every fetch script takes `--dry-run` (calls left and about how many days, no calls made), `--limit N` and `--refresh`.
+
 ## Adding a new endpoint
 Add one entry to `static/endpoints.json`, e.g.
 ```json
@@ -108,7 +123,7 @@ Add one entry to `static/endpoints.json`, e.g.
 - `query` lists values sent as `?name=value` instead of in the path.
 - `file` is where a response is saved inside `data/<api>/` (without `.json`). Values may only contain letters, digits and `-`.
 
-Python (`saved_file`, `fetch_and_save` in `argaam_client.py`, `endpoint_task` in `argaam_downloader.py`) and the page (`savedPath` in `index.html`) all read these templates, so no file name is typed by hand anywhere. Macroeconomic endpoints show up in the Macroeconomic tab's dropdown, and their paths can be edited there before fetching.
+Python (`saved_file`, `endpoint_task` and `fetch_and_save` in `argaam_client.py`) and the page (`savedPath` in `index.html`) all read these templates, so no file name is typed by hand anywhere. Macroeconomic endpoints show up in the Macroeconomic tab's dropdown, and their paths can be edited there before fetching.
 
 ## Adding a new API tab
 Add a button to `<nav id="tabs">` in `static/index.html` and a matching `<div id="tab-NAME" class="hidden">`. Call `display("NAME", response)` to show a response in the shared Fields / table / export section. Add the API's endpoints to `static/endpoints.json` with `"api": "NAME"`, and its responses are saved under `data/NAME/`.
