@@ -38,7 +38,8 @@ jobs:
           mkdir _site
           cp -r static/. _site/
           cp -r data _site/data
-          python3 -c "import json, os; print(json.dumps(sorted(os.listdir('data'))))" > _site/saved_files.json
+          # Paths relative to data/, e.g. macroeconomic/indicator_groups.json
+          python3 -c "import json, pathlib; print(json.dumps(sorted(p.relative_to('data').as_posix() for p in pathlib.Path('data').rglob('*.json'))))" > _site/saved_files.json
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

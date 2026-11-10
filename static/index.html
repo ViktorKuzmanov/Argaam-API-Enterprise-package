@@ -59,7 +59,7 @@
         <div><label for="symbol">Stock symbol</label><input id="symbol" placeholder="e.g. 2222 for Saudi Aramco"></div>
         <div><label for="period">Period</label><select id="period"><option value="year">Annual</option><option value="quarter">Quarterly</option></select></div>
       </div>
-      <div id="fHint" class="hint">The sandbox allows 5 requests a minute and 100 a day, so a company you have already fetched loads from <b>data/</b> until you re-fetch it.</div>
+      <div id="fHint" class="hint">The sandbox allows 5 requests a minute and 100 a day, so a company you have already fetched loads from <b>data/fundamentals/</b> until you re-fetch it.</div>
       <button id="fFetchBtn">Fetch</button>
       <button id="fRefreshBtn" class="secondary">Re-fetch from API</button>
       <span id="fStatus" class="status"></span>
@@ -213,20 +213,25 @@ async function getJSON(url) {
   return body;
 }
 
-// On GitHub Pages there is no Flask server: savedFiles lists the JSON files published with the page.
+// On GitHub Pages there is no Flask server: savedFiles lists the JSON files published with the page,
+// as paths relative to data/ (e.g. macroeconomic/indicator_groups.json).
 // It stays null when running locally through app.py.
 let savedFiles = null;
 let allGroups = [];
 
+// Each API's saved files live in their own folder under data/ (MACRO_DIR / FUNDAMENTALS_DIR in argaam_client.py).
+const MACRO = "macroeconomic/";
+const FUNDAMENTALS = "fundamentals/";
+
 // Same file name the Python client saves under (argaam_client.save).
-const fileFor = name => name.replace(/[^A-Za-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "") + ".json";
-const valuesFile = (groupId, fieldId) => `indicators_groups_${groupId}_fields_${fieldId}_values.json`;
+const fileFor = name => MACRO + name.replace(/[^A-Za-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "") + ".json";
+const valuesFile = (groupId, fieldId) => `${MACRO}indicators_groups_${groupId}_fields_${fieldId}_values.json`;
 
 // With saved data, offer only the groups that have something saved for the chosen endpoint.
 function groupHasData(groupId) {
   if (!savedFiles) return true;
-  if (!endpoints[$("endpoint").value].path.includes("{fieldId}")) return savedFiles.has(`indicators_groups_${groupId}_fields.json`);
-  return [...savedFiles].some(f => f.startsWith(`indicators_groups_${groupId}_fields_`) && f.endsWith("_values.json"));
+  if (!endpoints[$("endpoint").value].path.includes("{fieldId}")) return savedFiles.has(`${MACRO}indicators_groups_${groupId}_fields.json`);
+  return [...savedFiles].some(f => f.startsWith(`${MACRO}indicators_groups_${groupId}_fields_`) && f.endsWith("_values.json"));
 }
 
 function renderGroups() {
@@ -247,7 +252,7 @@ function renderGroups() {
 
 async function loadGroups() {
   try {
-    allGroups = await getJSON(savedFiles ? "data/indicator_groups.json" : "/api/groups");
+    allGroups = await getJSON(savedFiles ? `data/${MACRO}indicator_groups.json` : "/api/groups");
     renderGroups();
   } catch (e) {
     $("group").innerHTML = `<option value="">Could not load groups: ${escAttr(e.message)}</option>`;
@@ -261,7 +266,7 @@ async function loadFields(groupId) {
   if (!groupId) { sel.innerHTML = `<option value="">Choose a group first</option>`; return; }
   sel.innerHTML = `<option value="">Loading fields…</option>`;
   try {
-    const fields = await getJSON(savedFiles ? `data/indicators_groups_${groupId}_fields.json` : `/api/groups/${groupId}/fields`);
+    const fields = await getJSON(savedFiles ? `data/${MACRO}indicators_groups_${groupId}_fields.json` : `/api/groups/${groupId}/fields`);
     fields.forEach(f => fieldNames[f.fieldID] = (f.displayNameEn || "").trim());
     const shown = savedFiles ? fields.filter(f => savedFiles.has(valuesFile(groupId, f.fieldID))) : fields;
     sel.innerHTML = `<option value="">Choose a field…</option>` + shown.map(f =>
@@ -337,7 +342,7 @@ $("fetchBtn").onclick = () => fetchMacro(false);
 $("refreshBtn").onclick = () => fetchMacro(true);
 
 // ---- Fundamentals: analyst estimates ----
-const estimatesFile = (marketId, symbol, period) => `analyst_estimates_${marketId}_${symbol}_${period}.json`;
+const estimatesFile = (marketId, symbol, period) => `${FUNDAMENTALS}analyst_estimates_${marketId}_${symbol}_${period}.json`;
 
 function clearEstimates() {
   delete lastData.fundamentals;
@@ -372,7 +377,7 @@ async function fetchEstimates(refresh) {
 
 // On the published page, data comes only from saved files, so there is nothing to re-fetch.
 function showSavedEstimates() {
-  const hasSaved = [...savedFiles].some(f => f.startsWith("analyst_estimates_"));
+  const hasSaved = [...savedFiles].some(f => f.startsWith(FUNDAMENTALS + "analyst_estimates_"));
   $("fRefreshBtn").remove();
   $("fHint").textContent = hasSaved
     ? "Enter a stock symbol to load its saved estimates. Companies without saved estimates show a no-data message."

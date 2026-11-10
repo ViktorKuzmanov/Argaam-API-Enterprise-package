@@ -1,4 +1,4 @@
-"""Download analyst estimates for every Argaam company into data/.
+"""Download analyst estimates for every Argaam company into data/fundamentals/.
 
 Each key in ARGAAM_API_KEYS gets its own worker and its own Data Impulse exit IP.
 Every response is written to disk as soon as it arrives, so stopping early (rate
@@ -24,7 +24,7 @@ from urllib.parse import quote
 
 import requests
 
-from argaam_client import API_BASE, DATA_DIR  # also loads .env
+from argaam_client import API_BASE, FUNDAMENTALS_DIR  # also loads .env
 
 # Kept outside data/ because everything in data/ is published to GitHub Pages.
 STATE_FILE = Path(__file__).parent / ".fetch_state" / "analyst_estimates.json"
@@ -58,7 +58,7 @@ def today():
 
 def write_json(path, data):
     """Write through a temp file so a crash can never leave half a JSON file."""
-    path.parent.mkdir(exist_ok=True)
+    path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_name(f"{path.name}.{threading.get_ident()}.tmp")
     tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     os.replace(tmp, path)
@@ -215,7 +215,7 @@ class Run:
         self.finish()
 
     def store(self, slot, task, body):
-        write_json(DATA_DIR / f"{task.name}.json", body)
+        write_json(FUNDAMENTALS_DIR / f"{task.name}.json", body)
         rows = len((body.get("data") or {}).get("estimates") or [])
         with lock:
             self.saved += 1
@@ -282,7 +282,7 @@ class Run:
 
 def company_symbols(market, slots, refresh):
     """Return the market's symbols, using the saved company list when there is one."""
-    file = DATA_DIR / f"companies_market_{market}.json"
+    file = FUNDAMENTALS_DIR / f"companies_market_{market}.json"
     if file.exists() and not refresh:
         body = json.loads(file.read_text(encoding="utf-8"))
     else:
@@ -318,7 +318,7 @@ def download_company_list(market, slots):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Download all Argaam analyst estimates into data/.")
+    parser = argparse.ArgumentParser(description="Download all Argaam analyst estimates into data/fundamentals/.")
     parser.add_argument("--markets", type=int, nargs="+", default=[3, 14], help="3 = TASI, 14 = NOMU")
     parser.add_argument("--periods", nargs="+", default=["year", "quarter"], choices=["year", "quarter"])
     parser.add_argument("--limit", type=int, help="fetch at most this many (for testing)")
@@ -338,7 +338,7 @@ def main():
             for period in args.periods:
                 total += 1
                 task = Task(market, symbol, period)
-                done = (DATA_DIR / f"{task.name}.json").exists() or task.name in state["no_data"]
+                done = (FUNDAMENTALS_DIR / f"{task.name}.json").exists() or task.name in state["no_data"]
                 if args.refresh or not done:
                     tasks.append(task)
 

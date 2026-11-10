@@ -1,4 +1,4 @@
-"""Small Argaam API client: GET a path, save the JSON response to data/."""
+"""Small Argaam API client: GET a path, save the JSON response under data/<api>/."""
 import json
 import os
 import re
@@ -12,6 +12,9 @@ load_dotenv()
 API_BASE = os.getenv("ARGAAM_API_BASE", "https://api-sandbox.argaam.com/api/v1.1").rstrip("/")
 API_KEY = os.getenv("ARGAAM_SANDBOX_API_KEY", "")
 DATA_DIR = Path(__file__).parent / "data"
+# One folder per API, so each API's saved responses stay together.
+MACRO_DIR = DATA_DIR / "macroeconomic"       # /indicators/... (macroeconomic API)
+FUNDAMENTALS_DIR = DATA_DIR / "fundamentals"  # /companies/..., /markets/... (fundamentals API)
 
 
 def fetch(path, base=None, params=None):
@@ -41,22 +44,27 @@ def fetch(path, base=None, params=None):
         ) from None
 
 
-def file_for(name):
-    """Return the data/ path a response called name is saved under."""
+def file_for(name, folder):
+    """Return the path inside folder (e.g. MACRO_DIR) a response called name is saved under."""
     safe = re.sub(r"[^A-Za-z0-9_-]+", "_", name).strip("_") or "response"
-    return DATA_DIR / f"{safe}.json"
+    return folder / f"{safe}.json"
 
 
-def save(data, name):
-    """Write data to data/<name>.json and return the file path."""
-    DATA_DIR.mkdir(exist_ok=True)
-    path = file_for(name)
+def save(data, name, folder):
+    """Write data to <folder>/<name>.json and return the file path."""
+    folder.mkdir(parents=True, exist_ok=True)
+    path = file_for(name, folder)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
 
 
-def fetch_and_save(path, name=None, base=None, params=None):
+def fetch_and_save(path, folder, name=None, base=None, params=None):
     data = fetch(path, base=base, params=params)
-    file = save(data, name or path)
+    file = save(data, name or path, folder)
     return data, file
 
+
+
+def saved_name(file):
+    """Path of a saved file relative to data/, e.g. macroeconomic/indicator_groups.json."""
+    return file.relative_to(DATA_DIR).as_posix()

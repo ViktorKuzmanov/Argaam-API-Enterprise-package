@@ -10,7 +10,7 @@ from pathlib import Path
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 
-from argaam_client import API_BASE, DATA_DIR, fetch_and_save, file_for
+from argaam_client import API_BASE, FUNDAMENTALS_DIR, MACRO_DIR, fetch_and_save, file_for, saved_name
 
 app = Flask(__name__, static_folder="static")
 
@@ -29,11 +29,11 @@ def config():
 
 
 def cached(path, name):
-    """Return data/<name>.json if it was saved before, otherwise fetch the path and save it."""
-    file = DATA_DIR / f"{name}.json"
+    """Return data/macroeconomic/<name>.json if it was saved before, otherwise fetch the path and save it."""
+    file = MACRO_DIR / f"{name}.json"
     if file.exists():
         return json.loads(file.read_text(encoding="utf-8"))
-    data, _ = fetch_and_save(path, name=name)
+    data, _ = fetch_and_save(path, MACRO_DIR, name=name)
     return data
 
 
@@ -86,12 +86,13 @@ def analyst_estimates():
         return jsonify({"error": "Period must be year or quarter."}), 400
 
     name = f"analyst_estimates_{market_id}_{symbol}_{period}"
-    file = DATA_DIR / f"{name}.json"
+    file = FUNDAMENTALS_DIR / f"{name}.json"
     if file.exists() and request.args.get("refresh") != "1":
-        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": file.name, "from_cache": True})
+        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
     try:
         data, file = fetch_and_save(
             f"/companies/{symbol}/analyst-estimates",
+            FUNDAMENTALS_DIR,
             name=name,
             params={"marketId": market_id, "period": period},
         )
@@ -101,30 +102,31 @@ def analyst_estimates():
         return jsonify({"error": f"No analyst estimates for symbol {symbol} on this market."}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    return jsonify({"data": data, "saved_to": file.name, "from_cache": False})
+    return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
 
 
 @app.post("/api/fetch")
 def fetch_endpoint():
-    """Reuses the saved copy unless refresh is set. Saved files come from API_BASE, so another base always fetches."""
+    """Macroeconomic tab: saves under data/macroeconomic/. Reuses the saved copy unless refresh is set.
+    Saved files come from API_BASE, so another base always fetches."""
     body = request.get_json(force=True)
     path = body.get("path", "")
     if "{" in path:
         return jsonify({"error": "Fill in the {placeholders} in the path first."}), 400
     name = body.get("save_as") or path
-    file = file_for(name)
+    file = file_for(name, MACRO_DIR)
     same_base = (body.get("base") or API_BASE).rstrip("/") == API_BASE
     if file.exists() and same_base and not body.get("refresh"):
-        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": file.name, "from_cache": True})
+        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
     try:
-        data, file = fetch_and_save(path, name=name, base=body.get("base") or None)
+        data, file = fetch_and_save(path, MACRO_DIR, name=name, base=body.get("base") or None)
     except requests.HTTPError as e:
         return jsonify({"error": f"{e.response.status_code}: {e.response.text[:500]}"}), 502
     except LookupError as e:
         return jsonify({"error": str(e)}), 404
     except Exception as e:  # missing key, network error, bad JSON...
         return jsonify({"error": str(e)}), 500
-    return jsonify({"data": data, "saved_to": file.name, "from_cache": False})
+    return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
 
 
 if __name__ == "__main__":
