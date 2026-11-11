@@ -521,14 +521,14 @@ Open the **Projects & Capital Investments** tab, choose a **Market** and click *
 
 **A company:** `ACWA POWER Co. (2082)`
 (files `data/projects/_company_projects.json` and `data/projects/company_developments/2082.json`)
-**Answer:** the table puts its project and its key developments in one list, newest first: the Bash 2 wind plant (announced May 2026), the **rebrand from "ACWA Power" to "Acwa" (January 2026)**, a **rights issue that raised capital to SAR 7,665m (July 2025)**, back to its founding in 2008. **15** developments in all.
+**Answer:** **116** projects, more than any other company: **32** as owner and the rest as a related company (often as developer or partner), **24** under construction, and **SAR 480bn** of disclosed cost across 102 of them. The chart shows the busiest year was **2025 (17 projects)**. The table puts the projects and the **15** key developments in one list, newest first, e.g. the Bash 2 wind plant (May 2026), the **rebrand from "ACWA Power" to "Acwa" (January 2026)** and a **rights issue that raised capital to SAR 7,665m (July 2025)**, back to its founding in 2008.
 
 ### Example 30: Aramco's milestones
 
 > **"What are the big moments in Saudi Aramco's history?"**
 
 **A company:** `Saudi Arabian Oil Co. (2222)` (file `data/projects/company_developments/2222.json`)
-**Answer:** **39** key developments from **1933**, when Saudi Arabia signed the oil concession with Standard Oil of California, to **26 February 2026**, when production started at **Jafurah**, the Middle East's largest unconventional gas field. Each row links to the Argaam article. Aramco is also a related company on its subsidiaries' projects, such as Luberef's Group III+ base oil plant (`2179`).
+**Answer:** **39** key developments from **1933**, when Saudi Arabia signed the oil concession with Standard Oil of California, to **26 February 2026**, when production started at **Jafurah**, the Middle East's largest unconventional gas field. Each row links to the Argaam article. The same view lists **85** projects that name Aramco (49 as owner), such as Luberef's Group III+ base oil plant (`2179`), where Aramco is the related company.
 
 ---
 
@@ -541,5 +541,5 @@ Open the **Projects & Capital Investments** tab, choose a **Market** and click *
 - **M&A deals are all saved:** both market lists and all 634 deal records.
 - **M&A values are in two currencies** (million USD or million riyals), and deal `477` has a value that is off by a million. The tab compares in USD (3.75 riyals a dollar) and leaves that deal out of "Largest deal".
 - **Project costs are in millions of riyals,** although the API doesn't say so (NEOM's 1,875,000 is $500 billion). The market lists repeat some projects in identical rows; the tab counts each project once.
-- **Only a sample of projects is saved so far** (2 market lists, 26 project records, 27 companies' developments). Locally, picking any other project or company fetches it; on the published page only saved ones are listed.
+- **Projects are all saved:** both market lists, all 1,966 project records and the key developments of 416 of the 417 listed companies (`9551` has none).
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).

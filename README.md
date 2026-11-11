@@ -56,6 +56,7 @@ data/                      # saved API responses (ready to push to a database), 
 .env                       # your API base + key (not committed)
 EXPLAINED.md               # what data each endpoint returns, with real examples
 API_EXAMPLES.md            # real questions answered with every API, and how to use the downloaded files
+PROJECTS_API_SURPRISES.md  # surprises in the Projects & Capital Investments data, and what could be done about them
 ```
 
 ### 1. Clone/Download the Repository
@@ -154,7 +155,7 @@ Saves both markets' project lists, every project's full record and every listed 
 2. `project_details/<projectId>.json`: 1 call per project, its full record: owners and related companies, category, description, updates, dates, capacity.
 3. `company_developments/<symbol>.json`: 1 call per company in `data/fundamentals/market_companies/` (417 on TASI and NOMU), its dated key developments.
 
-After stage 2 the script writes `_company_projects.json`, which the tab's company view reads; `--index` rebuilds it without any calls. `--markets 14` limits the run to some markets, `--symbols 2222 2082` the developments to some companies, and `--sample N` fetches at most N new items per stage, picked to mix markets, statuses and projects with and without a cost. A full download is about 2,385 calls: 2 lists, 1,966 project records and 417 development lists. Each endpoint has its own daily limit, so 22 keys (2,200 calls a day per endpoint) can do it in one day. Costs are in millions of riyals. The company endpoint (`/projects/by-company/{symbol}`) is not fetched: its rows are in the market lists, and each project record names its companies. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts.
+After stage 2 the script writes `_company_projects.json`, which the tab's company view reads; `--index` rebuilds it without any calls. `--markets 14` limits the run to some markets, `--symbols 2222 2082` the developments to some companies, and `--sample N` fetches at most N new items per stage, picked to mix markets, statuses and projects with and without a cost. A full download (done on 11 Nov 2026) is 2,385 calls: 2 market lists, 1,966 project records and 417 development lists. Each endpoint has its own daily limit, so 22 keys (2,200 calls a day per endpoint) finished it in one run of about 27 minutes, 19 MB on disk. Every project record was saved; 416 companies have key developments (3,608 in all), and `9551` has none (HTTP 404). 225 listed companies are named in at least one project, most of all ACWA (116), SABIC (100) and Saudi Aramco (85). Costs are in millions of riyals. See `PROJECTS_API_SURPRISES.md` for what to watch for in this data. The company endpoint (`/projects/by-company/{symbol}`) is not fetched: its rows are in the market lists, and each project record names its companies. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts.
 
 ### How fetches are tracked
 Two files, the same for every API. The fetch scripts and the web app both write to them, so a company fetched in the browser counts against the key's quota and is skipped by the next script run:

@@ -511,7 +511,7 @@ One project, as `{"projectDetail": {...}}`. `projectId` is a `projectID` from ei
 | Field | Type | Meaning |
 |-------|------|---------|
 | `projectCategoryNameEn` / `Ar` | text | `Industry`, `Petrochemicals`, `Real Estate`, `Power and Water`, `Other`… (some end in a space) |
-| `projectOwnerCompanies` | list | Who owns it: `companyID`, `companyNameEn`, `shortNameEn`, `marketNameEn` (`TASI`, `NOMU`, or empty for unlisted owners) |
+| `projectOwnerCompanies` | list | Who owns it: `companyID`, `companyNameEn`, `shortNameEn`, `marketNameEn` (`TASI`, `NOMU`, `Dubai`, `Abu Dhabi` or `Muscat`). 1,771 projects have one owner, 195 several, 2 none |
 | `projectRelatedCompanies` | list | Partners and parents, e.g. Saudi Aramco on its subsidiaries' projects |
 | `projectDescriptionEn` / `Ar` | HTML | What the project is |
 | `commentsEn` / `Ar` | HTML | Dated updates, e.g. "On January 1, 2026, the company announced…" |
@@ -543,8 +543,8 @@ One project, as `{"projectDetail": {...}}`. `projectId` is a `projectID` from ei
 ### What to watch for
 - **Less than the docs promise.** Argaam's docs say this record has a budget breakdown, a timeline and milestones. The sandbox has none of them; the timeline is only the start and completion text and the dated updates in `commentsEn`.
 - **`startDate` is a placeholder.** When only the year is known, `startDate` says `December <year>`. Use `startingDateForProjectDetailEn` instead (the tab does).
-- **Categories are coarse.** Many projects are `Other`, and a ready-meals factory (`2336`) is filed under `Real Estate`.
-- **Unlisted owners.** An owner can be a private company or a subsidiary (e.g. `Asas Al-Kham Investment` on `2305`). Only listed companies are in the company view.
+- **Categories are coarse.** Real Estate (507), Industry (483) and Other (426) cover most projects, and a ready-meals factory (`2336`) is filed under `Real Estate`.
+- **`marketNameEn` is not reliable.** 1,019 of the companies named in project records are not listed at all (private companies, subsidiaries, even `AlRiyadh Municipality`), yet most of them say `TASI`. Check the `companyID` against `data/fundamentals/market_companies/` instead. Only listed companies are in the company view.
 
 ### In practice
 "What is Sipchem building in Jubail?" Fetch `/projects/2285`: a **new methanol plant**, announced, petrochemicals, **1.8 million metric tons** a year, no cost disclosed yet.
@@ -555,7 +555,7 @@ One company's milestones, as `{"data": {"companyId": 3509, "marketId": 0, "devel
 | Field | Type | Meaning |
 |-------|------|---------|
 | `titleEn` / `Ar` | text | What happened, in one or two sentences |
-| `developmentYear` / `Month` / `Day` | number | When. Month or day is null for about a quarter of them (76 and 85 of 298 in the sample) |
+| `developmentYear` / `Month` / `Day` | number | When. Month or day is null for about a fifth of them (708 and 817 of 3,608) |
 | `fullDate` | text | The same date as `dd/mm/yyyy 12:00:00 AM` (with made-up month and day when they are null) |
 | `articleLinkEn` / `Ar` | text | The Argaam article about it |
 | `bodyEn` / `Ar` | null | Always empty in the sandbox |
@@ -575,12 +575,12 @@ One company's milestones, as `{"data": {"companyId": 3509, "marketId": 0, "devel
 ```
 
 ### What to watch for
-- **History, not news.** Most companies have 5–16 developments covering founding, capital increases, listings and renames; Aramco has 39, back to the 1933 oil concession.
+- **History, not news.** 3,608 developments for 416 companies: most have 2–15 (8 is typical), covering founding, capital increases, listings and renames. Aramco has the most, 39, back to the 1933 oil concession. One company (`9551`) has none (HTTP 404), and 6 answer with an empty list.
 - **`marketId` is always 0** in the answer, whatever market the company is in.
 - **Not in date order.** The tab sorts them, newest first.
 
 ### In practice
-"What has ACWA done lately?" Pick ACWA POWER (`2082`) in the company view: **15** developments from 2008 to 2026, the latest the rebrand from "ACWA Power" to "Acwa" in January 2026, next to its saved project, the **Bash 2 wind power plant** (300 MW, under construction).
+"What has ACWA done lately?" Pick ACWA POWER (`2082`) in the company view: **116** projects, the most of any company (32 as owner, 24 under construction), next to **15** developments from 2008 to 2026, the latest the rebrand from "ACWA Power" to "Acwa" in January 2026.
 
 ---
 

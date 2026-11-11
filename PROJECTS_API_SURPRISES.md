@@ -1,7 +1,7 @@
 # Projects & Capital Investments API: surprises in the data
 
 Notes for later work on the **Projects & Capital Investments API** (`fetch_projects.py`, `data/projects/`, the "Projects & Capital Investments" tab).
-Found on 11 Nov 2026 while pulling the sample (2 market lists, 26 project records, 27 companies' key developments) from the Argaam sandbox.
+Found on 11 Nov 2026 while pulling the data from the Argaam sandbox (2 market lists, all 1,966 project records, 416 companies' key developments). Numbers are from the full pull.
 For the full field descriptions, see the "Projects & Capital Investments" section in `EXPLAINED.md`.
 
 Each item says what we saw, an example, what the tab does about it today, and what could still be done.
@@ -70,24 +70,25 @@ Each item says what we saw, an example, what the tab does about it today, and wh
 - **Seen:** many projects are `Other`, some names end with a space (`"Industry "`), and a ready-meals factory (`2336`) is filed under `Real Estate`.
 - **Could do:** treat categories as a hint only, or make our own.
 
-## 11. Owners can be companies that aren't listed
+## 11. Many named companies aren't listed, and their market is wrong
 
-- **Seen:** `projectOwnerCompanies` can be a private company or a subsidiary, e.g. `Asas Al-Kham Investment` on `2305`. They have no stock symbol.
-- **Today:** the company view lists only the 417 companies listed on TASI and NOMU, so unlisted owners can't be picked there.
+- **Seen:** project records name 1,019 companies that are not listed on TASI or NOMU: private companies, subsidiaries, even `AlRiyadh Municipality`. Most of them still have `marketNameEn: "TASI"`. A few say `Dubai`, `Abu Dhabi` or `Muscat`.
+- **Today:** the company view lists only the 417 listed companies (matched by `companyID`), so unlisted ones can't be picked there.
+- **Could do:** never trust `marketNameEn`; check `companyID` against `data/fundamentals/market_companies/`. A view of the biggest unlisted partners could be added.
 
 ## 12. Key developments: dates without a month or day
 
-- **Seen:** of 298 developments in the sample, 76 have no month and 85 no day (`developmentMonth` / `developmentDay` are null). `fullDate` then shows a made-up month and day.
+- **Seen:** of 3,608 developments, 708 have no month and 817 no day (`developmentMonth` / `developmentDay` are null). `fullDate` then shows a made-up month and day.
 - **Example:** Aramco's 1933 oil concession has only the year.
 - **Today:** the tab shows only what is known ("1933", "2023-03" or "2023-03-23") and never uses `fullDate`.
 
 ## 13. Key developments: no text body, and it is company history, not news
 
-- **Seen:** `bodyEn` / `bodyAr` are always empty; only the title and the link to the Argaam article are filled. Most companies have 5 to 16 developments (founding, capital increases, listings, renames). Aramco has the most in the sample, 39, back to 1933.
+- **Seen:** `bodyEn` / `bodyAr` are always empty (all 3,608); only the title and the link to the Argaam article are filled. Most companies have 2 to 15 developments, 8 is typical (founding, capital increases, listings, renames). Aramco has the most, 39, back to 1933. `9551` answers 404 and 6 companies an empty list.
 - **Also:** `marketId` in the answer is always `0`, and the list is not in date order (the tab sorts it).
 
 ## 14. The company endpoint was skipped
 
-- **Seen:** `/projects/by-company/{symbol}` returned 85 projects for Aramco, all already in the market lists, and without the company's role.
+- **Seen:** `/projects/by-company/{symbol}` returned 85 projects for Aramco, all already in the market lists, and without the company's role. Our own company list (built from the project records) also finds exactly 85 for Aramco, so nothing is lost.
 - **Today:** not fetched. The company view uses `_company_projects.json` instead, built by `fetch_projects.py` from the saved project records (owner or related company).
 - **Could do:** if we need projects where a company is a contractor or consultant (the docs mention those roles), fetch this endpoint after all: 417 calls, one day.
