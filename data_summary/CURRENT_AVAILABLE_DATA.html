@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Current Available Data</title>
+<style>
+  :root { --bg:#f6f6f4; --card:#fff; --fg:#1a1a19; --muted:#6b6b66; --line:#e3e2dc; --accent:#2a78d6; --track:#ecebe6; --bad:#b3261e; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#141413; --card:#1f1f1d; --fg:#f0efec; --muted:#a8a79f; --line:#34332f; --accent:#3987e5; --track:#2b2a27; --bad:#f2958d; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui, -apple-system, sans-serif; }
+  main { max-width:1040px; margin:0 auto; padding:40px 16px 64px; }
+  h1 { font-size:30px; margin:0 0 4px; letter-spacing:-0.01em; }
+  h2 { font-size:19px; margin:0; }
+  .muted, small, .s { color:var(--muted); }
+  code { font-size:12.5px; }
+  td code { word-break:break-all; color:var(--muted); }
+  .hero { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin:28px 0; }
+  .hero div { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; }
+  .hero .v { display:block; font-size:40px; font-weight:700; line-height:1.1; font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
+  .hero .k { display:block; font-size:13px; color:var(--muted); margin-top:4px; }
+  .hero .main { border-color:var(--accent); }
+  .hero .main .v { color:var(--accent); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:16px; }
+  .card header { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:14px; }
+  .card header p { margin:2px 0 0; font-size:13px; }
+  .size { font-size:28px; font-weight:700; white-space:nowrap; font-variant-numeric:tabular-nums; color:var(--accent); }
+  .bars { display:grid; gap:10px; }
+  .bar-row { display:grid; grid-template-columns:minmax(120px, 230px) 1fr 120px; align-items:center; gap:12px; font-size:14px; }
+  .bar-track { background:var(--track); border-radius:4px; height:14px; overflow:hidden; }
+  .bar { display:block; height:100%; background:var(--accent); border-radius:0 4px 4px 0; }
+  .bar-value { text-align:right; font-variant-numeric:tabular-nums; font-weight:600; }
+  .bar-value small { font-weight:400; margin-left:6px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px; margin-bottom:14px; }
+  .kpis div { border:1px solid var(--line); border-radius:8px; padding:8px 12px; }
+  .kpis .k { display:block; font-size:12px; color:var(--muted); }
+  .kpis .v { display:block; font-size:20px; font-weight:650; font-variant-numeric:tabular-nums; }
+  .kpis .s { display:block; font-size:12px; }
+  .bad { color:var(--bad); }
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:12px; color:var(--muted); font-weight:600; }
+  .n { text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums; }
+  footer { font-size:13px; color:var(--muted); margin-top:24px; }
+  @media (max-width:640px) { .bar-row { grid-template-columns:1fr 100px; } .bar-track { grid-column:1 / -1; grid-row:2; } .card header { flex-direction:column; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Current Available Data</h1>
+  <p class="muted">Everything downloaded from the Argaam APIs and saved in <code>data/</code>, ready to use. Built 11 Nov 2026, 02:23.</p>
+
+  <div class="hero">
+    <div class="main"><span class="v">100.1 MB</span><span class="k">of JSON data</span></div>
+    <div><span class="v">505K</span><span class="k">records (504,859)</span></div>
+    <div><span class="v">5,064</span><span class="k">JSON files</span></div>
+    <div><span class="v">5</span><span class="k">APIs · 7,107 API calls recorded</span></div>
+  </div>
+
+  <section class="card">
+    <h2 style="margin-bottom:14px">Size by API</h2>
+    <div class="bars">
+      <div class="bar-row">
+        <span class="bar-name">Investment funds</span>
+        <span class="bar-track"><span class="bar" style="width:100.0%"></span></span>
+        <span class="bar-value">60.8 MB<small>61%</small></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">Fundamentals</span>
+        <span class="bar-track"><span class="bar" style="width:40.0%"></span></span>
+        <span class="bar-value">24.3 MB<small>24%</small></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">Projects &amp; Capital Investments</span>
+        <span class="bar-track"><span class="bar" style="width:21.7%"></span></span>
+        <span class="bar-value">13.2 MB<small>13%</small></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">M&amp;A &amp; Transactions</span>
+        <span class="bar-track"><span class="bar" style="width:1.6%"></span></span>
+        <span class="bar-value">1.0 MB<small>1%</small></span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-name">Macroeconomic</span>
+        <span class="bar-track"><span class="bar" style="width:1.1%"></span></span>
+        <span class="bar-value">691.1 KB<small>1%</small></span>
+      </div></div>
+  </section>
+  
+      <section class="card">
+        <header>
+          <div>
+            <h2>Investment funds</h2>
+            <p class="muted"><code>data/funds/</code> · <code>fetch_funds.py</code> · last fetched 2026-11-10</p>
+          </div>
+          <div class="size">60.8 MB</div>
+        </header>
+        <div class="kpis">
+          <div><span class="k">JSON files</span><span class="v">905</span></div>
+          <div><span class="k">Records</span><span class="v">449,684</span></div>
+          <div><span class="k">Endpoints</span><span class="v">5</span></div>
+          <div><span class="k">API calls recorded</span><span class="v">1,046</span><span class="s">905 saved · 141 no data</span></div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Endpoint</th><th class="n">Files</th><th class="n">Records</th><th class="n">Size</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Fund price history</b><br><code>/funds/managers/{managerId}/funds/{fundId}/values/history</code></td>
+              <td class="n">358</td>
+              <td class="n">448,620 <small>daily prices</small></td>
+              <td class="n">59.5 MB</td>
+            </tr>
+            <tr>
+              <td><b>Fund details</b><br><code>/funds/managers/{managerId}/funds/{fundId}</code></td>
+              <td class="n">499</td>
+              <td class="n">499 <small>funds</small></td>
+              <td class="n">1.3 MB</td>
+            </tr>
+            <tr>
+              <td><b>Funds of a manager</b><br><code>/funds/managers/{managerId}/funds</code></td>
+              <td class="n">46</td>
+              <td class="n">499 <small>funds</small></td>
+              <td class="n">82.2 KB</td>
+            </tr>
+            <tr>
+              <td><b>Top-moving funds</b><br><code>/funds/movers</code></td>
+              <td class="n">1</td>
+              <td class="n">20 <small>funds</small></td>
+              <td class="n">13.2 KB</td>
+            </tr>
+            <tr>
+              <td><b>Fund managers</b><br><code>/funds/managers</code></td>
+              <td class="n">1</td>
+              <td class="n">46 <small>managers</small></td>
+              <td class="n">6.8 KB</td>
+            </tr></tbody>
+        </table></div>
+      </section>
+      <section class="card">
+        <header>
+          <div>
+            <h2>Fundamentals</h2>
+            <p class="muted"><code>data/fundamentals/</code> · <code>fetch_fundamentals.py</code> · last fetched 2026-11-09</p>
+          </div>
+          <div class="size">24.3 MB</div>
+        </header>
+        <div class="kpis">
+          <div><span class="k">JSON files</span><span class="v">835</span></div>
+          <div><span class="k">Records</span><span class="v">39,515</span></div>
+          <div><span class="k">Endpoints</span><span class="v">2</span></div>
+          <div><span class="k">API calls recorded</span><span class="v">837</span><span class="s">835 saved · 2 no data</span></div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Endpoint</th><th class="n">Files</th><th class="n">Records</th><th class="n">Size</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Analyst estimates</b><br><code>/companies/{symbol}/analyst-estimates</code></td>
+              <td class="n">833</td>
+              <td class="n">39,098 <small>estimates</small></td>
+              <td class="n">24.2 MB</td>
+            </tr>
+            <tr>
+              <td><b>Companies in a market</b><br><code>/markets/{marketId}/companies</code></td>
+              <td class="n">2</td>
+              <td class="n">417 <small>companies</small></td>
+              <td class="n">176.8 KB</td>
+            </tr></tbody>
+        </table></div>
+      </section>
+      <section class="card">
+        <header>
+          <div>
+            <h2>Projects &amp; Capital Investments</h2>
+            <p class="muted"><code>data/projects/</code> · <code>fetch_projects.py</code> · last fetched 2026-11-11</p>
+          </div>
+          <div class="size">13.2 MB</div>
+        </header>
+        <div class="kpis">
+          <div><span class="k">JSON files</span><span class="v">2,384</span></div>
+          <div><span class="k">Records</span><span class="v">9,326</span></div>
+          <div><span class="k">Endpoints</span><span class="v">3</span></div>
+          <div><span class="k">API calls recorded</span><span class="v">2,385</span><span class="s">2,384 saved · 1 no data</span></div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Endpoint</th><th class="n">Files</th><th class="n">Records</th><th class="n">Size</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Project details</b><br><code>/projects/{projectId}</code></td>
+              <td class="n">1,966</td>
+              <td class="n">1,966 <small>projects</small></td>
+              <td class="n">9.1 MB</td>
+            </tr>
+            <tr>
+              <td><b>Company key developments</b><br><code>/companies/{symbol}/developments</code></td>
+              <td class="n">416</td>
+              <td class="n">3,608 <small>developments</small></td>
+              <td class="n">2.3 MB</td>
+            </tr>
+            <tr>
+              <td><b>Projects in a market</b><br><code>/projects/by-market/{marketId}</code></td>
+              <td class="n">2</td>
+              <td class="n">3,752 <small>list rows</small></td>
+              <td class="n">1.8 MB</td>
+            </tr></tbody>
+        </table></div>
+      </section>
+      <section class="card">
+        <header>
+          <div>
+            <h2>M&amp;A &amp; Transactions</h2>
+            <p class="muted"><code>data/m&amp;a/</code> · <code>fetch_ma.py</code> · last fetched 2026-11-10</p>
+          </div>
+          <div class="size">1.0 MB</div>
+        </header>
+        <div class="kpis">
+          <div><span class="k">JSON files</span><span class="v">636</span></div>
+          <div><span class="k">Records</span><span class="v">1,268</span></div>
+          <div><span class="k">Endpoints</span><span class="v">2</span></div>
+          <div><span class="k">API calls recorded</span><span class="v">636</span><span class="s">636 saved · 0 no data</span></div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Endpoint</th><th class="n">Files</th><th class="n">Records</th><th class="n">Size</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>M&amp;A deals in a market</b><br><code>/markets/{marketId}/mergers-acquisitions</code></td>
+              <td class="n">2</td>
+              <td class="n">634 <small>deals</small></td>
+              <td class="n">526.8 KB</td>
+            </tr>
+            <tr>
+              <td><b>M&amp;A deal details</b><br><code>/markets/mergers-acquisitions/{dealId}</code></td>
+              <td class="n">634</td>
+              <td class="n">634 <small>deals</small></td>
+              <td class="n">499.5 KB</td>
+            </tr></tbody>
+        </table></div>
+      </section>
+      <section class="card">
+        <header>
+          <div>
+            <h2>Macroeconomic</h2>
+            <p class="muted"><code>data/macroeconomic/</code> · <code>fetch_macroeconomic.py</code> · last fetched 2026-11-10</p>
+          </div>
+          <div class="size">691.1 KB</div>
+        </header>
+        <div class="kpis">
+          <div><span class="k">JSON files</span><span class="v">304</span></div>
+          <div><span class="k">Records</span><span class="v">5,066</span></div>
+          <div><span class="k">Endpoints</span><span class="v">3</span></div>
+          <div><span class="k">API calls recorded</span><span class="v">2,203</span><span class="s">304 saved · 1,899 no data</span></div>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Endpoint</th><th class="n">Files</th><th class="n">Records</th><th class="n">Size</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Indicator group fields</b><br><code>/indicators/groups/{groupId}/fields</code></td>
+              <td class="n">297</td>
+              <td class="n">5,031 <small>indicators</small></td>
+              <td class="n">620.5 KB</td>
+            </tr>
+            <tr>
+              <td><b>Indicator groups</b><br><code>/indicators/groups</code></td>
+              <td class="n">1</td>
+              <td class="n">29 <small>groups</small></td>
+              <td class="n">68.9 KB</td>
+            </tr>
+            <tr>
+              <td><b>Indicator series</b><br><code>/indicators/groups/{groupId}/fields/{fieldId}/values</code></td>
+              <td class="n">6</td>
+              <td class="n">6 <small>values</small></td>
+              <td class="n">1.8 KB</td>
+            </tr></tbody>
+        </table></div>
+      </section>
+
+  <footer>
+    Records = items in each saved response: one per fund price, estimate, deal, project, development and so on, so they are counted in each endpoint's own unit.
+    Size is the size of the JSON files themselves; on disk it can look a little bigger.
+    <b>API calls recorded</b> come from each API's <code>_progress.json</code>: "no data" means Argaam answered with nothing, which is not retried.
+    To update this page after fetching more data, run <code>python data_summary/build_data_summary.py</code>.
+  </footer>
+</main>
+</body>
+</html>
