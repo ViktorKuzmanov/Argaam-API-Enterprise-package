@@ -5,9 +5,10 @@ Stages, because each list tells the script what to fetch next:
   2. manager_funds   1 call per manager: the funds it runs
   3. fund_details    1 call per fund: objective, strategy, fees, minimums, size
   4. fund_history    1 call per fund: every end-of-day unit price and net asset value since FROM_DATE
+  5. fund_values     1 call per fund: its latest unit price, net asset value and return this year
 plus fund_movers, 1 call: this year's 10 biggest gainers and losers.
 
-Argaam's daily limit (100 per key) counts each endpoint separately, so stages 3 and 4 do not use up each other's calls.
+Argaam's daily limit (100 per key) counts each endpoint separately, so stages 3, 4 and 5 do not use up each other's calls.
 Every response is saved as soon as it arrives, and data/funds/_progress.json records what happened
 to each item, so running again continues where it stopped.
 
@@ -54,7 +55,7 @@ def count_rows(body):
         return len(body)                       # manager_funds: a list of funds
     if "values" in body:
         return len(body.get("values") or [])   # fund_history: {"values": [...]}
-    return None                                # fund_details: one object
+    return None                                # fund_details, fund_values: one object
 
 
 def run_stage(label, tasks, slots, progress, budget, has_rows=True):
@@ -113,9 +114,11 @@ def main():
         details = [endpoint_task("fund_details", managerId=m, fundId=f) for m, f in funds]
         history = [endpoint_task("fund_history", managerId=m, fundId=f, **{"from": FROM_DATE, "to": today()})
                    for m, f in funds]
-        return funds, left(details, progress, args.refresh), left(history, progress, args.refresh)
+        latest = [endpoint_task("fund_values", managerId=m, fundId=f) for m, f in funds]
+        return (funds, left(details, progress, args.refresh), left(history, progress, args.refresh),
+                left(latest, progress, args.refresh))
 
-    funds, details_left, history_left = fund_stages()
+    funds, details_left, history_left, values_left = fund_stages()
     known = len(lists) - len(lists_left)
     per_manager = len(funds) / known if known else 0
     guess = round(per_manager * len(lists_left))
@@ -125,11 +128,13 @@ def main():
     log(f"Stage 2: {len(lists_left)} of {len(lists)} fund lists left to fetch.")
     unseen = (f"plus about {guess} more ({per_manager:.1f} funds per manager so far)" if known
               else "plus an unknown number until some fund lists are saved")
-    log(f"Stages 3 and 4: {len(funds)} known funds, {len(details_left)} details and {len(history_left)} "
-        f"price histories left to fetch, {unseen}.")
-    days = math.ceil(max(len(lists_left), len(details_left) + guess, len(history_left) + guess) / per_day)
-    log(f"{len(slots)} keys with {calls_left(slots, 'fund_details')} details and {calls_left(slots, 'fund_history')} "
-        f"history calls left today, {per_day} a day for each endpoint: about {days} day(s).")
+    log(f"Stages 3 to 5: {len(funds)} known funds, {len(details_left)} details, {len(history_left)} "
+        f"price histories and {len(values_left)} latest values left to fetch, {unseen}.")
+    days = math.ceil(max(len(lists_left), len(details_left) + guess, len(history_left) + guess,
+                         len(values_left) + guess) / per_day)
+    log(f"{len(slots)} keys with {calls_left(slots, 'fund_details')} details, {calls_left(slots, 'fund_history')} "
+        f"history and {calls_left(slots, 'fund_values')} latest-value calls left today, "
+        f"{per_day} a day for each endpoint: about {days} day(s).")
     if args.dry_run:
         return
 
@@ -137,11 +142,14 @@ def main():
     if stop.is_set() or budget == 0:
         return
     # The fund lists saved in stage 2 tell us which funds to fetch.
-    funds, details_left, history_left = fund_stages()
+    funds, details_left, history_left, values_left = fund_stages()
     budget = run_stage("Stage 3 (fund details)", details_left, slots, progress, budget, has_rows=False)
     if stop.is_set() or budget == 0:
         return
-    run_stage("Stage 4 (price history)", history_left, slots, progress, budget)
+    budget = run_stage("Stage 4 (price history)", history_left, slots, progress, budget)
+    if stop.is_set() or budget == 0:
+        return
+    run_stage("Stage 5 (latest value)", values_left, slots, progress, budget, has_rows=False)
 
     remaining = sum(len(t) for t in (left(lists.values(), progress, False), *fund_stages()[1:]))
     if remaining:

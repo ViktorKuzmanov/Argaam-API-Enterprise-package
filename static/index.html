@@ -140,6 +140,7 @@
       <div class="row three">
         <div><label for="fundShow">Show</label><select id="fundShow">
           <option value="fund_history">Price history</option>
+          <option value="fund_values">Latest value</option>
           <option value="fund_details">Fund details</option>
           <option value="fund_movers">Top-moving funds this year</option>
         </select></div>
@@ -659,6 +660,15 @@ function showDetails(d) {
   })));
 }
 
+function showLatest(d) {
+  showFundView(`${d.fundNameEn} · latest value`,
+    stat("Unit price", num(d.unitPrice, 4), day(d.valueDate)) +
+    stat("This year (YTD)", `${num(d.ytd)}%`, "as reported by Argaam") +
+    stat("Net asset value", num(d.netAssetValue, 0), "total value of the fund"));
+  display("funds", [{ fund: d.fundNameEn, fundID: d.fundID, managerID: d.fundManagerID, date: day(d.valueDate),
+                      unitPrice: d.unitPrice, netAssetValue: d.netAssetValue, ytd: d.ytd }]);
+}
+
 function showMovers(d) {
   const rows = [...(d.gainers || []).map(r => ({ list: "Gainer", ...r })), ...(d.losers || []).map(r => ({ list: "Loser", ...r }))];
   if (!rows.length) throw new Error("Argaam returned no movers.");
@@ -678,7 +688,7 @@ async function fetchFund(refresh) {
     if (fundNeeds(id) && !(managerId && fundId)) throw new Error("Choose a fund manager and a fund.");
     $("fundStatus").textContent = "Fetching…";
     const body = await getFunds(id, fundNeeds(id) ? { managerId, fundId } : {}, refresh);
-    ({ fund_history: showHistory, fund_details: showDetails, fund_movers: showMovers })[id](body.data);
+    ({ fund_history: showHistory, fund_values: showLatest, fund_details: showDetails, fund_movers: showMovers })[id](body.data);
     $("fundStatus").textContent = body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`;
   } catch (e) {
     delete lastData.funds;

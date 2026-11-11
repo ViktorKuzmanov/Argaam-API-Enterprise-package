@@ -232,7 +232,7 @@ The metrics differ by company. Aramco has Net Income, Sales and Total Income. Al
 
 ---
 
-## Investment funds: managers, funds, details, price history, movers
+## Investment funds: managers, funds, details, price history, latest value, movers
 
 Like the indicators, each level gives you the IDs for the next one. The real numbers are in the price history:
 
@@ -240,11 +240,12 @@ Like the indicators, each level gives you the IDs for the next one. The real num
 /funds/managers                                      -> "Which fund managers exist?"       (gives fundManagerID)
   └─ /funds/managers/{managerId}/funds               -> "Which funds does a manager run?"  (gives fundID)
        ├─ /funds/managers/{managerId}/funds/{fundId}  -> "What is this fund, what does it cost?"
-       └─ .../funds/{fundId}/values/history?from=&to= -> "What was it worth each day?"
+       ├─ .../funds/{fundId}/values/history?from=&to= -> "What was it worth each day?"
+       └─ .../funds/{fundId}/values                   -> "What is it worth now?"
 /funds/movers                                        -> "Which funds moved most this year?"
 ```
 
-**Saved as:** `data/funds/fund_managers.json`, `manager_funds/<managerId>.json`, `fund_details/<managerId>_<fundId>.json`, `fund_history/<managerId>_<fundId>.json` and `fund_movers.json`, all under `data/funds/`. `fetch_funds.py` fetches them in that order, and the **Investment funds** tab shows them.
+**Saved as:** `data/funds/fund_managers.json`, `manager_funds/<managerId>.json`, `fund_details/<managerId>_<fundId>.json`, `fund_history/<managerId>_<fundId>.json`, `fund_values/<managerId>_<fundId>.json` and `fund_movers.json`, all under `data/funds/`. `fetch_funds.py` fetches them in that order, and the **Investment funds** tab shows them.
 
 ### 1. Fund managers: `GET /funds/managers`
 A list of the 46 fund-management firms Argaam tracks.
@@ -341,7 +342,29 @@ Every end-of-day price of the fund between the two dates. **Without `from` and `
 - **Size:** a typical fund has about 1,750 prices (up to about 3,100), roughly 150 KB of JSON.
 - In practice: "How has the Riyad Emaar Fund done?" Its unit price was **20.35** on 5 Nov 2026: **-10.2%** this year, **-18.1%** over 12 months, and **+103%** since its first price in 2009.
 
-### 5. Top-moving funds: `GET /funds/movers`
+### 5. Latest value: `GET /funds/managers/{managerId}/funds/{fundId}/values`
+One fund's most recent price, as a single object. **Saved as:** `data/funds/fund_values/<managerId>_<fundId>.json`.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `fundManagerID`, `fundID`, `fundNameEn` / `fundNameAr` | | The fund |
+| `valueDate` | date | The day of the latest price |
+| `unitPrice` | number | Price of one unit that day, in the fund's currency |
+| `netAssetValue` | number | Total value of the fund that day (NAV) |
+| `ytd` | number | Return since the start of the year, in percent |
+
+```json
+{"fundManagerID": 2501, "fundID": 260, "fundNameEn": "Riyad Emaar Fund",
+ "valueDate": "2026-11-05T00:00:00", "ytd": -10.2191, "netAssetValue": 23864392.82, "unitPrice": 20.3475}
+```
+
+- **Almost always the same as the last row of the price history.** For 357 of the 358 funds with prices, the date, unit price, NAV and YTD match the newest row in `fund_history/`. It is a quick way to get today's price without loading the whole history.
+- **One fund is stale here.** AlWatani Saudi Equity Fund (`11616_471`) gives a latest value from 1 Sep 2022 at 11.30, while its price history runs to 5 Nov 2026 at 12.55. Trust the history when the two disagree.
+- **Less than the docs promise.** Argaam's docs say it also has daily, weekly and monthly change percentages. The sandbox returns none of them; compute them from the price history.
+- **Funds without prices return nothing.** The same 141 funds that have no price history answer HTTP 204 here too, and are recorded as `no_data`.
+- In practice: "What is the Riyad Emaar Fund worth today?" **20.35** riyals a unit on 5 Nov 2026, **-10.2%** this year, about **23.9 million riyals** in the fund.
+
+### 6. Top-moving funds: `GET /funds/movers`
 Two lists of 10: `gainers` and `losers`, ranked by this year's return. Each row has `fundID`, `fundNameEn` / `Ar`, `assetTypeNameEn` (e.g. `Growth`, `Income & Growth`), `currencyNameEn`, `valueDate`, `unitPrice`, `ytd` (percent) and `nav`.
 
 - `fundManagerID` is always `0` here, so to open the fund elsewhere, find its `fundID` in the managers' fund lists.

@@ -18,7 +18,7 @@ argaam_client.py           # shared basics: endpoints and file names, progress a
 argaam_downloader.py       # shared bulk download code for the fetch scripts: keys, proxy, pacing, retries, resume
 fetch_fundamentals.py      # script: every company's analyst estimates -> data/fundamentals/
 fetch_macroeconomic.py     # script: every indicator group, field and series -> data/macroeconomic/
-fetch_funds.py             # script: every fund manager, fund, fund details and price history -> data/funds/
+fetch_funds.py             # script: every fund manager, fund, fund details, price history and latest value -> data/funds/
 fetch_ma.py                # script: every M&A deal list and deal record -> data/m&a/
 fetch_projects.py          # script: every project list, project record and company's key developments -> data/projects/
 app.py                     # web viewer server
@@ -41,6 +41,7 @@ data/                      # saved API responses (ready to push to a database), 
     manager_funds/2604.json        # /funds/managers/2604/funds
     fund_details/2604_2.json       # /funds/managers/2604/funds/2
     fund_history/2604_2.json       # /funds/managers/2604/funds/2/values/history?from=1980-01-01&to=<today>
+    fund_values/2604_2.json        # /funds/managers/2604/funds/2/values
     _progress.json                 # what was fetched, and where it came from
   m&a/
     market_deals/3.json            # /markets/3/mergers-acquisitions
@@ -93,7 +94,7 @@ Choose an endpoint, click **Fetch**, tick the fields you want, then **Export CSV
 
 The **Fundamentals** tab fetches analyst estimates: pick a market, type a stock symbol (e.g. `2222`) and a period. The sandbox allows 5 requests a minute and 100 a day per endpoint, so a saved company loads from `data/fundamentals/` until you click **Re-fetch from API**. See `EXPLAINED.md` for what the data contains.
 
-The **Investment funds** tab shows one fund's price history (a chart of the unit price, with the latest price, this year's and the last 12 months' return), its details (objective, strategy, fees, size), or this year's top-moving funds. Pick what to show, a fund manager and a fund. Saved funds load from `data/funds/`; choosing a manager or fund that isn't saved yet fetches it.
+The **Investment funds** tab shows one fund's price history (a chart of the unit price, with the latest price, this year's and the last 12 months' return), its latest value (unit price, net asset value and this year's return), its details (objective, strategy, fees, size), or this year's top-moving funds. Pick what to show, a fund manager and a fund. Saved funds load from `data/funds/`; choosing a manager or fund that isn't saved yet fetches it.
 
 ### Download all fundamentals data (analyst estimates)
 ```
@@ -120,14 +121,15 @@ python fetch_funds.py --dry-run
 python fetch_funds.py --managers 2604 2501 2930
 python fetch_funds.py
 ```
-Saves fund managers, their funds, each fund's details and each fund's full price history to `data/funds/`, in the same files the Investment funds tab reads. Four stages, because each list says what to fetch next:
+Saves fund managers, their funds, each fund's details, full price history and latest value to `data/funds/`, in the same files the Investment funds tab reads. Five stages, because each list says what to fetch next:
 
 1. `fund_managers.json`: 1 call, the 46 fund managers. Also `fund_movers.json`, 1 call, this year's top 10 gainers and losers.
 2. `manager_funds/<managerId>.json`: 1 call per manager, its funds.
 3. `fund_details/<managerId>_<fundId>.json`: 1 call per fund, what it is and what it costs.
 4. `fund_history/<managerId>_<fundId>.json`: 1 call per fund, every end-of-day unit price and net asset value since 1980 (in practice since the fund started).
+5. `fund_values/<managerId>_<fundId>.json`: 1 call per fund, its latest unit price, net asset value and return this year.
 
-`--managers` limits the run to some managers (IDs from `fund_managers.json`). A full download (done on 10 Nov 2026) is 499 funds from the 46 managers, two calls per fund (details and history), so about 1,050 calls. Since each endpoint has its own daily limit, it took about 10 minutes with 22 keys. 358 funds have prices (about 445,000 daily prices, 63 MB), and 356 of them are still priced in 2026, the same 356 that `fund_movers.json` ranks. Funds without prices (often closed ones) are recorded as `no_data`. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts. Use `--refresh` to get newer prices.
+`--managers` limits the run to some managers (IDs from `fund_managers.json`). A full download (done on 10 Nov 2026) is 499 funds from the 46 managers, two calls per fund (details and history), so about 1,050 calls. Since each endpoint has its own daily limit, it took about 10 minutes with 22 keys. 358 funds have prices (about 445,000 daily prices, 63 MB), and 356 of them are still priced in 2026, the same 356 that `fund_movers.json` ranks. Funds without prices (often closed ones) are recorded as `no_data`. The latest values (stage 5, added on 11 Nov 2026) are 499 more calls, which took about 6 minutes: the same 358 funds are saved (1.4 MB) and the same 141 have no data. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts. Use `--refresh` to get newer prices.
 
 The **M&A & Transactions** tab shows every merger, acquisition and stake deal in a market (TASI or NOMU): tiles for the number of deals, disclosed values, the median and largest deal (in USD) and the share completed or cancelled, plus a chart of deals per year by status. Filter by type, status, year or company, or pick one deal to see its full record, including how it was financed. Saved data loads from `data/m&a/`.
 
