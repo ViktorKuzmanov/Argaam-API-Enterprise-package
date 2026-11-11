@@ -1,0 +1,27 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "app",
+      "runtimeExecutable": ".venv/bin/python",
+      "runtimeArgs": [
+        "app.py"
+      ],
+      "port": 5001
+    },
+    {
+      "name": "published-preview",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "5006",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "/private/tmp/claude-501/-Users-viktor--claude-spares-spare-85xljT/8fe055f8-2f9f-4fb3-85da-b15c40fde9fc/scratchpad/_site"
+      ],
+      "port": 5006
+    }
+  ]
+}

@@ -401,7 +401,7 @@ All deals in one call, newest first, with no pages. The answer is `{"marketId": 
 ### What to watch for
 - **Two currencies.** 428 TASI deals are in `Million USD`, 187 in `Million Riyal`. A null value always comes with some currency, which means nothing. The tab converts riyals to dollars at 3.75 to compare.
 - **A unit mistake.** Deal `477` (Sulaiman Al Habib → Tamkeen, 2022) says `66,250,000` million riyals, which is 66 trillion. It is probably in riyals, not millions. The tab leaves values over a trillion dollars out of "Largest deal".
-- **The real largest deal** is `17`: Saudi Aramco buying SABIC for **$69,000 million**.
+- **The real largest deal** is `17`: Saudi Aramco buying a stake in SABIC for **$69,000 million** (2018).
 - **Several companies per side.** 30 deals have more than one acquirer and 19 more than one target. Deal `485` has neither, and deal `47` has no target.
 - **"Related" companies** are parents or partners, e.g. PIF on Aramco's HUMAIN deal.
 - **Less history early on.** Only 1 deal in 2004 and none in 2005. From 2010 there are 19–57 a year, with the most in 2023 (57).
@@ -414,7 +414,7 @@ One deal, as `{"dealId": 720, "deal": {...}}`. `dealId` is a `mergerID` from eit
 
 | Field | Type | Meaning |
 |-------|------|---------|
-| `financialWaysList` | list or null | How the deal was paid for: `Internal Resources`, `Borrowing/Loans`, `Share Swap`, sometimes two |
+| `financialWaysList` | list or null | How the deal was paid for: `Internal Resources` (281 of 634 deals), `Borrowing/Loans` (100), `Capital Increase` (70), `Share Swap` (45), sometimes two. Null for 242 deals |
 | `acquirersCompanies` / `targerCompanies` | list of text | English names only, no IDs. `targer` is Argaam's spelling |
 | `otherRelatedCompanies` | list of text or null | The related companies, by name |
 

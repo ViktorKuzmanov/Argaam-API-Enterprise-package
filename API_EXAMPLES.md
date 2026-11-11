@@ -456,7 +456,7 @@ Open the **M&A & Transactions** tab, choose a **Market** and click **Show deals*
 > **"What has Aramco bought, and what was the biggest deal?"**
 
 **Market:** TASI · **Company:** `aramco`
-**Answer:** **23** deals (19 completed). The "Largest deal" tile shows Aramco buying **SABIC for $69,000 million** (deal `17`). The table lists the others, newest first, e.g. Sahel (2026) and HUMAIN (2025, with PIF as related company).
+**Answer:** **23** deals (19 completed). The "Largest deal" tile shows Aramco buying **a stake in SABIC for $69,000 million** (deal `17`, 2018, financed by loans). The table lists the others, newest first, e.g. Sahel (2026) and HUMAIN (2025, with PIF as related company).
 
 ### Example 22: How was a deal paid for?
 
@@ -488,5 +488,6 @@ Open the **M&A & Transactions** tab, choose a **Market** and click **Show deals*
 - **The sandbox is mostly empty in step 3.** Fields with numbers: `33/125`, `33/128` and `51/103`, `51/104`, `51/105`. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
 - **HTTP 429** means you called too fast. Wait a few seconds and retry.
 - **Investment funds are all saved:** 46 managers and 499 funds, 358 of them with price history. The other 141 returned no prices (HTTP 204), often because they have closed.
+- **M&A deals are all saved:** both market lists and all 634 deal records.
 - **M&A values are in two currencies** (million USD or million riyals), and deal `477` has a value that is off by a million. The tab compares in USD (3.75 riyals a dollar) and leaves that deal out of "Largest deal".
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).
