@@ -3,19 +3,26 @@
     python data_summary/build_data_summary.py
 
 Run it again after any fetch script to update the page, then open data_summary/CURRENT_AVAILABLE_DATA.html in a browser.
+Each run also saves the totals to data_summary/history.json (one snapshot per day, a day starts at 5 am so late-night
+fetches count to the day before) and the page shows "+N today": how much has grown since the last snapshot of an
+earlier day. To record a snapshot of another copy of data/ (for example an old commit), run
+    python data_summary/build_data_summary.py --seed path/to/data --taken 2026-11-11T02:23
 It reads only local files (no API calls): every data/<api>/**/*.json response, each API's _progress.json, and
 static/endpoints.json for the endpoint names. A new API folder shows up on its own; add a line to API_NAMES
 and RECORDS below to give it a nicer name and say what one of its records is.
 """
+import argparse
 import html
 import json
 from collections import Counter, defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent  # the project root; this script lives in data_summary/
 DATA_DIR = ROOT / "data"
 OUT = Path(__file__).resolve().parent / "CURRENT_AVAILABLE_DATA.html"
+HISTORY = Path(__file__).resolve().parent / "history.json"
+DAY_STARTS_AT = 5  # hour; fetches before 5 am count to the previous day
 ENDPOINTS = {e["id"]: e for e in json.loads((ROOT / "static" / "endpoints.json").read_text(encoding="utf-8"))}
 
 # Folder -> (name in the viewer, fetch script).
@@ -73,9 +80,9 @@ def generic_count(body):
     return 1
 
 
-def endpoint_of(api, file):
+def endpoint_of(api, file, data_dir=DATA_DIR):
     """Which endpoint a saved file belongs to: the endpoint of this API whose file template has the same folder."""
-    rel = file.relative_to(DATA_DIR / api).with_suffix("").as_posix()
+    rel = file.relative_to(data_dir / api).with_suffix("").as_posix()
     folder = rel.rsplit("/", 1)[0] if "/" in rel else None
     for ep in ENDPOINTS.values():
         if ep["api"] != api:
@@ -86,15 +93,15 @@ def endpoint_of(api, file):
     return folder or rel
 
 
-def scan():
+def scan(data_dir=DATA_DIR):
     apis = []
-    for folder in sorted(p for p in DATA_DIR.iterdir() if p.is_dir()):
+    for folder in sorted(p for p in data_dir.iterdir() if p.is_dir()):
         api = folder.name
         endpoints = defaultdict(lambda: {"files": 0, "bytes": 0, "records": 0})
         for file in folder.rglob("*.json"):
             if file.name.startswith("_"):
                 continue  # bookkeeping (_progress.json, _company_projects.json), not API responses
-            ep = endpoint_of(api, file)
+            ep = endpoint_of(api, file, data_dir)
             row = endpoints[ep]
             row["files"] += 1
             row["bytes"] += file.stat().st_size
@@ -119,6 +126,30 @@ def scan():
     return sorted(apis, key=lambda a: -a["bytes"])
 
 
+def work_day(taken):
+    return (datetime.fromisoformat(taken) - timedelta(hours=DAY_STARTS_AT)).date().isoformat()
+
+
+def snapshot(apis, taken):
+    """The totals worth comparing later: per API and per endpoint."""
+    return {"taken": taken, "apis": {a["api"]: {
+        "files": a["files"], "bytes": a["bytes"], "records": a["records"], "calls": a["saved"] + a["no_data"],
+        "endpoints": {ep: dict(r) for ep, r in a["endpoints"]},
+    } for a in apis}}
+
+
+def load_history():
+    return json.loads(HISTORY.read_text(encoding="utf-8")) if HISTORY.exists() else []
+
+
+def save_snapshot(history, snap):
+    """Keep one snapshot per day: a later run on the same day replaces the earlier one."""
+    history = [h for h in history if work_day(h["taken"]) != work_day(snap["taken"])] + [snap]
+    history.sort(key=lambda h: h["taken"])
+    HISTORY.write_text(json.dumps(history, indent=1), encoding="utf-8")
+    return history
+
+
 def size(n):
     for unit in ("bytes", "KB", "MB", "GB"):
         if n < 1024 or unit == "GB":
@@ -138,7 +169,29 @@ def big(n):
 e = html.escape
 
 
-def render(apis):
+def grew(now, before, fmt=num, pct=True):
+    """'+1,234 (+56%)' in green when something grew since the baseline; '' when it did not or there is no baseline."""
+    if before is None or now <= before:
+        return ""
+    if not before:
+        return f'<span class="up">+{fmt(now)} new</span>'
+    p = f" ({(now - before) / before * 100:+,.0f}%)" if pct else ""
+    return f'<span class="up">+{fmt(now - before)}{p}</span>'
+
+
+def render(apis, base=None):
+    """base: an earlier snapshot to compare with (None: no "+N today" numbers)."""
+    b_apis = (base or {}).get("apis", {})
+    def b(api, key, ep=None):
+        if base is None:
+            return None
+        row = b_apis.get(api, {})
+        if ep is not None:
+            row = row.get("endpoints", {}).get(ep, {})
+        return row.get(key, 0)
+    def b_total(key):
+        return None if base is None else sum(v.get(key, 0) for v in b_apis.values())
+
     total_bytes = sum(a["bytes"] for a in apis)
     total_files = sum(a["files"] for a in apis)
     total_records = sum(a["records"] for a in apis)
@@ -150,7 +203,7 @@ def render(apis):
       <div class="bar-row">
         <span class="bar-name">{e(a["name"])}</span>
         <span class="bar-track"><span class="bar" style="width:{max(a["bytes"] / max_bytes * 100, 0.6):.1f}%"></span></span>
-        <span class="bar-value">{size(a["bytes"])}<small>{a["bytes"] / total_bytes * 100:.0f}%</small></span>
+        <span class="bar-value">{size(a["bytes"])}<small>{a["bytes"] / total_bytes * 100:.0f}%</small>{grew(a["bytes"], b(a["api"], "bytes"), size)}</span>
       </div>""" for a in apis)
 
     cards = []
@@ -158,9 +211,9 @@ def render(apis):
         rows = "".join(f"""
             <tr>
               <td><b>{e(ENDPOINTS.get(ep, {}).get("name", ep))}</b><br><code>{e(ENDPOINTS.get(ep, {}).get("path", ep))}</code></td>
-              <td class="n">{num(r["files"])}</td>
-              <td class="n">{num(r["records"])} <small>{e(RECORDS.get(ep, ("records",))[0])}</small></td>
-              <td class="n">{size(r["bytes"])}</td>
+              <td class="n">{num(r["files"])}{grew(r["files"], b(a["api"], "files", ep), pct=False)}</td>
+              <td class="n">{num(r["records"])} <small>{e(RECORDS.get(ep, ("records",))[0])}</small>{grew(r["records"], b(a["api"], "records", ep), pct=False)}</td>
+              <td class="n">{size(r["bytes"])}{grew(r["bytes"], b(a["api"], "bytes", ep), size, pct=False)}</td>
             </tr>""" for ep, r in a["endpoints"])
         status = f'{num(a["saved"])} saved · {num(a["no_data"])} no data' + (f' · <span class="bad">{num(a["failed"])} failed</span>' if a["failed"] else "")
         cards.append(f"""
@@ -170,13 +223,13 @@ def render(apis):
             <h2>{e(a["name"])}</h2>
             <p class="muted"><code>data/{e(a["api"])}/</code>{f' · <code>{e(a["script"])}</code>' if a["script"] else ""}{f' · last fetched {a["last"]}' if a["last"] else ""}</p>
           </div>
-          <div class="size">{size(a["bytes"])}</div>
+          <div class="size">{size(a["bytes"])}{grew(a["bytes"], b(a["api"], "bytes"), size)}</div>
         </header>
         <div class="kpis">
-          <div><span class="k">JSON files</span><span class="v">{num(a["files"])}</span></div>
-          <div><span class="k">Records</span><span class="v">{num(a["records"])}</span></div>
+          <div><span class="k">JSON files</span><span class="v">{num(a["files"])}</span>{grew(a["files"], b(a["api"], "files"))}</div>
+          <div><span class="k">Records</span><span class="v">{num(a["records"])}</span>{grew(a["records"], b(a["api"], "records"))}</div>
           <div><span class="k">Endpoints</span><span class="v">{len(a["endpoints"])}</span></div>
-          <div><span class="k">API calls recorded</span><span class="v">{num(a["saved"] + a["no_data"])}</span><span class="s">{status}</span></div>
+          <div><span class="k">API calls recorded</span><span class="v">{num(a["saved"] + a["no_data"])}</span>{grew(a["saved"] + a["no_data"], b(a["api"], "calls"))}<span class="s">{status}</span></div>
         </div>
         <div class="table-wrap"><table>
           <thead><tr><th>Endpoint</th><th class="n">Files</th><th class="n">Records</th><th class="n">Size</th></tr></thead>
@@ -191,9 +244,9 @@ def render(apis):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Current Available Data</title>
 <style>
-  :root {{ --bg:#f6f6f4; --card:#fff; --fg:#1a1a19; --muted:#6b6b66; --line:#e3e2dc; --accent:#2a78d6; --track:#ecebe6; --bad:#b3261e; }}
+  :root {{ --bg:#f6f6f4; --card:#fff; --fg:#1a1a19; --muted:#6b6b66; --line:#e3e2dc; --accent:#2a78d6; --track:#ecebe6; --bad:#b3261e; --up:#1e7a3c; }}
   @media (prefers-color-scheme: dark) {{
-    :root {{ --bg:#141413; --card:#1f1f1d; --fg:#f0efec; --muted:#a8a79f; --line:#34332f; --accent:#3987e5; --track:#2b2a27; --bad:#f2958d; }}
+    :root {{ --bg:#141413; --card:#1f1f1d; --fg:#f0efec; --muted:#a8a79f; --line:#34332f; --accent:#3987e5; --track:#2b2a27; --bad:#f2958d; --up:#5fd08a; }}
   }}
   * {{ box-sizing:border-box; }}
   body {{ margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui, -apple-system, sans-serif; }}
@@ -225,6 +278,11 @@ def render(apis):
   .kpis .v {{ display:block; font-size:20px; font-weight:650; font-variant-numeric:tabular-nums; }}
   .kpis .s {{ display:block; font-size:12px; }}
   .bad {{ color:var(--bad); }}
+  .up {{ display:block; color:var(--up); font-size:12.5px; font-weight:600; font-variant-numeric:tabular-nums; }}
+  .size .up {{ text-align:right; font-size:13px; }}
+  .bar-value .up {{ font-size:12px; }}
+  .since {{ font-size:13px; color:var(--muted); margin:4px 0 0; }}
+  .since .up {{ display:inline; }}
   .table-wrap {{ overflow-x:auto; }}
   table {{ width:100%; border-collapse:collapse; font-size:14px; }}
   th, td {{ text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }}
@@ -238,12 +296,13 @@ def render(apis):
 <main>
   <h1>Current Available Data</h1>
   <p class="muted">Everything downloaded from the Argaam APIs and saved in <code>data/</code>, ready to use. Built {built}.</p>
+  {f'<p class="since"><span class="up">+green</span> = added today, compared with the previous snapshot ({datetime.fromisoformat(base["taken"]).strftime("%d %b %Y, %H:%M")}).</p>' if base else ""}
 
   <div class="hero">
-    <div class="main"><span class="v">{size(total_bytes)}</span><span class="k">of JSON data</span></div>
-    <div><span class="v">{big(total_records)}</span><span class="k">records ({num(total_records)})</span></div>
-    <div><span class="v">{num(total_files)}</span><span class="k">JSON files</span></div>
-    <div><span class="v">{len(apis)}</span><span class="k">APIs · {num(total_calls)} API calls recorded</span></div>
+    <div class="main"><span class="v">{size(total_bytes)}</span><span class="k">of JSON data</span>{grew(total_bytes, b_total("bytes"), size)}</div>
+    <div><span class="v">{big(total_records)}</span><span class="k">records ({num(total_records)})</span>{grew(total_records, b_total("records"))}</div>
+    <div><span class="v">{num(total_files)}</span><span class="k">JSON files</span>{grew(total_files, b_total("files"))}</div>
+    <div><span class="v">{len(apis)}</span><span class="k">APIs · {num(total_calls)} API calls recorded</span>{grew(total_calls, b_total("calls"))}</div>
   </div>
 
   <section class="card">
@@ -256,6 +315,7 @@ def render(apis):
     Records = items in each saved response: one per fund price, estimate, deal, project, development and so on, so they are counted in each endpoint's own unit.
     Size is the size of the JSON files themselves; on disk it can look a little bigger.
     <b>API calls recorded</b> come from each API's <code>_progress.json</code>: "no data" means Argaam answered with nothing, which is not retried.
+    Green <b>+N</b> numbers show growth since the last snapshot from an earlier day, kept in <code>data_summary/history.json</code> (a day starts at 5 am).
     To update this page after fetching more data, run <code>python data_summary/build_data_summary.py</code>.
   </footer>
 </main>
@@ -265,8 +325,21 @@ def render(apis):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--seed", type=Path, help="only record a snapshot of this data folder in history.json")
+    parser.add_argument("--taken", help="when that --seed data was current, e.g. 2026-11-11T02:23")
+    args = parser.parse_args()
+    if args.seed:
+        snap = snapshot(scan(args.seed.resolve()), args.taken or datetime.now().isoformat(timespec="minutes"))
+        save_snapshot(load_history(), snap)
+        print(f"Recorded a snapshot of {args.seed} taken {snap['taken']} in data_summary/{HISTORY.name}.")
+        return
+
     apis = scan()
-    OUT.write_text(render(apis), encoding="utf-8")
+    now = datetime.now().isoformat(timespec="minutes")
+    history = save_snapshot(load_history(), snapshot(apis, now))
+    earlier = [h for h in history if work_day(h["taken"]) < work_day(now)]
+    OUT.write_text(render(apis, earlier[-1] if earlier else None), encoding="utf-8")
     total = sum(a["bytes"] for a in apis)
     print(f"Wrote data_summary/{OUT.name}: {len(apis)} APIs, {sum(a['files'] for a in apis):,} files, {size(total)}.")
     for a in apis:
