@@ -53,12 +53,20 @@
   .legend { display:flex; flex-wrap:wrap; gap:4px 16px; font-size:12px; color:var(--muted); margin-bottom:6px; }
   .legend span { display:inline-flex; align-items:center; gap:6px; }
   .legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }
+  .promo { display:flex; align-items:center; gap:12px; background:#eaf6ee; border:1px solid #b7e0c3; color:#14532d;
+           border-radius:8px; padding:10px 14px; margin:0 0 16px; }
+  .promo .amt { font-size:20px; font-weight:700; white-space:nowrap; }
+  .promo p { margin:0; font-size:13px; }
   @media (max-width:640px) { .row, .row.three { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 <main>
   <h1>API Data Viewer</h1>
+  <div class="promo">
+    <span class="amt">Save $60,000/yr</span>
+    <p><b>Enterprise market data without the enterprise price tag.</b> Macro, fundamentals, funds and M&amp;A data, pulled and ready to use, with no data subscription to pay for.</p>
+  </div>
   <p id="savedNote" class="hint hidden">This shared version shows saved data only, so the dropdowns list just what has been saved.</p>
 
   <!-- To add another API: add a button here and a matching <div id="tab-NAME" class="hidden"> below. -->
