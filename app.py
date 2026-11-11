@@ -174,6 +174,50 @@ def mergers(endpoint_id):
     return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
 
 
+PROJECTS_PAGE = {"page": 1, "pageSize": 5000}  # same as fetch_projects.py: a whole market in one page
+
+
+@app.get("/api/projects-index")
+def projects_index():
+    """data/projects/_company_projects.json, written by fetch_projects.py: each listed company and the saved
+    project records that name it. Not an API response, so it has no endpoint and no re-fetch."""
+    return send_from_directory("data/projects", "_company_projects.json", max_age=0)
+
+
+@app.get("/api/projects/<endpoint_id>")
+def projects(endpoint_id):
+    """Projects tab: projects_by_market (marketId), project_details (projectId) or company_developments (symbol)
+    from static/endpoints.json. Reuses the saved copy unless refresh=1."""
+    ep = ENDPOINTS.get(endpoint_id)
+    if not ep or ep["api"] != "projects":
+        return jsonify({"error": f"{endpoint_id} is not a projects endpoint in static/endpoints.json."}), 404
+    values = {}
+    for name, what, pattern in (("marketId", "market", r"\d+"), ("projectId", "project", r"\d+"),
+                                ("symbol", "company", r"[A-Za-z0-9-]+")):
+        if "{" + name + "}" in ep["path"]:
+            value = request.args.get(name, "").strip()
+            if not re.fullmatch(pattern, value):
+                return jsonify({"error": f"Choose a {what}."}), 400
+            values[name] = value
+    if "pageSize" in ep.get("query", []):
+        values.update(PROJECTS_PAGE)
+    file = saved_file(endpoint_id, **values)
+    refresh = request.args.get("refresh") == "1"
+    if file.exists() and not refresh:
+        return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
+    if not refresh and (entry := known_no_data(endpoint_id, **values)):
+        return no_data_answer(entry, "No data for this")
+    try:
+        data, file = fetch_and_save(endpoint_id, **values)
+    except requests.HTTPError as e:
+        return upstream_error(e)
+    except LookupError:
+        return jsonify({"error": "Argaam has no data for this."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
+
+
 @app.post("/api/fetch")
 def fetch_endpoint():
     """Macroeconomic tab: saves under data/macroeconomic/. Reuses the saved copy unless refresh is set.

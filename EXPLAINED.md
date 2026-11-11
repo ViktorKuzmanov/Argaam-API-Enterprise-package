@@ -445,6 +445,145 @@ One deal, as `{"dealId": 720, "deal": {...}}`. `dealId` is a `mergerID` from eit
 
 ---
 
+## Projects & Capital Investments: market projects, project details, company key developments
+
+Capital projects of listed Saudi companies (plants, real estate, power, schools, mega-projects), with what they cost and where they stand, plus each company's dated key developments. The market list gives the project IDs for the second endpoint; the company lists already saved under `data/fundamentals/market_companies/` give the stock symbols for the third:
+
+```
+/projects/by-market/{marketId}          -> "Which projects are there in this market?"   (gives projectID)
+  └─ /projects/{projectId}              -> "Who owns this project, and what is it?"
+/companies/{stockSymbol}/developments   -> "What happened at this company, and when?"   (symbols from market_companies)
+```
+
+**Saved as:** `data/projects/projects_by_market/<marketId>.json`, `data/projects/project_details/<projectId>.json` and `data/projects/company_developments/<symbol>.json`. `fetch_projects.py` fetches them in that order, and the **Projects & Capital Investments** tab shows them. The script also writes `data/projects/_company_projects.json`: for each listed company, the saved project records that name it. The tab's company view reads that one file instead of opening every project record.
+
+**Skipped:** `/projects/by-company/{stockSymbol}`. For Saudi Aramco (`2222`) it returned 85 projects, every one of them already in the market lists, and each project's record names its owner and related companies anyway.
+
+### 1. Projects in a market: `GET /projects/by-market/{marketId}?page=1&pageSize=5000`
+
+| Parameter | Required | Meaning |
+|-----------|----------|---------|
+| `marketId` | yes | `3` = TASI (1,696 projects), `14` = NOMU (310 projects). 40 projects are in both lists |
+| `page` / `pageSize` | no | The default is 10 a page. One page of 5,000 holds a whole market (TASI is 3,396 rows), so it is one call |
+
+The answer is `{"pageNo": 1, "recordsPerPage": 5000, "results": [...]}`, newest first. There is no total count, so a page that comes back full would mean there is more (the script warns).
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `projectID` | number | Project ID, used in the next path |
+| `announcedDate` | text | When Argaam first reported it, `yyyy-mm-ddT00:00:00`. One NOMU project has none |
+| `projectNameEn` / `Ar` | text | Name. 11 projects have only the Arabic name (`projectNameEn` is null) |
+| `countryNameEn` / `Ar` | text | Country. TASI projects are in 40 countries, NOMU's in 4 |
+| `cost` | number or null | Cost in **millions of riyals**. Disclosed for 742 of 1,696 TASI projects and 98 of 310 NOMU projects |
+| `projectStatusNameEn` / `Ar` | text | `Announced`, `Under Study`, `Under Construction`, `Delayed`, `Completed` or `Cancelled` |
+| `startDate` | text | `<month>-<year>`: `0-2017` means only the year is known, `7-2026` is how Q3 2026 is stored (the project record says `Q3 2026`). `NYD` = not yet decided |
+| `expectedCompletionDate` | text | A year such as `2027`, or `NYD` |
+
+### Example
+`/projects/by-market/3?page=1&pageSize=5000` (one project of 1,696)
+```json
+{
+  "projectID": 749,
+  "announcedDate": "2017-10-24T00:00:00",
+  "projectNameEn": "Neom",
+  "countryNameEn": "Saudi Arabia",
+  "cost": 1875000.0,
+  "projectStatusNameEn": "Completed",
+  "startDate": "0-2017",
+  "expectedCompletionDate": "2024"
+}
+```
+
+### What to watch for
+- **Repeated rows.** The TASI list has 3,396 rows for 1,696 projects: a project comes once per company it involves, in identical rows. The tab and the script count each project once.
+- **The cost unit is not stated.** It is millions of riyals: NEOM's `1,875,000` is the $500 billion announced in 2017, times 3.75. The project record says the same with `measuringUnitID` 3 and `costCurrencyID` 3.
+- **Status can be surprising.** NEOM is marked `Completed` with completion in 2024, which probably means Argaam's record of the announcement is complete, not the city.
+- **NOMU's list is not only NOMU.** 40 projects are in both lists (e.g. `2347`, an Academy of Learning school, NOMU, built for a TASI-listed owner).
+- **Little history before 2005.** TASI goes back to 1959 but has only a few projects a year until about 2007. The busiest year is 2022 (204 TASI projects).
+- **Many dates are unknown:** 557 TASI projects have `NYD` as start and 378 as completion.
+
+### In practice
+"How much are TASI companies building right now?" Load market `3` and pick status **Under Construction**: **291** projects.
+
+### 2. Project details: `GET /projects/{projectId}`
+One project, as `{"projectDetail": {...}}`. `projectId` is a `projectID` from either market list. It has the name, status, country and cost of the list, plus:
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `projectCategoryNameEn` / `Ar` | text | `Industry`, `Petrochemicals`, `Real Estate`, `Power and Water`, `Other`… (some end in a space) |
+| `projectOwnerCompanies` | list | Who owns it: `companyID`, `companyNameEn`, `shortNameEn`, `marketNameEn` (`TASI`, `NOMU`, or empty for unlisted owners) |
+| `projectRelatedCompanies` | list | Partners and parents, e.g. Saudi Aramco on its subsidiaries' projects |
+| `projectDescriptionEn` / `Ar` | HTML | What the project is |
+| `commentsEn` / `Ar` | HTML | Dated updates, e.g. "On January 1, 2026, the company announced…" |
+| `cost`, `isEstimatedCost` | number, true/false | The same cost as the list (millions of riyals), and whether it is an estimate |
+| `startingDateForProjectDetailEn`, `expectedCompletionDateForProjectDetailEn` | text | Start and completion as Argaam writes them: `2026`, `Q3 2026`, or empty |
+| `productionCapacityEn` / `Ar` | text or null | E.g. `300 MW`, `1.8 million metric tons`, `600 students` |
+| `locationEn` / `Ar`, `cityID`, `countryID` | text, number | Where it is |
+| `createdOn`, `updatedOn`, `lastModifiedOn` | date | When Argaam's editors last touched the record |
+
+### Example
+`/projects/2269` (shortened)
+```json
+{
+  "projectDetail": {
+    "projectID": 2269,
+    "projectNameEn": "Bash 2 Independent Wind Power Plant",
+    "projectStatusNameEn": "Under Construction",
+    "projectCategoryNameEn": "Power and Water",
+    "projectOwnerCompanies": [{"companyID": 4269, "shortNameEn": "ACWA", "marketNameEn": "TASI"}],
+    "projectRelatedCompanies": [],
+    "cost": null,
+    "startingDateForProjectDetailEn": "2026",
+    "expectedCompletionDateForProjectDetailEn": "2027",
+    "productionCapacityEn": "300 MW"
+  }
+}
+```
+
+### What to watch for
+- **Less than the docs promise.** Argaam's docs say this record has a budget breakdown, a timeline and milestones. The sandbox has none of them; the timeline is only the start and completion text and the dated updates in `commentsEn`.
+- **`startDate` is a placeholder.** When only the year is known, `startDate` says `December <year>`. Use `startingDateForProjectDetailEn` instead (the tab does).
+- **Categories are coarse.** Many projects are `Other`, and a ready-meals factory (`2336`) is filed under `Real Estate`.
+- **Unlisted owners.** An owner can be a private company or a subsidiary (e.g. `Asas Al-Kham Investment` on `2305`). Only listed companies are in the company view.
+
+### In practice
+"What is Sipchem building in Jubail?" Fetch `/projects/2285`: a **new methanol plant**, announced, petrochemicals, **1.8 million metric tons** a year, no cost disclosed yet.
+
+### 3. Company key developments: `GET /companies/{stockSymbol}/developments`
+One company's milestones, as `{"data": {"companyId": 3509, "marketId": 0, "developments": [...]}}`. `stockSymbol` is the plain Tadawul symbol, e.g. `2222`; the saved company lists write it as `2222.SE` (or `9516 .SE`), and the script removes the suffix.
+
+| Field | Type | Meaning |
+|-------|------|---------|
+| `titleEn` / `Ar` | text | What happened, in one or two sentences |
+| `developmentYear` / `Month` / `Day` | number | When. Month or day is null for about a quarter of them (76 and 85 of 298 in the sample) |
+| `fullDate` | text | The same date as `dd/mm/yyyy 12:00:00 AM` (with made-up month and day when they are null) |
+| `articleLinkEn` / `Ar` | text | The Argaam article about it |
+| `bodyEn` / `Ar` | null | Always empty in the sandbox |
+| `totalRecords` | number | How many developments the company has, repeated on every item |
+
+### Example
+`/companies/2222/developments` (one of 39)
+```json
+{
+  "companyID": 3509,
+  "titleEn": "Production commenced at Jafurah, the Middle East’s largest unconventional gas field, alongside the start of operations at the Tanajib Gas Plant…",
+  "developmentDay": 26, "developmentMonth": 2, "developmentYear": 2026,
+  "fullDate": "26/02/2026 12:00:00 AM",
+  "articleLinkEn": "https://www.argaam.com/en/article/articledetail/id/1883269",
+  "bodyEn": null
+}
+```
+
+### What to watch for
+- **History, not news.** Most companies have 5–16 developments covering founding, capital increases, listings and renames; Aramco has 39, back to the 1933 oil concession.
+- **`marketId` is always 0** in the answer, whatever market the company is in.
+- **Not in date order.** The tab sorts them, newest first.
+
+### In practice
+"What has ACWA done lately?" Pick ACWA POWER (`2082`) in the company view: **15** developments from 2008 to 2026, the latest the rebrand from "ACWA Power" to "Acwa" in January 2026, next to its saved project, the **Bash 2 wind power plant** (300 MW, under construction).
+
+---
+
 ## Adding a new endpoint to this file
 When you add an endpoint to `ENDPOINTS` in `app.py`, add a section here with the same parts:
 

@@ -20,6 +20,7 @@ fetch_fundamentals.py      # script: every company's analyst estimates -> data/f
 fetch_macroeconomic.py     # script: every indicator group, field and series -> data/macroeconomic/
 fetch_funds.py             # script: every fund manager, fund, fund details and price history -> data/funds/
 fetch_ma.py                # script: every M&A deal list and deal record -> data/m&a/
+fetch_projects.py          # script: every project list, project record and company's key developments -> data/projects/
 app.py                     # web viewer server
 static/index.html          # the whole UI
 static/endpoints.json      # the one list of endpoints: API, Argaam path, and where each response is saved
@@ -44,6 +45,12 @@ data/                      # saved API responses (ready to push to a database), 
   m&a/
     market_deals/3.json            # /markets/3/mergers-acquisitions
     deal_details/720.json          # /markets/mergers-acquisitions/720
+    _progress.json                 # what was fetched, and where it came from
+  projects/
+    projects_by_market/3.json      # /projects/by-market/3?page=1&pageSize=5000
+    project_details/2269.json      # /projects/2269
+    company_developments/2222.json # /companies/2222/developments
+    _company_projects.json         # written by fetch_projects.py: each listed company and the saved projects that name it
     _progress.json                 # what was fetched, and where it came from
 .fetch_state/key_usage.json  # calls each API key used today per endpoint, shared by the fetch scripts and the app (not committed)
 .env                       # your API base + key (not committed)
@@ -133,6 +140,22 @@ Saves both markets' deal lists and every deal's full record to `data/m&a/`, in t
 
 `--markets 14` limits the run to some markets, and `--sample N` fetches at most N new items per stage, picked to mix deal types and statuses. A full download (done on 11 Nov 2026) is 636 calls: 2 market lists and 634 deal records, all saved, none empty. Each endpoint has its own daily limit, so 22 keys (2,200 calls a day per endpoint) finished it in one run of about 7 minutes, 3.2 MB on disk. 392 deals say how they were financed: internal resources (281), loans (100), a capital increase (70) or a share swap (45); 242 don't say. The company endpoint (`/companies/{symbol}/mergers-acquisitions`) is not fetched: it returns the same records as the market list. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts. Use `--refresh` to pick up new deals.
 
+The **Projects & Capital Investments** tab shows every capital project in a market (TASI or NOMU): tiles for the number of projects, disclosed and total cost (in riyals), the largest project and how many are under construction or completed, plus a chart of projects announced per year by status. Filter by status, country or year, pick one project to see its full record (owners, description, dates, capacity, updates), or pick a company to see its projects next to its key developments. Saved data loads from `data/projects/`.
+
+### Download projects data
+```
+python fetch_projects.py --dry-run
+python fetch_projects.py --sample 15
+python fetch_projects.py
+```
+Saves both markets' project lists, every project's full record and every listed company's key developments to `data/projects/`, in the same files the Projects & Capital Investments tab reads. Three stages:
+
+1. `projects_by_market/<marketId>.json`: 1 call per market, every project in it, as one page of up to 5,000 rows (the API's default page is 10). TASI (`3`) has 1,696 projects in 3,396 rows (a project repeats once per company), NOMU (`14`) 310; 40 are in both.
+2. `project_details/<projectId>.json`: 1 call per project, its full record: owners and related companies, category, description, updates, dates, capacity.
+3. `company_developments/<symbol>.json`: 1 call per company in `data/fundamentals/market_companies/` (417 on TASI and NOMU), its dated key developments.
+
+After stage 2 the script writes `_company_projects.json`, which the tab's company view reads; `--index` rebuilds it without any calls. `--markets 14` limits the run to some markets, `--symbols 2222 2082` the developments to some companies, and `--sample N` fetches at most N new items per stage, picked to mix markets, statuses and projects with and without a cost. A full download is about 2,385 calls: 2 lists, 1,966 project records and 417 development lists. Each endpoint has its own daily limit, so 22 keys (2,200 calls a day per endpoint) can do it in one day. Costs are in millions of riyals. The company endpoint (`/projects/by-company/{symbol}`) is not fetched: its rows are in the market lists, and each project record names its companies. The same keys, proxy, flags (`--dry-run`, `--limit`, `--refresh`) and resume as the other scripts.
+
 ### How fetches are tracked
 Two files, the same for every API. The fetch scripts and the web app both write to them, so a company fetched in the browser counts against the key's quota and is skipped by the next script run:
 - `data/<api>/_progress.json` (committed) has one entry per item: `saved`, `no_data` (Argaam returned nothing) or `failed`, with the API base, path, parameters and fetch time. Saved and no-data entries are skipped on the next run; failed ones are tried again. Entries marked `"backfilled": true` were filled in from files saved before this file existed.
@@ -141,7 +164,7 @@ Two files, the same for every API. The fetch scripts and the web app both write 
 When something is recorded as `no_data`, the web app answers from the progress file instead of calling Argaam again, and says when it was checked. **Re-fetch from API** always asks again.
 
 ## The standard for every API
-Fundamentals, Macroeconomic, Investment funds and M&A & Transactions follow the same pattern, and a new Argaam API should too:
+Fundamentals, Macroeconomic, Investment funds, M&A & Transactions and Projects & Capital Investments follow the same pattern, and a new Argaam API should too:
 
 | What | Where | Same for every API? |
 |------|-------|---------------------|
@@ -150,7 +173,7 @@ Fundamentals, Macroeconomic, Investment funds and M&A & Transactions follow the 
 | What happened to each item | `data/<api>/_progress.json` (committed) | yes |
 | Calls each key used today, per endpoint | `.fetch_state/key_usage.json` (shared by all APIs) | yes, one file |
 | How to fetch (keys, proxy, pacing, retries, resume) | `argaam_downloader.py` | yes, shared code |
-| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_fundamentals.py`, `fetch_funds.py`, `fetch_ma.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
+| What to fetch | one script per API (`fetch_macroeconomic.py`, `fetch_fundamentals.py`, `fetch_funds.py`, `fetch_ma.py`, `fetch_projects.py`): the list of items, often in stages where one list says what to fetch next | no, each API has its own |
 | Docs | a "Download all ..." section here, the endpoint in `EXPLAINED.md`, examples in `API_EXAMPLES.md` | yes |
 
 Every fetch script takes `--dry-run` (calls left and about how many days, no calls made), `--limit N` and `--refresh`.

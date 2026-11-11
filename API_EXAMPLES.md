@@ -1,6 +1,6 @@
 # API Examples
 
-Real examples you can try in the app. Examples 1 to 3 use the three indicator endpoints, step by step. Examples 4 to 13 use analyst estimates from both markets. Examples 14 to 19 use investment funds, and 20 to 24 use M&A deals. Every response below is a real response from the sandbox.
+Real examples you can try in the app. Examples 1 to 3 use the three indicator endpoints, step by step. Examples 4 to 13 use analyst estimates from both markets. Examples 14 to 19 use investment funds, 20 to 24 use M&A deals, and 25 to 30 use capital projects. Every response below is a real response from the sandbox.
 
 ## How to try it
 
@@ -482,6 +482,56 @@ Open the **M&A & Transactions** tab, choose a **Market** and click **Show deals*
 
 ---
 
+## Projects & Capital Investments examples
+
+Open the **Projects & Capital Investments** tab, choose a **Market** and click **Show projects**. The filters (status, country, year) update the tiles, chart and table straight away. Pick a project in **One project's full record**, or a company in **A company: its projects and key developments**. The examples below are already saved, so they use no API calls. You can also open the files under `data/projects/` directly. Costs are in millions of riyals.
+
+### Example 25: How big is the TASI project pipeline?
+
+> **"How many projects do TASI companies have, and what are they worth?"**
+
+**Market:** TASI (3) · **Show projects** (file `data/projects/projects_by_market/3.json`)
+**Answer:** **1,696** projects announced from 1959 to 2026. **742** have a disclosed cost, **SAR 4,640bn** in all (about $1,237bn). The largest is **NEOM, SAR 1,875bn**. **291** are under construction and **1,115** (66%) completed. The chart shows the busiest year was **2022 (204 projects)**.
+
+### Example 26: What are NOMU companies building?
+
+> **"Which smaller companies are building something right now?"**
+
+**Market:** NOMU (14) · **Status:** Under Construction
+**Answer:** **51** projects, 30 of them with a cost, **SAR 3.8bn** together. The "Largest project" tile shows **Industrial land (Al Kharj), SAR 700m**, followed by Faran Mountain (SAR 602m) in the table.
+
+### Example 27: One project in full
+
+> **"What is ACWA building with its Bash 2 project, and when will it be done?"**
+
+**Market:** TASI · **Status:** Under Construction · **One project's full record:** `2026 · Bash 2 Independent Wind Power Plant (2269)`
+(file `data/projects/project_details/2269.json`)
+**Answer:** a **300 MW** wind power plant in **Uzbekistan**, owned by ACWA, category Power and Water, starting in 2026 and expected in **2027**. The Updates row says that in May 2026 ACWA signed **$226 million** of financing with the Asian Development Bank, AIIB and Standard Chartered. No cost is disclosed.
+
+### Example 28: Projects that were cancelled
+
+> **"How often are TASI projects cancelled, and how much money was involved?"**
+
+**Market:** TASI · **Status:** Cancelled
+**Answer:** **51** projects, 31 with a cost, **SAR 157bn** together, the largest the **COTC Complex (SAR 112.5bn, 2014)**. Pick `2025 · Specialty Chemicals Plant (1892)`: a joint venture of BCI and South Africa's AECI to make specialty chemicals in the Kingdom, agreed in May 2025 and since cancelled.
+
+### Example 29: A company's projects next to its history
+
+> **"What is ACWA doing, and what has happened at the company?"**
+
+**A company:** `ACWA POWER Co. (2082)`
+(files `data/projects/_company_projects.json` and `data/projects/company_developments/2082.json`)
+**Answer:** the table puts its project and its key developments in one list, newest first: the Bash 2 wind plant (announced May 2026), the **rebrand from "ACWA Power" to "Acwa" (January 2026)**, a **rights issue that raised capital to SAR 7,665m (July 2025)**, back to its founding in 2008. **15** developments in all.
+
+### Example 30: Aramco's milestones
+
+> **"What are the big moments in Saudi Aramco's history?"**
+
+**A company:** `Saudi Arabian Oil Co. (2222)` (file `data/projects/company_developments/2222.json`)
+**Answer:** **39** key developments from **1933**, when Saudi Arabia signed the oil concession with Standard Oil of California, to **26 February 2026**, when production started at **Jafurah**, the Middle East's largest unconventional gas field. Each row links to the Argaam article. Aramco is also a related company on its subsidiaries' projects, such as Luberef's Group III+ base oil plant (`2179`).
+
+---
+
 ## Good to know
 
 - **Not every company has estimates.** 212 companies do. For the rest, including any NOMU company with the Quarterly period, the app shows a no-data message. That is expected and is not a bug.
@@ -490,4 +540,6 @@ Open the **M&A & Transactions** tab, choose a **Market** and click **Show deals*
 - **Investment funds are all saved:** 46 managers and 499 funds, 358 of them with price history. The other 141 returned no prices (HTTP 204), often because they have closed.
 - **M&A deals are all saved:** both market lists and all 634 deal records.
 - **M&A values are in two currencies** (million USD or million riyals), and deal `477` has a value that is off by a million. The tab compares in USD (3.75 riyals a dollar) and leaves that deal out of "Largest deal".
+- **Project costs are in millions of riyals,** although the API doesn't say so (NEOM's 1,875,000 is $500 billion). The market lists repeat some projects in identical rows; the tab counts each project once.
+- **Only a sample of projects is saved so far** (2 market lists, 26 project records, 27 companies' developments). Locally, picking any other project or company fetches it; on the published page only saved ones are listed.
 - For a description of every field, see [EXPLAINED.md](EXPLAINED.md).

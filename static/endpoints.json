@@ -36,5 +36,14 @@
    "description": "Every merger, acquisition and stake deal in one market (3 = TASI, 14 = NOMU), newest first: date, value, type, status, acquirers, targets"},
   {"api": "m&a", "id": "deal_details", "name": "M&A deal details",
    "path": "/markets/mergers-acquisitions/{dealId}", "file": "deal_details/{dealId}",
-   "description": "One deal's full record: everything in the market list plus how it was financed (financialWaysList)"}
+   "description": "One deal's full record: everything in the market list plus how it was financed (financialWaysList)"},
+  {"api": "projects", "id": "projects_by_market", "name": "Projects in a market",
+   "path": "/projects/by-market/{marketId}", "query": ["page", "pageSize"], "file": "projects_by_market/{marketId}",
+   "description": "Every capital project in one market (3 = TASI, 14 = NOMU), newest first: name, country, cost, status, start and expected completion. Fetched as one big page (page=1, pageSize=5000); some projects repeat in identical rows"},
+  {"api": "projects", "id": "project_details", "name": "Project details",
+   "path": "/projects/{projectId}", "file": "project_details/{projectId}",
+   "description": "One project's full record: description, category, city, cost and its unit, dates, owner and related companies, comments, production capacity"},
+  {"api": "projects", "id": "company_developments", "name": "Company key developments",
+   "path": "/companies/{symbol}/developments", "file": "company_developments/{symbol}",
+   "description": "A company's dated key developments (stock symbol, e.g. 2222), each with links to the Argaam article"}
 ]

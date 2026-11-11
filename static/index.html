@@ -65,7 +65,7 @@
   <h1>API Data Viewer</h1>
   <div class="promo">
     <span class="amt">Save $60,000/yr</span>
-    <p><b>Enterprise market data without the enterprise price tag.</b> Macro, fundamentals, funds and M&amp;A data, pulled and ready to use, with no data subscription to pay for.</p>
+    <p><b>Enterprise market data without the enterprise price tag.</b> Macro, fundamentals, funds, M&amp;A and capital projects data, pulled and ready to use, with no data subscription to pay for.</p>
   </div>
   <p id="savedNote" class="hint hidden">This shared version shows saved data only, so the dropdowns list just what has been saved.</p>
 
@@ -75,6 +75,7 @@
     <button data-tab="fundamentals">Fundamentals</button>
     <button data-tab="funds">Investment funds</button>
     <button data-tab="m&amp;a">M&amp;A &amp; Transactions</button>
+    <button data-tab="projects">Projects &amp; Capital Investments</button>
   </nav>
 
   <div id="tab-m&amp;a" class="hidden">
@@ -101,6 +102,34 @@
       <div id="maChartBox">
         <div id="maLegend" class="legend"></div>
         <div id="maChart" class="chart"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="tab-projects" class="hidden">
+    <section>
+      <h2>Projects &amp; capital investments</h2>
+      <div class="row three">
+        <div><label for="prMarket">Market</label><select id="prMarket"></select></div>
+        <div><label for="prStatus">Status</label><select id="prStatus"></select></div>
+        <div><label for="prCountry">Country</label><select id="prCountry"></select></div>
+      </div>
+      <div class="row three">
+        <div><label for="prYear">Year announced</label><select id="prYear"></select></div>
+        <div><label for="prProject">One project's full record</label><select id="prProject"></select></div>
+        <div><label for="prCompany">A company: its projects and key developments</label><select id="prCompany"></select></div>
+      </div>
+      <div id="prHint" class="hint">The market list is one call; a project's record is one call per project, and a company's key developments one call per company. Saved copies load from <b>data/projects/</b> until you re-fetch them.</div>
+      <button id="prFetchBtn">Show projects</button>
+      <button id="prRefreshBtn" class="secondary">Re-fetch from API</button>
+      <span id="prStatusLine" class="status"></span>
+    </section>
+    <section id="prView" class="hidden">
+      <h2 id="prTitle"></h2>
+      <div id="prStats" class="stats"></div>
+      <div id="prChartBox">
+        <div id="prLegend" class="legend"></div>
+        <div id="prChart" class="chart"></div>
       </div>
     </section>
   </div>
@@ -768,55 +797,62 @@ function showDeals() {
   })));
 }
 
-// Deals announced per year, stacked by status. Legend above; hover a bar for its counts.
-function drawDealsChart(deals) {
+// Items per year, stacked by category (a fixed list, so a category keeps its color). Legend above; hover a bar
+// for its counts. Used by M&A (deals by status) and Projects (projects by status).
+function drawYearChart({ box, legend, items, yearOf, catOf, cats, colors, noun, label }) {
   const years = {};
-  deals.forEach(d => { const y = maDate(d.announcedOn).slice(0, 4); (years[y] ||= Object.fromEntries(MA_STATUSES.map(s => [s, 0])))[d.acquisitionStatusNameEn]++; });
+  items.forEach(d => { const y = yearOf(d), c = catOf(d); if (y && cats.includes(c)) (years[y] ||= Object.fromEntries(cats.map(s => [s, 0])))[c]++; });
   const keys = Object.keys(years).sort();
-  if (!keys.length) { $("maChart").innerHTML = ""; $("maLegend").innerHTML = ""; return; }
+  if (!keys.length) { box.innerHTML = ""; legend.innerHTML = ""; return; }
   const first = +keys[0], last = +keys[keys.length - 1], all = Array.from({ length: last - first + 1 }, (_, i) => String(first + i));
-  const total = y => years[y] ? MA_STATUSES.reduce((a, s) => a + years[y][s], 0) : 0;
+  const total = y => years[y] ? cats.reduce((a, s) => a + years[y][s], 0) : 0;
   const W = 1000, H = 260, m = { l: 36, r: 8, t: 10, b: 26 };
   const max = Math.max(...all.map(total));
-  const step = max > 20 ? 10 : max > 8 ? 5 : max > 4 ? 2 : 1, top = Math.ceil(max / step) * step;
-  const band = (W - m.l - m.r) / all.length, bw = Math.max(4, Math.min(36, band * 0.7));
+  const step = max > 200 ? 50 : max > 100 ? 25 : max > 20 ? 10 : max > 8 ? 5 : max > 4 ? 2 : 1, top = Math.ceil(max / step) * step;
+  const band = (W - m.l - m.r) / all.length, bw = Math.max(2, Math.min(36, band * 0.7));
   const Y = v => H - m.b - v / top * (H - m.t - m.b);
   const ticks = Array.from({ length: top / step + 1 }, (_, i) => i * step);
   const every = Math.ceil(all.length / 12);
   const bars = all.map((y, i) => {
     let base = 0;
     const x = m.l + band * i + (band - bw) / 2;
-    const segs = MA_STATUSES.map((s, k) => {
+    const segs = cats.map((s, k) => {
       const n = years[y]?.[s] || 0;
       if (!n) return "";
       const y1 = Y(base), y2 = Y(base + n); base += n;
       const h = Math.max(0, y1 - y2 - 2);  // 2px surface gap between segments
-      return `<rect x="${x}" y="${y2}" width="${bw}" height="${h}" fill="${MA_COLORS[k]}" rx="${base === total(y) ? 3 : 0}"/>`;
+      return `<rect x="${x}" y="${y2}" width="${bw}" height="${h}" fill="${colors[k]}" rx="${base === total(y) ? Math.min(3, bw / 2) : 0}"/>`;
     }).join("");
     return `<g data-year="${y}">${segs}<rect x="${m.l + band * i}" y="${m.t}" width="${band}" height="${H - m.t - m.b}" fill="transparent" class="hit"/></g>`;
   }).join("");
-  $("maLegend").innerHTML = MA_STATUSES.map((s, k) => `<span><i style="background:${MA_COLORS[k]}"></i>${s}</span>`).join("");
-  $("maChart").innerHTML = `
-    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Deals announced per year, by status">
+  legend.innerHTML = cats.map((s, k) => `<span><i style="background:${colors[k]}"></i>${s}</span>`).join("");
+  box.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${label}">
       <g class="grid">${ticks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/>`).join("")}</g>
       <g class="axis">
         ${ticks.map(v => `<text x="${m.l - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`).join("")}
         ${all.map((y, i) => i % every ? "" : `<text x="${m.l + band * (i + 0.5)}" y="${H - 8}" text-anchor="middle">${y}</text>`).join("")}
       </g>
       ${bars}
-    </svg><div class="tip hidden" id="maTip"></div>`;
-  const svg = $("maChart").querySelector("svg"), tip = $("maTip");
+    </svg><div class="tip hidden"></div>`;
+  const svg = box.querySelector("svg"), tip = box.querySelector(".tip");
   svg.querySelectorAll("g[data-year]").forEach(g => {
     g.onmouseleave = () => tip.classList.add("hidden");
     g.onmousemove = e => {
-      const y = g.dataset.year, box = $("maChart").getBoundingClientRect();
-      tip.innerHTML = `<b>${y}</b> · ${total(y)} deal${total(y) === 1 ? "" : "s"}<br>` +
-        MA_STATUSES.map((s, k) => `<span style="color:${MA_COLORS[k]}">■</span> ${s}: ${years[y]?.[s] || 0}`).join("<br>");
+      const y = g.dataset.year, rect = box.getBoundingClientRect();
+      tip.innerHTML = `<b>${y}</b> · ${total(y)} ${noun}${total(y) === 1 ? "" : "s"}<br>` +
+        cats.map((s, k) => `<span style="color:${colors[k]}">■</span> ${s}: ${years[y]?.[s] || 0}`).join("<br>");
       tip.classList.remove("hidden");
-      tip.style.left = `${Math.min(e.clientX - box.left + 12, box.width - tip.offsetWidth - 4)}px`;
-      tip.style.top = `${Math.max(0, e.clientY - box.top - tip.offsetHeight - 8)}px`;
+      tip.style.left = `${Math.min(e.clientX - rect.left + 12, rect.width - tip.offsetWidth - 4)}px`;
+      tip.style.top = `${Math.max(0, e.clientY - rect.top - tip.offsetHeight - 8)}px`;
     };
   });
+}
+
+function drawDealsChart(deals) {
+  drawYearChart({ box: $("maChart"), legend: $("maLegend"), items: deals, yearOf: d => maDate(d.announcedOn).slice(0, 4),
+                  catOf: d => d.acquisitionStatusNameEn, cats: MA_STATUSES, colors: MA_COLORS, noun: "deal",
+                  label: "Deals announced per year, by status" });
 }
 
 const DEAL_LABELS = {
@@ -869,6 +905,226 @@ $("maDeal").onchange = () => showDeal(false);
 $("maFetchBtn").onclick = () => { $("maDeal").value = ""; maDeals.length ? showDeals() : loadMarket(false); };
 $("maRefreshBtn").onclick = () => $("maDeal").value ? showDeal(true) : loadMarket(true);
 
+// ---- Projects & Capital Investments: every project in a market, filtered here; one project's record;
+// one company's projects and key developments ----
+// Saved files come from static/endpoints.json: projects/projects_by_market/<marketId>.json,
+// projects/project_details/<projectId>.json, projects/company_developments/<symbol>.json.
+// projects/_company_projects.json is written by fetch_projects.py: which saved project records name each company.
+
+const PR_MARKETS = { 3: "TASI", 14: "NOMU" };
+const PR_STATUSES = ["Announced", "Under Study", "Under Construction", "Delayed", "Completed", "Cancelled"];  // fixed order and colors
+const PR_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"];                      // validated categorical slots 1-6
+const PR_PAGE = { page: 1, pageSize: 5000 };  // same as fetch_projects.py and app.py
+let prProjects = [], prIndex = null;
+
+// List dates: startDate "<month>-<year>", where 0 = only the year is known and 1/4/7/10 is how a quarter is stored
+// (the project record says "Q3 2026" for "7-2026"); expectedCompletionDate "2027"; "NYD" = not yet decided.
+const PR_QUARTERS = { 1: "Q1", 4: "Q2", 7: "Q3", 10: "Q4" };
+function prWhen(s) {
+  if (!s || s === "NYD") return "not yet decided";
+  const m = /^(\d{1,2})-(\d{4})$/.exec(s);
+  if (!m) return s;
+  return +m[1] === 0 ? m[2] : PR_QUARTERS[+m[1]] ? `${PR_QUARTERS[+m[1]]} ${m[2]}` : `${m[2]}-${m[1].padStart(2, "0")}`;
+}
+const prName = p => (p.projectNameEn || p.projectNameAr || "").trim();  // a few projects have only an Arabic name
+const prBn = v => v == null ? "–" : v < 1000 ? `SAR ${num(v, v < 10 ? 1 : 0)}m` : `SAR ${num(v / 1000, v >= 100000 ? 0 : 1)}bn`;  // v in SAR millions
+
+async function getPR(id, values = {}, refresh = false) {
+  if (id === "projects_by_market") values = { ...values, ...PR_PAGE };
+  if (savedFiles) {
+    const file = savedPath(id, values);
+    if (!savedFiles.has(file)) throw new Error("No saved data for this. Only fetched projects and companies are published.");
+    return { data: await getJSON(`data/${file}`), saved_to: file, from_cache: true };
+  }
+  const { page, pageSize, ...needed } = values;
+  const query = new URLSearchParams({ ...needed, ...(refresh ? { refresh: "1" } : {}) });
+  return getJSON(`/api/projects/${id}?${query}`);
+}
+
+function prStatus(text, error = false) {
+  $("prStatusLine").className = error ? "status error" : "status";
+  $("prStatusLine").textContent = text;
+}
+
+const prDone = body => prStatus(body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`);
+
+function prFiltered() {
+  const status = $("prStatus").value, country = $("prCountry").value, year = $("prYear").value;
+  return prProjects.filter(p => (!status || p.projectStatusNameEn === status) && (!country || p.countryNameEn === country)
+    && (!year || (p.announcedDate || "").startsWith(year)));
+}
+
+async function loadPrMarket(refresh = false) {
+  const marketId = $("prMarket").value;
+  $("prProject").value = ""; $("prCompany").value = "";
+  if (!marketId) return;
+  prStatus("Fetching…");
+  try {
+    const body = await getPR("projects_by_market", { marketId }, refresh);
+    const seen = new Set();  // the list repeats some projects in identical rows
+    prProjects = (body.data.results || []).filter(p => !seen.has(p.projectID) && seen.add(p.projectID));
+    const values = key => [...new Set(prProjects.map(key).filter(Boolean))].sort();
+    maOptions($("prStatus"), "All statuses", PR_STATUSES.filter(s => prProjects.some(p => p.projectStatusNameEn === s)));
+    maOptions($("prCountry"), "All countries", values(p => p.countryNameEn));
+    maOptions($("prYear"), "All years", values(p => (p.announcedDate || "").slice(0, 4)).reverse());
+    showProjects();
+    prDone(body);
+  } catch (e) {
+    prProjects = [];
+    $("prView").classList.add("hidden");
+    delete lastData.projects;
+    if (activeTab === "projects") $("results").classList.add("hidden");
+    prStatus(e.message, true);
+  }
+}
+
+function fillProjectPicker(projects) {
+  const shown = savedFiles ? projects.filter(p => savedFiles.has(savedPath("project_details", { projectId: p.projectID }))) : projects;
+  const previous = $("prProject").value;
+  $("prProject").innerHTML = `<option value="">${shown.length ? `Choose a project… (${shown.length})` : "No saved project records in this list"}</option>` +
+    shown.map(p => `<option value="${p.projectID}">${(p.announcedDate || "????").slice(0, 4)} · ${escAttr(prName(p))} (${p.projectID})</option>`).join("");
+  $("prProject").value = shown.some(p => String(p.projectID) === previous) ? previous : "";
+}
+
+function showProjects() {
+  const projects = prFiltered();
+  fillProjectPicker(projects);
+  const costed = projects.filter(p => p.cost != null).sort((a, b) => b.cost - a.cost);
+  const totalCost = costed.reduce((a, p) => a + p.cost, 0);
+  const years = projects.map(p => (p.announcedDate || "").slice(0, 4)).filter(Boolean).sort();
+  const count = s => projects.filter(p => p.projectStatusNameEn === s).length;
+  const share = s => projects.length ? `${Math.round(count(s) / projects.length * 100)}% of these projects` : "";
+  const big = costed[0];
+  $("prTitle").textContent = `${PR_MARKETS[$("prMarket").value] || "Market"} · ${projects.length === prProjects.length ? "all projects" : "filtered projects"}`;
+  $("prStats").innerHTML =
+    stat("Projects", projects.length.toLocaleString("en"), years.length ? `announced ${years[0]}–${years[years.length - 1]}` : "") +
+    stat("Cost disclosed", costed.length.toLocaleString("en"), projects.length ? `${Math.round(costed.length / projects.length * 100)}% of projects` : "") +
+    stat("Total disclosed cost", prBn(totalCost), costed.length ? `≈ $${num(totalCost / 3750, 0)}bn` : "") +
+    stat("Largest project", big ? prBn(big.cost) : "–", big ? escAttr(prName(big)) : "") +
+    stat("Under construction", count("Under Construction").toLocaleString("en"), share("Under Construction")) +
+    stat("Completed", count("Completed").toLocaleString("en"), share("Completed"));
+  $("prChartBox").classList.remove("hidden");
+  drawYearChart({ box: $("prChart"), legend: $("prLegend"), items: projects, yearOf: p => (p.announcedDate || "").slice(0, 4),
+                  catOf: p => p.projectStatusNameEn, cats: PR_STATUSES, colors: PR_COLORS, noun: "project",
+                  label: "Projects announced per year, by status" });
+  $("prView").classList.remove("hidden");
+  display("projects", projects.map(p => ({
+    projectId: p.projectID, announced: day(p.announcedDate), name: prName(p), status: p.projectStatusNameEn,
+    country: p.countryNameEn, costSarMillions: p.cost, start: prWhen(p.startDate), expectedCompletion: prWhen(p.expectedCompletionDate),
+  })));
+}
+
+const PROJECT_LABELS = {
+  projectID: "Project ID", projectNameEn: "Name", projectStatusNameEn: "Status", projectCategoryNameEn: "Category",
+  countryNameEn: "Country", locationEn: "Location", projectOwnerCompanies: "Owners", projectRelatedCompanies: "Related companies",
+  cost: "Cost", isEstimatedCost: "Cost is an estimate", announcedDate: "Announced",
+  startingDateForProjectDetailEn: "Start", expectedCompletionDateForProjectDetailEn: "Expected completion", productionCapacityEn: "Production capacity",
+  projectDescriptionEn: "Description", commentsEn: "Updates",
+};
+
+async function showProject(refresh = false) {
+  const projectId = $("prProject").value;
+  if (!projectId) { if (prProjects.length) showProjects(); return; }
+  $("prCompany").value = "";
+  prStatus("Fetching…");
+  try {
+    const body = await getPR("project_details", { projectId }, refresh);
+    const d = body.data.projectDetail || {};
+    const row = prProjects.find(p => String(p.projectID) === projectId) || {};
+    const companies = list => (list || []).map(c => `${(c.companyNameEn || "").trim()}${c.marketNameEn ? ` (${c.marketNameEn})` : ""}`).join(", ");
+    $("prTitle").textContent = `Project ${d.projectID}: ${prName(d)}`;
+    $("prStats").innerHTML =
+      stat("Status", escAttr(d.projectStatusNameEn || "–")) +
+      stat("Category", escAttr((d.projectCategoryNameEn || "–").trim())) +
+      stat("Country", escAttr(d.countryNameEn || "–"), escAttr(d.locationEn || d.locationAr || "")) +
+      stat("Cost", row.cost == null ? "–" : prBn(row.cost), row.cost == null ? "not disclosed" : d.isEstimatedCost ? "an estimate" : "") +
+      stat("Start", escAttr(d.startingDateForProjectDetailEn || prWhen(row.startDate)), d.startingDateForProjectDetailEn ? "" : "from the market list") +
+      stat("Expected completion", escAttr(d.expectedCompletionDateForProjectDetailEn || prWhen(row.expectedCompletionDate)), d.expectedCompletionDateForProjectDetailEn ? "" : "from the market list") +
+      stat("Owners", escAttr(companies(d.projectOwnerCompanies) || "–"));
+    $("prChartBox").classList.add("hidden");
+    $("prView").classList.remove("hidden");
+    const order = Object.keys(PROJECT_LABELS), rank = k => order.includes(k) ? order.indexOf(k) : order.length;
+    display("projects", Object.entries(d).sort(([a], [b]) => rank(a) - rank(b)).map(([k, v]) => ({
+      field: PROJECT_LABELS[k] || k,
+      value: Array.isArray(v) ? companies(v) : /^(projectDescription|comments)/.test(k) ? plainText(v) : /Date$|On$/.test(k) && v ? day(v) : v,
+    })));
+    prDone(body);
+  } catch (e) {
+    prStatus(e.message, true);
+  }
+}
+
+// A company: the projects whose saved record names it (from _company_projects.json) and its key developments.
+async function showCompany(refresh = false) {
+  const symbol = $("prCompany").value;
+  if (!symbol) { if (prProjects.length) showProjects(); return; }
+  $("prProject").value = "";
+  const c = prIndex.companies.find(x => x.symbol === symbol);
+  prStatus("Fetching…");
+  let developments = [], note = "", body = null;
+  try {
+    body = await getPR("company_developments", { symbol }, refresh);
+    developments = body.data.data?.developments || [];
+  } catch (e) {
+    note = e.message;
+  }
+  // About a quarter of developments have only a year, or a year and month: show only the parts that are known.
+  const pad = n => String(n).padStart(2, "0");
+  const dated = developments.map(v => ({ ...v, date: `${v.developmentYear}${v.developmentMonth ? `-${pad(v.developmentMonth)}${v.developmentDay ? `-${pad(v.developmentDay)}` : ""}` : ""}` }))
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const projects = c.projects;
+  const costed = projects.filter(p => p.costSarMillions != null);
+  $("prTitle").textContent = `${c.nameEn} (${c.symbol}, ${PR_MARKETS[c.marketId] || c.marketId})`;
+  $("prStats").innerHTML =
+    stat("Projects", projects.length.toLocaleString("en"), "named in saved project records") +
+    stat("As owner", projects.filter(p => p.role === "owner").length.toLocaleString("en"), "the rest as a related company") +
+    stat("Disclosed cost", costed.length ? prBn(costed.reduce((a, p) => a + p.costSarMillions, 0)) : "–", `${costed.length} of ${projects.length} projects`) +
+    stat("Under construction", projects.filter(p => p.status === "Under Construction").length.toLocaleString("en")) +
+    stat("Key developments", dated.length.toLocaleString("en"), dated.length ? `${dated[dated.length - 1].date.slice(0, 4)}–${dated[0].date.slice(0, 4)}` : escAttr(note || "none")) +
+    stat("Latest development", dated.length ? dated[0].date : "–");
+  $("prChartBox").classList.toggle("hidden", !projects.length);
+  if (projects.length) drawYearChart({ box: $("prChart"), legend: $("prLegend"), items: projects, yearOf: p => p.announced.slice(0, 4),
+                                       catOf: p => p.status, cats: PR_STATUSES, colors: PR_COLORS, noun: "project",
+                                       label: `${c.nameEn}: projects announced per year, by status` });
+  $("prView").classList.remove("hidden");
+  display("projects", [
+    ...projects.map(p => ({ date: p.announced, kind: `Project (${p.role})`, title: p.name, status: p.status, country: p.country,
+                           costSarMillions: p.costSarMillions, projectId: p.projectID, link: "" })),
+    ...dated.map(v => ({ date: v.date, kind: "Key development", title: v.titleEn, status: "", country: "", costSarMillions: null,
+                         projectId: "", link: v.articleLinkEn || "" })),
+  ].sort((a, b) => b.date.localeCompare(a.date)));
+  if (body) prDone(body); else prStatus(projects.length ? `Projects shown; ${note}` : note, !projects.length);
+}
+
+async function loadPrCompanies() {
+  try {
+    prIndex = await getJSON(savedFiles ? "data/projects/_company_projects.json" : "/api/projects-index");
+    const shown = prIndex.companies.filter(c => !savedFiles || c.projects.length || savedFiles.has(savedPath("company_developments", { symbol: c.symbol })));
+    $("prCompany").innerHTML = `<option value="">Choose a company… (${shown.length})</option>` + shown.map(c =>
+      `<option value="${escAttr(c.symbol)}">${escAttr(c.nameEn)} (${escAttr(c.symbol)})${c.projects.length ? ` · ${c.projects.length} project${c.projects.length === 1 ? "" : "s"}` : ""}</option>`).join("");
+  } catch (e) {
+    $("prCompany").innerHTML = `<option value="">No company list yet: run python fetch_projects.py --index</option>`;
+  }
+}
+
+async function initProjects() {
+  const markets = Object.keys(PR_MARKETS).filter(m => !savedFiles || savedFiles.has(savedPath("projects_by_market", { marketId: m, ...PR_PAGE })));
+  $("prMarket").innerHTML = markets.length
+    ? markets.map(m => `<option value="${m}">${PR_MARKETS[m]} (${m})</option>`).join("")
+    : `<option value="">No project data saved yet</option>`;
+  maOptions($("prStatus"), "All statuses", []); maOptions($("prCountry"), "All countries", []); maOptions($("prYear"), "All years", []);
+  fillProjectPicker([]);
+  if (savedFiles) { $("prRefreshBtn").remove(); $("prHint").textContent = "Every project in the market list is here; only the projects whose full record was fetched are in the project dropdown, and only companies with saved data in the company dropdown."; }
+  loadPrCompanies();
+}
+
+$("prMarket").onchange = () => loadPrMarket(false);
+["prStatus", "prCountry", "prYear"].forEach(id => $(id).onchange = () => { $("prProject").value = ""; $("prCompany").value = ""; if (prProjects.length) showProjects(); });
+$("prProject").onchange = () => showProject(false);
+$("prCompany").onchange = () => showCompany(false);
+$("prFetchBtn").onclick = () => { $("prProject").value = ""; $("prCompany").value = ""; prProjects.length ? showProjects() : loadPrMarket(false); };
+$("prRefreshBtn").onclick = () => $("prProject").value ? showProject(true) : $("prCompany").value ? showCompany(true) : loadPrMarket(true);
+
 async function init() {
   const saved = await fetch("saved_files.json").catch(() => null);
   if (saved && saved.ok) {
@@ -895,6 +1151,7 @@ async function init() {
   loadFunds();
   onFundShowChange();
   initMA();
+  initProjects();
 }
 init();
 </script>
