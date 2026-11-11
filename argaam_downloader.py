@@ -121,6 +121,12 @@ class Slot:
         self.next_at = max(self.next_at, time.monotonic() + seconds + 1)
 
 
+def is_no_data_error(resp):
+    """Argaam answers some items it has no data for with HTTP 400 "UnsupportedApiVersion" (its error page
+    for a missing resource), e.g. quarterly financials of some companies. Retrying never helps."""
+    return resp.status_code == 400 and "UnsupportedApiVersion" in resp.text
+
+
 def make_slots(usage):
     """One Slot per key in ARGAAM_API_KEYS. Stops the script if keys or proxy login are missing."""
     if not KEYS:
@@ -246,7 +252,7 @@ class Run:
                 self.retry(slot, task, "response was not JSON")
                 return
             self.store(slot, task, body)
-        elif status in (200, 204, 404):
+        elif status in (200, 204, 404) or is_no_data_error(resp):
             self.mark_no_data(slot, task, status)
         elif status == 429:
             slot.consecutive_429 += 1

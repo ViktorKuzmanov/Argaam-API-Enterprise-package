@@ -45,32 +45,40 @@ def no_data_answer(entry, what):
                              "Click Re-fetch from API to ask again."}), 404
 
 
-@app.get("/api/fundamentals/analyst-estimates")
-def analyst_estimates():
-    """Estimates for one company. Reuses the saved copy unless refresh=1, because the sandbox limit is tight."""
-    symbol = request.args.get("symbol", "").strip()
-    market_id = request.args.get("marketId", "")
-    period = request.args.get("period", "year")
-    if not re.fullmatch(r"[A-Za-z0-9]+", symbol):
-        return jsonify({"error": "Enter a stock symbol, e.g. 2222."}), 400
-    if not market_id.isdigit():
-        return jsonify({"error": "Choose a market."}), 400
-    if period not in ("year", "quarter"):
-        return jsonify({"error": "Period must be year or quarter."}), 400
+@app.get("/api/fundamentals/saved")
+def fundamentals_saved():
+    """Every saved fundamentals file, relative to data/, like saved_files.json on the published page. The tab uses it
+    to combine a company's saved history (one file per period) without calling Argaam."""
+    folder = DATA_DIR / "fundamentals"
+    return jsonify(sorted(p.relative_to(DATA_DIR).as_posix() for p in folder.rglob("*.json") if not p.name.startswith("_")))
 
-    values = {"marketId": market_id, "symbol": symbol, "period": period}
-    file = saved_file("analyst_estimates", **values)
+
+@app.get("/api/fundamentals/<endpoint_id>")
+def fundamentals(endpoint_id):
+    """Fundamentals tab: any fundamentals endpoint in static/endpoints.json, with the values its path, query and file
+    need (marketId, symbol, period, year, metric, ...). Reuses the saved copy unless refresh=1."""
+    ep = ENDPOINTS.get(endpoint_id)
+    if not ep or ep["api"] != "fundamentals":
+        return jsonify({"error": f"{endpoint_id} is not a fundamentals endpoint in static/endpoints.json."}), 404
+    names = dict.fromkeys(re.findall(r"\{(\w+)\}", ep["path"] + ep["file"]) + ep.get("query", []))
+    values = {}
+    for name in names:
+        value = request.args.get(name, "").strip()
+        if not re.fullmatch(r"[A-Za-z0-9-]+", value):
+            return jsonify({"error": f"Choose a {name}."}), 400
+        values[name] = value
+    file = saved_file(endpoint_id, **values)
     refresh = request.args.get("refresh") == "1"
     if file.exists() and not refresh:
         return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
-    if not refresh and (entry := known_no_data("analyst_estimates", **values)):
-        return no_data_answer(entry, f"No analyst estimates for symbol {symbol} on this market")
+    if not refresh and (entry := known_no_data(endpoint_id, **values)):
+        return no_data_answer(entry, "No data for this")
     try:
-        data, file = fetch_and_save("analyst_estimates", **values)
+        data, file = fetch_and_save(endpoint_id, **values)
     except requests.HTTPError as e:
         return upstream_error(e)
     except LookupError:
-        return jsonify({"error": f"No analyst estimates for symbol {symbol} on this market."}), 404
+        return jsonify({"error": "Argaam has no data for this."}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})

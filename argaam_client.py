@@ -260,8 +260,9 @@ def fetch_and_save(endpoint_id, base=None, **values):
         raise
     except requests.HTTPError as e:
         code = e.response.status_code
-        if code == 404:
-            progress.record(task, "no_data", base=base, http=404)
+        if code == 404 or (code == 400 and "UnsupportedApiVersion" in e.response.text):
+            # 400 UnsupportedApiVersion is Argaam's answer for some items it has no data for
+            progress.record(task, "no_data", base=base, http=code)
         elif code not in (401, 403, 429):  # a key or rate-limit problem is not the item's fault
             progress.record(task, "failed", base=base, reason=f"HTTP {code}")
         raise

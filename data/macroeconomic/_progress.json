@@ -9166,6 +9166,26 @@
       "backfilled": true,
       "note": "fetched without year (Argaam then returns the latest year); renamed to that year"
     },
+    "indicator_values/33_127_2025": {
+      "status": "no_data",
+      "base": "https://api-sandbox.argaam.com/api/v1.1",
+      "path": "/indicators/groups/33/fields/127/values",
+      "params": {
+        "year": "2025"
+      },
+      "fetched_at": "2026-11-11T17:36:49+00:00",
+      "http": 204
+    },
+    "indicator_values/33_127_2026": {
+      "status": "no_data",
+      "base": "https://api-sandbox.argaam.com/api/v1.1",
+      "path": "/indicators/groups/33/fields/127/values",
+      "params": {
+        "year": "2026"
+      },
+      "fetched_at": "2026-11-11T17:36:48+00:00",
+      "http": 204
+    },
     "indicator_values/33_128_1970": {
       "status": "no_data",
       "base": "https://api-sandbox.argaam.com/api/v1.1",
@@ -9791,6 +9811,26 @@
       "rows": 1,
       "backfilled": true,
       "note": "fetched without year (Argaam then returns the latest year); renamed to that year"
+    },
+    "indicator_values/33_170_2025": {
+      "status": "saved",
+      "file": "macroeconomic/indicator_values/33_170_2025.json",
+      "base": "https://api-sandbox.argaam.com/api/v1.1",
+      "path": "/indicators/groups/33/fields/170/values",
+      "params": {
+        "year": "2025"
+      },
+      "fetched_at": "2026-11-11T17:36:47+00:00"
+    },
+    "indicator_values/33_170_2026": {
+      "status": "no_data",
+      "base": "https://api-sandbox.argaam.com/api/v1.1",
+      "path": "/indicators/groups/33/fields/170/values",
+      "params": {
+        "year": "2026"
+      },
+      "fetched_at": "2026-11-11T17:36:47+00:00",
+      "http": 204
     },
     "indicator_values/51_103_1970": {
       "status": "no_data",
@@ -12341,6 +12381,18 @@
       },
       "fetched_at": "2026-11-11T15:36:30+00:00",
       "rows": 622
+    },
+    "petro_history/30_9": {
+      "status": "saved",
+      "file": "macroeconomic/petro_history/30_9.json",
+      "base": "https://api-sandbox.argaam.com/api/v1.1",
+      "path": "/petrochemicals/products/30/prices/history",
+      "params": {
+        "regionId": "9",
+        "from": "1980-01-01",
+        "to": "2026-11-11"
+      },
+      "fetched_at": "2026-11-11T19:48:57+00:00"
     },
     "petro_history/3_3": {
       "status": "saved",

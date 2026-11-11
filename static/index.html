@@ -57,6 +57,11 @@
            border-radius:8px; padding:10px 14px; margin:0 0 16px; }
   .promo .amt { font-size:20px; font-weight:700; white-space:nowrap; }
   .promo p { margin:0; font-size:13px; }
+  .ftable td.num, .ftable th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .ftable tr.pick { cursor:pointer; }
+  .ftable tr.pick:hover td { background:#f6f9fd; }
+  .ftable tr.on td { background:#eaf2fc; }
+  .ftable td:first-child { position:sticky; left:0; background:var(--card); }
   @media (max-width:640px) { .row, .row.three { grid-template-columns:1fr; } }
 </style>
 </head>
@@ -161,16 +166,45 @@
 
   <div id="tab-fundamentals" class="hidden">
     <section>
-      <h2>Analyst estimates</h2>
+      <h2>Fundamentals</h2>
       <div class="row three">
-        <div><label for="market">Market</label><select id="market"><option value="3">TASI</option><option value="14">NOMU</option></select></div>
-        <div><label for="symbol">Stock symbol</label><input id="symbol" placeholder="e.g. 2222 for Saudi Aramco"></div>
-        <div><label for="period">Period</label><select id="period"><option value="year">Annual</option><option value="quarter">Quarterly</option></select></div>
+        <div><label for="fShow">Show</label><select id="fShow">
+          <optgroup label="One company">
+            <option value="overview">Company overview</option>
+            <option value="statements">Financial statements over the years</option>
+            <option value="ratios">Financial ratios over the years</option>
+            <option value="opinions">Analyst opinions</option>
+            <option value="estimates">Analyst estimates</option>
+          </optgroup>
+          <optgroup label="Whole market">
+            <option value="results">Results of all companies</option>
+            <option value="rankings">Company rankings</option>
+            <option value="lowest">Lowest 20 by valuation</option>
+            <option value="all_opinions">Latest analyst opinions</option>
+            <option value="market_ratios">Market ratios</option>
+          </optgroup>
+        </select></div>
+        <div><label for="fMarket">Market</label><select id="fMarket"><option value="3">TASI</option><option value="14">NOMU</option></select></div>
+        <div id="fCompanyWrap"><label for="fCompany">Company</label><select id="fCompany"></select></div>
       </div>
-      <div id="fHint" class="hint">The sandbox allows 5 requests a minute and 100 a day, so a company you have already fetched loads from <b>data/fundamentals/</b> until you re-fetch it.</div>
-      <button id="fFetchBtn">Fetch</button>
+      <div class="row three">
+        <div id="fPick1Wrap"><label id="fPick1Label" for="fPick1"></label><select id="fPick1"></select></div>
+        <div id="fPick2Wrap"><label id="fPick2Label" for="fPick2"></label><select id="fPick2"></select></div>
+      </div>
+      <div id="fHint" class="hint"></div>
+      <button id="fFetchBtn">Show</button>
       <button id="fRefreshBtn" class="secondary">Re-fetch from API</button>
       <span id="fStatus" class="status"></span>
+    </section>
+    <section id="fView" class="hidden">
+      <h2 id="fTitle"></h2>
+      <div id="fStats" class="stats"></div>
+      <div id="fChartBox" class="hidden">
+        <div id="fChartTitle" class="hint"></div>
+        <div id="fLegend" class="legend"></div>
+        <div id="fChart" class="chart"></div>
+      </div>
+      <div id="fExtra"></div>
     </section>
   </div>
 
@@ -355,51 +389,392 @@ const fill = (template, values) => template.replace(/\{(\w+)\}/g, (_, k) => valu
 const savedPath = (id, values = {}) => `${allEndpoints[id].api}/${fill(allEndpoints[id].file, values)}.json`;
 const savedFolder = id => { const ep = allEndpoints[id]; return `${ep.api}/${ep.file.slice(0, ep.file.lastIndexOf("/") + 1)}`; };
 
-// ---- Fundamentals: analyst estimates ----
+// ---- Fundamentals: one company (overview, statements, ratios, opinions, estimates) or the whole market ----
+// Every file name comes from static/endpoints.json through savedPath(). History views combine the saved files of a
+// company (one file per period, fetched by fetch_fundamentals.py) and never call Argaam from the page.
 
-function clearEstimates() {
-  delete lastData.fundamentals;
-  if (activeTab === "fundamentals") $("results").classList.add("hidden");
+const F_MARKETS = { 3: "TASI", 14: "NOMU" };
+const F_RECORDS = { 3: 1000, 14: 10 };  // opinions per page, as in fetch_fundamentals.py
+const F_RESULT_PERIODS = { year: "Full year", q1: "Q1", q2: "Q2", q3: "Q3", q4: "Q4" };
+const F_RANKINGS = { "market-value": "Market value", "net-income": "Net income", revenues: "Revenues",
+  "return-on-equity": "Return on equity", "return-on-assets": "Return on assets", "return-on-capital": "Return on capital",
+  "return-on-market-value": "Return on market value", "book-value": "Book value", "price-per-book-ratio": "Price / book",
+  capital: "Capital", "accumulated-losses": "Accumulated losses", "top-100-market-value": "Top 100 by market value",
+  "top-100-net-profit": "Top 100 by net profit" };
+const F_LOWEST = { "price-earnings": "Price / earnings", "price-per-book": "Price / book" };
+const F_COMPANY_APIS = ["highlights", "financials", "financials_history", "ratios", "ratios_history", "financial_reports", "analyst_estimates"];
+const F_VIEWS = {  // which pickers each view needs: [label, options()] or null
+  overview: { company: true },
+  statements: { company: true, pick1: ["Periods", () => ({ year: "Annual", quarter: "Quarterly" })] },
+  ratios: { company: true, pick1: ["Periods", () => ({ year: "Annual", quarter: "Quarterly" })] },
+  opinions: { company: true },
+  estimates: { company: true, pick1: ["Estimates for", () => ({ year: "Years", quarter: "Quarters" })] },
+  results: { pick1: ["Year", () => fResultYears()], pick2: ["Period", () => F_RESULT_PERIODS] },
+  rankings: { pick1: ["Rank by", () => fSavedOnly("rankings", F_RANKINGS, metric => ({ metric }))] },
+  lowest: { pick1: ["Lowest by", () => F_LOWEST], pick2: ["Period", () => ({ quarter: "Latest quarter", year: "Latest year" })] },
+  all_opinions: {},
+  market_ratios: {},
+};
+const F_HINTS = {
+  overview: "The latest headline numbers, the published report files, and how much history is saved for the company.",
+  statements: "Every saved period of the income statement, balance sheet and cash flow. Click a line to chart it. Amounts are as Argaam reports them, mostly SAR millions; lines that are 0 in every period are hidden.",
+  ratios: "Every saved period of about 48 ratios (growth, margins, returns, turnover). Click a ratio to chart it.",
+  opinions: "Every broker rating for the company with its target price, from the saved market-wide opinion pages.",
+  estimates: "Each broker's forecast for each field and year.",
+  results: "Net income of every company for one period, next to the same period a year earlier.",
+  rankings: "Companies ranked highest first by one metric (Argaam's latest figures).",
+  lowest: "The 20 companies with the lowest valuation.",
+  all_opinions: "The newest broker ratings across the market. The table shows the latest 2,000; all saved opinions are counted in the tiles.",
+  market_ratios: "The market's P/E and P/B, with and without Saudi Aramco, per fiscal period type. Mostly empty in the sandbox.",
+};
+let fSaved = new Set();      // saved fundamentals files, relative to data/
+let fResultsTouched = false; // the user picked a results year themselves
+const fCompanies = {};       // marketId -> [{ id, symbol, name }]
+const fOpinions = {};        // marketId -> { rows, pages, total }
+
+const fNum = (v, digits = 2) => v == null || Number.isNaN(v) ? "–" : Number(v).toLocaleString("en", { maximumFractionDigits: digits });
+const fPct = v => v == null || Number.isNaN(v) ? "–" : `${v > 0 ? "+" : ""}${fNum(v, 1)}%`;
+const fEsc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const fMarket = () => $("fMarket").value;
+const fCompany = () => (fCompanies[fMarket()] || []).find(c => c.symbol === $("fCompany").value);
+
+function fStatus(text, error = false) {
+  $("fStatus").className = error ? "status error" : "status";
+  $("fStatus").textContent = text;
 }
 
-async function fetchEstimates(refresh) {
-  const symbol = $("symbol").value.trim();
-  const marketId = $("market").value;
-  const period = $("period").value;
-  $("fStatus").className = "status";
-  $("fStatus").textContent = "Fetching…";
+// A fundamentals response: the saved file on the published page, the Flask route locally (saved copy unless refresh).
+async function getF(id, values = {}, refresh = false) {
+  if (savedFiles) {
+    const file = savedPath(id, values);
+    if (!savedFiles.has(file)) throw new Error("No saved data for this. Only fetched items are published.");
+    return { data: await getJSON(`data/${file}`), saved_to: file, from_cache: true };
+  }
+  const body = await getJSON(`/api/fundamentals/${id}?${new URLSearchParams({ ...values, ...(refresh ? { refresh: "1" } : {}) })}`);
+  fSaved.add(body.saved_to);
+  return body;
+}
+const fTry = (...args) => getF(...args).then(b => b.data, () => null);
+
+// Saved files of one endpoint whose name starts with prefix, split into their parts: "3_2222_2019_1" -> ["3","2222","2019","1"].
+const fFiles = (id, prefix = "") => [...fSaved].filter(f => f.startsWith(savedFolder(id) + prefix))
+  .map(f => f.slice(savedFolder(id).length, -".json".length).split("_"));
+
+function fSavedOnly(id, labels, values) {
+  if (!savedFiles) return labels;
+  return Object.fromEntries(Object.entries(labels).filter(([k]) => fSaved.has(savedPath(id, { marketId: fMarket(), ...values(k) }))));
+}
+
+function fResultYears() {
+  const years = savedFiles ? [...new Set(fFiles("market_results", `${fMarket()}_`).map(p => p[1]))]
+    : Array.from({ length: new Date().getFullYear() - 1999 }, (_, i) => String(2000 + i));
+  return Object.fromEntries(years.sort().reverse().map(y => [y, y]));
+}
+
+function fOptions(sel, options) {
+  const old = sel.value;
+  sel.innerHTML = Object.entries(options).map(([v, t]) => `<option value="${fEsc(v)}">${fEsc(t)}</option>`).join("");
+  if (old && options[old] !== undefined) sel.value = old;
+  sel.disabled = !Object.keys(options).length;
+}
+
+async function fLoadCompanies() {
+  const m = fMarket();
+  if (!fCompanies[m]) {
+    const body = await fTry("market_companies", { marketId: m });
+    const withData = new Set(F_COMPANY_APIS.flatMap(id => fFiles(id, `${m}_`).map(p => p[1])));
+    fCompanies[m] = (body?.data?.companies || [])
+      .map(c => ({ id: c.companyID, symbol: String(c.stockSymbol || "").replace(/\s/g, "").replace(/\.SE$/, ""), name: c.shortNameEn || c.companyNameEn }))
+      .filter(c => /^[A-Za-z0-9]+$/.test(c.symbol) && (!savedFiles || withData.has(c.symbol)))
+      .sort((a, b) => a.symbol.localeCompare(b.symbol));
+  }
+  const keep = $("fCompany").value;
+  fOptions($("fCompany"), Object.fromEntries(fCompanies[m].map(c => [c.symbol, `${c.symbol} · ${c.name}`])));
+  if (!fCompanies[m].some(c => c.symbol === keep)) $("fCompany").value = fCompanies[m].some(c => c.symbol === "2222") ? "2222" : (fCompanies[m][0]?.symbol || "");
+}
+
+function onFShow() {
+  const v = F_VIEWS[$("fShow").value];
+  $("fCompanyWrap").classList.toggle("hidden", !v.company);
+  for (const k of ["pick1", "pick2"]) {
+    const sel = $(k === "pick1" ? "fPick1" : "fPick2");
+    $(`f${k[0].toUpperCase()}${k.slice(1)}Wrap`).classList.toggle("hidden", !v[k]);
+    if (v[k]) { $(`f${k[0].toUpperCase()}${k.slice(1)}Label`).textContent = v[k][0]; fOptions(sel, v[k][1]()); }
+  }
+  // Results: start at last year, whose full-year results are out (this year's are not).
+  const lastYear = String(new Date().getFullYear() - 1);
+  if ($("fShow").value === "results" && !fResultsTouched && [...$("fPick1").options].some(o => o.value === lastYear)) $("fPick1").value = lastYear;
+  $("fHint").textContent = F_HINTS[$("fShow").value] + (savedFiles ? " Only saved items are listed." : "");
+}
+
+function fShowView(title, stats = "") {
+  $("fTitle").textContent = title;
+  $("fStats").innerHTML = stats;
+  $("fChartBox").classList.add("hidden");
+  $("fChart").innerHTML = $("fLegend").innerHTML = "";
+  $("fExtra").innerHTML = "";
+  $("fView").classList.remove("hidden");
+}
+
+function fChartSeries(title, series, fmt = v => fNum(v, Math.abs(v) >= 1000 ? 0 : 2)) {
+  $("fChartTitle").textContent = title;
+  $("fChartBox").classList.remove("hidden");
+  const usable = series.filter(s => s.points.length);
+  if (!usable.some(s => s.points.length > 1)) {
+    $("fChart").innerHTML = `<p class="hint">Only one period is saved so far, so there is no line to draw yet.</p>`;
+    $("fLegend").innerHTML = "";
+    return;
+  }
+  mChart(usable, fmt, { chart: "fChart", legend: "fLegend", title: "fChartTitle" });
+}
+
+// ---- Periods: statements and ratios, one saved file per period, combined into one table ----
+
+const fDate = s => { const [d, mo, y] = String(s || "").split("/").map(Number); return y ? Date.UTC(y < 100 ? 2000 + y : y, mo - 1, d) : null; };
+
+// One statements response -> { key, t, items: [{ group, name, value }] }, or null when Argaam had nothing.
+function fStatementPeriod(body) {
+  const d = body?.data?.financials?.value?.data;
+  if (!d || !d.tabs) return null;
+  const q = d.fiscalPeriod && d.fiscalPeriod !== "YEAR" ? ` ${d.fiscalPeriod}` : "";
+  return { key: `${d.forYear}${q}`, t: q ? fDate(d.forDate) ?? Date.UTC(d.forYear, 11, 31) : Date.UTC(d.forYear, 0, 1),  // a year sits on its tick
+    items: d.tabs.flatMap(tab => (tab.fields || []).map(f => ({ group: tab.tabNameEn, name: (f.displayNameEn || "").trim(), value: f.value }))) };
+}
+
+// One ratios response -> the same shape. Annual values carry period "-", quarterly ones the quarter's end date.
+function fRatioPeriod(body) {
+  const fields = body?.data?.ratios?.value?.financialRatioFields;
+  const v = fields?.[0]?.values;
+  if (!v) return null;
+  const t = v.period && v.period !== "-" ? fDate(v.period) : Date.UTC(Number(v.year), 0, 1);
+  const q = v.period && v.period !== "-" ? ` Q${Math.ceil((new Date(t).getUTCMonth() + 1) / 3)}` : "";
+  return { key: `${v.year}${q}`, t, items: fields.map(f => {
+    const n = parseFloat(f.values?.value);
+    return { group: "", name: (f.nameEn || f.ratioName || "").replace(/\s+/g, " ").trim(), value: Number.isNaN(n) ? null : n };
+  }) };
+}
+
+async function fPeriods(kind, c, periodType, refresh) {
+  const m = fMarket(), hist = kind === "statements" ? "financials_history" : "ratios_history";
+  const latest = kind === "statements" ? "financials" : "ratios", parse = kind === "statements" ? fStatementPeriod : fRatioPeriod;
+  const files = fFiles(hist, `${m}_${c.symbol}_`).filter(p => (p[3] === "1") === (periodType === "year"));
+  const bodies = await Promise.all([
+    fTry(latest, { marketId: m, symbol: c.symbol, period: periodType }, refresh),
+    ...files.map(p => fTry(hist, { marketId: m, symbol: c.symbol, year: p[2], period: p[3] === "1" ? "year" : "quarter", fiscalPeriod: p[3] })),
+  ]);
+  const byKey = {};
+  bodies.map(parse).filter(Boolean).forEach(p => { byKey[p.key] ??= p; });
+  return Object.values(byKey).sort((a, b) => b.t - a.t);  // newest first
+}
+
+async function fPeriodView(kind, refresh) {
+  const c = fCompany(), periodType = $("fPick1").value;
+  if (!c) throw new Error("Choose a company.");
+  const periods = await fPeriods(kind, c, periodType, refresh);
+  if (!periods.length) throw new Error(`No saved ${kind === "statements" ? "financial statements" : "ratios"} for ${c.symbol} yet.`);
+  // Rows: one per line item, in Argaam's order; values per period. Lines that are 0 or empty everywhere are hidden.
+  const rowsByKey = new Map();
+  for (const p of periods) for (const it of p.items) {
+    const k = `${it.group}|${it.name}`;
+    if (!rowsByKey.has(k)) rowsByKey.set(k, { group: it.group, name: it.name, values: {} });
+    rowsByKey.get(k).values[p.key] = it.value;
+  }
+  const lines = [...rowsByKey.values()].filter(r => Object.values(r.values).some(v => v != null && v !== 0));
+  const label = kind === "statements" ? "Financial statements" : "Financial ratios";
+  const span = `${periods[periods.length - 1].key} – ${periods[0].key}`;
+  fShowView(`${label} · ${c.symbol} ${c.name} · ${periodType === "year" ? "annual" : "quarterly"}`,
+    stat("Periods saved", periods.length, span) + stat("Lines", lines.length, kind === "statements" ? "income, balance sheet, cash flow" : "ratios") +
+    stat("Latest period", fEsc(periods[0].key), ""));
+  const cols = periods.map(p => p.key);
+  let group = null;
+  const body = lines.map((r, i) => {
+    const head = r.group && r.group !== group ? `<tr><th colspan="${cols.length + 1}" style="position:static;background:#fafafa">${fEsc(group = r.group)}</th></tr>` : "";
+    return head + `<tr class="pick" data-i="${i}"><td>${fEsc(r.name)}</td>${cols.map(k => `<td class="num">${fNum(r.values[k])}</td>`).join("")}</tr>`;
+  }).join("");
+  $("fExtra").innerHTML = `<div class="table-wrap"><table class="ftable"><thead><tr><th>${kind === "statements" ? "Line" : "Ratio"}</th>${cols.map(k => `<th class="num">${fEsc(k)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table></div>`;
+  const chartLine = i => {
+    const r = lines[i];
+    $("fExtra").querySelectorAll("tr.on").forEach(tr => tr.classList.remove("on"));
+    $("fExtra").querySelector(`tr[data-i="${i}"]`)?.classList.add("on");
+    const points = periods.filter(p => r.values[p.key] != null).map(p => ({ t: p.t, y: r.values[p.key], label: p.key })).sort((a, b) => a.t - b.t);
+    fChartSeries(`${r.group ? `${r.group} · ` : ""}${r.name}`, [{ name: r.name, points }]);
+  };
+  $("fExtra").querySelector("tbody").onclick = e => { const tr = e.target.closest("tr.pick"); if (tr) chartLine(Number(tr.dataset.i)); };
+  const first = lines.findIndex(r => kind === "statements" ? /^net income/i.test(r.name) : /return on average equity/i.test(r.name));
+  chartLine(first >= 0 ? first : 0);
+  display("fundamentals", lines.map(r => ({ section: r.group, line: r.name, ...Object.fromEntries(cols.map(k => [k, r.values[k]])) })));
+  return `${periods.length} saved period${periods.length === 1 ? "" : "s"} combined`;
+}
+
+// ---- One company: overview, opinions, estimates ----
+
+async function fOverview(refresh) {
+  const c = fCompany(), m = fMarket();
+  if (!c) throw new Error("Choose a company.");
+  const [hl, rep] = await Promise.all([fTry("highlights", { marketId: m, symbol: c.symbol }, refresh),
+                                       fTry("financial_reports", { marketId: m, symbol: c.symbol }, refresh)]);
+  const h = hl?.data?.highlights;
+  const count = (id, test = () => true) => fFiles(id, `${m}_${c.symbol}_`).filter(test).length;
+  const tiles = (h?.fields || []).map(f => stat(fEsc(f.displayNameEn), fNum(f.value, 0), `${h.forYear} ${h.fiscalPeriod === "YEAR" ? "full year" : h.fiscalPeriod}`)).join("") +
+    stat("Annual statements saved", count("financials_history", p => p[3] === "1"), "history files") +
+    stat("Quarterly statements saved", count("financials_history", p => p[3] !== "1"), "history files") +
+    stat("Ratio periods saved", count("ratios_history"), "history files");
+  fShowView(`${c.symbol} · ${c.name} (${F_MARKETS[m]})`, tiles || stat("Highlights", "–", "not saved"));
+  const reports = rep?.data?.reports?.files || [];
+  const link = (u, t) => u ? `<a href="${fEsc(u)}" target="_blank" rel="noopener">${t}</a>` : "–";
+  $("fExtra").innerHTML = reports.length ? `<h2>Published financial reports</h2><div class="table-wrap"><table class="ftable"><thead><tr><th>Year</th><th>Period</th><th>English</th><th>Arabic</th></tr></thead><tbody>` +
+    reports.map(r => `<tr><td>${fEsc(r.year)}</td><td>${fEsc(r.fiscalPeriod)}</td><td>${link(r.fileURLEn, "PDF")}</td><td>${link(r.fileURLAr, "PDF")}</td></tr>`).join("") +
+    `</tbody></table></div>` : `<p class="hint">No report files saved for this company.</p>`;
+  display("fundamentals", (h?.fields || []).map(f => ({ year: h.forYear, period: h.fiscalPeriod, field: f.displayNameEn, value: f.value })));
+  return "highlights and reports";
+}
+
+// Every saved opinion page of a market, combined once per market.
+async function fMarketOpinions() {
+  const m = fMarket();
+  if (fOpinions[m]) return fOpinions[m];
+  const pages = fFiles("market_opinions", `${m}_`).map(p => p[1]);
+  if (!pages.length && !savedFiles) pages.push("1");
+  const bodies = await Promise.all(pages.map(page => fTry("market_opinions", { marketId: m, page, records: F_RECORDS[m] })));
+  const ok = bodies.filter(Boolean);
+  const rows = ok.flatMap(b => b.data?.opinions?.analystOpinions || []).sort((a, b) => String(b.forDate).localeCompare(String(a.forDate)));
+  const total = ok[0]?.data?.opinions?.totalPages || ok.length;
+  return (fOpinions[m] = { rows, pages: ok.length, total, records: rows[0]?.totalRecords });
+}
+
+const fOpinionRow = o => ({ date: day(o.forDate), company: o.companyNameEn, broker: (o.brokerNameEn || "").trim(), opinion: o.currentOpinionEn,
+  previous: o.previousOpinionEn, price: o.currentPrice, target: o.targetPrice, upside: o.change == null ? null : Math.round(o.change * 10) / 10,
+  report: o.attachLinkURLEn });
+
+async function fCompanyOpinions() {
+  const c = fCompany();
+  if (!c) throw new Error("Choose a company.");
+  const all = await fMarketOpinions();
+  const rows = all.rows.filter(o => o.companyID === c.id);
+  if (!rows.length) throw new Error(`No saved analyst opinions for ${c.symbol}${all.pages < all.total ? ` (${all.pages} of ${all.total} pages saved)` : ""}.`);
+  const last = rows[0], yearAgo = Date.now() - 365 * 864e5;
+  const recent = rows.filter(o => Date.parse(o.forDate) >= yearAgo && o.targetPrice);
+  const avgTarget = recent.length ? recent.reduce((s, o) => s + o.targetPrice, 0) / recent.length : null;
+  fShowView(`Analyst opinions · ${c.symbol} ${c.name}`,
+    stat("Opinions", rows.length, `${day(rows[rows.length - 1].forDate)} – ${day(last.forDate)}`) +
+    stat("Latest", fEsc(last.currentOpinionEn), `${fEsc((last.brokerNameEn || "").trim())}, ${day(last.forDate)}`) +
+    stat("Latest target", fNum(last.targetPrice), `price then ${fNum(last.currentPrice)}`) +
+    stat("Average target, 12 months", fNum(avgTarget), `${recent.length} opinions`));
+  const pts = key => rows.filter(o => o[key]).map(o => ({ t: Date.parse(o.forDate), y: o[key], label: `${day(o.forDate)} · ${(o.brokerNameEn || "").trim()}` })).sort((a, b) => a.t - b.t);
+  fChartSeries("Target price and the share price when the opinion was published", [{ name: "Target price", points: pts("targetPrice") }, { name: "Price then", points: pts("currentPrice") }]);
+  display("fundamentals", rows.map(fOpinionRow));
+  return `${all.pages} of ${all.total} opinion pages saved`;
+}
+
+async function fEstimates(refresh) {
+  const c = fCompany(), period = $("fPick1").value;
+  if (!c) throw new Error("Choose a company.");
+  const body = await getF("analyst_estimates", { marketId: fMarket(), symbol: c.symbol, period }, refresh);
+  const est = body.data?.data?.estimates || [];
+  if (!est.length) throw new Error("Argaam has no estimates for this company and period.");
+  const years = est.map(e => e.forYear);
+  fShowView(`Analyst estimates · ${c.symbol} ${c.name} · ${period === "year" ? "years" : "quarters"}`,
+    stat("Estimates", est.length, "") + stat("Brokers", new Set(est.map(e => e.brokerID)).size, "") +
+    stat("Fields", new Set(est.map(e => e.fsFieldID)).size, "") + stat("Years", `${Math.min(...years)}–${Math.max(...years)}`, ""));
+  display("fundamentals", body.data);
+  return body.from_cache ? `saved copy, data/${body.saved_to}` : `saved to data/${body.saved_to}`;
+}
+
+// ---- Whole market ----
+
+async function fResults(refresh) {
+  const m = fMarket(), year = $("fPick1").value, fp = $("fPick2").value;
+  const body = await getF("market_results", { marketId: m, year, period: fp === "year" ? "year" : "quarter", fiscalPeriod: fp }, refresh);
+  // Argaam lists every current company for any period; a company without results there has 0 this year.
+  const rows = (body.data?.data?.results?.results || []).filter(r => r.currentYearValue);
+  if (!rows.length) throw new Error("No company has results for this period.");
+  const up = rows.filter(r => r.currentYearValue > r.lastYearValue).length;
+  const sum = k => rows.reduce((s, r) => s + (r[k] || 0), 0);
+  fShowView(`Results of all companies · ${F_MARKETS[m]} · ${year} ${F_RESULT_PERIODS[fp]}`,
+    stat("Companies with results", rows.length, "") + stat("Net income up", up, `${Math.round(up / rows.length * 100)}% of them`) +
+    stat("Net income down", rows.length - up, "") + stat("Total net income", fNum(sum("currentYearValue"), 0), `a year earlier ${fNum(sum("lastYearValue"), 0)}`) +
+    stat("Change in total", fPct((sum("currentYearValue") / sum("lastYearValue") - 1) * 100), "same companies"));
+  display("fundamentals", rows.sort((a, b) => (b.percentage ?? -1e9) - (a.percentage ?? -1e9))
+    .map(r => ({ company: r.shortNameEn, announced: r.announced, net_income: r.currentYearValue, a_year_earlier: r.lastYearValue, change_pct: r.percentage })));
+  return body.from_cache ? `saved copy, data/${body.saved_to}` : `saved to data/${body.saved_to}`;
+}
+
+async function fRankings(refresh) {
+  const m = fMarket(), metric = $("fPick1").value;
+  const body = await getF("rankings", { marketId: m, metric }, refresh);
+  const rows = body.data?.data?.rankings || [];
+  if (!rows.length) throw new Error("Argaam returned an empty ranking.");
+  fShowView(`${F_RANKINGS[metric]} · ${F_MARKETS[m]}`, rows.slice(0, 3).map(r => stat(`#${r.rank}`, fEsc(r.companyShortNameEn), "")).join("") + stat("Companies ranked", rows.length, ""));
+  display("fundamentals", rows);
+  return body.from_cache ? `saved copy, data/${body.saved_to}` : `saved to data/${body.saved_to}`;
+}
+
+async function fLowest(refresh) {
+  const m = fMarket(), metric = $("fPick1").value, period = $("fPick2").value;
+  const body = await getF("rankings_lowest", { marketId: m, metric, period }, refresh);
+  const rows = body.data?.data?.lowest20 || [];
+  if (!rows.length) throw new Error("Argaam returned an empty list.");
+  fShowView(`Lowest 20 by ${F_LOWEST[metric].toLowerCase()} · ${F_MARKETS[m]} · latest ${period}`, rows.slice(0, 3).map(r => stat(`#${r.rank}`, fEsc(r.companyShortNameEn), "")).join(""));
+  display("fundamentals", rows);
+  return body.from_cache ? `saved copy, data/${body.saved_to}` : `saved to data/${body.saved_to}`;
+}
+
+async function fAllOpinions() {
+  const all = await fMarketOpinions();
+  if (!all.rows.length) throw new Error("No analyst opinions saved for this market.");
+  const yearAgo = Date.now() - 365 * 864e5;
+  const recent = all.rows.filter(o => Date.parse(o.forDate) >= yearAgo);
+  const by = {};
+  recent.forEach(o => { by[o.currentOpinionEn] = (by[o.currentOpinionEn] || 0) + 1; });
+  fShowView(`Analyst opinions · ${F_MARKETS[fMarket()]}`,
+    stat("Opinions saved", all.rows.length.toLocaleString("en"), `${all.pages} of ${all.total} pages`) +
+    Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => stat(fEsc(k), n, "last 12 months")).join(""));
+  display("fundamentals", all.rows.slice(0, 2000).map(fOpinionRow));
+  return `${all.pages} of ${all.total} pages saved`;
+}
+
+async function fMarketRatios(refresh) {
+  const m = fMarket(), rows = [];
+  for (const type of [1, 2, 3]) for (const ex of [0, 1]) {
+    const d = await fTry("market_ratios", { marketId: m, fiscalPeriodTypeId: type, excludeAramco: ex }, refresh);
+    if (d) rows.push({ fiscal_period_type: type, without_aramco: ex ? "yes" : "no", ...(d.data?.marketRatioInfo || {}) });
+  }
+  if (!rows.length) throw new Error("No market ratios saved for this market.");
+  fShowView(`Market ratios · ${F_MARKETS[m]}`, stat("Market value", fNum(rows[0].marketValue, 0), "SAR millions") +
+    stat("P/E", fNum(rows[0].currentPriceEarning), rows[0].currentPriceEarning == null ? "empty in the sandbox" : ""));
+  display("fundamentals", rows);
+  return `${rows.length} combinations`;
+}
+
+const F_RUN = { overview: fOverview, statements: r => fPeriodView("statements", r), ratios: r => fPeriodView("ratios", r),
+  opinions: fCompanyOpinions, estimates: fEstimates, results: fResults, rankings: fRankings, lowest: fLowest,
+  all_opinions: fAllOpinions, market_ratios: fMarketRatios };
+
+async function fRun(refresh) {
+  fStatus(refresh ? "Fetching from Argaam…" : "Loading…");
   try {
-    let body;
-    if (savedFiles) {
-      const file = savedPath("analyst_estimates", { marketId, symbol, period });
-      if (!savedFiles.has(file)) throw new Error("No saved data for this company and period.");
-      body = { data: await getJSON(`data/${file}`), saved_to: file, from_cache: true };
-    } else {
-      const query = new URLSearchParams({ symbol, marketId, period, ...(refresh ? { refresh: "1" } : {}) });
-      body = await getJSON(`/api/fundamentals/analyst-estimates?${query}`);
-    }
-    if (!body.data.data.estimates.length) throw new Error("The API returned no estimates for this company and period.");
-    display("fundamentals", body.data);
-    $("fStatus").textContent = body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`;
+    const note = await F_RUN[$("fShow").value](refresh);
+    fStatus(`Done · ${note}`);
   } catch (e) {
-    clearEstimates();
-    $("fStatus").className = "status error";
-    $("fStatus").textContent = e.message;
+    $("fView").classList.add("hidden");
+    delete lastData.fundamentals;
+    if (activeTab === "fundamentals") $("results").classList.add("hidden");
+    fStatus(e.message, true);
   }
 }
 
-// On the published page, data comes only from saved files, so there is nothing to re-fetch.
-function showSavedEstimates() {
-  const hasSaved = [...savedFiles].some(f => f.startsWith(savedFolder("analyst_estimates")));
-  $("fRefreshBtn").remove();
-  $("fHint").textContent = hasSaved
-    ? "Enter a stock symbol to load its saved estimates. Companies without saved estimates show a no-data message."
-    : "No analyst estimates have been saved yet.";
+async function initFundamentals() {
+  fSaved = savedFiles ? new Set([...savedFiles].filter(f => f.startsWith("fundamentals/")))
+                      : new Set(await getJSON("/api/fundamentals/saved").catch(() => []));
+  if (savedFiles) $("fRefreshBtn").remove();
+  $("fShow").onchange = onFShow;
+  $("fPick1").addEventListener("change", () => { if ($("fShow").value === "results") fResultsTouched = true; });
+  $("fMarket").onchange = async () => { await fLoadCompanies(); onFShow(); };
+  $("fFetchBtn").onclick = () => fRun(false);
+  if ($("fRefreshBtn")) $("fRefreshBtn").onclick = () => fRun(true);
+  await fLoadCompanies();
+  onFShow();
 }
-
-$("fFetchBtn").onclick = () => fetchEstimates(false);
-$("fRefreshBtn").onclick = () => fetchEstimates(true);
-$("symbol").onkeydown = e => { if (e.key === "Enter") fetchEstimates(false); };
 
 // ---- Investment funds: price history, fund details, top movers ----
 // Saved files come from static/endpoints.json like every API: funds/fund_history/<managerId>_<fundId>.json etc.
@@ -1164,7 +1539,7 @@ function onMShow() {
 
 // Line chart, one or two series on one axis. series: [{ name, points: [{ t, y, label }] }], points sorted by t.
 // One series needs no legend (the title names it); two get a legend and a label at the line end.
-function mChart(series, fmt = v => num(v)) {
+function mChart(series, fmt = v => num(v), ids = { chart: "mChart", legend: "mLegend", title: "mTitle" }) {
   const W = 1000, H = 300, m = { l: 64, r: series.length > 1 ? 90 : 12, t: 10, b: 26 };
   const all = series.flatMap(s => s.points);
   const t0 = Math.min(...all.map(p => p.t)), t1 = Math.max(...all.map(p => p.t));
@@ -1185,10 +1560,10 @@ function mChart(series, fmt = v => num(v)) {
     const label = series.length > 1 ? `<text x="${X(end.t) + 6}" y="${Y(end.y) + 4}" font-size="11" fill="var(--muted)">${escAttr(s.name)}</text>` : "";
     return `<path d="${d}" fill="none" stroke="${color(i)}" stroke-width="2" stroke-linejoin="round"/>${dots}${label}`;
   }).join("");
-  $("mLegend").innerHTML = series.length > 1 ? series.map((s, i) => `<span><i style="background:${M_COLORS[i]}"></i>${escAttr(s.name)}</span>`).join("") : "";
-  const wrap = $("mChart");
+  $(ids.legend).innerHTML = series.length > 1 ? series.map((s, i) => `<span><i style="background:${M_COLORS[i]}"></i>${escAttr(s.name)}</span>`).join("") : "";
+  const wrap = $(ids.chart);
   wrap.innerHTML = `
-    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${escAttr($("mTitle").textContent)}">
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${escAttr($(ids.title).textContent)}">
       <g class="grid">${yTicks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/>`).join("")}</g>
       <g class="axis">
         ${yTicks.map(v => `<text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}</text>`).join("")}
@@ -1385,7 +1760,7 @@ async function init() {
   }
   allEndpoints = Object.fromEntries(endpoints.map(e => [e.id, e]));
   initMacro();
-  if (savedFiles) showSavedEstimates();
+  initFundamentals();
   if (savedFiles) { $("fundRefreshBtn").remove(); $("fundHint").textContent = "Only the funds fetched so far are listed."; }
   loadManagers();
   loadFunds();
