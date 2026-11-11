@@ -68,19 +68,6 @@ def api_request(endpoint_id, **values):
     return ep["path"].format(**values), {k: values[k] for k in ep.get("query", [])}
 
 
-def match_path(path, api):
-    """Which endpoint of this API a typed path belongs to: returns (endpoint_id, values), or None."""
-    for ep in ENDPOINTS.values():
-        if ep["api"] != api or ep.get("query"):
-            continue
-        parts = re.split(r"\{(\w+)\}", ep["path"])  # literal, name, literal, name, ...
-        pattern = "".join(re.escape(p) if i % 2 == 0 else f"(?P<{p}>{VALUE})" for i, p in enumerate(parts))
-        m = re.fullmatch(pattern, path.strip().rstrip("/") or "/")
-        if m:
-            return ep["id"], m.groupdict()
-    return None
-
-
 def write_json(path, data):
     """Write through a temp file so a crash can never leave half a JSON file."""
     path.parent.mkdir(parents=True, exist_ok=True)

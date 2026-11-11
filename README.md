@@ -17,7 +17,7 @@ A minimal tool that pulls data from the Argaam REST APIs with Python, saves ever
 argaam_client.py           # shared basics: endpoints and file names, progress and key usage, single fetches for app.py
 argaam_downloader.py       # shared bulk download code for the fetch scripts: keys, proxy, pacing, retries, resume
 fetch_fundamentals.py      # script: every company's analyst estimates -> data/fundamentals/
-fetch_macroeconomic.py     # script: every indicator group, field and series -> data/macroeconomic/
+fetch_macroeconomic.py     # script: every indicator (year by year), commodity, consumer good, petrochemical and market valuation -> data/macroeconomic/
 fetch_funds.py             # script: every fund manager, fund, fund details, price history and latest value -> data/funds/
 fetch_ma.py                # script: every M&A deal list and deal record -> data/m&a/
 fetch_projects.py          # script: every project list, project record and company's key developments -> data/projects/
@@ -29,7 +29,21 @@ data/                      # saved API responses (ready to push to a database), 
   macroeconomic/
     indicator_groups.json          # /indicators/groups
     indicator_fields/33.json       # /indicators/groups/33/fields
-    indicator_values/33_125.json   # /indicators/groups/33/fields/125/values
+    indicator_values/33_125_2020.json  # /indicators/groups/33/fields/125/values?year=2020 (one file per year)
+    commodities.json               # /commodities
+    commodity_quotes.json          # /commodities/quotes/regular
+    commodity_history/101.json     # /commodities/101/quotes/regular/history?from=1980-01-01&to=<today>
+    commodity_other_history/301.json  # /commodities/301/quotes/other/history?from=…&to=…
+    commodity_shipping/201.json    # /commodities/201/shipping?from=…&to=…
+    refining_margins.json          # /commodities/refining-margins?from=…&to=…
+    consumer_goods.json            # /consumer-goods
+    consumer_prices.json           # /consumer-goods/prices
+    consumer_history/132.json      # /consumer-goods/132/prices/history?from=…&to=…
+    petro_index.json               # /petrochemicals/index
+    petro_index_history.json       # /petrochemicals/index/history?from=…&to=…
+    petro_products.json            # /petrochemicals/products
+    petro_history/3_3.json         # /petrochemicals/products/3/prices/history?regionId=3&from=…&to=…
+    market_indicators/3.json       # /markets/3/indicators
     _progress.json                 # what the fetch script did with each item, and where it came from
   fundamentals/
     market_companies/3.json        # /markets/3/companies
@@ -90,7 +104,7 @@ Start the web viewer and open http://127.0.0.1:5001 :
 ```
 python app.py
 ```
-Choose an endpoint, click **Fetch**, tick the fields you want, then **Export CSV** or **Export JSON**. Each fetch is also saved under `data/macroeconomic/`, and anything already saved loads from there until you click **Re-fetch from API**.
+The **Macroeconomic** tab shows an economic indicator over the years (all saved years combined into a chart), the price history of a commodity, a shipping rate, a consumer good or a petrochemical product, the Argaam Petrochemical Index, refining margins, the latest commodity quotes and consumer goods prices, and the valuation of TASI and NOMU. Pick what to show and the item, then tick the fields you want and **Export CSV** or **Export JSON**. Each fetch is saved under `data/macroeconomic/`, and anything already saved loads from there until you click **Re-fetch from API**.
 
 The **Fundamentals** tab fetches analyst estimates: pick a market, type a stock symbol (e.g. `2222`) and a period. The sandbox allows 5 requests a minute and 100 a day per endpoint, so a saved company loads from `data/fundamentals/` until you click **Re-fetch from API**. See `EXPLAINED.md` for what the data contains.
 
@@ -105,15 +119,21 @@ Saves every TASI and NOMU company (year and quarter) to `data/fundamentals/`, in
 ### Download all macroeconomic data
 ```
 python fetch_macroeconomic.py --dry-run
+python fetch_macroeconomic.py --sample 15
 python fetch_macroeconomic.py
 ```
-Saves every indicator group, every group's fields and every field's values (the numbers over time) to `data/macroeconomic/`, in the same files the Macroeconomic tab reads. It works in three stages, because each list says what to fetch next:
+Saves everything in the macroeconomic API to `data/macroeconomic/`, in the same files the Macroeconomic tab reads: 14 of its 17 endpoints besides the indicators (EXPLAINED.md says why three are skipped). Six stages, because each list says what to fetch next:
 
-1. `indicator_groups.json`: 1 call, the 29 main groups and their 301 sub-groups.
-2. `indicator_fields/<groupId>.json`: 1 call per sub-group, its fields.
-3. `indicator_values/<groupId>_<fieldId>.json`: 1 call per field, its values.
+1. Lists, 1 call each: `indicator_groups.json` (29 main groups, 301 sub-groups), `commodities.json` (39), `commodity_quotes.json`, `refining_margins.json`, `consumer_goods.json` (161 goods), `consumer_prices.json`, `petro_index.json`, `petro_index_history.json`, `petro_products.json` (33) and `market_indicators/<marketId>.json` for TASI and NOMU.
+2. `indicator_fields/<groupId>.json`: 1 call per sub-group, its fields (5,031 in all).
+3. Commodity histories, 1 call per commodity by its type: `commodity_history/` (30 Regular), `commodity_other_history/` (3 Others), `commodity_shipping/` (6 Shipping).
+4. `consumer_history/<materialId>.json`: 1 call per consumer good, every monthly price since 2009.
+5. `petro_history/<productId>_<regionId>.json`: 1 call per petrochemical product, every price since 2006.
+6. `indicator_values/<groupId>_<fieldId>_<year>.json`: **1 call per field per year**, because Argaam returns one calendar year per call. Years go newest first, from this year back to `--from-year` (default 1970).
 
-Start with `--dry-run`: it makes no calls and shows how many are left and about how many days that takes. A full download is about 5,300 calls (5,031 fields are known): about 3 days with 22 keys, because nearly all of them go to one endpoint (values), which gets 100 calls a day per key. The number of fields in groups whose field list isn't saved yet is estimated from the groups already saved. The script uses the same keys, proxy, flags (`--limit`, `--refresh`) and resume as the analyst estimates script. In the sandbox many fields return no data; those are recorded as `no_data` and skipped next time.
+Stages 1 to 5 are about 250 calls and take a few minutes. Stage 6 is the big one: 5,031 fields × 57 years is at most about 287,000 calls, and Argaam allows 100 a day per key on that endpoint, so 22 keys do 2,200 a day: about **131 days** if every year is asked for. `--gap N` stops a field after N empty years in a row, which saves most of the calls for fields with only a few years of data. `--dry-run` shows the numbers for your flags.
+
+`--sample 15` fetches at most 15 new items per stage (for stage 6, 15 fields with every year), so you can check the data in the tab first. The same keys, proxy, flags (`--limit`, `--refresh`) and resume as the other scripts. `--refresh` downloads the lists and histories again, plus the indicator values of this year and last year.
 
 ### Download investment funds data
 ```
@@ -175,6 +195,15 @@ Two files, the same for every API. The fetch scripts and the web app both write 
 
 When something is recorded as `no_data`, the web app answers from the progress file instead of calling Argaam again, and says when it was checked. **Re-fetch from API** always asks again.
 
+## What's left to fetch
+
+Updated 11 Nov 2026. Every other API (fundamentals, funds, M&A, projects) is fully downloaded. For live numbers run `python fetch_macroeconomic.py --dry-run`, and see `data/macroeconomic/_progress.json` for each item.
+
+- **TODO: Macroeconomic, stages 1–5** (commodities, shipping, refining margins, consumer goods, petrochemicals, market valuation). Only a sample is saved: all 11 lists, 15 of 39 commodity histories, 17 of 161 consumer goods and 15 of 33 petrochemical products. The rest is 186 calls, a few minutes: `python fetch_macroeconomic.py`.
+- **TODO: Macroeconomic, indicator history** (stage 6). Argaam returns one year per call, so this is up to about 287,000 calls (5,031 indicators × 1970–2026). At 2,200 calls a day that's about 131 days. Only 15 of 5,031 indicators are saved so far (every year from 1970: 552 years with values, 303 empty). Rerun the same command each day and it continues where it stopped. `--gap N` (stop an indicator after N empty years in a row) cuts this a lot; choose N from the sample.
+- **TODO: Macroeconomic, rig counts** (`/petrochemicals/rig-counts`). Not fetched, because the sandbox endpoint is broken: HTTP 400 with a date, an empty list without one. Retry when Argaam fixes it.
+- **Not fetched on purpose (no TODO):** `/consumer-goods/{materialId}/prices` and `/petrochemicals/products/{productId}/prices` repeat data that is already saved (see EXPLAINED.md).
+
 ## The standard for every API
 Fundamentals, Macroeconomic, Investment funds, M&A & Transactions and Projects & Capital Investments follow the same pattern, and a new Argaam API should too:
 
@@ -203,7 +232,7 @@ Add one entry to `static/endpoints.json`, e.g.
 - `query` lists values sent as `?name=value` instead of in the path.
 - `file` is where a response is saved inside `data/<api>/` (without `.json`). Values may only contain letters, digits and `-`.
 
-Python (`saved_file`, `endpoint_task` and `fetch_and_save` in `argaam_client.py`) and the page (`savedPath` in `index.html`) all read these templates, so no file name is typed by hand anywhere. Macroeconomic endpoints show up in the Macroeconomic tab's dropdown, and their paths can be edited there before fetching.
+Python (`saved_file`, `endpoint_task` and `fetch_and_save` in `argaam_client.py`) and the page (`savedPath` in `index.html`) all read these templates, so no file name is typed by hand anywhere. Each tab picks its endpoint from what you choose to show, and builds the IDs from its dropdowns.
 
 ## Adding a new API tab
 Add a button to `<nav id="tabs">` in `static/index.html` and a matching `<div id="tab-NAME" class="hidden">`. Call `display("NAME", response)` to show a response in the shared Fields / table / export section. Add the API's endpoints to `static/endpoints.json` with `"api": "NAME"`, and its responses are saved under `data/NAME/`.

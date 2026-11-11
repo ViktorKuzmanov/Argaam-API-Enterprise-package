@@ -1,10 +1,12 @@
 # API Examples
 
-Real examples you can try in the app. Examples 1 to 3 use the three indicator endpoints, step by step. Examples 4 to 13 use analyst estimates from both markets. Examples 14 to 21 use investment funds, 22 to 26 use M&A deals, and 27 to 32 use capital projects. Every response below is a real response from the sandbox.
+Real examples you can try in the app. Examples 1 to 3 use the three indicator endpoints, step by step. Examples 4 to 13 use analyst estimates from both markets. Examples 14 to 21 use investment funds, 22 to 26 use M&A deals, 27 to 32 use capital projects, and 33 to 40 use commodities, consumer goods, petrochemicals and market valuation. Every response below is a real response from the sandbox.
 
 ## How to try it
 
-Run `python app.py`, open http://127.0.0.1:5001, paste each path below into the **Path** box and click **Fetch**.
+Run `python app.py`, open http://127.0.0.1:5001 and stay on the **Macroeconomic** tab. For Examples 1 to 3 choose **Show: Indicator over the years**, then the **Indicator group** and the **Indicator** named in each example. The tab combines every saved year into a chart and a table. The paths below are the Argaam calls behind it, so you can see what each step returns.
+
+Argaam gives an indicator **one year per call** (`?year=2020`); without `year` it gives only the latest year. `fetch_macroeconomic.py` saves each year as its own file, e.g. `data/macroeconomic/indicator_values/33_125_2020.json`.
 
 ---
 
@@ -19,7 +21,7 @@ An analyst wants Saudi GDP, the total value of everything the country produces i
 ```
 1. Which topics exist?               → "National Accounts" → groupId = 33
 2. What is inside National Accounts? → "GDP"               → fieldId = 125
-3. Give me the number                → 2026 = 4431
+3. Give me the numbers               → 2026 = 4431, one call per year
 ```
 
 ---
@@ -66,10 +68,10 @@ GDP is **`fieldId = 125`**.
 ### Step 3: Get the number
 
 ```
-/indicators/groups/33/fields/125/values
+/indicators/groups/33/fields/125/values?year=2026
 ```
 
-**What you get:** the actual data, one entry per year or period.
+**What you get:** the actual data for that year, one entry per period. In the tab: **Macro › National Accounts (33)** › **Gross Domestic Product at Current Prices (Base year 2010) (125)**.
 
 ```json
 {
@@ -127,8 +129,10 @@ A reporter wants the real GDP growth rate, which is growth with inflation remove
 ### Step 3: Get the number
 
 ```
-/indicators/groups/33/fields/128/values
+/indicators/groups/33/fields/128/values?year=2026
 ```
+
+In the tab: **Macro › National Accounts (33)** › **GDP Growth at Chain-Linked Methodology (128)**.
 
 **What you get:**
 
@@ -208,8 +212,10 @@ The surplus or deficit answers the question directly, so **`fieldId = 105`**.
 ### Step 3: Get the number
 
 ```
-/indicators/groups/51/fields/105/values
+/indicators/groups/51/fields/105/values?year=2026
 ```
+
+In the tab: **Govt Budget › Public Budget Estimates (51)** › **Expected Surplus (Deficit) (105)**.
 
 **What you get:**
 
@@ -229,25 +235,23 @@ The surplus or deficit answers the question directly, so **`fieldId = 105`**.
 
 ## Using the downloaded macroeconomic files
 
-After `python fetch_macroeconomic.py`, every series is a file in `data/macroeconomic/indicator_values/`, named `<groupId>_<fieldId>.json`. This turns all of them into one table, ready for a spreadsheet or a database:
+After `python fetch_macroeconomic.py`, every indicator year is a file in `data/macroeconomic/indicator_values/`, named `<groupId>_<fieldId>_<year>.json`. This turns all of them into one table, ready for a spreadsheet or a database:
 
 ```python
 import json, pathlib
 
 rows = []
 for file in sorted(pathlib.Path("data/macroeconomic/indicator_values").glob("*.json")):
+    group_id, field_id, year = file.stem.split("_")
     series = json.loads(file.read_text(encoding="utf-8"))
     for point in series["values"]:
-        rows.append({"field": series["displayNameEn"], "year": point["year"], "value": point["value"]})
+        rows.append({"group": int(group_id), "field": int(field_id), "name": series["displayNameEn"],
+                     "year": point["year"], "period": point["fiscalPeriodID"], "value": point["value"]})
 ```
 
-With the three series saved today, `rows` holds the answers to Examples 1 to 3:
+For GDP (`group 33, field 125`) `rows` then holds one row per year, e.g. `{'group': 33, 'field': 125, 'name': 'Gross Domestic Product at Current Prices (Base year 2010)', 'year': 2020, 'period': 1, 'value': 2625.44}`. Some years have two rows for the same period (see EXPLAINED.md).
 
-```
-{'field': 'Gross Domestic Product at Current Prices (Base year 2010)', 'year': 2026, 'value': 4431}
-{'field': 'GDP Growth at Chain-Linked Methodology', 'year': 2026, 'value': 3.5}
-{'field': 'Expected Surplus (Deficit)', 'year': 2026, 'value': -165}
-```
+The price histories are single files, one per item, e.g. `data/macroeconomic/commodity_history/101.json` (Brent) is a list of daily prices you can load directly.
 
 To see what has been downloaded so far, and what Argaam had no data for, open `data/macroeconomic/_progress.json`: each entry's `status` is `saved`, `no_data` or `failed`.
 
@@ -548,10 +552,72 @@ Open the **Projects & Capital Investments** tab, choose a **Market** and click *
 
 ---
 
+## Commodities, consumer goods and petrochemicals examples
+
+Open the **Macroeconomic** tab, choose what to **Show**, then the item. Each history view shows tiles (latest, over a year, since the first value, highest, lowest, how many), a chart you can hover, and the full table to export. Every example below is already saved, so it uses no API calls.
+
+### Example 33: Where is oil now, and how far has it come?
+
+> **"What does Brent cost, and how does that compare with its record?"**
+
+**Show:** Commodity price history · **Commodity:** Regular › Brent Crude Oil (101) (file `data/macroeconomic/commodity_history/101.json`)
+**Answer:** Brent closed at **97.88** on 2026-11-06, **50.2%** higher than a year earlier. Its highest close was **146.19** on 2008-07-03 and its lowest **19.33** on 2020-04-21, the COVID crash. The chart covers **5,387 trading days** since June 2007.
+
+### Example 34: What moved in commodity markets today?
+
+> **"Which commodities rose on the last trading day?"**
+
+**Show:** Latest commodity quotes (file `data/macroeconomic/commodity_quotes.json`)
+**Answer:** 14 actively traded commodities, **7 up** and 7 down or flat on 2026-11-09. Brent was at **97.315**, down **0.58%** on the day. The `changeThisYear` column gives each one's change since January.
+
+### Example 35: Are refiners making money?
+
+> **"How profitable is refining right now?"**
+
+**Show:** Refining margins (file `data/macroeconomic/refining_margins.json`)
+**Answer:** the margin was **30.99** on 2026-11-06, up **56.9%** in a year. It was negative as recently as 2026-04-14 (**−12.46**), and the highest was **65.60** on 2026-08-31. The history starts in January 2016 (2,822 days).
+
+### Example 36: Europe or New Zealand milk powder?
+
+> **"Is whole milk powder cheaper in Oceania than in Europe?"**
+
+**Show:** Commodity price history · **Commodity:** Others › Whole Milk Powder (301) (file `data/macroeconomic/commodity_other_history/301.json`)
+**Answer:** yes. On 2026-11-06 Europe was at **4,325** and Oceania at **3,862.5**. This commodity has two regions, so the chart draws one line for each, with a legend. The history goes back to January 1998.
+
+### Example 37: How fast are building costs rising?
+
+> **"I'm building a house. How much more does electrical wire cost than a year ago?"**
+
+**Show:** Consumer good price history · **Consumer good:** Construction Materials › Electrical wires, 6mm national (132) (file `data/macroeconomic/consumer_history/132.json`)
+**Answer:** **3.37** in September 2026, up **24.8%** in a year and **72.8%** since January 2009. The low was **1.44** in October 2016. Try Reinforcing iron, 10mm national (115) next: **3,183.93** in August 2026.
+
+### Example 38: What does a sheep cost before Eid?
+
+> **"What is the price of a Naemi sheep today?"**
+
+**Show:** Consumer good price history · **Consumer good:** Feed and Livestock › Sheep, Naemi (108) (file `data/macroeconomic/consumer_history/108.json`)
+**Answer:** **1,813.27** in September 2026 (most likely riyals; the API gives no currency), from 213 monthly prices since 2009. Hover the chart to see the price in any month. **Latest consumer goods prices** lists all 161 goods with their newest price.
+
+### Example 39: Is the petrochemical cycle turning?
+
+> **"Petrochemical companies are a big part of TASI. Are product prices recovering?"**
+
+**Show:** Argaam Petrochemical Index (file `data/macroeconomic/petro_index_history.json`)
+**Answer:** the index was **260.6** on 2026-11-01, up **50.8%** in a year. That is still below its 2008 high of **347.9**, but more than double its 2020 low of **122.9**. For one product, choose **Petrochemical product price history › Asia › Ethylene (3)**: **1,220** on 2026-11-01, up **75.5%** in a year.
+
+### Example 40: Is the Saudi market expensive?
+
+> **"How is TASI valued compared with NOMU?"**
+
+**Show:** Market valuation · **Market:** TASI, then NOMU (files `data/macroeconomic/market_indicators/3.json` and `14.json`)
+**Answer:** TASI trades at a **P/E of 17.3**, **1.78×** book value, with a **3.46%** dividend yield. NOMU is pricier: **P/E 22.3**, **2.15×** book, **1.99%** yield. Argaam keeps no history for these, so the date shown is when the file was fetched.
+
+---
+
 ## Good to know
 
 - **Not every company has estimates.** 212 companies do. For the rest, including any NOMU company with the Quarterly period, the app shows a no-data message. That is expected and is not a bug.
-- **The sandbox is mostly empty in step 3.** Fields with numbers: `33/125`, `33/128` and `51/103`, `51/104`, `51/105`. Others, such as fuel prices (`143/760`), unemployment (`130/484`), oil production (`35`), listed companies (`178`) and tourists (`102`), return HTTP 204 (no data). Steps 1 and 2 work for every group.
+- **Indicators come one year per call.** A year without a value returns HTTP 204, which does not mean the indicator is empty: GDP (`33/125`) has 56 years from 1971 to 2026, budget figures (`51/103`) start in 1981, and many series (e.g. groups `22`, `23`, `31`) end in 2024. Steps 1 and 2 work for every group.
 - **HTTP 429** means you called too fast. Wait a few seconds and retry.
 - **Investment funds are all saved:** 46 managers and 499 funds, 358 of them with price history. The other 141 returned no prices (HTTP 204), often because they have closed.
 - **M&A deals are all saved:** both market lists and all 634 deal records.

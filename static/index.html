@@ -175,21 +175,44 @@
   </div>
 
   <div id="tab-macro">
-  <section>
-    <div class="row">
-      <div><label for="base">API base URL</label><input id="base"></div>
-      <div><label for="endpoint">Endpoint</label><select id="endpoint"></select></div>
-    </div>
-    <div id="pickers" class="row hidden">
-      <div><label for="group">Group</label><select id="group"></select></div>
-      <div id="fieldWrap"><label for="field">Field</label><select id="field" disabled></select></div>
-    </div>
-    <div style="margin-bottom:12px"><label for="path">Path (filled in from the pickers, or edit by hand)</label><input id="path"></div>
-    <div id="hint" class="hint"></div>
-    <button id="fetchBtn">Fetch</button>
-    <button id="refreshBtn" class="secondary">Re-fetch from API</button>
-    <span id="status" class="status"></span>
-  </section>
+    <section>
+      <h2>Macroeconomic</h2>
+      <div class="row three">
+        <div><label for="mShow">Show</label><select id="mShow">
+          <optgroup label="Economic indicators">
+            <option value="indicator">Indicator over the years</option>
+          </optgroup>
+          <optgroup label="Commodities">
+            <option value="commodity">Commodity price history</option>
+            <option value="commodity_quotes">Latest commodity quotes</option>
+            <option value="refining_margins">Refining margins</option>
+          </optgroup>
+          <optgroup label="Consumer goods (Saudi Arabia)">
+            <option value="consumer_history">Consumer good price history</option>
+            <option value="consumer_prices">Latest consumer goods prices</option>
+          </optgroup>
+          <optgroup label="Petrochemicals">
+            <option value="petro_index_history">Argaam Petrochemical Index</option>
+            <option value="petro_history">Petrochemical product price history</option>
+          </optgroup>
+          <optgroup label="Markets">
+            <option value="market_indicators">Market valuation (P/E, P/B, yield)</option>
+          </optgroup>
+        </select></div>
+        <div id="mPick1Wrap"><label id="mPick1Label" for="mPick1"></label><select id="mPick1"></select></div>
+        <div id="mPick2Wrap"><label id="mPick2Label" for="mPick2"></label><select id="mPick2" disabled></select></div>
+      </div>
+      <div id="mHint" class="hint"></div>
+      <button id="mFetchBtn">Fetch</button>
+      <button id="mRefreshBtn" class="secondary">Re-fetch from API</button>
+      <span id="mStatus" class="status"></span>
+    </section>
+    <section id="mView" class="hidden">
+      <h2 id="mTitle"></h2>
+      <div id="mStats" class="stats"></div>
+      <div id="mLegend" class="legend"></div>
+      <div id="mChart" class="chart"></div>
+    </section>
   </div>
 
   <section id="results" class="hidden">
@@ -208,7 +231,7 @@
 
 <script>
 const $ = id => document.getElementById(id);
-let endpoints = [], rows = [], columns = [];
+let rows = [], columns = [];
 
 // Find the list of records in a response: the array itself, or the first array of objects inside it.
 function findRecords(data) {
@@ -310,9 +333,6 @@ $("jsonBtn").onclick = () => download("export.json", JSON.stringify(selectedData
 $("fields").onchange = renderTable;
 $("allBtn").onclick = () => { document.querySelectorAll("#fields input").forEach(c => c.checked = true); renderTable(); };
 $("noneBtn").onclick = () => { document.querySelectorAll("#fields input").forEach(c => c.checked = false); renderTable(); };
-// ---- Group / Field pickers: choose by name instead of typing IDs ----
-let groupNames = {};   // groupID -> "Parent › Name"
-let fieldNames = {};   // fieldID -> name
 const escAttr = s => String(s ?? "").trim().replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 async function getJSON(url) {
@@ -326,141 +346,14 @@ async function getJSON(url) {
 // as paths relative to data/ (e.g. macroeconomic/indicator_groups.json).
 // It stays null when running locally through app.py.
 let savedFiles = null;
-let allGroups = [];
 
 // File names come from static/endpoints.json: each endpoint's "file" template says where its responses
 // are saved under data/<api>/. Python uses the same templates (saved_file in argaam_client.py), so the
 // page never builds a file name by hand. Example: analyst_estimates -> fundamentals/analyst_estimates/3_2222_year.json
-let allEndpoints = {};  // id -> endpoint, for every API; `endpoints` holds the macroeconomic ones for the dropdown
+let allEndpoints = {};  // id -> endpoint, for every API
 const fill = (template, values) => template.replace(/\{(\w+)\}/g, (_, k) => values[k]);
 const savedPath = (id, values = {}) => `${allEndpoints[id].api}/${fill(allEndpoints[id].file, values)}.json`;
 const savedFolder = id => { const ep = allEndpoints[id]; return `${ep.api}/${ep.file.slice(0, ep.file.lastIndexOf("/") + 1)}`; };
-
-// Which macroeconomic endpoint a typed path belongs to, and its values (same as match_path in argaam_client.py).
-function matchPath(path) {
-  for (const ep of endpoints) {
-    const parts = ep.path.split(/\{(\w+)\}/);  // literal, name, literal, name, ...
-    const re = new RegExp("^" + parts.map((p, i) => i % 2 ? "([A-Za-z0-9-]+)" : p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("") + "$");
-    const m = path.trim().replace(/\/+$/, "").match(re);
-    if (m) return { id: ep.id, values: Object.fromEntries(parts.filter((_, i) => i % 2).map((name, j) => [name, m[j + 1]])) };
-  }
-  return null;
-}
-
-// With saved data, offer only the groups that have something saved for the chosen endpoint.
-function groupHasData(groupId) {
-  if (!savedFiles) return true;
-  if (!endpoints[$("endpoint").value].path.includes("{fieldId}")) return savedFiles.has(savedPath("indicator_fields", { groupId }));
-  const prefix = savedPath("indicator_values", { groupId, fieldId: "" }).slice(0, -".json".length);  // e.g. macroeconomic/indicator_values/33_
-  return [...savedFiles].some(f => f.startsWith(prefix));
-}
-
-function renderGroups() {
-  const previous = $("group").value;
-  $("group").innerHTML = `<option value="">Choose a group…</option>` + allGroups.map(g => {
-    const subs = g.subGroups || [];
-    groupNames[g.groupID] = g.nameEn.trim();
-    if (!subs.length) return groupHasData(g.groupID) ? `<option value="${g.groupID}">${escAttr(g.nameEn)} (${g.groupID})</option>` : "";
-    subs.forEach(sg => groupNames[sg.groupID] = `${g.nameEn.trim()} › ${sg.nameEn.trim()}`);
-    const shown = subs.filter(sg => groupHasData(sg.groupID));
-    if (!shown.length) return "";
-    return `<optgroup label="${escAttr(g.nameEn)} (${g.groupID})">` + shown.map(sg =>
-      `<option value="${sg.groupID}">${escAttr(sg.nameEn)} (${sg.groupID})</option>`).join("") + `</optgroup>`;
-  }).join("");
-  $("group").value = previous;
-  if ($("group").value !== previous || !previous) { $("group").value = ""; loadFields(""); }
-}
-
-async function loadGroups() {
-  try {
-    allGroups = await getJSON(savedFiles ? `data/${savedPath("indicator_groups")}` : "/api/groups");
-    renderGroups();
-  } catch (e) {
-    $("group").innerHTML = `<option value="">Could not load groups: ${escAttr(e.message)}</option>`;
-  }
-}
-
-async function loadFields(groupId) {
-  fieldNames = {};
-  const sel = $("field");
-  sel.disabled = true;
-  if (!groupId) { sel.innerHTML = `<option value="">Choose a group first</option>`; return; }
-  sel.innerHTML = `<option value="">Loading fields…</option>`;
-  try {
-    const fields = await getJSON(savedFiles ? `data/${savedPath("indicator_fields", { groupId })}` : `/api/groups/${groupId}/fields`);
-    fields.forEach(f => fieldNames[f.fieldID] = (f.displayNameEn || "").trim());
-    const shown = savedFiles ? fields.filter(f => savedFiles.has(savedPath("indicator_values", { groupId, fieldId: f.fieldID }))) : fields;
-    sel.innerHTML = `<option value="">Choose a field…</option>` + shown.map(f =>
-      `<option value="${f.fieldID}">${escAttr(f.displayNameEn)} (${f.fieldID})</option>`).join("");
-    sel.disabled = false;
-  } catch (e) {
-    sel.innerHTML = `<option value="">No fields: ${escAttr(e.message)}</option>`;
-  }
-}
-
-// Build the path from the endpoint template and the picked IDs; unpicked ones stay as {placeholders}.
-function buildPath() {
-  const ep = endpoints[$("endpoint").value];
-  let path = ep.path;
-  if ($("group").value) path = path.replace("{groupId}", $("group").value);
-  if ($("field").value) path = path.replace("{fieldId}", $("field").value);
-  $("path").value = path;
-  updateHint();
-}
-
-// Say in words what the IDs in the current path mean, e.g. "33 = National Accounts".
-function updateHint() {
-  const m = $("path").value.match(/groups\/(\d+)(?:\/fields\/(\d+))?/);
-  const parts = [];
-  if (m && m[1]) parts.push(`Group <b>${m[1]}</b> = ${escAttr(groupNames[m[1]] || "unknown group")}`);
-  if (m && m[2]) parts.push(`Field <b>${m[2]}</b> = ${escAttr(fieldNames[m[2]] || "not in this group's field list")}`);
-  $("hint").innerHTML = parts.join(" &nbsp;·&nbsp; ");
-}
-
-function onEndpointChange() {
-  const ep = endpoints[$("endpoint").value];
-  const needsGroup = ep.path.includes("{groupId}");
-  $("pickers").classList.toggle("hidden", !needsGroup);
-  $("fieldWrap").classList.toggle("hidden", !ep.path.includes("{fieldId}"));
-  if (savedFiles) renderGroups();
-  if (needsGroup) buildPath(); else { $("path").value = ep.path; updateHint(); }
-}
-
-$("endpoint").onchange = onEndpointChange;
-$("group").onchange = async () => { buildPath(); await loadFields($("group").value); buildPath(); };
-$("field").onchange = buildPath;
-$("path").oninput = updateHint;
-
-async function fetchMacro(refresh) {
-  $("status").className = "status";
-  $("status").textContent = "Fetching…";
-  try {
-    if (savedFiles) {
-      const match = matchPath($("path").value);
-      const file = match && savedPath(match.id, match.values);
-      if (!file || !savedFiles.has(file)) throw new Error("No saved data for this path. Choose a group and field from the dropdowns.");
-      const data = await getJSON(`data/${file}`);
-      $("status").textContent = "Done · showing saved data";
-      display("macro", data);
-      return;
-    }
-    const res = await fetch("/api/fetch", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ base: $("base").value, path: $("path").value, refresh }),
-    });
-    const body = await res.json();
-    if (!res.ok) throw new Error(body.error);
-    $("status").textContent = body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`;
-    display("macro", body.data);
-  } catch (e) {
-    $("status").className = "status error";
-    $("status").textContent = e.message;
-  }
-}
-
-$("fetchBtn").onclick = () => fetchMacro(false);
-$("refreshBtn").onclick = () => fetchMacro(true);
 
 // ---- Fundamentals: analyst estimates ----
 
@@ -1135,26 +1028,363 @@ $("prCompany").onchange = () => showCompany(false);
 $("prFetchBtn").onclick = () => { $("prProject").value = ""; $("prCompany").value = ""; prProjects.length ? showProjects() : loadPrMarket(false); };
 $("prRefreshBtn").onclick = () => $("prProject").value ? showProject(true) : $("prCompany").value ? showCompany(true) : loadPrMarket(true);
 
+// ---- Macroeconomic: indicators, commodities, consumer goods, petrochemicals, market valuation ----
+// Saved files come from static/endpoints.json like every API, e.g. macroeconomic/commodity_history/101.json and
+// macroeconomic/indicator_values/33_125_2020.json (Argaam gives an indicator one year per call, so one file per year).
+
+const M_COLORS = ["#2a78d6", "#eb6834"];  // validated categorical slots 1-2, same as the M&A chart
+const M_MARKETS = { 3: "TASI", 14: "NOMU" };
+const M_HISTORY = { Regular: "commodity_history", Others: "commodity_other_history", Shipping: "commodity_shipping" };
+const M_VIEWS = {  // the pickers each view needs
+  indicator: ["Indicator group", "Indicator"], commodity: ["Commodity"], consumer_history: ["Consumer good"],
+  petro_history: ["Product"], market_indicators: ["Market"],
+};
+let mSaved = new Set();  // saved macroeconomic files: saved_files.json when published, /api/macroeconomic/saved locally
+const mLists = {};       // endpoint id -> its saved list (indicator groups, commodities, consumer goods, products)
+const isSaved = (id, values) => mSaved.has(savedPath(id, values));
+const mTime = s => Date.parse(`${day(s)}T00:00:00Z`);
+
+async function getMacro(id, values = {}, refresh = false) {
+  if (savedFiles) {
+    const file = savedPath(id, values);
+    if (!savedFiles.has(file)) throw new Error("No saved data for this. Only fetched items are published.");
+    return { data: await getJSON(`data/${file}`), saved_to: file, from_cache: true };
+  }
+  const query = new URLSearchParams({ ...values, ...(refresh ? { refresh: "1" } : {}) });
+  const body = await getJSON(`/api/macroeconomic/${id}?${query}`);
+  mSaved.add(body.saved_to);
+  return body;
+}
+
+async function mList(id) {
+  if (!mLists[id]) mLists[id] = (await getMacro(id)).data;
+  return mLists[id];
+}
+
+// Saved years of one indicator, newest first, from the file names (indicator_values/<group>_<field>_<year>.json).
+function mYears(groupId, fieldId) {
+  const prefix = savedPath("indicator_values", { groupId, fieldId, year: "" }).slice(0, -".json".length);
+  return [...mSaved].filter(f => f.startsWith(prefix)).map(f => Number(f.slice(prefix.length, -".json".length)))
+    .filter(Number.isFinite).sort((a, b) => b - a);
+}
+
+// <select> with option groups: groups = [{ label, items: [{ value, text }] }]; empty groups are left out.
+function mOptions(sel, placeholder, groups) {
+  const previous = sel.value;
+  const count = groups.reduce((n, g) => n + g.items.length, 0);
+  sel.innerHTML = `<option value="">${placeholder} (${count})</option>` + groups.filter(g => g.items.length).map(g =>
+    `<optgroup label="${escAttr(g.label)}">` + g.items.map(i => `<option value="${escAttr(i.value)}">${escAttr(i.text)}</option>`).join("") + `</optgroup>`).join("");
+  sel.value = [...sel.options].some(o => o.value === previous) ? previous : "";
+  sel.disabled = false;
+}
+
+async function mPick1() {
+  const view = $("mShow").value, sel = $("mPick1");
+  sel.disabled = true;
+  sel.innerHTML = `<option value="">Loading…</option>`;
+  try {
+    if (view === "indicator") {
+      const withData = new Set([...mSaved].filter(f => f.startsWith(savedFolder("indicator_values")))
+        .map(f => f.slice(savedFolder("indicator_values").length).split("_")[0]));
+      const keep = gid => !savedFiles || withData.has(String(gid));
+      mOptions(sel, "Choose a group…", (await mList("indicator_groups")).map(g => ({
+        label: g.nameEn.trim(),
+        items: (g.subGroups?.length ? g.subGroups : [g]).filter(sg => keep(sg.groupID))
+          .map(sg => ({ value: sg.groupID, text: `${sg.nameEn.trim()} (${sg.groupID})${withData.has(String(sg.groupID)) ? "" : " · nothing saved yet"}` })),
+      })));
+    } else if (view === "commodity") {
+      const list = await mList("commodities");
+      mOptions(sel, "Choose a commodity…", Object.keys(M_HISTORY).map(type => ({
+        label: type,
+        items: list.filter(c => c.type === type && (!savedFiles || isSaved(M_HISTORY[type], { commodityId: c.commodityID })))
+          .map(c => ({ value: c.commodityID, text: `${c.nameEn.trim()} (${c.commodityID})` })),
+      })));
+    } else if (view === "consumer_history") {
+      mOptions(sel, "Choose a consumer good…", (await mList("consumer_goods")).map(cat => ({
+        label: cat.categoryNameEn.trim(),
+        items: cat.consumerGoods.filter(m => !savedFiles || isSaved("consumer_history", { materialId: m.materialID }))
+          .map(m => ({ value: m.materialID, text: `${m.materialNameEn.trim()} (${m.materialID})` })),
+      })));
+    } else if (view === "petro_history") {
+      const list = await mList("petro_products");
+      const regions = [...new Set(list.map(p => p.regionNameEn))].sort();
+      mOptions(sel, "Choose a product…", regions.map(region => ({
+        label: region,
+        items: list.filter(p => p.regionNameEn === region && (!savedFiles || isSaved("petro_history", { productId: p.productID, regionId: p.regionID })))
+          .map(p => ({ value: `${p.productID}_${p.regionID}`, text: `${p.productNameEn.trim()} (${p.productID})` })),
+      })));
+    } else if (view === "market_indicators") {
+      mOptions(sel, "Choose a market…", [{ label: "Markets", items: Object.entries(M_MARKETS)
+        .filter(([id]) => !savedFiles || isSaved("market_indicators", { marketId: id })).map(([value, text]) => ({ value, text })) }]);
+    }
+  } catch (e) {
+    sel.innerHTML = `<option value="">Could not load the list: ${escAttr(e.message)}</option>`;
+  }
+}
+
+async function mPick2() {
+  const groupId = $("mPick1").value, sel = $("mPick2");
+  sel.disabled = true;
+  if (!groupId) { sel.innerHTML = `<option value="">Choose a group first</option>`; return; }
+  sel.innerHTML = `<option value="">Loading indicators…</option>`;
+  try {
+    const fields = (await getMacro("indicator_fields", { groupId })).data;
+    const shown = fields.filter(f => !savedFiles || mYears(groupId, f.fieldID).length);
+    mOptions(sel, "Choose an indicator…", [{ label: "Indicators", items: shown.map(f => {
+      const n = mYears(groupId, f.fieldID).length;
+      return { value: f.fieldID, text: `${(f.displayNameEn || "").trim()} (${f.fieldID}) · ${n ? `${n} year${n > 1 ? "s" : ""} saved` : "nothing saved yet"}` };
+    }) }]);
+  } catch (e) {
+    sel.innerHTML = `<option value="">No indicators: ${escAttr(e.message)}</option>`;
+  }
+}
+
+const M_HINTS = {
+  indicator: "Argaam gives one year per call, so this combines every saved year. Fetch, when nothing is saved, asks for this year and last year only; the full history comes from <b>fetch_macroeconomic.py</b>.",
+  commodity: "Regular commodities are exchange-traded (close price); Shipping are freight rates; Others are milk powders (one line per region) and refining margins.",
+  commodity_quotes: "The latest quote of each actively traded commodity.",
+  refining_margins: "Daily refining margins (US$ per barrel).",
+  consumer_history: "Prices in Saudi Arabia, recorded about once a month.",
+  consumer_prices: "The latest recorded price of every consumer good.",
+  petro_index_history: "The Argaam Petrochemical Price Index over time.",
+  petro_history: "Each product is priced in one region (the group in the list).",
+  market_indicators: "Today's valuation of the whole market. Argaam keeps no history for it.",
+};
+
+function onMShow() {
+  const view = $("mShow").value, picks = M_VIEWS[view] || [];
+  $("mPick1Wrap").style.visibility = picks[0] ? "" : "hidden";
+  $("mPick2Wrap").style.visibility = picks[1] ? "" : "hidden";
+  $("mPick1Label").textContent = picks[0] || "";
+  $("mPick2Label").textContent = picks[1] || "";
+  $("mHint").innerHTML = M_HINTS[view] + (savedFiles ? " Only saved items are listed." : "");
+  $("mPick2").innerHTML = ""; $("mPick2").disabled = true;
+  if (picks[0]) mPick1();
+}
+
+// Line chart, one or two series on one axis. series: [{ name, points: [{ t, y, label }] }], points sorted by t.
+// One series needs no legend (the title names it); two get a legend and a label at the line end.
+function mChart(series, fmt = v => num(v)) {
+  const W = 1000, H = 300, m = { l: 64, r: series.length > 1 ? 90 : 12, t: 10, b: 26 };
+  const all = series.flatMap(s => s.points);
+  const t0 = Math.min(...all.map(p => p.t)), t1 = Math.max(...all.map(p => p.t));
+  let y0 = Math.min(...all.map(p => p.y)), y1 = Math.max(...all.map(p => p.y));
+  const pad = (y1 - y0) * 0.05 || Math.abs(y1) * 0.05 || 1;
+  y0 = y0 >= 0 ? Math.max(0, y0 - pad) : y0 - pad; y1 += pad;  // all-positive data never dips below zero
+  const X = v => m.l + (v - t0) / (t1 - t0 || 1) * (W - m.l - m.r);
+  const Y = v => H - m.b - (v - y0) / (y1 - y0) * (H - m.t - m.b);
+  const yTicks = Array.from({ length: 5 }, (_, i) => y0 + (y1 - y0) * i / 4);
+  const first = new Date(t0).getUTCFullYear(), last = new Date(t1).getUTCFullYear();
+  const step = Math.max(1, Math.ceil((last - first + 1) / 10)), years = [];
+  for (let yr = first + (t0 > Date.UTC(first, 0, 1) ? 1 : 0); yr <= last; yr += step) years.push(Date.UTC(yr, 0, 1));
+  const color = i => series.length > 1 ? M_COLORS[i] : "var(--accent)";
+  const lines = series.map((s, i) => {
+    const d = s.points.map((p, j) => `${j ? "L" : "M"}${X(p.t).toFixed(1)},${Y(p.y).toFixed(1)}`).join("");
+    const end = s.points[s.points.length - 1];
+    const dots = s.points.length < 40 ? s.points.map(p => `<circle cx="${X(p.t)}" cy="${Y(p.y)}" r="4" fill="${color(i)}" stroke="#fff" stroke-width="2"/>`).join("") : "";
+    const label = series.length > 1 ? `<text x="${X(end.t) + 6}" y="${Y(end.y) + 4}" font-size="11" fill="var(--muted)">${escAttr(s.name)}</text>` : "";
+    return `<path d="${d}" fill="none" stroke="${color(i)}" stroke-width="2" stroke-linejoin="round"/>${dots}${label}`;
+  }).join("");
+  $("mLegend").innerHTML = series.length > 1 ? series.map((s, i) => `<span><i style="background:${M_COLORS[i]}"></i>${escAttr(s.name)}</span>`).join("") : "";
+  const wrap = $("mChart");
+  wrap.innerHTML = `
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${escAttr($("mTitle").textContent)}">
+      <g class="grid">${yTicks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${Y(v)}" y2="${Y(v)}"/>`).join("")}</g>
+      <g class="axis">
+        ${yTicks.map(v => `<text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${fmt(v)}</text>`).join("")}
+        ${years.map(v => `<text x="${X(v)}" y="${H - 8}" text-anchor="middle">${new Date(v).getUTCFullYear()}</text>`).join("")}
+      </g>
+      ${lines}
+      <line class="m-cross" y1="${m.t}" y2="${H - m.b}" stroke="#999" stroke-dasharray="3 3" visibility="hidden"/>
+      ${series.map((_, i) => `<circle class="m-dot" r="5" fill="${color(i)}" stroke="#fff" stroke-width="2" visibility="hidden"/>`).join("")}
+      <rect x="${m.l}" y="${m.t}" width="${W - m.l - m.r}" height="${H - m.t - m.b}" fill="transparent" class="m-hit"/>
+    </svg><div class="tip hidden"></div>`;
+  const svg = wrap.querySelector("svg"), tip = wrap.querySelector(".tip"), cross = wrap.querySelector(".m-cross");
+  const dots = [...wrap.querySelectorAll(".m-dot")];
+  const nearest = (points, at) => {
+    let lo = 0, hi = points.length - 1;
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (points[mid].t < at) lo = mid + 1; else hi = mid; }
+    return lo > 0 && at - points[lo - 1].t < points[lo].t - at ? points[lo - 1] : points[lo];
+  };
+  const hit = wrap.querySelector(".m-hit");
+  hit.onmouseleave = () => { cross.setAttribute("visibility", "hidden"); dots.forEach(d => d.setAttribute("visibility", "hidden")); tip.classList.add("hidden"); };
+  hit.onmousemove = e => {
+    const box = svg.getBoundingClientRect(), scale = W / box.width;
+    const at = t0 + ((e.clientX - box.left) * scale - m.l) / (W - m.l - m.r) * (t1 - t0);
+    const near = series.map(s => nearest(s.points, at));
+    const lead = near.reduce((a, b) => Math.abs(b.t - at) < Math.abs(a.t - at) ? b : a);
+    const x = X(lead.t);
+    cross.setAttribute("x1", x); cross.setAttribute("x2", x); cross.setAttribute("visibility", "visible");
+    near.forEach((p, i) => { dots[i].setAttribute("cx", X(p.t)); dots[i].setAttribute("cy", Y(p.y)); dots[i].setAttribute("visibility", "visible"); });
+    tip.innerHTML = `<b>${escAttr(lead.label)}</b><br>` + near.map((p, i) =>
+      `${series.length > 1 ? `${escAttr(series[i].name)}: ` : ""}${fmt(p.y)}${series.length > 1 && p.label !== lead.label ? ` (${escAttr(p.label)})` : ""}`).join("<br>");
+    tip.classList.remove("hidden");
+    tip.style.left = `${Math.min(x / scale + 12, box.width - tip.offsetWidth - 4)}px`;
+    tip.style.top = `${Math.max(0, Y(near[0].y) / scale - tip.offsetHeight - 8)}px`;
+  };
+}
+
+// Stat tiles for one time series: latest, change over a year, since the first value, high, low, how many.
+function mSeriesStats(points, fmt = v => num(v)) {
+  const first = points[0], last = points[points.length - 1];
+  const yearAgo = points.filter(p => p.t <= last.t - 360 * 864e5).pop();  // 360, not 365: yearly points sit a year minus leap hours apart
+  const pct = (a, b) => b.y ? `${num((a.y / b.y - 1) * 100)}%` : "–";
+  const high = points.reduce((a, b) => b.y > a.y ? b : a), low = points.reduce((a, b) => b.y < a.y ? b : a);
+  return stat("Latest", fmt(last.y), last.label) +
+    stat("Over a year", yearAgo ? pct(last, yearAgo) : "–", yearAgo ? `from ${yearAgo.label}` : "less than a year of data") +
+    stat("Since the first value", pct(last, first), `from ${first.label}`) +
+    stat("Highest", fmt(high.y), high.label) + stat("Lowest", fmt(low.y), low.label) +
+    stat("Values", points.length.toLocaleString("en"), `${first.label.slice(0, 4)}–${last.label.slice(0, 4)}`);
+}
+
+// Rows -> sorted points, one series per value of split (e.g. region), at most two series.
+function mSeries(rows, date, value, split) {
+  const by = {};
+  rows.filter(r => r[value] != null && r[date]).forEach(r => (by[split ? r[split] : ""] ??= []).push({ t: mTime(r[date]), y: r[value], label: day(r[date]), row: r }));
+  return Object.entries(by).sort(([a], [b]) => a.localeCompare(b)).slice(0, 2)
+    .map(([name, points]) => ({ name, points: points.sort((a, b) => a.t - b.t) }));
+}
+
+function mShowView(title, stats, series, fmt) {
+  $("mTitle").textContent = title;
+  $("mStats").innerHTML = stats;
+  $("mLegend").innerHTML = "";
+  $("mChart").innerHTML = "";
+  if (series && series.some(s => s.points.length > 1)) mChart(series, fmt);
+  $("mView").classList.remove("hidden");
+}
+
+function mHistoryView(title, rows, date, value, split, fmt) {
+  const series = mSeries(rows, date, value, split);
+  if (!series.length) throw new Error("Argaam returned no prices for this.");
+  mShowView(title, series.length === 1 ? mSeriesStats(series[0].points, fmt)
+    : series.map(s => stat(`Latest, ${escAttr(s.name)}`, (fmt || num)(s.points[s.points.length - 1].y), s.points[s.points.length - 1].label)).join(""), series, fmt);
+  display("macro", series.flatMap(s => s.points.map(p => ({ ...p.row, [date]: p.label })))
+    .sort((a, b) => b[date].localeCompare(a[date])));
+}
+
+// An indicator: every saved year combined. A period is a year, or a quarter/month when Argaam gives several per year.
+async function mIndicator(refresh) {
+  const groupId = $("mPick1").value, fieldId = $("mPick2").value;
+  if (!groupId || !fieldId) throw new Error("Choose an indicator group and an indicator.");
+  let years = mYears(groupId, fieldId);
+  if (!savedFiles && (refresh || !years.length)) {
+    const thisYear = new Date().getUTCFullYear();
+    for (const year of [thisYear, thisYear - 1]) await getMacro("indicator_values", { groupId, fieldId, year }, true).catch(() => null);
+    years = mYears(groupId, fieldId);
+  }
+  if (!years.length) throw new Error("Nothing saved for this indicator, and Argaam had no data for this year or last year.");
+  const bodies = await Promise.all(years.map(year => getMacro("indicator_values", { groupId, fieldId, year }).then(b => b.data)));
+  const name = (bodies[0].displayNameEn || "").trim();
+  const values = bodies.flatMap(b => b.values || []);
+  const perYear = Math.max(...values.map(v => v.fiscalPeriodID || 1));
+  const label = v => perYear > 1 ? `${v.year} · period ${v.fiscalPeriodID}` : String(v.year);
+  // Argaam sometimes gives two values for the same period (a revision?): the chart uses the last one, the table shows both.
+  const byPeriod = new Map();
+  values.forEach(v => byPeriod.set(label(v), { t: Date.UTC(v.year, 0, 1) + ((v.fiscalPeriodID || 1) - 1) / perYear * 365.25 * 864e5, y: v.value, label: label(v) }));
+  const points = [...byPeriod.values()].filter(p => p.y != null).sort((a, b) => a.t - b.t);
+  const fmt = v => num(v, Math.abs(v) >= 100 ? 0 : 2);
+  const saved = `${years.length} year${years.length > 1 ? "s" : ""} saved`;
+  mShowView(`${name} (${groupId}/${fieldId})`,
+    (points.length > 1 ? mSeriesStats(points, fmt) : stat("Value", fmt(points[0].y), points[0].label)) + stat("Files", years.length, saved),
+    [{ name, points }], fmt);
+  display("macro", values.map(v => ({ period: label(v), year: v.year, fiscalPeriodTypeID: v.fiscalPeriodTypeID, fiscalPeriodID: v.fiscalPeriodID, value: v.value }))
+    .sort((a, b) => b.year - a.year || (b.fiscalPeriodID || 0) - (a.fiscalPeriodID || 0)));
+  return { saved_to: `${savedFolder("indicator_values")}${groupId}_${fieldId}_*.json (${saved})`, from_cache: !refresh };
+}
+
+async function fetchMacroView(refresh) {
+  const view = $("mShow").value, pick = $("mPick1").value;
+  $("mStatus").className = "status";
+  $("mStatus").textContent = "Fetching…";
+  try {
+    let body;
+    if (view === "indicator") {
+      body = await mIndicator(refresh);
+    } else if (view === "commodity") {
+      if (!pick) throw new Error("Choose a commodity.");
+      const c = (await mList("commodities")).find(x => String(x.commodityID) === pick);
+      body = await getMacro(M_HISTORY[c.type], { commodityId: pick }, refresh);
+      const value = { Regular: "closeValue", Shipping: "price", Others: "averageValue" }[c.type];
+      const rows = body.data.length && body.data[0][value] === undefined && "price" in body.data[0] ? body.data.map(r => ({ ...r, [value]: r.price })) : body.data;
+      mHistoryView(`${c.nameEn.trim()} · ${c.type === "Regular" ? "close price" : c.type === "Shipping" ? "freight rate" : "average price"}`,
+        rows, "forDate", value, c.type === "Others" ? "regionNameEn" : null);
+    } else if (view === "refining_margins") {
+      body = await getMacro("refining_margins", {}, refresh);
+      mHistoryView("Refining margins", body.data, "forDate", "price", null);
+    } else if (view === "consumer_history") {
+      if (!pick) throw new Error("Choose a consumer good.");
+      const m = (await mList("consumer_goods")).flatMap(c => c.consumerGoods).find(x => String(x.materialID) === pick);
+      body = await getMacro("consumer_history", { materialId: pick }, refresh);
+      mHistoryView(`${m.materialNameEn.trim()} · price`, body.data.prices || [], "forDate", "price", null);  // {materialID, ..., prices: [...]}
+    } else if (view === "petro_index_history") {
+      body = await getMacro("petro_index_history", {}, refresh);
+      mHistoryView("Argaam Petrochemical Price Index", body.data, "date", "priceValue", null);
+    } else if (view === "petro_history") {
+      if (!pick) throw new Error("Choose a product.");
+      const [productId, regionId] = pick.split("_");
+      const p = (await mList("petro_products")).find(x => String(x.productID) === productId && String(x.regionID) === regionId);
+      body = await getMacro("petro_history", { productId, regionId }, refresh);
+      mHistoryView(`${p.productNameEn.trim()} · ${p.regionNameEn} price`, body.data, "entryDate", "productPrice", null);
+    } else if (view === "commodity_quotes") {
+      body = await getMacro("commodity_quotes", {}, refresh);
+      const q = body.data, newest = q.map(r => day(r.forDate)).sort().pop();
+      const up = q.filter(r => r.percentageChange > 0).length;
+      mShowView("Latest commodity quotes",
+        stat("Commodities", q.length) + stat("Up on the day", up, `${q.length - up} down or flat`) + stat("Latest date", newest));
+      display("macro", q.map(r => ({ commodity: r.commodityNameEn, commodityID: r.commodityID, date: day(r.forDate), close: r.closeValue,
+        open: r.openValue, high: r.high, low: r.low, change: r.change, changePercent: r.percentageChange, changeThisYear: r.ybgnChange })));
+    } else if (view === "consumer_prices") {
+      body = await getMacro("consumer_prices", {}, refresh);
+      const rows = body.data.flatMap(c => c.consumerGoods.map(m => ({ category: c.categoryNameEn.trim(), good: m.materialNameEn.trim(),
+        materialID: m.materialID, date: day(m.forDate), price: m.price })));
+      const dates = rows.map(r => r.date).sort();
+      mShowView("Latest consumer goods prices", stat("Consumer goods", rows.length) + stat("Categories", body.data.length) +
+        stat("Price dates", dates[dates.length - 1], dates[0] !== dates[dates.length - 1] ? `oldest ${dates[0]}` : ""));
+      display("macro", rows);
+    } else if (view === "market_indicators") {
+      if (!pick) throw new Error("Choose a market.");
+      body = await getMacro("market_indicators", { marketId: pick }, refresh);
+      const d = body.data.data || {};
+      mShowView(`${M_MARKETS[pick]} valuation`, stat("P/E", num(d.pe)) + stat("Price to book", num(d.pricePerBook)) +
+        stat("Dividend yield", `${num(d.dividendYield)}%`) + stat("As of", day(body.data.timestamp), "when it was fetched"));
+      display("macro", [{ market: M_MARKETS[pick], marketId: pick, ...d, fetchedAt: body.data.timestamp }]);
+    }
+    $("mStatus").textContent = body.from_cache ? `Done · loaded saved copy, data/${body.saved_to}` : `Done · saved to data/${body.saved_to}`;
+  } catch (e) {
+    delete lastData.macro;
+    $("mView").classList.add("hidden");
+    if (activeTab === "macro") $("results").classList.add("hidden");
+    $("mStatus").className = "status error";
+    $("mStatus").textContent = e.message;
+  }
+}
+
+$("mShow").onchange = onMShow;
+$("mPick1").onchange = () => $("mShow").value === "indicator" ? mPick2() : fetchMacroView(false);
+$("mPick2").onchange = () => fetchMacroView(false);
+$("mFetchBtn").onclick = () => fetchMacroView(false);
+$("mRefreshBtn").onclick = () => fetchMacroView(true);
+
+async function initMacro() {
+  mSaved = savedFiles ? new Set([...savedFiles].filter(f => f.startsWith("macroeconomic/")))
+                      : new Set(await getJSON("/api/macroeconomic/saved").catch(() => []));
+  if (savedFiles) $("mRefreshBtn").remove();
+  onMShow();
+}
+
 async function init() {
   const saved = await fetch("saved_files.json").catch(() => null);
+  let endpoints;
   if (saved && saved.ok) {
     savedFiles = new Set(await saved.json());
     $("savedNote").classList.remove("hidden");
-    $("refreshBtn").remove();
-    $("base").parentElement.remove();  // the API base only matters for live requests
-    $("endpoint").parentElement.style.gridColumn = "1 / -1";
     endpoints = await getJSON("endpoints.json");
   } else {
-    const cfg = await getJSON("/api/config");
-    endpoints = cfg.endpoints;
-    $("base").value = cfg.base;
+    endpoints = (await getJSON("/api/config")).endpoints;
   }
   allEndpoints = Object.fromEntries(endpoints.map(e => [e.id, e]));
-  endpoints = endpoints.filter(e => e.api === "macroeconomic");  // the Macroeconomic tab's dropdown
-  $("endpoint").innerHTML = endpoints.map((e, i) => `<option value="${i}">${e.name}</option>`).join("");
-  onEndpointChange();
-  loadFields("");
-  loadGroups().then(updateHint);
+  initMacro();
   if (savedFiles) showSavedEstimates();
   if (savedFiles) { $("fundRefreshBtn").remove(); $("fundHint").textContent = "Only the funds fetched so far are listed."; }
   loadManagers();

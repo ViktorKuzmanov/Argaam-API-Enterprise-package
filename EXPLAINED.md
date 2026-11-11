@@ -22,9 +22,11 @@ A real path through the tree:
 |------|------|--------|
 | 1 | `/indicators/groups` | Group **17 "Macro"** has a sub-group **33 "National Accounts"** |
 | 2 | `/indicators/groups/33/fields` | Group 33 has field **125 "Gross Domestic Product at Current Prices (Base year 2010)"** |
-| 3 | `/indicators/groups/33/fields/125/values` | GDP for **2026 = 4431** |
+| 3 | `/indicators/groups/33/fields/125/values?year=2020` | GDP for **2020 = 2,625.44** (and a second 2020 value, 2,753.52) |
 
-`fetch_macroeconomic.py` walks this whole tree for you: every group, then every group's fields, then every field's values. It saves each response under `data/macroeconomic/` (see the README for how to run it).
+`fetch_macroeconomic.py` walks this whole tree for you: every group, then every group's fields, then every field's values, **one year per call**. It saves each response under `data/macroeconomic/` (see the README for how to run it).
+
+The macroeconomic API has more than indicators. Its other endpoints (commodities, consumer goods, petrochemicals, market valuation) are explained after the indicators, under "Macroeconomic: commodities, consumer goods, petrochemicals, markets".
 
 ---
 
@@ -113,14 +115,16 @@ Another example, `/indicators/groups/277/fields` (GDP Growth Rates %), breaks gr
 
 ---
 
-## 3. Indicator series (values)
+## 3. Indicator values (one year per call)
 
-**Path:** `GET /indicators/groups/{groupId}/fields/{fieldId}/values`
-**Parameters:** `groupId` from endpoint 1 and `fieldId` from endpoint 2
-**Saved as:** `data/macroeconomic/indicator_values/<groupId>_<fieldId>.json`, e.g. `indicator_values/33_125.json`
+**Path:** `GET /indicators/groups/{groupId}/fields/{fieldId}/values?year={year}`
+**Parameters:** `groupId` from endpoint 1, `fieldId` from endpoint 2, and `year`
+**Saved as:** `data/macroeconomic/indicator_values/<groupId>_<fieldId>_<year>.json`, e.g. `indicator_values/33_125_2020.json`
 
 ### What data it returns
-**The actual numbers.** It returns a time series for one indicator, meaning one value per year and period.
+**The actual numbers, for one calendar year.** Argaam returns only the year you ask for. Without `year` it returns only the **latest** year, which is what this project used to do (until 11 Nov 2026), so it had one number per indicator instead of its history. A full history is one call per year.
+
+The other parameters in Argaam's docs don't help: `period` (`1y`, `5y`, `10y`, `max`, `quarter`, `month`) and `fiscalPeriod` still return a single year, or nothing. This was tested on GDP (33/125).
 
 ### Fields
 
@@ -128,32 +132,198 @@ Another example, `/indicators/groups/277/fields` (GDP Growth Rates %), breaks gr
 |-------|------|---------|
 | `economicIndicatorFieldID` | number | The field you asked for (same as `fieldId`) |
 | `displayNameEn` / `displayNameAr` | text | Indicator name |
-| `values` | list | The time series, one entry per period |
-| `values[].year` | number | Year of the data point |
+| `values` | list | The values in that year, one entry per period |
+| `values[].year` | number | Year of the data point (the year you asked for) |
 | `values[].fiscalPeriodTypeID` | number | What kind of period it is (e.g. annual, quarterly, monthly). See note below |
 | `values[].fiscalPeriodID` | number | Which period within the year (e.g. quarter 1). See note below |
 | `values[].value` | number | **The number itself** |
 
-### Example: `/indicators/groups/33/fields/125/values`
+### Example: `/indicators/groups/33/fields/125/values?year=2020`
 ```json
 {
   "economicIndicatorFieldID": 125,
   "displayNameEn": "Gross Domestic Product at Current Prices (Base year 2010)",
   "values": [
-    { "year": 2026, "fiscalPeriodTypeID": 4, "fiscalPeriodID": 1, "value": 4431 }
+    { "year": 2020, "fiscalPeriodTypeID": 4, "fiscalPeriodID": 1, "value": 2625.44 },
+    { "year": 2020, "fiscalPeriodTypeID": 4, "fiscalPeriodID": 1, "value": 2753.52 }
   ]
 }
 ```
 
 ### In practice
-> "What is Saudi GDP at current prices?"
-> **4431** for 2026. Each item in `values` becomes one row in a table or database: `field=125, year=2026, period=1, value=4431`.
+> "How has Saudi GDP at current prices changed?"
+> Combine the saved years: **440.53** in 1990, **710.68** in 2000, **2,625.44** in 2020, **4,352** in 2025, **4,431** in 2026. The Macroeconomic tab's "Indicator over the years" view does this for you. Each item in `values` becomes one row in a table or database: `field=125, year=2020, period=1, value=2625.44`.
 
-### Notes
+### What to watch for
+- **One call per year.** 5,031 fields × 57 years (1970–2026) is about 287,000 calls at most, and Argaam allows 100 a day per key on this endpoint. See the README for how long that takes and the `--gap` option.
+- **An empty year is not an empty indicator.** HTTP 204 for one year only means that year has no value. For example `102/259` is empty in 2024 but has values for 2019 and 2015. (Before 11 Nov 2026, 1,895 fields were wrongly marked `no_data` because their latest year was empty. Those marks were removed.)
+- **The current year may already have a value.** GDP has a 2026 value (4,431) in November 2026, so it is probably an estimate or a budget figure, not a final number.
+- **Two values for the same period happen.** GDP 2020 has 2,625.44 and 2,753.52, both `fiscalPeriodID` 1, perhaps an older and a revised figure. The tab's chart uses the last one, and the table shows both.
 - **Units are not in the response.** For GDP the number is most likely in billions of SAR, but the API does not say so. Check Argaam's documentation before using the numbers in reports.
-- **`fiscalPeriodTypeID` / `fiscalPeriodID` are codes** and the API does not explain them. Confirm their meaning with Argaam's documentation or a lookup endpoint before relying on them.
-- **The sandbox has gaps.** Many fields return **HTTP 204 (no data)**. For example, `33/58` (Population) and `33/59` (GDP per capita) were empty when tested. The viewer shows this as "No data returned". It is not a bug in this project.
-- **Rate limit.** If you call the sandbox too fast it returns **HTTP 429 Too Many Requests**. Wait a little and try again.
+- **`fiscalPeriodTypeID` / `fiscalPeriodID` are codes** and the API does not explain them. `4` with period `1` appears on yearly values.
+- **Rate limit.** If you call the sandbox too fast it returns **HTTP 429 Too Many Requests** (5 a minute per key). Wait a little and try again.
+
+---
+
+## Macroeconomic: commodities, consumer goods, petrochemicals, markets
+
+The same macroeconomic API has 17 more endpoints. This project fetches 14 of them. They work like the indicators: a list gives the IDs, and one call per ID gets that item's full history. Every history is asked for `from=1980-01-01` to today in one call, which returns everything Argaam has.
+
+| Endpoint | Path | Saved as | Calls |
+|---|---|---|---|
+| Commodities | `/commodities` | `commodities.json` | 1 |
+| Latest commodity quotes | `/commodities/quotes/regular` | `commodity_quotes.json` | 1 |
+| Commodity price history | `/commodities/{commodityId}/quotes/regular/history?from&to` | `commodity_history/<commodityId>.json` | 1 per Regular commodity (30) |
+| Other commodity history | `/commodities/{commodityId}/quotes/other/history?from&to` | `commodity_other_history/<commodityId>.json` | 1 per Others commodity (3) |
+| Shipping rates | `/commodities/{commodityId}/shipping?from&to` | `commodity_shipping/<commodityId>.json` | 1 per Shipping commodity (6) |
+| Refining margins | `/commodities/refining-margins?from&to` | `refining_margins.json` | 1 |
+| Consumer goods | `/consumer-goods` | `consumer_goods.json` | 1 |
+| Latest consumer goods prices | `/consumer-goods/prices` | `consumer_prices.json` | 1 |
+| Consumer good price history | `/consumer-goods/{materialId}/prices/history?from&to` | `consumer_history/<materialId>.json` | 1 per good (161) |
+| Petrochemical index (latest) | `/petrochemicals/index` | `petro_index.json` | 1 |
+| Petrochemical index history | `/petrochemicals/index/history?from&to` | `petro_index_history.json` | 1 |
+| Petrochemical products | `/petrochemicals/products` | `petro_products.json` | 1 |
+| Petrochemical product price history | `/petrochemicals/products/{productId}/prices/history?regionId&from&to` | `petro_history/<productId>_<regionId>.json` | 1 per product (33) |
+| Market valuation | `/markets/{marketId}/indicators` | `market_indicators/<marketId>.json` | 1 per market (TASI 3, NOMU 14) |
+
+All files are under `data/macroeconomic/`. Prices carry no unit or currency in the response unless a field says so.
+
+### Skipped, and why
+
+- **`/consumer-goods/{materialId}/prices`** (latest price of one good) is the same row as in `/consumer-goods/prices`. Checked for material 1: both say 3.1 on 2026-09-01. Argaam's docs promise a "daily change" too, but the response has none.
+- **`/petrochemicals/products/{productId}/prices?period=…`** (rolling 1D to MAX window) is a slice of the product's full history, which is saved. `period=MAX` even returned an empty list for product 1.
+- **`/petrochemicals/rig-counts?regionId&asOf`** does not work in the sandbox: with a date it answers HTTP 400 ("does not support the API version '1.1'"), and without one an empty list (tested with regions 1 and 4). Nothing to save until Argaam fixes it.
+
+### 1. Commodities: `GET /commodities`
+
+**The list of 39 commodities**, each with a `type` that decides which history endpoint has its prices: **Regular** (30, exchange-traded: oil, gas, metals, grains, US index futures), **Shipping** (6 freight rates) and **Others** (3: two milk powders and refining margins).
+
+```json
+{ "commodityID": 101, "nameEn": "Brent Crude Oil", "nameAr": "خام برنت", "type": "Regular" }
+```
+
+**Watch for:** some names appear twice with different IDs (Natural Gas 104 and 126, Gold 106 and 127, Silver 107 and 128, Brent 101 and 125), probably different exchanges or contracts.
+
+### 2. Latest commodity quotes: `GET /commodities/quotes/regular`
+
+**The latest quote of 14 actively traded commodities** (not all 30 Regular ones): open, close, previous close, high, low, change, change in percent, and `ybgnChange` (change since the start of the year).
+
+```json
+{ "commodityID": 101, "commodityNameEn": "Brent Crude Oil", "forDate": "2026-11-09T00:00:00",
+  "openValue": 97.819, "closeValue": 97.315, "previousCloseValue": 97.88, "high": 97.856, "low": 97.049,
+  "change": -0.565, "percentageChange": -0.578, "ybgnChange": 60.97, "lastUpdated": "2026-11-09T05:15:21.15" }
+```
+
+**Watch for:** `time` is a dummy date (`1900-01-01T03:30:00`): only the time of day means something. This is a snapshot, so it is only as new as the last fetch (`--refresh`).
+
+### 3. Commodity price history: `GET /commodities/{commodityId}/quotes/regular/history?from=1980-01-01&to=<today>`
+
+**Every end-of-day price** of one Regular commodity: `forDate`, `openValue`, `closeValue`, `high`, `low`. Brent (101) has **5,387 days from 2007-06-22 to 2026-11-06**, Nymex (103) 5,625 days from 2006.
+
+```json
+{ "commodityID": 101, "commodityNameEn": "Brent Crude Oil", "forDate": "2007-06-22T00:00:00",
+  "openValue": 70.01, "closeValue": 71.18, "high": 71.5, "low": 69.61 }
+```
+
+**In practice:** Brent closed at **97.88** on 2026-11-06, its high was **146.19** (2008-07-03) and its low **19.33** (2020-04-21).
+
+### 4. Other commodity history: `GET /commodities/{commodityId}/quotes/other/history?from&to`
+
+**Prices of the three Others commodities, per region**: `forDate`, `averageValue`, `high`, `low`, `regionNameEn`. Whole Milk Powder (301) has 1,500 rows since 1998, half for **Europe** and half for **Oceania**.
+
+```json
+{ "commodityID": 301, "commodityNameEn": "Whole Milk Powder", "regionNameEn": "Europe",
+  "forDate": "1998-01-10T00:00:00", "averageValue": 1820.0, "high": 1890.0, "low": 1750.0 }
+```
+
+**Watch for:** Refining margins (303) answer here with an **empty list**. Their data is in endpoint 6.
+
+### 5. Shipping rates: `GET /commodities/{commodityId}/shipping?from&to`
+
+**Freight-rate history** of the 6 Shipping commodities: `forDate`, `price`. Dry Bulk Panamax (205) goes back to **1990**; LPG (204) to 2002.
+
+```json
+{ "commodityID": 201, "commodityNameEn": "VLCC \"Spot\"", "forDate": "2008-04-01T04:00:00", "price": 80951.0 }
+```
+
+**Watch for:**
+- **VLCC "Spot" (201) has negative values**, e.g. −1,037 on 2011-08-01 and −24,520 in 2022. They look like daily earnings in US$ per day, which can go below zero.
+- **Its 2026 peak of 1,412,590 is far above any earlier year** (the previous highest was 300,390 in 2019), so treat it as a probable data error.
+- **MR Atlantic (203) and Dry Bulk Panamax (205) stop on 2023-07-26.**
+
+### 6. Refining margins: `GET /commodities/refining-margins?from&to`
+
+**Daily refining margins**, 2,822 rows from **2016-01-04** to 2026-11-06: `forDate`, `price` (commodity 303).
+
+```json
+{ "commodityID": 303, "commodityNameEn": "Refining margins", "forDate": "2026-11-06T00:00:00", "price": 30.99 }
+```
+
+**Watch for:** margins can be negative (lowest −12.46 on 2026-04-14).
+
+### 7. Consumer goods: `GET /consumer-goods`
+
+**161 goods in 5 categories**: Food commodities (91), Construction Materials (37), Non-Food Products (15), Feed and Livestock (13), Services (5, e.g. hotel accommodation, a dentist visit). Each has `materialID`, `materialNameEn` and `materialNameAr` inside its category.
+
+### 8. Latest consumer goods prices: `GET /consumer-goods/prices`
+
+**The latest price of every good**, in the same category tree, with `forDate` and `price`.
+
+```json
+{ "materialID": 1, "materialNameEn": "Wheat flour, local, brown(Grain Silos)", "forDate": "2026-09-01T00:00:00", "price": 3.1 }
+```
+
+**Watch for:** prices are monthly and lag: the newest are from 2026-09-01, and some are from 2026-08-01.
+
+### 9. Consumer good price history: `GET /consumer-goods/{materialId}/prices/history?from&to`
+
+**Every monthly price of one good since 2009.** Unlike the other histories this is an object, with the list in `prices`:
+
+```json
+{ "materialID": 132, "materialNameEn": "Electrical wires, 6mm national",
+  "prices": [ { "forDate": "2009-01-01T00:00:00", "price": 1.95 }, … ] }
+```
+
+**In practice:** 6mm electrical wire cost **3.37** in September 2026, up **24.8%** in a year and **72.8%** since January 2009 (213 monthly prices). Most goods start in 2009; services start in October 2009, and Hay or Straw (154) only in 2019.
+
+### 10. Petrochemical index: `GET /petrochemicals/index` and `/petrochemicals/index/history?from&to`
+
+**The Argaam Petrochemical Price Index.** The latest value is `{"date": "2026-11-01", "priceValue": 260.6, "change": 7.4}`. The history has **1,066 values since 2006-07-01**, about weekly.
+
+**In practice:** the index is up **50.8%** in a year, and its high was **347.9** (2008-07-12) and its low **122.9** (2020-04-26).
+
+### 11. Petrochemical products: `GET /petrochemicals/products`
+
+**33 products, each priced in one region** (19 in Asia, 4 China, 3 USA, 3 GCC, and one each for Saudi Arabia, Japan, Methanex and Aramco), with the latest `productPrice`, `changeInPrice`, `entryDate` and a description.
+
+```json
+{ "productID": 3, "productNameEn": "Ethylene", "regionID": 3, "regionNameEn": "Asia",
+  "productPrice": 1220.0, "changeInPrice": 40.0, "entryDate": "2026-11-01T00:00:00", "categoryID": 4 }
+```
+
+**Watch for:** units come as IDs only (`measuringUnitID`, `currencyID` in the history), with no lookup endpoint. Ethylene in Asia is most likely US$ per tonne.
+
+### 12. Petrochemical product price history: `GET /petrochemicals/products/{productId}/prices/history?regionId&from&to`
+
+**Every price of one product in its region**, about weekly: `entryDate`, `productPrice`, `changeInPrice`, plus category, unit and currency IDs. Ethylene in Asia has **1,062 prices since 2006-07-01**.
+
+```json
+{ "productID": 1, "productNameEn": "Methane", "regionNameEn": "Saudi Arabia", "categoryNameEn": "Feedstock",
+  "entryDate": "2013-01-04T00:00:00", "productPrice": 0.75, "changeInPrice": null, "measuringUnitID": 5, "currencyID": 10 }
+```
+
+**Watch for:** the `regionId` must be the product's own region from endpoint 11. The script takes it from there.
+
+### 13. Market valuation: `GET /markets/{marketId}/indicators`
+
+**Today's valuation of a whole market**: P/E, price to book, dividend yield. There is no history, so the date is when it was fetched.
+
+```json
+{ "success": true, "timestamp": "2026-11-11T15:24:34Z",
+  "data": { "pe": 17.321412, "pricePerBook": 1.77658, "dividendYield": 3.4556 } }
+```
+
+**In practice:** TASI trades at a P/E of **17.3** with a **3.46%** dividend yield; NOMU at **22.3** and **1.99%**. **Watch for:** market 1 answers HTTP 400; use 3 (TASI) and 14 (NOMU).
 
 ---
 

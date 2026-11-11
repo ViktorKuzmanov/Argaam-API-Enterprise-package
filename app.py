@@ -9,7 +9,7 @@ import re
 import requests
 from flask import Flask, jsonify, request, send_from_directory
 
-from argaam_client import API_BASE, ENDPOINTS, fetch_and_save, known_no_data, match_path, saved_file, saved_name, today
+from argaam_client import API_BASE, DATA_DIR, ENDPOINTS, fetch_and_save, known_no_data, saved_file, saved_name, today
 
 app = Flask(__name__, static_folder="static")
 # Endpoints live in static/endpoints.json (loaded by argaam_client); the published page reads that file too.
@@ -23,37 +23,6 @@ def index():
 @app.get("/api/config")
 def config():
     return jsonify({"base": API_BASE, "endpoints": list(ENDPOINTS.values())})
-
-
-def cached(endpoint_id, **values):
-    """Return the saved response if there is one, otherwise fetch it and save it."""
-    file = saved_file(endpoint_id, **values)
-    if file.exists():
-        return json.loads(file.read_text(encoding="utf-8"))
-    data, _ = fetch_and_save(endpoint_id, **values)
-    return data
-
-
-def lookup(endpoint_id, **values):
-    """Serve a cached lookup list (used by the Group / Field dropdowns)."""
-    try:
-        return jsonify(cached(endpoint_id, **values))
-    except requests.HTTPError as e:
-        return jsonify({"error": f"{e.response.status_code}: {e.response.text[:300]}"}), 502
-    except LookupError as e:
-        return jsonify({"error": str(e)}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.get("/api/groups")
-def groups():
-    return lookup("indicator_groups")
-
-
-@app.get("/api/groups/<int:group_id>/fields")
-def group_fields(group_id):
-    return lookup("indicator_fields", groupId=group_id)
 
 
 def upstream_error(e):
@@ -218,32 +187,47 @@ def projects(endpoint_id):
     return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
 
 
-@app.post("/api/fetch")
-def fetch_endpoint():
-    """Macroeconomic tab: saves under data/macroeconomic/. Reuses the saved copy unless refresh is set.
-    The path must match one of the macroeconomic endpoints in static/endpoints.json, which decides the file.
-    Saved files come from API_BASE, so another base always fetches."""
-    body = request.get_json(force=True)
-    path = body.get("path", "")
-    if "{" in path:
-        return jsonify({"error": "Fill in the {placeholders} in the path first."}), 400
-    matched = match_path(path, "macroeconomic")
-    if not matched:
-        return jsonify({"error": "This path is not one of the endpoints in static/endpoints.json. Add it there first."}), 400
-    endpoint_id, values = matched
+MACRO_FROM = "1980-01-01"  # same as fetch_macroeconomic.py: before the oldest history, so one call gets it all
+MACRO_PICKS = {"groupId": "indicator group", "fieldId": "indicator", "year": "year", "commodityId": "commodity",
+               "materialId": "consumer good", "productId": "product", "regionId": "region", "marketId": "market"}
+
+
+@app.get("/api/macroeconomic/saved")
+def macro_saved():
+    """Every saved macroeconomic file, relative to data/, like saved_files.json on the published page. The tab uses it
+    to combine an indicator's saved years without calling Argaam."""
+    folder = DATA_DIR / "macroeconomic"
+    return jsonify(sorted(p.relative_to(DATA_DIR).as_posix() for p in folder.rglob("*.json") if not p.name.startswith("_")))
+
+
+@app.get("/api/macroeconomic/<endpoint_id>")
+def macroeconomic(endpoint_id):
+    """Macroeconomic tab: any macroeconomic endpoint in static/endpoints.json, with its IDs (and year) as needed.
+    Histories ask for everything since MACRO_FROM. Reuses the saved copy unless refresh=1."""
+    ep = ENDPOINTS.get(endpoint_id)
+    if not ep or ep["api"] != "macroeconomic":
+        return jsonify({"error": f"{endpoint_id} is not a macroeconomic endpoint in static/endpoints.json."}), 404
+    values = {}
+    for name in re.findall(r"\{(\w+)\}", ep["path"]) + [q for q in ep.get("query", []) if q not in ("from", "to")]:
+        value = request.args.get(name, "").strip()
+        if not value.isdigit():
+            return jsonify({"error": f"Choose a {MACRO_PICKS.get(name, name)}."}), 400
+        values[name] = value
+    if "from" in ep.get("query", []):
+        values.update({"from": MACRO_FROM, "to": today()})
     file = saved_file(endpoint_id, **values)
-    same_base = (body.get("base") or API_BASE).rstrip("/") == API_BASE
-    if file.exists() and same_base and not body.get("refresh"):
+    refresh = request.args.get("refresh") == "1"
+    if file.exists() and not refresh:
         return jsonify({"data": json.loads(file.read_text(encoding="utf-8")), "saved_to": saved_name(file), "from_cache": True})
-    if same_base and not body.get("refresh") and (entry := known_no_data(endpoint_id, **values)):
-        return no_data_answer(entry, "No data for this path")
+    if not refresh and (entry := known_no_data(endpoint_id, **values)):
+        return no_data_answer(entry, "No data for this")
     try:
-        data, file = fetch_and_save(endpoint_id, base=body.get("base") or None, **values)
+        data, file = fetch_and_save(endpoint_id, **values)
     except requests.HTTPError as e:
-        return jsonify({"error": f"{e.response.status_code}: {e.response.text[:500]}"}), 502
-    except LookupError as e:
-        return jsonify({"error": str(e)}), 404
-    except Exception as e:  # missing key, network error, bad JSON...
+        return upstream_error(e)
+    except LookupError:
+        return jsonify({"error": "Argaam has no data for this."}), 404
+    except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify({"data": data, "saved_to": saved_name(file), "from_cache": False})
 
