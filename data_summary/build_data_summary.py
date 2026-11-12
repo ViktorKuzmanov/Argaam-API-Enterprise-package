@@ -233,6 +233,9 @@ def status_section(apis, left):
     """The "Download status" card at the top: done APIs first, then what is left for the others."""
     done = [a for a in apis if a["api"] in DONE]
     todo = [a for a in apis if a["api"] not in DONE]
+    calls_left = sum(n for items, _ in left.values() for n, _ in items)  # every item left is one API call
+    total_left = (f'<p class="st-total"><b>{num(calls_left)}</b> API calls left to get all the data '
+                  f'<span class="muted">(at most: some yearly indicator values may not exist)</span></p>') if calls_left else ""
     rows = [f'<div class="st-row"><span class="st-name">{e(a["name"])}</span>{badge(a["api"])}'
             f'<span class="st-left muted">All data downloaded</span></div>' for a in done]
     for a in todo:
@@ -247,6 +250,7 @@ def status_section(apis, left):
     return f"""
   <section class="card status">
     <h2>Download status <span class="muted st-count">{len(done)} of {len(apis)} APIs fully downloaded</span></h2>
+    {total_left}
     {"".join(rows)}
   </section>"""
 
@@ -339,6 +343,9 @@ def render(apis, base=None, left=None):
   .badge.wip {{ color:var(--wip); background:color-mix(in srgb, var(--wip) 14%, transparent); border:1px solid color-mix(in srgb, var(--wip) 40%, transparent); }}
   .status h2 {{ margin-bottom:8px; }}
   .st-count {{ font-size:14px; font-weight:400; margin-left:8px; }}
+  .st-total {{ margin:0 0 8px; font-size:16px; }}
+  .st-total b {{ font-size:22px; color:var(--wip); font-variant-numeric:tabular-nums; }}
+  .st-total .muted {{ font-size:13px; }}
   .st-row {{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 10px; padding:12px 0; border-top:1px solid var(--line); }}
   .st-name {{ font-weight:650; font-size:16px; }}
   .st-row .badge {{ font-size:13px; padding:2px 10px; margin-left:0; }}
