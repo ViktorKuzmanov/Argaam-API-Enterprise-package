@@ -34,6 +34,8 @@
   .hint b { color:var(--fg); font-weight:600; }
   select:disabled { color:var(--muted); background:#f3f3f3; }
   .row.three { grid-template-columns: 1fr 1fr 1fr; }
+  .title-row { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+  .summary-btn { background:var(--accent); color:#fff; text-decoration:none; padding:8px 14px; border-radius:6px; font-size:14px; font-weight:600; }
   .tabs { display:flex; gap:4px; border-bottom:1px solid var(--line); margin-bottom:16px; }
   .tabs button { background:none; color:var(--muted); border:0; border-bottom:2px solid transparent; border-radius:0; margin-bottom:-1px; }
   .tabs button.active { color:var(--accent); border-bottom-color:var(--accent); font-weight:600; }
@@ -67,7 +69,10 @@
 </head>
 <body>
 <main>
-  <h1>API Data Viewer</h1>
+  <div class="title-row">
+    <h1>API Data Viewer</h1>
+    <a class="summary-btn" href="data_summary/CURRENT_AVAILABLE_DATA.html">View data summary</a>
+  </div>
   <div class="promo">
     <span class="amt">Save $60,000/yr</span>
     <p><b>Enterprise market data without the enterprise price tag.</b> Macro, fundamentals, funds, M&amp;A and capital projects data, pulled and ready to use, with no data subscription to pay for.</p>

@@ -20,6 +20,12 @@ def index():
     return send_from_directory("static", "index.html")
 
 
+@app.get("/data_summary/CURRENT_AVAILABLE_DATA.html")
+def data_summary():
+    """The "View data summary" button: the page data_summary/build_data_summary.py writes."""
+    return send_from_directory("data_summary", "CURRENT_AVAILABLE_DATA.html", max_age=0)
+
+
 @app.get("/api/config")
 def config():
     return jsonify({"base": API_BASE, "endpoints": list(ENDPOINTS.values())})

@@ -55,15 +55,16 @@
 </head>
 <body>
 <main>
+  <p><a href="../" style="color:var(--accent); text-decoration:none; font-size:14px">&larr; Back to API Data Viewer</a></p>
   <h1>Current Available Data</h1>
-  <p class="muted">Everything downloaded from the Argaam APIs and saved in <code>data/</code>, ready to use. Built 11 Nov 2026, 22:06.</p>
-  <p class="since"><span class="up">+green</span> = added today, compared with the previous snapshot (11 Nov 2026, 02:23).</p>
+  <p class="muted">Everything downloaded from the Argaam APIs and saved in <code>data/</code>, ready to use. Built 12 Nov 2026, 21:19.</p>
+  <p class="since"><span class="up">+green</span> = added today, compared with the previous snapshot (11 Nov 2026, 22:06).</p>
 
   <div class="hero">
-    <div class="main"><span class="v">285.1 MB</span><span class="k">of JSON data</span><span class="up">+185.1 MB (+185%)</span></div>
-    <div><span class="v">829K</span><span class="k">records (829,149)</span><span class="up">+324,290 (+64%)</span></div>
-    <div><span class="v">15,069</span><span class="k">JSON files</span><span class="up">+10,005 (+198%)</span></div>
-    <div><span class="v">5</span><span class="k">APIs · 15,843 API calls recorded</span><span class="up">+8,736 (+123%)</span></div>
+    <div class="main"><span class="v">590.0 MB</span><span class="k">of JSON data</span><span class="up">+304.9 MB (+107%)</span></div>
+    <div><span class="v">1.1M</span><span class="k">records (1,078,018)</span><span class="up">+248,869 (+30%)</span></div>
+    <div><span class="v">32,297</span><span class="k">JSON files</span><span class="up">+17,228 (+114%)</span></div>
+    <div><span class="v">5</span><span class="k">APIs · 33,364 API calls recorded</span><span class="up">+17,521 (+111%)</span></div>
   </div>
 
   <section class="card">
@@ -72,22 +73,22 @@
       <div class="bar-row">
         <span class="bar-name">Fundamentals</span>
         <span class="bar-track"><span class="bar" style="width:100.0%"></span></span>
-        <span class="bar-value">185.3 MB<small>65%</small><span class="up">+161.0 MB (+661%)</span></span>
+        <span class="bar-value">490.2 MB<small>83%</small><span class="up">+304.9 MB (+165%)</span></span>
       </div>
       <div class="bar-row">
         <span class="bar-name">Investment funds</span>
-        <span class="bar-track"><span class="bar" style="width:32.9%"></span></span>
-        <span class="bar-value">60.9 MB<small>21%</small><span class="up">+103.6 KB (+0%)</span></span>
+        <span class="bar-track"><span class="bar" style="width:12.4%"></span></span>
+        <span class="bar-value">60.9 MB<small>10%</small></span>
       </div>
       <div class="bar-row">
         <span class="bar-name">Macroeconomic</span>
-        <span class="bar-track"><span class="bar" style="width:13.3%"></span></span>
-        <span class="bar-value">24.7 MB<small>9%</small><span class="up">+24.0 MB (+3,558%)</span></span>
+        <span class="bar-track"><span class="bar" style="width:5.0%"></span></span>
+        <span class="bar-value">24.7 MB<small>4%</small></span>
       </div>
       <div class="bar-row">
         <span class="bar-name">Projects &amp; Capital Investments</span>
-        <span class="bar-track"><span class="bar" style="width:7.1%"></span></span>
-        <span class="bar-value">13.2 MB<small>5%</small></span>
+        <span class="bar-track"><span class="bar" style="width:2.7%"></span></span>
+        <span class="bar-value">13.2 MB<small>2%</small></span>
       </div>
       <div class="bar-row">
         <span class="bar-name">M&amp;A &amp; Transactions</span>
@@ -100,30 +101,30 @@
         <header>
           <div>
             <h2>Fundamentals</h2>
-            <p class="muted"><code>data/fundamentals/</code> · <code>fetch_fundamentals.py</code> · last fetched 2026-11-11</p>
+            <p class="muted"><code>data/fundamentals/</code> · <code>fetch_fundamentals.py</code> · last fetched 2026-11-12</p>
           </div>
-          <div class="size">185.3 MB<span class="up">+161.0 MB (+661%)</span></div>
+          <div class="size">490.2 MB<span class="up">+304.9 MB (+165%)</span></div>
         </header>
         <div class="kpis">
-          <div><span class="k">JSON files</span><span class="v">9,875</span><span class="up">+9,040 (+1,083%)</span></div>
-          <div><span class="k">Records</span><span class="v">271,269</span><span class="up">+231,754 (+586%)</span></div>
+          <div><span class="k">JSON files</span><span class="v">27,103</span><span class="up">+17,228 (+174%)</span></div>
+          <div><span class="k">Records</span><span class="v">520,138</span><span class="up">+248,869 (+92%)</span></div>
           <div><span class="k">Endpoints</span><span class="v">13</span></div>
-          <div><span class="k">API calls recorded</span><span class="v">10,056</span><span class="up">+9,219 (+1,101%)</span><span class="s">9,875 saved · 181 no data · <span class="bad">4 failed</span></span></div>
+          <div><span class="k">API calls recorded</span><span class="v">27,577</span><span class="up">+17,521 (+174%)</span><span class="s">27,103 saved · 474 no data · <span class="bad">4 failed</span></span></div>
         </div>
         <div class="table-wrap"><table>
           <thead><tr><th>Endpoint</th><th class="n">Files</th><th class="n">Records</th><th class="n">Size</th></tr></thead>
           <tbody>
             <tr>
               <td><b>Financial statements for one period</b><br><code>/companies/{symbol}/financials/history</code></td>
-              <td class="n">3,187<span class="up">+3,187 new</span></td>
-              <td class="n">9,509 <small>records</small><span class="up">+9,509 new</span></td>
-              <td class="n">72.8 MB<span class="up">+72.8 MB new</span></td>
+              <td class="n">14,901<span class="up">+11,714</span></td>
+              <td class="n">41,501 <small>records</small><span class="up">+31,992</span></td>
+              <td class="n">308.0 MB<span class="up">+235.2 MB</span></td>
             </tr>
             <tr>
               <td><b>Financial ratios for one period</b><br><code>/companies/{symbol}/ratios/history</code></td>
-              <td class="n">3,192<span class="up">+3,192 new</span></td>
-              <td class="n">143,088 <small>records</small><span class="up">+143,088 new</span></td>
-              <td class="n">45.3 MB<span class="up">+45.3 MB new</span></td>
+              <td class="n">8,706<span class="up">+5,514</span></td>
+              <td class="n">359,965 <small>records</small><span class="up">+216,877</span></td>
+              <td class="n">114.9 MB<span class="up">+69.7 MB</span></td>
             </tr>
             <tr>
               <td><b>Analyst estimates</b><br><code>/companies/{symbol}/analyst-estimates</code></td>
@@ -133,45 +134,45 @@
             </tr>
             <tr>
               <td><b>Latest financial statements</b><br><code>/companies/{symbol}/financials</code></td>
-              <td class="n">692<span class="up">+692 new</span></td>
-              <td class="n">2,076 <small>records</small><span class="up">+2,076 new</span></td>
-              <td class="n">15.8 MB<span class="up">+15.8 MB new</span></td>
+              <td class="n">692</td>
+              <td class="n">2,076 <small>records</small></td>
+              <td class="n">15.8 MB</td>
             </tr>
             <tr>
               <td><b>Latest financial ratios</b><br><code>/companies/{symbol}/ratios</code></td>
-              <td class="n">832<span class="up">+832 new</span></td>
-              <td class="n">33,380 <small>records</small><span class="up">+33,380 new</span></td>
-              <td class="n">10.6 MB<span class="up">+10.6 MB new</span></td>
+              <td class="n">832</td>
+              <td class="n">33,380 <small>records</small></td>
+              <td class="n">10.6 MB</td>
             </tr>
             <tr>
               <td><b>Analyst opinions in a market</b><br><code>/markets/{marketId}/analyst-opinions</code></td>
-              <td class="n">10<span class="up">+10 new</span></td>
-              <td class="n">9,010 <small>records</small><span class="up">+9,010 new</span></td>
-              <td class="n">7.5 MB<span class="up">+7.5 MB new</span></td>
+              <td class="n">10</td>
+              <td class="n">9,010 <small>records</small></td>
+              <td class="n">7.5 MB</td>
             </tr>
             <tr>
               <td><b>Financial results of a market</b><br><code>/markets/{marketId}/financial-results</code></td>
-              <td class="n">270<span class="up">+270 new</span></td>
-              <td class="n">27,179 <small>records</small><span class="up">+27,179 new</span></td>
-              <td class="n">7.0 MB<span class="up">+7.0 MB new</span></td>
+              <td class="n">270</td>
+              <td class="n">27,179 <small>records</small></td>
+              <td class="n">7.0 MB</td>
             </tr>
             <tr>
               <td><b>Company ranking</b><br><code>/companies/rankings/{marketId}/{metric}</code></td>
-              <td class="n">26<span class="up">+26 new</span></td>
-              <td class="n">4,235 <small>records</small><span class="up">+4,235 new</span></td>
-              <td class="n">993.7 KB<span class="up">+993.7 KB new</span></td>
+              <td class="n">26</td>
+              <td class="n">4,235 <small>records</small></td>
+              <td class="n">993.7 KB</td>
             </tr>
             <tr>
               <td><b>Financial report files</b><br><code>/companies/{symbol}/financials/reports</code></td>
-              <td class="n">416<span class="up">+416 new</span></td>
-              <td class="n">1,579 <small>records</small><span class="up">+1,579 new</span></td>
-              <td class="n">592.1 KB<span class="up">+592.1 KB new</span></td>
+              <td class="n">416</td>
+              <td class="n">1,579 <small>records</small></td>
+              <td class="n">592.1 KB</td>
             </tr>
             <tr>
               <td><b>Key financial highlights</b><br><code>/companies/{symbol}/highlights</code></td>
-              <td class="n">395<span class="up">+395 new</span></td>
-              <td class="n">1,526 <small>records</small><span class="up">+1,526 new</span></td>
-              <td class="n">389.6 KB<span class="up">+389.6 KB new</span></td>
+              <td class="n">395</td>
+              <td class="n">1,526 <small>records</small></td>
+              <td class="n">389.6 KB</td>
             </tr>
             <tr>
               <td><b>Companies in a market</b><br><code>/markets/{marketId}/companies</code></td>
@@ -181,15 +182,15 @@
             </tr>
             <tr>
               <td><b>Lowest 20 companies</b><br><code>/companies/rankings/{marketId}/lowest-20/{metric}</code></td>
-              <td class="n">8<span class="up">+8 new</span></td>
-              <td class="n">160 <small>records</small><span class="up">+160 new</span></td>
-              <td class="n">51.6 KB<span class="up">+51.6 KB new</span></td>
+              <td class="n">8</td>
+              <td class="n">160 <small>records</small></td>
+              <td class="n">51.6 KB</td>
             </tr>
             <tr>
               <td><b>Market ratios</b><br><code>/companies/market-ratios/{marketId}</code></td>
-              <td class="n">12<span class="up">+12 new</span></td>
-              <td class="n">12 <small>records</small><span class="up">+12 new</span></td>
-              <td class="n">5.7 KB<span class="up">+5.7 KB new</span></td>
+              <td class="n">12</td>
+              <td class="n">12 <small>records</small></td>
+              <td class="n">5.7 KB</td>
             </tr></tbody>
         </table></div>
       </section>
@@ -199,13 +200,13 @@
             <h2>Investment funds</h2>
             <p class="muted"><code>data/funds/</code> · <code>fetch_funds.py</code> · last fetched 2026-11-11</p>
           </div>
-          <div class="size">60.9 MB<span class="up">+103.6 KB (+0%)</span></div>
+          <div class="size">60.9 MB</div>
         </header>
         <div class="kpis">
-          <div><span class="k">JSON files</span><span class="v">1,263</span><span class="up">+358 (+40%)</span></div>
-          <div><span class="k">Records</span><span class="v">450,042</span><span class="up">+358 (+0%)</span></div>
+          <div><span class="k">JSON files</span><span class="v">1,263</span></div>
+          <div><span class="k">Records</span><span class="v">450,042</span></div>
           <div><span class="k">Endpoints</span><span class="v">6</span></div>
-          <div><span class="k">API calls recorded</span><span class="v">1,545</span><span class="up">+499 (+48%)</span><span class="s">1,263 saved · 282 no data</span></div>
+          <div><span class="k">API calls recorded</span><span class="v">1,545</span><span class="s">1,263 saved · 282 no data</span></div>
         </div>
         <div class="table-wrap"><table>
           <thead><tr><th>Endpoint</th><th class="n">Files</th><th class="n">Records</th><th class="n">Size</th></tr></thead>
@@ -224,9 +225,9 @@
             </tr>
             <tr>
               <td><b>Fund latest value</b><br><code>/funds/managers/{managerId}/funds/{fundId}/values</code></td>
-              <td class="n">358<span class="up">+358 new</span></td>
-              <td class="n">358 <small>records</small><span class="up">+358 new</span></td>
-              <td class="n">103.6 KB<span class="up">+103.6 KB new</span></td>
+              <td class="n">358</td>
+              <td class="n">358 <small>records</small></td>
+              <td class="n">103.6 KB</td>
             </tr>
             <tr>
               <td><b>Funds of a manager</b><br><code>/funds/managers/{managerId}/funds</code></td>
@@ -254,11 +255,11 @@
             <h2>Macroeconomic</h2>
             <p class="muted"><code>data/macroeconomic/</code> · <code>fetch_macroeconomic.py</code> · last fetched 2026-11-11</p>
           </div>
-          <div class="size">24.7 MB<span class="up">+24.0 MB (+3,558%)</span></div>
+          <div class="size">24.7 MB</div>
         </header>
         <div class="kpis">
-          <div><span class="k">JSON files</span><span class="v">911</span><span class="up">+607 (+200%)</span></div>
-          <div><span class="k">Records</span><span class="v">97,244</span><span class="up">+92,178 (+1,820%)</span></div>
+          <div><span class="k">JSON files</span><span class="v">911</span></div>
+          <div><span class="k">Records</span><span class="v">97,244</span></div>
           <div><span class="k">Endpoints</span><span class="v">17</span></div>
           <div><span class="k">API calls recorded</span><span class="v">1,221</span><span class="s">911 saved · 310 no data</span></div>
         </div>
@@ -267,27 +268,27 @@
           <tbody>
             <tr>
               <td><b>Commodity price history</b><br><code>/commodities/{commodityId}/quotes/regular/history</code></td>
-              <td class="n">8<span class="up">+8 new</span></td>
-              <td class="n">40,293 <small>records</small><span class="up">+40,293 new</span></td>
-              <td class="n">9.1 MB<span class="up">+9.1 MB new</span></td>
+              <td class="n">8</td>
+              <td class="n">40,293 <small>records</small></td>
+              <td class="n">9.1 MB</td>
             </tr>
             <tr>
               <td><b>Petrochemical product price history</b><br><code>/petrochemicals/products/{productId}/prices/history</code></td>
-              <td class="n">16<span class="up">+16 new</span></td>
-              <td class="n">15,012 <small>records</small><span class="up">+15,012 new</span></td>
-              <td class="n">7.5 MB<span class="up">+7.5 MB new</span></td>
+              <td class="n">16</td>
+              <td class="n">15,012 <small>records</small></td>
+              <td class="n">7.5 MB</td>
             </tr>
             <tr>
               <td><b>Shipping rates</b><br><code>/commodities/{commodityId}/shipping</code></td>
-              <td class="n">6<span class="up">+6 new</span></td>
-              <td class="n">25,826 <small>records</small><span class="up">+25,826 new</span></td>
-              <td class="n">5.4 MB<span class="up">+5.4 MB new</span></td>
+              <td class="n">6</td>
+              <td class="n">25,826 <small>records</small></td>
+              <td class="n">5.4 MB</td>
             </tr>
             <tr>
               <td><b>Other commodity history</b><br><code>/commodities/{commodityId}/quotes/other/history</code></td>
-              <td class="n">3<span class="up">+3 new</span></td>
-              <td class="n">3,001 <small>records</small><span class="up">+3,001 new</span></td>
-              <td class="n">921.7 KB<span class="up">+921.7 KB new</span></td>
+              <td class="n">3</td>
+              <td class="n">3,001 <small>records</small></td>
+              <td class="n">921.7 KB</td>
             </tr>
             <tr>
               <td><b>Indicator group fields</b><br><code>/indicators/groups/{groupId}/fields</code></td>
@@ -297,27 +298,27 @@
             </tr>
             <tr>
               <td><b>Refining margins</b><br><code>/commodities/refining-margins</code></td>
-              <td class="n">1<span class="up">+1 new</span></td>
-              <td class="n">2,822 <small>records</small><span class="up">+2,822 new</span></td>
-              <td class="n">507.7 KB<span class="up">+507.7 KB new</span></td>
+              <td class="n">1</td>
+              <td class="n">2,822 <small>records</small></td>
+              <td class="n">507.7 KB</td>
             </tr>
             <tr>
               <td><b>Consumer good price history</b><br><code>/consumer-goods/{materialId}/prices/history</code></td>
-              <td class="n">17<span class="up">+17 new</span></td>
-              <td class="n">3,452 <small>records</small><span class="up">+3,452 new</span></td>
-              <td class="n">252.4 KB<span class="up">+252.4 KB new</span></td>
+              <td class="n">17</td>
+              <td class="n">3,452 <small>records</small></td>
+              <td class="n">252.4 KB</td>
             </tr>
             <tr>
               <td><b>Indicator values for one year</b><br><code>/indicators/groups/{groupId}/fields/{fieldId}/values</code></td>
-              <td class="n">553<span class="up">+547</span></td>
-              <td class="n">613 <small>values</small><span class="up">+607</span></td>
-              <td class="n">162.1 KB<span class="up">+160.3 KB</span></td>
+              <td class="n">553</td>
+              <td class="n">613 <small>values</small></td>
+              <td class="n">162.1 KB</td>
             </tr>
             <tr>
               <td><b>Petrochemical index history</b><br><code>/petrochemicals/index/history</code></td>
-              <td class="n">1<span class="up">+1 new</span></td>
-              <td class="n">1,066 <small>records</small><span class="up">+1,066 new</span></td>
-              <td class="n">91.1 KB<span class="up">+91.1 KB new</span></td>
+              <td class="n">1</td>
+              <td class="n">1,066 <small>records</small></td>
+              <td class="n">91.1 KB</td>
             </tr>
             <tr>
               <td><b>Indicator groups</b><br><code>/indicators/groups</code></td>
@@ -327,45 +328,45 @@
             </tr>
             <tr>
               <td><b>Latest consumer goods prices</b><br><code>/consumer-goods/prices</code></td>
-              <td class="n">1<span class="up">+1 new</span></td>
-              <td class="n">5 <small>records</small><span class="up">+5 new</span></td>
-              <td class="n">35.8 KB<span class="up">+35.8 KB new</span></td>
+              <td class="n">1</td>
+              <td class="n">5 <small>records</small></td>
+              <td class="n">35.8 KB</td>
             </tr>
             <tr>
               <td><b>Petrochemical products</b><br><code>/petrochemicals/products</code></td>
-              <td class="n">1<span class="up">+1 new</span></td>
-              <td class="n">33 <small>records</small><span class="up">+33 new</span></td>
-              <td class="n">31.0 KB<span class="up">+31.0 KB new</span></td>
+              <td class="n">1</td>
+              <td class="n">33 <small>records</small></td>
+              <td class="n">31.0 KB</td>
             </tr>
             <tr>
               <td><b>Consumer goods</b><br><code>/consumer-goods</code></td>
-              <td class="n">1<span class="up">+1 new</span></td>
-              <td class="n">5 <small>records</small><span class="up">+5 new</span></td>
-              <td class="n">25.4 KB<span class="up">+25.4 KB new</span></td>
+              <td class="n">1</td>
+              <td class="n">5 <small>records</small></td>
+              <td class="n">25.4 KB</td>
             </tr>
             <tr>
               <td><b>Latest commodity quotes</b><br><code>/commodities/quotes/regular</code></td>
-              <td class="n">1<span class="up">+1 new</span></td>
-              <td class="n">14 <small>records</small><span class="up">+14 new</span></td>
-              <td class="n">7.1 KB<span class="up">+7.1 KB new</span></td>
+              <td class="n">1</td>
+              <td class="n">14 <small>records</small></td>
+              <td class="n">7.1 KB</td>
             </tr>
             <tr>
               <td><b>Commodities</b><br><code>/commodities</code></td>
-              <td class="n">1<span class="up">+1 new</span></td>
-              <td class="n">39 <small>records</small><span class="up">+39 new</span></td>
-              <td class="n">4.9 KB<span class="up">+4.9 KB new</span></td>
+              <td class="n">1</td>
+              <td class="n">39 <small>records</small></td>
+              <td class="n">4.9 KB</td>
             </tr>
             <tr>
               <td><b>Market valuation</b><br><code>/markets/{marketId}/indicators</code></td>
-              <td class="n">2<span class="up">+2 new</span></td>
-              <td class="n">2 <small>records</small><span class="up">+2 new</span></td>
-              <td class="n">561 bytes<span class="up">+561 bytes new</span></td>
+              <td class="n">2</td>
+              <td class="n">2 <small>records</small></td>
+              <td class="n">561 bytes</td>
             </tr>
             <tr>
               <td><b>Petrochemical index (latest)</b><br><code>/petrochemicals/index</code></td>
-              <td class="n">1<span class="up">+1 new</span></td>
-              <td class="n">1 <small>records</small><span class="up">+1 new</span></td>
-              <td class="n">75 bytes<span class="up">+75 bytes new</span></td>
+              <td class="n">1</td>
+              <td class="n">1 <small>records</small></td>
+              <td class="n">75 bytes</td>
             </tr></tbody>
         </table></div>
       </section>

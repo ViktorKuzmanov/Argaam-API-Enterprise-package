@@ -368,5 +368,255 @@
     }
    }
   }
+ },
+ {
+  "taken": "2026-11-12T21:19",
+  "apis": {
+   "fundamentals": {
+    "files": 27103,
+    "bytes": 513968506,
+    "records": 520138,
+    "calls": 27577,
+    "endpoints": {
+     "financials_history": {
+      "files": 14901,
+      "bytes": 322919386,
+      "records": 41501
+     },
+     "ratios_history": {
+      "files": 8706,
+      "bytes": 120509061,
+      "records": 359965
+     },
+     "analyst_estimates": {
+      "files": 833,
+      "bytes": 25336220,
+      "records": 39098
+     },
+     "financials": {
+      "files": 692,
+      "bytes": 16608021,
+      "records": 2076
+     },
+     "ratios": {
+      "files": 832,
+      "bytes": 11117587,
+      "records": 33380
+     },
+     "market_opinions": {
+      "files": 10,
+      "bytes": 7877648,
+      "records": 9010
+     },
+     "market_results": {
+      "files": 270,
+      "bytes": 7338095,
+      "records": 27179
+     },
+     "rankings": {
+      "files": 26,
+      "bytes": 1017547,
+      "records": 4235
+     },
+     "financial_reports": {
+      "files": 416,
+      "bytes": 606280,
+      "records": 1579
+     },
+     "highlights": {
+      "files": 395,
+      "bytes": 398945,
+      "records": 1526
+     },
+     "market_companies": {
+      "files": 2,
+      "bytes": 181071,
+      "records": 417
+     },
+     "rankings_lowest": {
+      "files": 8,
+      "bytes": 52791,
+      "records": 160
+     },
+     "market_ratios": {
+      "files": 12,
+      "bytes": 5854,
+      "records": 12
+     }
+    }
+   },
+   "funds": {
+    "files": 1263,
+    "bytes": 63897592,
+    "records": 450042,
+    "calls": 1545,
+    "endpoints": {
+     "fund_history": {
+      "files": 358,
+      "bytes": 62345480,
+      "records": 448620
+     },
+     "fund_details": {
+      "files": 499,
+      "bytes": 1341346,
+      "records": 499
+     },
+     "fund_values": {
+      "files": 358,
+      "bytes": 106117,
+      "records": 358
+     },
+     "manager_funds": {
+      "files": 46,
+      "bytes": 84214,
+      "records": 499
+     },
+     "fund_movers": {
+      "files": 1,
+      "bytes": 13490,
+      "records": 20
+     },
+     "fund_managers": {
+      "files": 1,
+      "bytes": 6945,
+      "records": 46
+     }
+    }
+   },
+   "macroeconomic": {
+    "files": 911,
+    "bytes": 25886771,
+    "records": 97244,
+    "calls": 1221,
+    "endpoints": {
+     "commodity_history": {
+      "files": 8,
+      "bytes": 9574569,
+      "records": 40293
+     },
+     "petro_history": {
+      "files": 16,
+      "bytes": 7823548,
+      "records": 15012
+     },
+     "commodity_shipping": {
+      "files": 6,
+      "bytes": 5693961,
+      "records": 25826
+     },
+     "commodity_other_history": {
+      "files": 3,
+      "bytes": 943827,
+      "records": 3001
+     },
+     "indicator_fields": {
+      "files": 297,
+      "bytes": 635383,
+      "records": 5031
+     },
+     "refining_margins": {
+      "files": 1,
+      "bytes": 519916,
+      "records": 2822
+     },
+     "consumer_history": {
+      "files": 17,
+      "bytes": 258501,
+      "records": 3452
+     },
+     "indicator_values": {
+      "files": 553,
+      "bytes": 165975,
+      "records": 613
+     },
+     "petro_index_history": {
+      "files": 1,
+      "bytes": 93279,
+      "records": 1066
+     },
+     "indicator_groups": {
+      "files": 1,
+      "bytes": 70523,
+      "records": 29
+     },
+     "consumer_prices": {
+      "files": 1,
+      "bytes": 36657,
+      "records": 5
+     },
+     "petro_products": {
+      "files": 1,
+      "bytes": 31701,
+      "records": 33
+     },
+     "consumer_goods": {
+      "files": 1,
+      "bytes": 26037,
+      "records": 5
+     },
+     "commodity_quotes": {
+      "files": 1,
+      "bytes": 7246,
+      "records": 14
+     },
+     "commodities": {
+      "files": 1,
+      "bytes": 5012,
+      "records": 39
+     },
+     "market_indicators": {
+      "files": 2,
+      "bytes": 561,
+      "records": 2
+     },
+     "petro_index": {
+      "files": 1,
+      "bytes": 75,
+      "records": 1
+     }
+    }
+   },
+   "projects": {
+    "files": 2384,
+    "bytes": 13867633,
+    "records": 9326,
+    "calls": 2385,
+    "endpoints": {
+     "project_details": {
+      "files": 1966,
+      "bytes": 9566018,
+      "records": 1966
+     },
+     "company_developments": {
+      "files": 416,
+      "bytes": 2446602,
+      "records": 3608
+     },
+     "projects_by_market": {
+      "files": 2,
+      "bytes": 1855013,
+      "records": 3752
+     }
+    }
+   },
+   "m&a": {
+    "files": 636,
+    "bytes": 1050952,
+    "records": 1268,
+    "calls": 636,
+    "endpoints": {
+     "market_deals": {
+      "files": 2,
+      "bytes": 539427,
+      "records": 634
+     },
+     "deal_details": {
+      "files": 634,
+      "bytes": 511525,
+      "records": 634
+     }
+    }
+   }
+  }
  }
 ]

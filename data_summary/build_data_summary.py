@@ -294,6 +294,7 @@ def render(apis, base=None):
 </head>
 <body>
 <main>
+  <p><a href="../" style="color:var(--accent); text-decoration:none; font-size:14px">&larr; Back to API Data Viewer</a></p>
   <h1>Current Available Data</h1>
   <p class="muted">Everything downloaded from the Argaam APIs and saved in <code>data/</code>, ready to use. Built {built}.</p>
   {f'<p class="since"><span class="up">+green</span> = added today, compared with the previous snapshot ({datetime.fromisoformat(base["taken"]).strftime("%d %b %Y, %H:%M")}).</p>' if base else ""}
