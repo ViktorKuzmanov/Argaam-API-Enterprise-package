@@ -1,0 +1,591 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-12T16:34:47.0190953Z",
+  "requestId": "req_cb52220981764bf48cd3ca9d415fb987",
+  "data": {
+    "companyId": 1012,
+    "marketId": 3,
+    "year": 2023,
+    "period": "quarter",
+    "fiscalPeriod": "5",
+    "financials": {
+      "result": null,
+      "value": {
+        "statusCode": 200,
+        "statusMessage": null,
+        "data": {
+          "companyID": 1012,
+          "marketID": 3,
+          "forDate": "31/12/2023",
+          "forYear": 2023,
+          "fiscalPeriod": "Q4",
+          "detailsFileURLEn": "https://argaamplus.s3.amazonaws.com/9f2e0f9c-acbf-4c8b-8a6b-a3838bb96cdb.pdf",
+          "detailsFileURLAr": "https://argaamplus.s3.amazonaws.com/627eb036-0b30-4543-b6dc-1e1adf98ae33.pdf",
+          "tabs": [
+            {
+              "tabNameEn": "Income Statement",
+              "tabNameAr": "قائمة الدخل",
+              "fields": [
+                {
+                  "displayNameEn": "Gross Written Premiums (GWPs)",
+                  "displayNameAr": "إجمالى أقساط التأمين المكتتبة",
+                  "value": 880.21
+                },
+                {
+                  "displayNameEn": "Insurance Revenues",
+                  "displayNameAr": "إيرادات التأمين",
+                  "value": 781.151
+                },
+                {
+                  "displayNameEn": "Insurance Service Expenses",
+                  "displayNameAr": "مصاريف خدمات التأمين ",
+                  "value": -485.95
+                },
+                {
+                  "displayNameEn": "Insurance service results before reinsurance contracts held",
+                  "displayNameAr": "صافي  نتائج خدمة التأمين قبل عقود إعادة التأمين",
+                  "value": 295.201
+                },
+                {
+                  "displayNameEn": "Net income from reinsurance contracts held",
+                  "displayNameAr": "صافى دخل عقود إعادة التأمين المحتفظ بها",
+                  "value": -288.982
+                },
+                {
+                  "displayNameEn": "Allocation of Reinsurance Premiums",
+                  "displayNameAr": "توزيعات أقساط إعادة التأمين",
+                  "value": -342.32
+                },
+                {
+                  "displayNameEn": "Amounts recoverable from reinsurers for incurred claims",
+                  "displayNameAr": "المبالغ المستردة من معيدى التأمين عن المطالبات المتكبدة",
+                  "value": 53.338
+                },
+                {
+                  "displayNameEn": "Insurance Service Income",
+                  "displayNameAr": "دخل خدمات التأمين",
+                  "value": 6.219
+                },
+                {
+                  "displayNameEn": "Commission and dividend income",
+                  "displayNameAr": "دخل توزيعات الأرباح و العمولات",
+                  "value": 25.101
+                },
+                {
+                  "displayNameEn": "Investment Income on Financial Assets at Amortized Cost",
+                  "displayNameAr": "دخل الإستثمار من موجودات مالية بالتكلفة المطفأه",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Investment Income on Financial Assets at FVTPL",
+                  "displayNameAr": "دخل الإستثمار من موجودات مالية بالقيمه العادلة",
+                  "value": 38.036
+                },
+                {
+                  "displayNameEn": "Other Investment Income",
+                  "displayNameAr": "إستثمارات أخرى",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Allowance for expected credit losses on financial assets",
+                  "displayNameAr": "مخصص الخسائر المتوقعة على الموجودات المالية",
+                  "value": -0.111
+                },
+                {
+                  "displayNameEn": "Net profit/loss on financial assets",
+                  "displayNameAr": "صافي دخل الإستثمارات",
+                  "value": 63.026
+                },
+                {
+                  "displayNameEn": "Finance income from insurance contracts issued",
+                  "displayNameAr": "الدخل التمويلي من عقود  التأمين الصادرة",
+                  "value": -0.337
+                },
+                {
+                  "displayNameEn": "Finance income from reinsurance contracts held",
+                  "displayNameAr": "الدخل التمويلي من عقود إعادة التأمين المحتفظ بها",
+                  "value": 0.128
+                },
+                {
+                  "displayNameEn": "Net Insurance Finance Income",
+                  "displayNameAr": "صافى دخل تمويل التأمين",
+                  "value": -0.209
+                },
+                {
+                  "displayNameEn": "Net insurance service and investment income",
+                  "displayNameAr": "صافي دخل خدمات التأمين  والاستثمار",
+                  "value": 69.036
+                },
+                {
+                  "displayNameEn": "Share of profit from equity accounted investments",
+                  "displayNameAr": "حصة من أرباح الشركات الزميلة",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Other Income",
+                  "displayNameAr": "ايرادات أخرى",
+                  "value": 3.321
+                },
+                {
+                  "displayNameEn": "Other Operating Expenses",
+                  "displayNameAr": "مصاريف تشغيلية اخرى",
+                  "value": -22.107
+                },
+                {
+                  "displayNameEn": "Employee Costs",
+                  "displayNameAr": "تكاليف موظفين",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Administrative Expenses",
+                  "displayNameAr": "مصاريف إدارية وعمومية",
+                  "value": -22.107
+                },
+                {
+                  "displayNameEn": "Finance Costs",
+                  "displayNameAr": "تكاليف تمويل",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Other",
+                  "displayNameAr": "أخرى",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Surplus Attributable to Insurance Operations",
+                  "displayNameAr": "الفائض المنسوب الي عمليات التأمين",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Profit Before Zakat & Tax",
+                  "displayNameAr": "الدخل قبل الزكاة والضرائب",
+                  "value": 50.25
+                },
+                {
+                  "displayNameEn": "Zakat & Tax",
+                  "displayNameAr": "زكاة وضرائب",
+                  "value": -5.0
+                },
+                {
+                  "displayNameEn": "Net Profit Before XO Items",
+                  "displayNameAr": "صافي الدخل قبل البنود الاستثنائية وغير المتكررة",
+                  "value": 45.25
+                },
+                {
+                  "displayNameEn": "Unusual item",
+                  "displayNameAr": "بند إستثنائى ",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Net profit",
+                  "displayNameAr": "الربح الصافي",
+                  "value": 45.25
+                },
+                {
+                  "displayNameEn": "Shares Outstanding (Million)",
+                  "displayNameAr": " متوسط عدد الأسهم (مليون)",
+                  "value": 103.6305
+                },
+                {
+                  "displayNameEn": "Earnings Per Share before unusual items",
+                  "displayNameAr": "ربح السهم قبل البنود الاستثنائية",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Earnings Per Share (EPS)",
+                  "displayNameAr": "ربح السهم",
+                  "value": 0.437
+                }
+              ]
+            },
+            {
+              "tabNameEn": "Balance Sheet",
+              "tabNameAr": "المركز المالي",
+              "fields": [
+                {
+                  "displayNameEn": "Cash & Cash equivalents",
+                  "displayNameAr": "نقد وما يعادله",
+                  "value": 512.411
+                },
+                {
+                  "displayNameEn": "Cash on hand",
+                  "displayNameAr": "النقد في الصندوق",
+                  "value": 437.411
+                },
+                {
+                  "displayNameEn": "Demand deposits",
+                  "displayNameAr": "ودائع تحت الطلب",
+                  "value": 75.0
+                },
+                {
+                  "displayNameEn": "Time deposits",
+                  "displayNameAr": "ودائع لأجل",
+                  "value": 791.713
+                },
+                {
+                  "displayNameEn": "Receivables, Net",
+                  "displayNameAr": "صافي المدينون",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Accounts receivables",
+                  "displayNameAr": "مدينون تجاريون",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Other Receivables",
+                  "displayNameAr": "أخرى",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Investments",
+                  "displayNameAr": "الاستثمارات",
+                  "value": 1116.502
+                },
+                {
+                  "displayNameEn": "Investments in equity accounted investments",
+                  "displayNameAr": "إستثمارات محاسب عنها بطريقة حقوق الملكية",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Investments at FVTPL",
+                  "displayNameAr": "إستثمارات بالقيمه العادله من خلال الربح أو الخساره",
+                  "value": 484.537
+                },
+                {
+                  "displayNameEn": "Investments at FVTOCI",
+                  "displayNameAr": "إستثمارات بالقيمه العادله من خلال الدخل الشامل الأخر",
+                  "value": 86.925
+                },
+                {
+                  "displayNameEn": "Amortized Cost Investments",
+                  "displayNameAr": "إستثمارات بالتكلفة المطفأه",
+                  "value": 545.04
+                },
+                {
+                  "displayNameEn": "Other Investments",
+                  "displayNameAr": "إستثمارات أخرى",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Insurance contract assets",
+                  "displayNameAr": "موجودات عقود التأمين",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Reinsurance contract assets",
+                  "displayNameAr": "موجودات عقود إعادة التأمين",
+                  "value": 789.878
+                },
+                {
+                  "displayNameEn": "Investment properties",
+                  "displayNameAr": "العقارات الإستثمارية ",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Fixed Assets",
+                  "displayNameAr": "الاصول الثابته",
+                  "value": 31.254
+                },
+                {
+                  "displayNameEn": "Land & buildings",
+                  "displayNameAr": "الاراضي والمباني",
+                  "value": 16.4
+                },
+                {
+                  "displayNameEn": "Machinery and equipment",
+                  "displayNameAr": "الات والمعدات",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Furniture & fixtures",
+                  "displayNameAr": "الاثاث والتجهيزات",
+                  "value": 6.381
+                },
+                {
+                  "displayNameEn": "Capital work in progress",
+                  "displayNameAr": "الاعمال الانشائية",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Other fixed Assets",
+                  "displayNameAr": "اصول أخرى",
+                  "value": 8.473
+                },
+                {
+                  "displayNameEn": "Accumulated depreciation",
+                  "displayNameAr": "مجمع الاستهلاك",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Intangible assets",
+                  "displayNameAr": "موجودات غير ملموسة ",
+                  "value": 145.981
+                },
+                {
+                  "displayNameEn": "Right-of-use asset",
+                  "displayNameAr": "حق استخدام أصول",
+                  "value": 4.23
+                },
+                {
+                  "displayNameEn": "Statutory deposit",
+                  "displayNameAr": "وديعه نظاميه",
+                  "value": 85.058
+                },
+                {
+                  "displayNameEn": "Accrued income on statutory deposit",
+                  "displayNameAr": "عمولات مستحقة على الوديعه النظاميه ",
+                  "value": 4.347
+                },
+                {
+                  "displayNameEn": "Prepaid expenses and other assets",
+                  "displayNameAr": "مصاريف مدفوعه مقدما و موجودات أخرى ",
+                  "value": 52.764
+                },
+                {
+                  "displayNameEn": "Other",
+                  "displayNameAr": "أخرى",
+                  "value": 573.111
+                },
+                {
+                  "displayNameEn": "Total Assets",
+                  "displayNameAr": "إجمالى الموجودات",
+                  "value": 4107.249
+                },
+                {
+                  "displayNameEn": "Insurance contract liabilities",
+                  "displayNameAr": "مطلوبات عقود التأمين",
+                  "value": 2554.671
+                },
+                {
+                  "displayNameEn": "Reinsurance contract liabilities",
+                  "displayNameAr": "مطلوبات عقود إعادة التأمين",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Other liabilities",
+                  "displayNameAr": "مطلوبات أخرى",
+                  "value": 284.123
+                },
+                {
+                  "displayNameEn": "Lease liabilities",
+                  "displayNameAr": "إلتزامات عقد الإيجار",
+                  "value": 2.754
+                },
+                {
+                  "displayNameEn": "Zakat & income tax",
+                  "displayNameAr": "زكاه و ضريبه دخل ",
+                  "value": 46.283
+                },
+                {
+                  "displayNameEn": "Deferred tax liability",
+                  "displayNameAr": "إلتزام ضريبى مؤجل ",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Accrued commission income payable to SAMA",
+                  "displayNameAr": "إيرادات عمولات مستحقة الدفع إلى البنك المركزى السعودى",
+                  "value": 4.347
+                },
+                {
+                  "displayNameEn": "Other",
+                  "displayNameAr": "اخرى",
+                  "value": 230.739
+                },
+                {
+                  "displayNameEn": "Total liabilities",
+                  "displayNameAr": "إجمالى المطلوبات",
+                  "value": 2838.794
+                },
+                {
+                  "displayNameEn": "Capital",
+                  "displayNameAr": "رأس المال",
+                  "value": 850.583
+                },
+                {
+                  "displayNameEn": " Reserves",
+                  "displayNameAr": "احتياطيات",
+                  "value": 339.385
+                },
+                {
+                  "displayNameEn": "Statutory reserve",
+                  "displayNameAr": "إحتياطى نظامى ",
+                  "value": 79.915
+                },
+                {
+                  "displayNameEn": "Retained earnings",
+                  "displayNameAr": "ارباح مبقاة",
+                  "value": 66.351
+                },
+                {
+                  "displayNameEn": "Other reserves",
+                  "displayNameAr": "احتياطات اخرى",
+                  "value": 193.119
+                },
+                {
+                  "displayNameEn": "Change in fair value",
+                  "displayNameAr": "التغير في القيمة العادلة",
+                  "value": 81.827
+                },
+                {
+                  "displayNameEn": "Re-measurement of defined benefit obligation - employees' benefit",
+                  "displayNameAr": "إعادة قياس إلتزام المنافع المحددة  - منافع الموظفين ",
+                  "value": -3.34
+                },
+                {
+                  "displayNameEn": "Shareholders’ equity",
+                  "displayNameAr": "إجمالى حقوق المساهمين",
+                  "value": 1268.455
+                },
+                {
+                  "displayNameEn": "Minority Interest",
+                  "displayNameAr": "حقوق الاقلية",
+                  "value": 0.0
+                },
+                {
+                  "displayNameEn": "Total equity",
+                  "displayNameAr": "مجموع حقوق الملكية",
+                  "value": 1268.455
+                },
+                {
+                  "displayNameEn": "Shares Outstanding (Million)",
+                  "displayNameAr": "متوسط عدد الاسهم (مليون)",
+                  "value": 103.6305
+                },
+                {
+                  "displayNameEn": "Book value",
+                  "displayNameAr": "القيمة الدفترية",
+                  "value": 12.2402
+                },
+                {
+                  "displayNameEn": "Par Value",
+                  "displayNameAr": "القيمة الاسمية",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "tabNameEn": "Cash Flow Statement",
+              "tabNameAr": "التدفق النقدي",
+              "fields": [
+                {
+                  "displayNameEn": "Net profit (loss) before Zakat & tax",
+                  "displayNameAr": "صافي الارباح (الخسائر ) قبل الزكاه وضرببة الدخل",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Settlement",
+                  "displayNameAr": "تسويات",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Depreciation and amortization",
+                  "displayNameAr": "الإستهلاك والإطفاء",
+                  "value": 11.015
+                },
+                {
+                  "displayNameEn": "Other",
+                  "displayNameAr": "أخرى",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Net (Increase)/Decrease in operating assets",
+                  "displayNameAr": "صافي ( الزيادة ) / النقص في الموجودات التشغيلية",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Net Increase/(Decrease) in operating liabilities",
+                  "displayNameAr": "صافي الزيادة / ( النقص ) في المطلوبات التشغيلية",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Other",
+                  "displayNameAr": "أخرى",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Net Cash Flows from Operating Activities ",
+                  "displayNameAr": "صافي التدفق النقدي من الانشطة التشغيلية",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "(Inc) dec in investment",
+                  "displayNameAr": "( الزيادة ) او النقص في الاستثمارات",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Net subscription to deposits",
+                  "displayNameAr": "صافى الإكتتاب فى الودائع",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Dividends and commission income received",
+                  "displayNameAr": "توزيعات أرباح و إيرادات عمولات مستلمة ",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "(Inc) dec in PP&E and intangibles",
+                  "displayNameAr": "( الزيادة ) او النقص في الممتلكات و المعدات و الموجودات غير الملموسة ",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Other",
+                  "displayNameAr": "اخرى",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Net Cash Flows from Investment Activities",
+                  "displayNameAr": "صافي التدفق النقدي من الانشطة الاستثمارية",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Share issuance",
+                  "displayNameAr": "اصدار الاسهم ",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "(Increase)/Decrease in debts",
+                  "displayNameAr": "الزيادة ( النقص ) في الديون",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Dividends",
+                  "displayNameAr": "التوزيعات النقدية",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Other",
+                  "displayNameAr": "اخرى",
+                  "value": null
+                },
+                {
+                  "displayNameEn": " Net Cash Flows from Financing Activities ",
+                  "displayNameAr": "صافي التدفق النقدي من الانشطة التمويلية",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Net change in cash and equivalents ",
+                  "displayNameAr": "صافي التغير في النقد و ما يعادله",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Cash and cash equivalents at the beginning of the period",
+                  "displayNameAr": "النقد و ما يعادله بداية الفترة",
+                  "value": null
+                },
+                {
+                  "displayNameEn": "Cash and cash equivalents at the end of the period",
+                  "displayNameAr": "النقد و ما يعادله في نهاية الفترة",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}
