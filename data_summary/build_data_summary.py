@@ -14,6 +14,9 @@ and RECORDS below to give it a nicer name and say what one of its records is.
 import argparse
 import html
 import json
+import re
+import subprocess
+import sys
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -33,6 +36,48 @@ API_NAMES = {
     "m&a": ("M&A & Transactions", "fetch_ma.py"),
     "projects": ("Projects & Capital Investments", "fetch_projects.py"),
 }
+
+# APIs whose data is fully downloaded: their fetch script's --dry-run shows 0 calls left. They get a green
+# "✓ Done" badge on the page; the others show "In progress". Add a folder here once its dry-run reaches 0.
+DONE = {"funds", "m&a", "projects"}
+
+# For the APIs still downloading, "What's left" on the page comes from their fetch script's --dry-run (no API calls).
+# Folder -> [(pattern in the dry-run output, what to call it on the page)]; the pattern's number is the count left,
+# and a count of 0 is left out. A line about days is shown as the time estimate.
+LEFT = {
+    "fundamentals": [
+        (r"Stage 1: (\d+) list calls left", "market lists"),
+        (r"Stage 2: (\d+) per-company calls left", "per-company calls (statements, ratios, estimates, reports)"),
+        (r"(\d+) financials_history calls left", "historical financial statements (one company, one period each)"),
+        (r"(\d+) ratios_history calls left", "historical financial ratios (one company, one period each)"),
+    ],
+    "macroeconomic": [
+        (r"Stage 1: (\d+) of \d+ lists left", "lists"),
+        (r"Stage 2: (\d+) of \d+ indicator field lists left", "indicator lists"),
+        (r"Stage 3: (\d+) commodities histories left", "commodity price histories"),
+        (r"Stage 4: (\d+) consumer goods histories left", "consumer goods price histories"),
+        (r"Stage 5: (\d+) petrochemical products histories left", "petrochemical product price histories"),
+        (r"at most (\d+) calls left", "yearly indicator values at most (one call per indicator per year, 1970 to today)"),
+    ],
+}
+# Things left that a dry-run can't count.
+LEFT_NOTES = {
+    "macroeconomic": ["Rig counts: not fetched yet, because Argaam's endpoint is broken. Retry when it is fixed."],
+}
+DAYS = re.compile(r"[Aa]bout (\d+) day")
+
+
+def whats_left(api, script):
+    """(items left as (count, label), days estimate or None), read from `python <script> --dry-run`."""
+    out = subprocess.run([sys.executable, script, "--dry-run"], cwd=ROOT, capture_output=True, text=True, timeout=300)
+    text = out.stdout + out.stderr
+    items = []
+    for pattern, label in LEFT.get(api, []):
+        m = re.search(pattern, text)
+        if m and int(m.group(1)):
+            items.append((int(m.group(1)), label))
+    days = DAYS.search(text)
+    return items, int(days.group(1)) if days else None
 
 
 def length(*keys):
@@ -179,7 +224,34 @@ def grew(now, before, fmt=num, pct=True):
     return f'<span class="up">+{fmt(now - before)}{p}</span>'
 
 
-def render(apis, base=None):
+def badge(api):
+    """A green "✓ Done" for fully downloaded APIs (see DONE), a grey "In progress" for the rest."""
+    return '<span class="badge done">&#10003; Done</span>' if api in DONE else '<span class="badge wip">In progress</span>'
+
+
+def status_section(apis, left):
+    """The "Download status" card at the top: done APIs first, then what is left for the others."""
+    done = [a for a in apis if a["api"] in DONE]
+    todo = [a for a in apis if a["api"] not in DONE]
+    rows = [f'<div class="st-row"><span class="st-name">{e(a["name"])}</span>{badge(a["api"])}'
+            f'<span class="st-left muted">All data downloaded</span></div>' for a in done]
+    for a in todo:
+        items, days = left.get(a["api"], ([], None))
+        lines = [f"<li><b>{num(n)}</b> {e(label)}</li>" for n, label in items]
+        lines += [f"<li>{e(note)}</li>" for note in LEFT_NOTES.get(a["api"], [])]
+        if not lines:
+            lines = [f"<li>Run <code>python {e(a['script'])} --dry-run</code> to see what is left.</li>"]
+        eta = f'<span class="st-eta">About {days} day{"s" if days != 1 else ""} to go at the daily API limit</span>' if days else ""
+        rows.append(f'<div class="st-row"><span class="st-name">{e(a["name"])}</span>{badge(a["api"])}{eta}'
+                    f'<div class="st-left"><span class="muted">What\'s left:</span><ul>{"".join(lines)}</ul></div></div>')
+    return f"""
+  <section class="card status">
+    <h2>Download status <span class="muted st-count">{len(done)} of {len(apis)} APIs fully downloaded</span></h2>
+    {"".join(rows)}
+  </section>"""
+
+
+def render(apis, base=None, left=None):
     """base: an earlier snapshot to compare with (None: no "+N today" numbers)."""
     b_apis = (base or {}).get("apis", {})
     def b(api, key, ep=None):
@@ -201,7 +273,7 @@ def render(apis, base=None):
 
     bars = "".join(f"""
       <div class="bar-row">
-        <span class="bar-name">{e(a["name"])}</span>
+        <span class="bar-name">{e(a["name"])} {badge(a["api"])}</span>
         <span class="bar-track"><span class="bar" style="width:{max(a["bytes"] / max_bytes * 100, 0.6):.1f}%"></span></span>
         <span class="bar-value">{size(a["bytes"])}<small>{a["bytes"] / total_bytes * 100:.0f}%</small>{grew(a["bytes"], b(a["api"], "bytes"), size)}</span>
       </div>""" for a in apis)
@@ -220,7 +292,7 @@ def render(apis, base=None):
       <section class="card">
         <header>
           <div>
-            <h2>{e(a["name"])}</h2>
+            <h2>{e(a["name"])} {badge(a["api"])}</h2>
             <p class="muted"><code>data/{e(a["api"])}/</code>{f' · <code>{e(a["script"])}</code>' if a["script"] else ""}{f' · last fetched {a["last"]}' if a["last"] else ""}</p>
           </div>
           <div class="size">{size(a["bytes"])}{grew(a["bytes"], b(a["api"], "bytes"), size)}</div>
@@ -244,9 +316,9 @@ def render(apis, base=None):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Current Available Data</title>
 <style>
-  :root {{ --bg:#f6f6f4; --card:#fff; --fg:#1a1a19; --muted:#6b6b66; --line:#e3e2dc; --accent:#2a78d6; --track:#ecebe6; --bad:#b3261e; --up:#1e7a3c; }}
+  :root {{ --bg:#f6f6f4; --card:#fff; --fg:#1a1a19; --muted:#6b6b66; --line:#e3e2dc; --accent:#2a78d6; --track:#ecebe6; --bad:#b3261e; --up:#1e7a3c; --wip:#a15c00; }}
   @media (prefers-color-scheme: dark) {{
-    :root {{ --bg:#141413; --card:#1f1f1d; --fg:#f0efec; --muted:#a8a79f; --line:#34332f; --accent:#3987e5; --track:#2b2a27; --bad:#f2958d; --up:#5fd08a; }}
+    :root {{ --bg:#141413; --card:#1f1f1d; --fg:#f0efec; --muted:#a8a79f; --line:#34332f; --accent:#3987e5; --track:#2b2a27; --bad:#f2958d; --up:#5fd08a; --wip:#f0b45a; }}
   }}
   * {{ box-sizing:border-box; }}
   body {{ margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui, -apple-system, sans-serif; }}
@@ -262,6 +334,19 @@ def render(apis, base=None):
   .hero .k {{ display:block; font-size:13px; color:var(--muted); margin-top:4px; }}
   .hero .main {{ border-color:var(--accent); }}
   .hero .main .v {{ color:var(--accent); }}
+  .badge {{ display:inline-block; vertical-align:middle; font-size:12px; font-weight:600; padding:1px 8px; border-radius:999px; margin-left:6px; white-space:nowrap; }}
+  .badge.done {{ color:var(--up); background:color-mix(in srgb, var(--up) 14%, transparent); border:1px solid color-mix(in srgb, var(--up) 40%, transparent); }}
+  .badge.wip {{ color:var(--wip); background:color-mix(in srgb, var(--wip) 14%, transparent); border:1px solid color-mix(in srgb, var(--wip) 40%, transparent); }}
+  .status h2 {{ margin-bottom:8px; }}
+  .st-count {{ font-size:14px; font-weight:400; margin-left:8px; }}
+  .st-row {{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 10px; padding:12px 0; border-top:1px solid var(--line); }}
+  .st-name {{ font-weight:650; font-size:16px; }}
+  .st-row .badge {{ font-size:13px; padding:2px 10px; margin-left:0; }}
+  .st-eta {{ font-size:13px; color:var(--muted); margin-left:auto; }}
+  .st-left {{ flex-basis:100%; font-size:14px; }}
+  .st-row > .st-left.muted {{ flex-basis:auto; margin-left:auto; }}
+  .st-left ul {{ margin:4px 0 0; padding-left:20px; }}
+  .st-left li {{ margin:2px 0; }}
   .card {{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:16px; }}
   .card header {{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:14px; }}
   .card header p {{ margin:2px 0 0; font-size:13px; }}
@@ -298,6 +383,8 @@ def render(apis, base=None):
   <h1>Current Available Data</h1>
   <p class="muted">Everything downloaded from the Argaam APIs and saved in <code>data/</code>, ready to use. Built {built}.</p>
   {f'<p class="since"><span class="up">+green</span> = added today, compared with the previous snapshot ({datetime.fromisoformat(base["taken"]).strftime("%d %b %Y, %H:%M")}).</p>' if base else ""}
+
+  {status_section(apis, left or {})}
 
   <div class="hero">
     <div class="main"><span class="v">{size(total_bytes)}</span><span class="k">of JSON data</span>{grew(total_bytes, b_total("bytes"), size)}</div>
@@ -340,7 +427,8 @@ def main():
     now = datetime.now().isoformat(timespec="minutes")
     history = save_snapshot(load_history(), snapshot(apis, now))
     earlier = [h for h in history if work_day(h["taken"]) < work_day(now)]
-    OUT.write_text(render(apis, earlier[-1] if earlier else None), encoding="utf-8")
+    left = {a["api"]: whats_left(a["api"], a["script"]) for a in apis if a["api"] not in DONE}
+    OUT.write_text(render(apis, earlier[-1] if earlier else None, left), encoding="utf-8")
     total = sum(a["bytes"] for a in apis)
     print(f"Wrote data_summary/{OUT.name}: {len(apis)} APIs, {sum(a['files'] for a in apis):,} files, {size(total)}.")
     for a in apis:

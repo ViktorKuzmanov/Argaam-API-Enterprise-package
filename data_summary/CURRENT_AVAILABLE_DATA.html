@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Current Available Data</title>
 <style>
-  :root { --bg:#f6f6f4; --card:#fff; --fg:#1a1a19; --muted:#6b6b66; --line:#e3e2dc; --accent:#2a78d6; --track:#ecebe6; --bad:#b3261e; --up:#1e7a3c; }
+  :root { --bg:#f6f6f4; --card:#fff; --fg:#1a1a19; --muted:#6b6b66; --line:#e3e2dc; --accent:#2a78d6; --track:#ecebe6; --bad:#b3261e; --up:#1e7a3c; --wip:#a15c00; }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#141413; --card:#1f1f1d; --fg:#f0efec; --muted:#a8a79f; --line:#34332f; --accent:#3987e5; --track:#2b2a27; --bad:#f2958d; --up:#5fd08a; }
+    :root { --bg:#141413; --card:#1f1f1d; --fg:#f0efec; --muted:#a8a79f; --line:#34332f; --accent:#3987e5; --track:#2b2a27; --bad:#f2958d; --up:#5fd08a; --wip:#f0b45a; }
   }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 system-ui, -apple-system, sans-serif; }
@@ -23,6 +23,19 @@
   .hero .k { display:block; font-size:13px; color:var(--muted); margin-top:4px; }
   .hero .main { border-color:var(--accent); }
   .hero .main .v { color:var(--accent); }
+  .badge { display:inline-block; vertical-align:middle; font-size:12px; font-weight:600; padding:1px 8px; border-radius:999px; margin-left:6px; white-space:nowrap; }
+  .badge.done { color:var(--up); background:color-mix(in srgb, var(--up) 14%, transparent); border:1px solid color-mix(in srgb, var(--up) 40%, transparent); }
+  .badge.wip { color:var(--wip); background:color-mix(in srgb, var(--wip) 14%, transparent); border:1px solid color-mix(in srgb, var(--wip) 40%, transparent); }
+  .status h2 { margin-bottom:8px; }
+  .st-count { font-size:14px; font-weight:400; margin-left:8px; }
+  .st-row { display:flex; flex-wrap:wrap; align-items:center; gap:4px 10px; padding:12px 0; border-top:1px solid var(--line); }
+  .st-name { font-weight:650; font-size:16px; }
+  .st-row .badge { font-size:13px; padding:2px 10px; margin-left:0; }
+  .st-eta { font-size:13px; color:var(--muted); margin-left:auto; }
+  .st-left { flex-basis:100%; font-size:14px; }
+  .st-row > .st-left.muted { flex-basis:auto; margin-left:auto; }
+  .st-left ul { margin:4px 0 0; padding-left:20px; }
+  .st-left li { margin:2px 0; }
   .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:16px; }
   .card header { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:14px; }
   .card header p { margin:2px 0 0; font-size:13px; }
@@ -57,8 +70,14 @@
 <main>
   <p><a href="../" style="color:var(--accent); text-decoration:none; font-size:14px">&larr; Back to API Data Viewer</a></p>
   <h1>Current Available Data</h1>
-  <p class="muted">Everything downloaded from the Argaam APIs and saved in <code>data/</code>, ready to use. Built 12 Nov 2026, 21:19.</p>
+  <p class="muted">Everything downloaded from the Argaam APIs and saved in <code>data/</code>, ready to use. Built 12 Nov 2026, 21:27.</p>
   <p class="since"><span class="up">+green</span> = added today, compared with the previous snapshot (11 Nov 2026, 22:06).</p>
+
+  
+  <section class="card status">
+    <h2>Download status <span class="muted st-count">3 of 5 APIs fully downloaded</span></h2>
+    <div class="st-row"><span class="st-name">Investment funds</span><span class="badge done">&#10003; Done</span><span class="st-left muted">All data downloaded</span></div><div class="st-row"><span class="st-name">Projects &amp; Capital Investments</span><span class="badge done">&#10003; Done</span><span class="st-left muted">All data downloaded</span></div><div class="st-row"><span class="st-name">M&amp;A &amp; Transactions</span><span class="badge done">&#10003; Done</span><span class="st-left muted">All data downloaded</span></div><div class="st-row"><span class="st-name">Fundamentals</span><span class="badge wip">In progress</span><span class="st-eta">About 2 days to go at the daily API limit</span><div class="st-left"><span class="muted">What's left:</span><ul><li><b>4</b> market lists</li><li><b>5,685</b> historical financial statements (one company, one period each)</li><li><b>12,146</b> historical financial ratios (one company, one period each)</li></ul></div></div><div class="st-row"><span class="st-name">Macroeconomic</span><span class="badge wip">In progress</span><span class="st-eta">About 24 days to go at the daily API limit</span><div class="st-left"><span class="muted">What's left:</span><ul><li><b>22</b> commodity price histories</li><li><b>144</b> consumer goods price histories</li><li><b>17</b> petrochemical product price histories</li><li><b>285,908</b> yearly indicator values at most (one call per indicator per year, 1970 to today)</li><li>Rig counts: not fetched yet, because Argaam&#x27;s endpoint is broken. Retry when it is fixed.</li></ul></div></div>
+  </section>
 
   <div class="hero">
     <div class="main"><span class="v">590.0 MB</span><span class="k">of JSON data</span><span class="up">+304.9 MB (+107%)</span></div>
@@ -71,27 +90,27 @@
     <h2 style="margin-bottom:14px">Size by API</h2>
     <div class="bars">
       <div class="bar-row">
-        <span class="bar-name">Fundamentals</span>
+        <span class="bar-name">Fundamentals <span class="badge wip">In progress</span></span>
         <span class="bar-track"><span class="bar" style="width:100.0%"></span></span>
         <span class="bar-value">490.2 MB<small>83%</small><span class="up">+304.9 MB (+165%)</span></span>
       </div>
       <div class="bar-row">
-        <span class="bar-name">Investment funds</span>
+        <span class="bar-name">Investment funds <span class="badge done">&#10003; Done</span></span>
         <span class="bar-track"><span class="bar" style="width:12.4%"></span></span>
         <span class="bar-value">60.9 MB<small>10%</small></span>
       </div>
       <div class="bar-row">
-        <span class="bar-name">Macroeconomic</span>
+        <span class="bar-name">Macroeconomic <span class="badge wip">In progress</span></span>
         <span class="bar-track"><span class="bar" style="width:5.0%"></span></span>
         <span class="bar-value">24.7 MB<small>4%</small></span>
       </div>
       <div class="bar-row">
-        <span class="bar-name">Projects &amp; Capital Investments</span>
+        <span class="bar-name">Projects &amp; Capital Investments <span class="badge done">&#10003; Done</span></span>
         <span class="bar-track"><span class="bar" style="width:2.7%"></span></span>
         <span class="bar-value">13.2 MB<small>2%</small></span>
       </div>
       <div class="bar-row">
-        <span class="bar-name">M&amp;A &amp; Transactions</span>
+        <span class="bar-name">M&amp;A &amp; Transactions <span class="badge done">&#10003; Done</span></span>
         <span class="bar-track"><span class="bar" style="width:0.6%"></span></span>
         <span class="bar-value">1.0 MB<small>0%</small></span>
       </div></div>
@@ -100,7 +119,7 @@
       <section class="card">
         <header>
           <div>
-            <h2>Fundamentals</h2>
+            <h2>Fundamentals <span class="badge wip">In progress</span></h2>
             <p class="muted"><code>data/fundamentals/</code> · <code>fetch_fundamentals.py</code> · last fetched 2026-11-12</p>
           </div>
           <div class="size">490.2 MB<span class="up">+304.9 MB (+165%)</span></div>
@@ -197,7 +216,7 @@
       <section class="card">
         <header>
           <div>
-            <h2>Investment funds</h2>
+            <h2>Investment funds <span class="badge done">&#10003; Done</span></h2>
             <p class="muted"><code>data/funds/</code> · <code>fetch_funds.py</code> · last fetched 2026-11-11</p>
           </div>
           <div class="size">60.9 MB</div>
@@ -252,7 +271,7 @@
       <section class="card">
         <header>
           <div>
-            <h2>Macroeconomic</h2>
+            <h2>Macroeconomic <span class="badge wip">In progress</span></h2>
             <p class="muted"><code>data/macroeconomic/</code> · <code>fetch_macroeconomic.py</code> · last fetched 2026-11-11</p>
           </div>
           <div class="size">24.7 MB</div>
@@ -373,7 +392,7 @@
       <section class="card">
         <header>
           <div>
-            <h2>Projects &amp; Capital Investments</h2>
+            <h2>Projects &amp; Capital Investments <span class="badge done">&#10003; Done</span></h2>
             <p class="muted"><code>data/projects/</code> · <code>fetch_projects.py</code> · last fetched 2026-11-11</p>
           </div>
           <div class="size">13.2 MB</div>
@@ -410,7 +429,7 @@
       <section class="card">
         <header>
           <div>
-            <h2>M&amp;A &amp; Transactions</h2>
+            <h2>M&amp;A &amp; Transactions <span class="badge done">&#10003; Done</span></h2>
             <p class="muted"><code>data/m&amp;a/</code> · <code>fetch_ma.py</code> · last fetched 2026-11-10</p>
           </div>
           <div class="size">1.0 MB</div>
