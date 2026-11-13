@@ -131,7 +131,7 @@ Saves everything in the macroeconomic API to `data/macroeconomic/`, in the same 
 5. `petro_history/<productId>_<regionId>.json`: 1 call per petrochemical product, every price since 2006.
 6. `indicator_values/<groupId>_<fieldId>_<year>.json`: **1 call per field per year**, because Argaam returns one calendar year per call. Years go newest first, from this year back to `--from-year` (default 1970).
 
-Stages 1 to 5 are about 250 calls and take a few minutes. Stage 6 is the big one: 5,031 fields × 57 years is at most about 287,000 calls, and Argaam allows 100 a day per key on that endpoint, so 22 keys do 2,200 a day: about **131 days** if every year is asked for. `--gap N` stops a field after N empty years in a row, which saves most of the calls for fields with only a few years of data. `--dry-run` shows the numbers for your flags.
+Stages 1 to 5 are about 250 calls and take a few minutes. Stage 6 is the big one: 5,031 fields × 57 years is at most about 287,000 calls, and Argaam allows 100 a day per key on that endpoint, so 22 keys do 2,200 a day: about **131 days** if every year is asked for. `--gap N` stops a field after N empty years in a row below its newest year with data (empty years above it never count, so an indicator that stopped being published long ago is still found), which saves most of the calls for fields with only a few years of data. `--dry-run` shows the numbers for your flags.
 
 `--sample 15` fetches at most 15 new items per stage (for stage 6, 15 fields with every year), so you can check the data in the tab first. The same keys, proxy, flags (`--limit`, `--refresh`) and resume as the other scripts. `--refresh` downloads the lists and histories again, plus the indicator values of this year and last year.
 

@@ -11,7 +11,7 @@ Stages, because each list tells the script what to fetch next:
   5. petro_history      1 call per petrochemical product (in its region): every recorded price
   6. indicator_values   1 call per field PER YEAR: Argaam returns one calendar year per call (without a year,
                         only the latest). Years are fetched newest first, from this year back to --from-year.
-                        With --gap N a field stops after N empty years in a row.
+                        With --gap N a field stops after N empty years in a row, counted from its newest year with data.
 
 Histories (stages 3-5, refining margins, the index history) ask for everything since FROM_DATE in one call.
 Argaam's daily limit (100 per key) counts each endpoint separately, so the stages do not use up each other's calls.
@@ -22,7 +22,7 @@ to each item, so running again continues where it stopped.
     python fetch_macroeconomic.py --sample 15        # at most 15 new items per stage (indicators: 15 fields, every year)
     python fetch_macroeconomic.py --limit 20         # a small test: at most 20 calls in all
     python fetch_macroeconomic.py                    # everything still missing
-    python fetch_macroeconomic.py --gap 10           # indicators: stop a field after 10 empty years in a row
+    python fetch_macroeconomic.py --gap 10           # indicators: stop a field after 10 empty years in a row below its data
     python fetch_macroeconomic.py --refresh          # lists and histories again, and indicator values of this and last year
 
 This file only decides WHAT to fetch. HOW (keys, proxy, pacing, retries, saving)
@@ -136,7 +136,7 @@ def petro_tasks():
 
 class Years:
     """For each field, its years newest first. A field's next year to fetch is the newest one not settled yet;
-    with a gap, a field is finished after that many no_data years in a row."""
+    with a gap, a field is finished after that many no_data years in a row below its newest saved year."""
 
     def __init__(self, fields, from_year, gap, plan):
         self.this_year = int(today()[:4])
@@ -150,17 +150,19 @@ class Years:
         return year >= self.this_year - 1  # only recent years get new numbers
 
     def next_year(self, key, skip=()):
-        """The next year to fetch for this field, or None when it is finished (or blocked by a failure this run)."""
-        empty = 0
+        """The next year to fetch for this field, or None when it is finished (or blocked by a failure this run).
+        The gap only counts empty years older than the field's newest saved year: an indicator that stopped being
+        published years ago starts with many empty years, and those must not end it before its data is reached."""
+        empty, seen_data = 0, False
         for year, name in zip(self.years, self.names[key]):
             if not self.plan.settled(name, self.refreshable(year)):
                 return None if name in skip else year
             if self.plan.progress.status(name) == "no_data":
-                empty += 1
+                empty += seen_data
                 if self.gap and empty >= self.gap:
                     return None
             else:
-                empty = 0
+                empty, seen_data = 0, True
         return None
 
     def left_at_most(self, key):
@@ -220,7 +222,7 @@ def main():
     parser.add_argument("--sample", type=int, help="at most this many new items per stage (indicators: this many fields, every year)")
     parser.add_argument("--limit", type=int, help="fetch at most this many items in all (for testing)")
     parser.add_argument("--from-year", type=int, default=FROM_YEAR, help=f"oldest indicator year to ask for (default {FROM_YEAR})")
-    parser.add_argument("--gap", type=int, default=0, help="stop a field after this many empty years in a row (default 0: ask every year)")
+    parser.add_argument("--gap", type=int, default=0, help="stop a field after this many empty years in a row, counted below its newest year with data (default 0: ask every year)")
     parser.add_argument("--refresh", action="store_true", help="download lists, histories and the last two indicator years again")
     parser.add_argument("--dry-run", action="store_true", help="only report what is left to fetch")
     args = parser.parse_args()
