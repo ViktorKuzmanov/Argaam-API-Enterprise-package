@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:37:43.1378944Z",
+  "requestId": "req_2ef39e6ef9a240ada7ebc66a3e5ac127",
+  "data": {
+    "symbol": "2170",
+    "fiscalYear": 2026,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 63,
+          "CompanyNameEn": "Alujain Corp.",
+          "CompanyNameAr": "شركة اللجين",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2026-12-31T00:00:00",
+          "ForYear": 2026,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2024-06-03T00:00:00",
+          "EstimatedValue": 1561.0,
+          "ActualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

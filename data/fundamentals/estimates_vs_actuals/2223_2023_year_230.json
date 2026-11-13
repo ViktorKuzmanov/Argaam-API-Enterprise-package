@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:46:58.4788541Z",
+  "requestId": "req_d0279e24c97745dcbf64bdf32cb30a58",
+  "data": {
+    "symbol": "2223",
+    "fiscalYear": 2023,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 4537,
+          "CompanyNameEn": "Saudi Aramco Base Oil Co.",
+          "CompanyNameAr": "شركة أرامكو السعودية لزيوت الأساس",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2023-02-16T00:00:00",
+          "EstimatedValue": 9308.0,
+          "ActualValue": 9488.679
+        },
+        {
+          "CompanyID": 4537,
+          "CompanyNameEn": "Saudi Aramco Base Oil Co.",
+          "CompanyNameAr": "شركة أرامكو السعودية لزيوت الأساس",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2023-02-02T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 9488.679
+        },
+        {
+          "CompanyID": 4537,
+          "CompanyNameEn": "Saudi Aramco Base Oil Co.",
+          "CompanyNameAr": "شركة أرامكو السعودية لزيوت الأساس",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2023-06-04T00:00:00",
+          "EstimatedValue": 9261.0,
+          "ActualValue": 9488.679
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

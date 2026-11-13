@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:57:03.0163053Z",
+  "requestId": "req_63b0e6088e8a42218194a2e10675b90f",
+  "data": {
+    "symbol": "2270",
+    "fiscalYear": 2020,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 78,
+          "CompanyNameEn": "Saudia Dairy and Foodstuff Co.",
+          "CompanyNameAr": "الشركة السعودية لمنتجات الألبان والأغذية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2019-11-28T00:00:00",
+          "EstimatedValue": 747.0,
+          "ActualValue": 693.826
+        },
+        {
+          "CompanyID": 78,
+          "CompanyNameEn": "Saudia Dairy and Foodstuff Co.",
+          "CompanyNameAr": "الشركة السعودية لمنتجات الألبان والأغذية",
+          "BrokerID": 3674,
+          "BrokerNameEn": "Itqan Capital",
+          "BrokerNameAr": "إتقان كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2019-07-15T00:00:00",
+          "EstimatedValue": 598.0,
+          "ActualValue": 693.826
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

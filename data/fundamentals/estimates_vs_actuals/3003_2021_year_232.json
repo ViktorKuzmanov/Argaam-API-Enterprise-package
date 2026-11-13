@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:54:52.0521932Z",
+  "requestId": "req_b6ed9cc97ade4324ba87853d221dd795",
+  "data": {
+    "symbol": "3003",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1055,
+          "CompanyNameEn": "City Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المدينة",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2022-02-28T00:00:00",
+          "EstimatedValue": 211.2,
+          "ActualValue": 207.873
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

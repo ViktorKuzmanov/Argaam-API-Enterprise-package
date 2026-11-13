@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:12:22.8806141Z",
+  "requestId": "req_323585de08944de5a0949b7ae571e41c",
+  "data": {
+    "symbol": "2001",
+    "fiscalYear": 2014,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 599,
+          "CompanyNameEn": "Methanol Chemicals Co.",
+          "CompanyNameAr": "شركة كيمائيات الميثانول",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2014-12-31T00:00:00",
+          "ForYear": 2014,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2014-06-26T00:00:00",
+          "EstimatedValue": 944.0,
+          "ActualValue": 884.67
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

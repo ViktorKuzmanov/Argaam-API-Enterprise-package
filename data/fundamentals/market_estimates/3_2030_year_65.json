@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:14:28.0981904Z",
+  "requestId": "req_712e209fe8fc4df6bc689eba598c13a1",
+  "data": {
+    "marketId": 3,
+    "year": 2030,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "forYear": 2030,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "إجمالي الموجودات",
+      "fsFieldNameEn": "Total Assets",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 46,
+          "companyNameAr": "بنك الجزيرة",
+          "companyNameEn": "Bank Aljazira",
+          "estimatedValue": 250706.0,
+          "actualValue": null
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 438754.0,
+          "actualValue": null
+        },
+        {
+          "companyID": 52,
+          "companyNameAr": "البنك السعودي للإستثمار",
+          "companyNameEn": "Saudi Investment Bank",
+          "estimatedValue": 261585.0,
+          "actualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:46:59.6674248Z",
+  "requestId": "req_c228fa66fbe34475beb598ab1d3ce497",
+  "data": {
+    "symbol": "2250",
+    "fiscalYear": 2023,
+    "period": "year",
+    "fsFieldId": 72,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2022-05-31T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 749.808
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

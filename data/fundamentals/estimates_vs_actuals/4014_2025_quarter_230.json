@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:41:13.7453543Z",
+  "requestId": "req_42e05096e86f41a7967fc5e0ef4d1797",
+  "data": {
+    "symbol": "4014",
+    "fiscalYear": 2025,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 13881,
+          "CompanyNameEn": "Scientific and Medical Equipment House Co.",
+          "CompanyNameAr": "شركة دار المعدات الطبية والعلمية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2025-06-30T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2025-07-06T00:00:00",
+          "EstimatedValue": 224.0,
+          "ActualValue": 272.036
+        },
+        {
+          "CompanyID": 13881,
+          "CompanyNameEn": "Scientific and Medical Equipment House Co.",
+          "CompanyNameAr": "شركة دار المعدات الطبية والعلمية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2025-03-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2025-04-14T00:00:00",
+          "EstimatedValue": 229.0,
+          "ActualValue": 221.733
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:19:54.8374646Z",
+  "requestId": "req_c3ac85ecf12f41c9a20e54699a497317",
+  "data": {
+    "marketId": 3,
+    "year": 2020,
+    "period": "quarter",
+    "fiscalPeriod": "q2",
+    "fsFieldId": 232,
+    "estimates": {
+      "forYear": 2020,
+      "fiscalPeriodValue": "Q2",
+      "fsFieldNameAr": "إجمالي الدخل",
+      "fsFieldNameEn": "Total Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 598,
+          "companyNameAr": "شركة كيان السعودية للبتروكيماويات",
+          "companyNameEn": "Saudi Kayan Petrochemical Co.",
+          "estimatedValue": -70.8,
+          "actualValue": -70.755
+        },
+        {
+          "companyID": 1524,
+          "companyNameAr": "شركة المواساة للخدمات الطبية",
+          "companyNameEn": "Mouwasat Medical Services Co.",
+          "estimatedValue": 219.0,
+          "actualValue": 219.014
+        },
+        {
+          "companyID": 4664,
+          "companyNameAr": "شركة ثوب الأصيل",
+          "companyNameEn": "Thob Al Aseel Co.",
+          "estimatedValue": 74.9,
+          "actualValue": 74.857
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

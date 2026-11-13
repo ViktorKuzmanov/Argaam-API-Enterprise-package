@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:52:21.3319131Z",
+  "requestId": "req_16db8ea17dd149859ef39d8bca033ff2",
+  "data": {
+    "symbol": "4190",
+    "fiscalYear": 2022,
+    "period": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 95,
+          "CompanyNameEn": "Jarir Marketing Co.",
+          "CompanyNameAr": "شركة جرير للتسويق",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2022-08-10T00:00:00",
+          "EstimatedValue": 4116.0,
+          "ActualValue": 4257.484
+        },
+        {
+          "CompanyID": 95,
+          "CompanyNameEn": "Jarir Marketing Co.",
+          "CompanyNameAr": "شركة جرير للتسويق",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2021-12-29T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 4257.484
+        },
+        {
+          "CompanyID": 95,
+          "CompanyNameEn": "Jarir Marketing Co.",
+          "CompanyNameAr": "شركة جرير للتسويق",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2022-03-03T00:00:00",
+          "EstimatedValue": 4337.0,
+          "ActualValue": 4257.484
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

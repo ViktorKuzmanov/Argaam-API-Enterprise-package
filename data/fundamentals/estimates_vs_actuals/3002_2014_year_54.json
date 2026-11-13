@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:12:50.6011202Z",
+  "requestId": "req_cfc2e8cdede94255a2dd480d25a29d1a",
+  "data": {
+    "symbol": "3002",
+    "fiscalYear": 2014,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1022,
+          "CompanyNameEn": "Najran Cement Co.",
+          "CompanyNameAr": "شركة أسمنت نجران",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2014-12-31T00:00:00",
+          "ForYear": 2014,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2015-10-07T00:00:00",
+          "EstimatedValue": 271.0,
+          "ActualValue": 243.196
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

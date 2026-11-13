@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:05:25.1779221Z",
+  "requestId": "req_893a3ba8a7c44a8aa524d884caf24768",
+  "data": {
+    "symbol": "1214",
+    "fiscalYear": 2016,
+    "period": "year",
+    "fsFieldId": 79,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1880,
+          "CompanyNameEn": "Al Hassan Ghazi Ibrahim Shaker Co.",
+          "CompanyNameAr": "شركة الحسن غازي إبراهيم شاكر",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2015-01-07T00:00:00",
+          "EstimatedValue": 1338.0,
+          "ActualValue": 1056.309
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

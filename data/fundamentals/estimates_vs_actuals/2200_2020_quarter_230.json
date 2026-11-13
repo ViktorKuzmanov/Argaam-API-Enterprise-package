@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:56:58.6131173Z",
+  "requestId": "req_94ab4bb4619c4e1bad91bbb5b42448fc",
+  "data": {
+    "symbol": "2200",
+    "fiscalYear": 2020,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 76,
+          "CompanyNameEn": "Arabian Pipes Co.",
+          "CompanyNameAr": "الشركة العربية للأنابيب",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2020-06-30T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2020-07-06T00:00:00",
+          "EstimatedValue": 513.0,
+          "ActualValue": 45.364
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

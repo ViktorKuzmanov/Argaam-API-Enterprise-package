@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:18:55.9659428Z",
+  "requestId": "req_a9f7e5d759df46e688d6d35ea0eecdc6",
+  "data": {
+    "marketId": 3,
+    "year": 2022,
+    "period": "quarter",
+    "fiscalPeriod": "q1",
+    "fsFieldId": 40,
+    "estimates": {
+      "forYear": 2022,
+      "fiscalPeriodValue": "Q1",
+      "fsFieldNameAr": "دخل العمليات",
+      "fsFieldNameEn": "Operating Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 33,
+          "companyNameAr": "الشركة التعاونية للتأمين",
+          "companyNameEn": "The Company for Cooperative Insurance",
+          "estimatedValue": 3218.0,
+          "actualValue": null
+        },
+        {
+          "companyID": 826,
+          "companyNameAr": "مصرف الإنماء",
+          "companyNameEn": "Alinma Bank",
+          "estimatedValue": null,
+          "actualValue": 1807.607
+        },
+        {
+          "companyID": 878,
+          "companyNameAr": "شركة بوبا العربية للتأمين التعاوني",
+          "companyNameEn": "Bupa Arabia for Cooperative Insurance Co.",
+          "estimatedValue": 3838.0,
+          "actualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

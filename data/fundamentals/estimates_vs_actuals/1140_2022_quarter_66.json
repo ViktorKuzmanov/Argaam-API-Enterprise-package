@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:50:04.5685013Z",
+  "requestId": "req_b2271d08d0d74ca5bb7540c2b86f4b11",
+  "data": {
+    "symbol": "1140",
+    "fiscalYear": 2022,
+    "period": "quarter",
+    "fsFieldId": 66,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 44,
+          "CompanyNameEn": "Bank Albilad",
+          "CompanyNameAr": "بنك البلاد",
+          "BrokerID": 4758,
+          "BrokerNameEn": "FAB Securities",
+          "BrokerNameAr": "أبوظبي الأول للأوراق المالية",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2022-06-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "BS Customer Deposits",
+          "FSFieldNameAr": "ودائع العملاء",
+          "CreatedOn": "2022-07-21T00:00:00",
+          "EstimatedValue": 89218.0,
+          "ActualValue": 89107.961
+        },
+        {
+          "CompanyID": 44,
+          "CompanyNameEn": "Bank Albilad",
+          "CompanyNameAr": "بنك البلاد",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2022-03-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "BS Customer Deposits",
+          "FSFieldNameAr": "ودائع العملاء",
+          "CreatedOn": "2022-04-07T00:00:00",
+          "EstimatedValue": 84659.0,
+          "ActualValue": 86078.52
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:12:31.3437862Z",
+  "requestId": "req_1780567a07a445868fc4ef6e30ca06dc",
+  "data": {
+    "symbol": "2050",
+    "fiscalYear": 2014,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2014-12-31T00:00:00",
+          "ForYear": 2014,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2014-10-30T00:00:00",
+          "EstimatedValue": 1983.0,
+          "ActualValue": 2072.319
+        },
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 3440,
+          "BrokerNameEn": "NBK Capital ",
+          "BrokerNameAr": "الوطنى للاستثمار",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2014-12-31T00:00:00",
+          "ForYear": 2014,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2014-10-30T00:00:00",
+          "EstimatedValue": 1641.0,
+          "ActualValue": 2072.319
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

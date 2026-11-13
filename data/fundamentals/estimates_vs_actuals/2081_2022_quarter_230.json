@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:50:44.590682Z",
+  "requestId": "req_01bb76ff2bf34d1e9dba08c2ad8cac8a",
+  "data": {
+    "symbol": "2081",
+    "fiscalYear": 2022,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 13068,
+          "CompanyNameEn": "Alkhorayef Water and Power Technologies Co.",
+          "CompanyNameAr": "شركة الخريف لتقنية المياه والطاقة",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2023-01-05T00:00:00",
+          "EstimatedValue": 276.0,
+          "ActualValue": 270.575
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

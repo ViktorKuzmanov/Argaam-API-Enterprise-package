@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:52:41.9945226Z",
+  "requestId": "req_1acd34bc020f4b63be87bed67a566480",
+  "data": {
+    "symbol": "4320",
+    "fiscalYear": 2022,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 4461,
+          "CompanyNameEn": "Alandalus Property Co.",
+          "CompanyNameAr": "شركة الأندلس العقارية",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2022-09-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-10-06T00:00:00",
+          "EstimatedValue": 57.2,
+          "ActualValue": 53.266
+        },
+        {
+          "CompanyID": 4461,
+          "CompanyNameEn": "Alandalus Property Co.",
+          "CompanyNameAr": "شركة الأندلس العقارية",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2022-06-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-07-03T00:00:00",
+          "EstimatedValue": 54.2,
+          "ActualValue": 54.093
+        },
+        {
+          "CompanyID": 4461,
+          "CompanyNameEn": "Alandalus Property Co.",
+          "CompanyNameAr": "شركة الأندلس العقارية",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2022-03-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-04-13T00:00:00",
+          "EstimatedValue": 52.9,
+          "ActualValue": 53.298
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:48:40.990441Z",
+  "requestId": "req_74904b5604d94316adde8f1d0fe5b8b9",
+  "data": {
+    "symbol": "4260",
+    "fiscalYear": 2023,
+    "period": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 843,
+          "CompanyNameEn": "United International Transportation Co.",
+          "CompanyNameAr": "الشركة المتحدة الدولية للمواصلات",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2022-03-03T00:00:00",
+          "EstimatedValue": 2223.0,
+          "ActualValue": 3013.187
+        },
+        {
+          "CompanyID": 843,
+          "CompanyNameEn": "United International Transportation Co.",
+          "CompanyNameAr": "الشركة المتحدة الدولية للمواصلات",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2021-06-14T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 3013.187
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

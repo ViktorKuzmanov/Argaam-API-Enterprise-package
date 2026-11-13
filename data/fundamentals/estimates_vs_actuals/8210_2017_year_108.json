@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:04:51.7885128Z",
+  "requestId": "req_1fcb3fd3a9e74bb5af525cccb1ecbd54",
+  "data": {
+    "symbol": "8210",
+    "fiscalYear": 2017,
+    "period": "year",
+    "fsFieldId": 108,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 878,
+          "CompanyNameEn": "Bupa Arabia for Cooperative Insurance Co.",
+          "CompanyNameAr": "شركة بوبا العربية للتأمين التعاوني",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Net Premiums written",
+          "FSFieldNameAr": "صافي اقساط التامين المكتتبة",
+          "CreatedOn": "2017-01-24T00:00:00",
+          "EstimatedValue": 7992.0,
+          "ActualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:48:30.2277636Z",
+  "requestId": "req_bdacebaf06d64801b64f20113783e967",
+  "data": {
+    "symbol": "4145",
+    "fiscalYear": 2023,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 3106,
+          "CompanyNameEn": "Obeikan Glass Co.",
+          "CompanyNameAr": "شركة العبيكان للزجاج",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2022-10-05T00:00:00",
+          "EstimatedValue": 303.0,
+          "ActualValue": 149.701
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

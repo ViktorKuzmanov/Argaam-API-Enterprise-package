@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:21:18.8648066Z",
+  "requestId": "req_febf4ad7fcff4851bffef19463a9151a",
+  "data": {
+    "marketId": 3,
+    "year": 2018,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 58,
+    "estimates": {
+      "forYear": 2018,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "صافي القروض و السلف",
+      "fsFieldNameEn": "Net Loans and Advances",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 46,
+          "companyNameAr": "بنك الجزيرة",
+          "companyNameEn": "Bank Aljazira",
+          "estimatedValue": 41780.0,
+          "actualValue": 40896.891
+        },
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 176787.0,
+          "actualValue": 110325.959
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": 244743.0,
+          "actualValue": 265061.962
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:18:52.5949267Z",
+  "requestId": "req_ccfefea3dc414152988d82370ca25d29",
+  "data": {
+    "marketId": 3,
+    "year": 2022,
+    "period": "quarter",
+    "fiscalPeriod": "q2",
+    "fsFieldId": 79,
+    "estimates": {
+      "forYear": 2022,
+      "fiscalPeriodValue": "Q2",
+      "fsFieldNameAr": "مجموع حقوق الملكية",
+      "fsFieldNameEn": "Total Owners Equity",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 77,
+          "companyNameAr": "الشركة السعودية للصناعات الأساسية",
+          "companyNameEn": "Saudi Basic Industries Corp.",
+          "estimatedValue": 52367.0,
+          "actualValue": 213495.74
+        },
+        {
+          "companyID": 600,
+          "companyNameAr": "شركة رابغ للتكرير والبتروكيماويات",
+          "companyNameEn": "Rabigh Refining and Petrochemical Co.",
+          "estimatedValue": null,
+          "actualValue": 10523.099
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:58:50.1316302Z",
+  "requestId": "req_adff51573c1b476c9cdd7bbef3ca9d4f",
+  "data": {
+    "symbol": "2270",
+    "fiscalYear": 2019,
+    "period": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 78,
+          "CompanyNameEn": "Saudia Dairy and Foodstuff Co.",
+          "CompanyNameAr": "الشركة السعودية لمنتجات الألبان والأغذية",
+          "BrokerID": 3944,
+          "BrokerNameEn": "Arbah Capital",
+          "BrokerNameAr": "أرباح المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2017-01-10T00:00:00",
+          "EstimatedValue": 1798.0,
+          "ActualValue": 2174.469
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

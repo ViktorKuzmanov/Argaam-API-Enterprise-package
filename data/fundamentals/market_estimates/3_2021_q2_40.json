@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:19:31.0476983Z",
+  "requestId": "req_831c4a6da16e476e9b0904fcc8cb74c7",
+  "data": {
+    "marketId": 3,
+    "year": 2021,
+    "period": "quarter",
+    "fiscalPeriod": "q2",
+    "fsFieldId": 40,
+    "estimates": {
+      "forYear": 2021,
+      "fiscalPeriodValue": "Q2",
+      "fsFieldNameAr": "دخل العمليات",
+      "fsFieldNameEn": "Operating Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 43,
+          "companyNameAr": "مصرف الراجحي",
+          "companyNameEn": "Al Rajhi Bank",
+          "estimatedValue": 4934.0,
+          "actualValue": 6336.318
+        },
+        {
+          "companyID": 44,
+          "companyNameAr": "بنك البلاد",
+          "companyNameEn": "Bank Albilad",
+          "estimatedValue": 956.0,
+          "actualValue": 1131.036
+        },
+        {
+          "companyID": 826,
+          "companyNameAr": "مصرف الإنماء",
+          "companyNameEn": "Alinma Bank",
+          "estimatedValue": null,
+          "actualValue": 1653.137
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

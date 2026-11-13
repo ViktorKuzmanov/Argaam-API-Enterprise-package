@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:10:14.5842424Z",
+  "requestId": "req_0c9ec8bd01424d7581fb76e5a71c7f6c",
+  "data": {
+    "symbol": "3003",
+    "fiscalYear": 2015,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1055,
+          "CompanyNameEn": "City Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المدينة",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2015-10-07T00:00:00",
+          "EstimatedValue": 554.0,
+          "ActualValue": 560.522
+        },
+        {
+          "CompanyID": 1055,
+          "CompanyNameEn": "City Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المدينة",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2014-12-24T00:00:00",
+          "EstimatedValue": 558.4,
+          "ActualValue": 560.522
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

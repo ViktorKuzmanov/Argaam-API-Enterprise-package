@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:16:34.3500134Z",
+  "requestId": "req_7fa5069631bc43728548062a936cd8cd",
+  "data": {
+    "marketId": 3,
+    "year": 2026,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 40,
+    "estimates": {
+      "forYear": 2026,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "دخل العمليات",
+      "fsFieldNameEn": "Operating Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 44,
+          "companyNameAr": "بنك البلاد",
+          "companyNameEn": "Bank Albilad",
+          "estimatedValue": null,
+          "actualValue": null
+        },
+        {
+          "companyID": 826,
+          "companyNameAr": "مصرف الإنماء",
+          "companyNameEn": "Alinma Bank",
+          "estimatedValue": 13041.0,
+          "actualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

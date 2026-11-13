@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:16:25.9692924Z",
+  "requestId": "req_53a6490636034c16ac324a1179e7203e",
+  "data": {
+    "marketId": 3,
+    "year": 2026,
+    "period": "quarter",
+    "fiscalPeriod": "q4",
+    "fsFieldId": 54,
+    "estimates": {
+      "forYear": 2026,
+      "fiscalPeriodValue": "Q4",
+      "fsFieldNameAr": "الربح الصافي  ",
+      "fsFieldNameEn": "IS Net Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 79,
+          "companyNameAr": "شركة سابك للمغذيات الزراعية",
+          "companyNameEn": "SABIC Agri-Nutrients Co.",
+          "estimatedValue": 961.56,
+          "actualValue": null
+        },
+        {
+          "companyID": 95,
+          "companyNameAr": "شركة جرير للتسويق",
+          "companyNameEn": "Jarir Marketing Co.",
+          "estimatedValue": 227.78,
+          "actualValue": null
+        },
+        {
+          "companyID": 13995,
+          "companyNameAr": "شركة عزم السعودية للاتصالات وتقنية المعلومات",
+          "companyNameEn": "Saudi Azm for Communication and Information Technology Co.",
+          "estimatedValue": 13.0,
+          "actualValue": 16.2478
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

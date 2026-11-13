@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:57:23.3087075Z",
+  "requestId": "req_66665803b92d4f1e8970ee11add431de",
+  "data": {
+    "symbol": "3050",
+    "fiscalYear": 2020,
+    "period": "quarter",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 57,
+          "CompanyNameEn": "Southern Province Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المنطقة الجنوبية",
+          "BrokerID": 3659,
+          "BrokerNameEn": "YAQEEN",
+          "BrokerNameAr": "يقين",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2020-03-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2020-06-29T00:00:00",
+          "EstimatedValue": 193.0,
+          "ActualValue": 192.667
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

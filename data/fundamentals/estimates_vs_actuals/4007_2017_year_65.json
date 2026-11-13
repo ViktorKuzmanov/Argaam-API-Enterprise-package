@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:04:07.6959461Z",
+  "requestId": "req_a76577ec75ab49f6ac52116364989875",
+  "data": {
+    "symbol": "4007",
+    "fiscalYear": 2017,
+    "period": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 3438,
+          "CompanyNameEn": "Al Hammadi Holding",
+          "CompanyNameAr": "شركة الحمادي القابضة",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2017-08-24T00:00:00",
+          "EstimatedValue": 2215.0,
+          "ActualValue": 2303.327
+        },
+        {
+          "CompanyID": 3438,
+          "CompanyNameEn": "Al Hammadi Holding",
+          "CompanyNameAr": "شركة الحمادي القابضة",
+          "BrokerID": 2734,
+          "BrokerNameEn": "Albilad Capital",
+          "BrokerNameAr": "البلاد المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2015-12-06T00:00:00",
+          "EstimatedValue": 2493.0,
+          "ActualValue": 2303.327
+        },
+        {
+          "CompanyID": 3438,
+          "CompanyNameEn": "Al Hammadi Holding",
+          "CompanyNameAr": "شركة الحمادي القابضة",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2015-11-24T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 2303.327
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

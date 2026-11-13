@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:58:14.9305412Z",
+  "requestId": "req_b04c2e166d204e75b149487fcb503292",
+  "data": {
+    "symbol": "1060",
+    "fiscalYear": 2019,
+    "period": "year",
+    "fsFieldId": 40,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 48,
+          "CompanyNameEn": "Saudi Awwal Bank",
+          "CompanyNameAr": "البنك السعودي الأول",
+          "BrokerID": 3440,
+          "BrokerNameEn": "NBK Capital ",
+          "BrokerNameAr": "الوطنى للاستثمار",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "Operating Income",
+          "FSFieldNameAr": "دخل العمليات",
+          "CreatedOn": "2016-01-17T00:00:00",
+          "EstimatedValue": 9442.0,
+          "ActualValue": 9213.319
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

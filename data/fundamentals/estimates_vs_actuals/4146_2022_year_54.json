@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:52:16.1900477Z",
+  "requestId": "req_479b82ade14e4d34bb68824e0aff9220",
+  "data": {
+    "symbol": "4146",
+    "fiscalYear": 2022,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 13934,
+          "CompanyNameEn": "Gas Arabian Services Co.",
+          "CompanyNameAr": "شركة جاز العربية للخدمات",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2022-12-06T00:00:00",
+          "EstimatedValue": 64.0,
+          "ActualValue": 67.3848
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:39:24.4733584Z",
+  "requestId": "req_505ed30fb4464eb2945ea6b667900b3e",
+  "data": {
+    "symbol": "7040",
+    "fiscalYear": 2026,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1404,
+          "CompanyNameEn": "Etihad GO Telecom Co.",
+          "CompanyNameAr": "شركة إتحاد قو للإتصالات",
+          "BrokerID": 3659,
+          "BrokerNameEn": "YAQEEN",
+          "BrokerNameAr": "يقين",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2026-06-30T00:00:00",
+          "ForYear": 2026,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2026-10-06T00:00:00",
+          "EstimatedValue": 585.0,
+          "ActualValue": 563.0
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

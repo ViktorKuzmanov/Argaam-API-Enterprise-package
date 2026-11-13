@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:11:40.19034Z",
+  "requestId": "req_74be8309c05d40d289356da9ee64fdfe",
+  "data": {
+    "symbol": "6002",
+    "fiscalYear": 2015,
+    "period": "year",
+    "fsFieldId": 79,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1109,
+          "CompanyNameEn": "Herfy Food Services Co.",
+          "CompanyNameAr": "شركة هرفي للخدمات الغذائية",
+          "BrokerID": 2734,
+          "BrokerNameEn": "Albilad Capital",
+          "BrokerNameAr": "البلاد المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2015-12-17T00:00:00",
+          "EstimatedValue": 746.5,
+          "ActualValue": 735.453
+        },
+        {
+          "CompanyID": 1109,
+          "CompanyNameEn": "Herfy Food Services Co.",
+          "CompanyNameAr": "شركة هرفي للخدمات الغذائية",
+          "BrokerID": 2724,
+          "BrokerNameEn": "HSBC ",
+          "BrokerNameAr": "إتش إس بي سي ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2015-09-14T00:00:00",
+          "EstimatedValue": 746.0,
+          "ActualValue": 735.453
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

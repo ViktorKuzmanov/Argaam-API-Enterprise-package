@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:11:10.7211728Z",
+  "requestId": "req_9974037b7cc9486998b5fa5ec26c2371",
+  "data": {
+    "symbol": "4030",
+    "fiscalYear": 2015,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 104,
+          "CompanyNameEn": "National Shipping Company of Saudi Arabia",
+          "CompanyNameAr": "الشركة الوطنية السعودية للنقل البحري",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2015-12-24T00:00:00",
+          "EstimatedValue": 1954.0,
+          "ActualValue": 2196.519
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,59 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:18:21.1141449Z",
+  "requestId": "req_6c338275c42440139629bcbb629547e0",
+  "data": {
+    "marketId": 3,
+    "year": 2023,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 40,
+    "estimates": {
+      "forYear": 2023,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "دخل العمليات",
+      "fsFieldNameEn": "Operating Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 43,
+          "companyNameAr": "مصرف الراجحي",
+          "companyNameEn": "Al Rajhi Bank",
+          "estimatedValue": null,
+          "actualValue": 27531.409
+        },
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": null,
+          "actualValue": 12710.46
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": null,
+          "actualValue": 9323.994
+        },
+        {
+          "companyID": 1129,
+          "companyNameAr": "الشركة السعودية لإعادة التأمين",
+          "companyNameEn": "Saudi Reinsurance Co.",
+          "estimatedValue": null,
+          "actualValue": null
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": null,
+          "actualValue": 34589.401
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:47:54.8560084Z",
+  "requestId": "req_a5af0f6a33204bdc9d16219488df6990",
+  "data": {
+    "symbol": "4001",
+    "fiscalYear": 2023,
+    "period": "year",
+    "fsFieldId": 79,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 911,
+          "CompanyNameEn": "Abdullah Al Othaim Markets Co.",
+          "CompanyNameAr": "شركة أسواق عبدالله العثيم",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2022-02-22T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 1454.4937
+        },
+        {
+          "CompanyID": 911,
+          "CompanyNameEn": "Abdullah Al Othaim Markets Co.",
+          "CompanyNameAr": "شركة أسواق عبدالله العثيم",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2021-08-16T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 1454.4937
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:05:01.5941163Z",
+  "requestId": "req_b02d95bc65ed47659b87bd52983ea7a6",
+  "data": {
+    "symbol": "1020",
+    "fiscalYear": 2016,
+    "period": "year",
+    "fsFieldId": 58,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 46,
+          "CompanyNameEn": "Bank Aljazira",
+          "CompanyNameAr": "بنك الجزيرة",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Net Loans and Advances",
+          "FSFieldNameAr": "صافي القروض و السلف",
+          "CreatedOn": "2016-05-01T00:00:00",
+          "EstimatedValue": 43746.0,
+          "ActualValue": 42098.695
+        },
+        {
+          "CompanyID": 46,
+          "CompanyNameEn": "Bank Aljazira",
+          "CompanyNameAr": "بنك الجزيرة",
+          "BrokerID": 2734,
+          "BrokerNameEn": "Albilad Capital",
+          "BrokerNameAr": "البلاد المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Net Loans and Advances",
+          "FSFieldNameAr": "صافي القروض و السلف",
+          "CreatedOn": "2015-07-13T00:00:00",
+          "EstimatedValue": 42491.0,
+          "ActualValue": 42098.695
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

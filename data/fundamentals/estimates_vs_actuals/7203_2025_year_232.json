@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:42:16.3752702Z",
+  "requestId": "req_cc0494d7e2514c13af76ce9afecebdd3",
+  "data": {
+    "symbol": "7203",
+    "fiscalYear": 2025,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 11828,
+          "CompanyNameEn": "Elm Co.",
+          "CompanyNameAr": "شركة علم",
+          "BrokerID": 13879,
+          "BrokerNameEn": "Citi Bank Group",
+          "BrokerNameAr": "سيتي بنك جروب",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2023-09-21T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 3677.552
+        },
+        {
+          "CompanyID": 11828,
+          "CompanyNameEn": "Elm Co.",
+          "CompanyNameAr": "شركة علم",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2023-03-19T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 3677.552
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

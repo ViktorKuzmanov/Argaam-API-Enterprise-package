@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:13:46.9161295Z",
+  "requestId": "req_22fa27eb58884ee1846b8c58a84903b2",
+  "data": {
+    "symbol": "2290",
+    "fiscalYear": 2012,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 88,
+          "CompanyNameEn": "Yanbu National Petrochemical Co.",
+          "CompanyNameAr": "شركة ينبع الوطنية للبتروكيماويات",
+          "BrokerID": 3843,
+          "BrokerNameEn": "Value Capital",
+          "BrokerNameAr": "قيمة المالية",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2012-06-30T00:00:00",
+          "ForYear": 2012,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2015-06-30T00:00:00",
+          "EstimatedValue": 450.0,
+          "ActualValue": 649.605
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

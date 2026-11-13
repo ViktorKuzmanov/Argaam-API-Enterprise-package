@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:10:57.1124597Z",
+  "requestId": "req_38516a3f5d6a431b954f1c39f9cc09c8",
+  "data": {
+    "symbol": "4006",
+    "fiscalYear": 2015,
+    "period": "year",
+    "fsFieldId": 79,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 2500,
+          "CompanyNameEn": "Saudi Marketing Co.",
+          "CompanyNameAr": "الشركة السعودية للتسويق",
+          "BrokerID": 2724,
+          "BrokerNameEn": "HSBC ",
+          "BrokerNameAr": "إتش إس بي سي ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2015-09-14T00:00:00",
+          "EstimatedValue": 583.0,
+          "ActualValue": 550.844
+        },
+        {
+          "CompanyID": 2500,
+          "CompanyNameEn": "Saudi Marketing Co.",
+          "CompanyNameAr": "الشركة السعودية للتسويق",
+          "BrokerID": 2734,
+          "BrokerNameEn": "Albilad Capital",
+          "BrokerNameAr": "البلاد المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2015-07-22T00:00:00",
+          "EstimatedValue": 563.3,
+          "ActualValue": 550.844
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:40:10.2734938Z",
+  "requestId": "req_5c9f4c73bf764c20a5206c86b682a5b0",
+  "data": {
+    "symbol": "2050",
+    "fiscalYear": 2025,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 3659,
+          "BrokerNameEn": "YAQEEN",
+          "BrokerNameAr": "يقين",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2025-06-25T00:00:00",
+          "EstimatedValue": 26636.0,
+          "ActualValue": 26081.053
+        },
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2024-12-15T00:00:00",
+          "EstimatedValue": 26893.0,
+          "ActualValue": 26081.053
+        },
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2024-01-01T00:00:00",
+          "EstimatedValue": 28428.0,
+          "ActualValue": 26081.053
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

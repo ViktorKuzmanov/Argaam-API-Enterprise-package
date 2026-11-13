@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:09:39.8953383Z",
+  "requestId": "req_ae1b1f70f274421f9e8af2f0379433d5",
+  "data": {
+    "symbol": "2150",
+    "fiscalYear": 2015,
+    "period": "quarter",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 70,
+          "CompanyNameEn": "The National Company for Glass Industries",
+          "CompanyNameAr": "شركة الصناعات الزجاجية الوطنية",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2016-01-21T00:00:00",
+          "EstimatedValue": 11.5,
+          "ActualValue": 11.401
+        },
+        {
+          "CompanyID": 70,
+          "CompanyNameEn": "The National Company for Glass Industries",
+          "CompanyNameAr": "شركة الصناعات الزجاجية الوطنية",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2015-09-30T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2015-10-18T00:00:00",
+          "EstimatedValue": 9.3,
+          "ActualValue": 5.139
+        },
+        {
+          "CompanyID": 70,
+          "CompanyNameEn": "The National Company for Glass Industries",
+          "CompanyNameAr": "شركة الصناعات الزجاجية الوطنية",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2015-06-30T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2015-09-23T00:00:00",
+          "EstimatedValue": 9.8,
+          "ActualValue": 8.483
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:41:21.5082435Z",
+  "requestId": "req_fac4053320b447b48f79e7c2795bb946",
+  "data": {
+    "symbol": "4050",
+    "fiscalYear": 2025,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 100,
+          "CompanyNameEn": "Saudi Automotive Services Co.",
+          "CompanyNameAr": "الشركة السعودية لخدمات السيارات والمعدات",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2023-05-17T00:00:00",
+          "EstimatedValue": 10865.0,
+          "ActualValue": 11804.028
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

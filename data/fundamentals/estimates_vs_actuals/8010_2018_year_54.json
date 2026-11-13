@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:02:18.3115635Z",
+  "requestId": "req_6701f56ec7c949c48fa5987dfcde656a",
+  "data": {
+    "symbol": "8010",
+    "fiscalYear": 2018,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 33,
+          "CompanyNameEn": "The Company for Cooperative Insurance",
+          "CompanyNameAr": "الشركة التعاونية للتأمين",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2018-12-31T00:00:00",
+          "ForYear": 2018,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2018-12-04T00:00:00",
+          "EstimatedValue": 77.0,
+          "ActualValue": -279.333
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

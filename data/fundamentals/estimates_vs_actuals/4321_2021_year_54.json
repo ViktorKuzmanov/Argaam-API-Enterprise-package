@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:55:59.4769592Z",
+  "requestId": "req_d15eef3f0e724f1281e45e72e9be3a81",
+  "data": {
+    "symbol": "4321",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 4638,
+          "CompanyNameEn": "Arabian Centres Co.",
+          "CompanyNameAr": "شركة المراكز العربية",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2021-08-22T00:00:00",
+          "EstimatedValue": 342.0,
+          "ActualValue": 775.4316
+        },
+        {
+          "CompanyID": 4638,
+          "CompanyNameEn": "Arabian Centres Co.",
+          "CompanyNameAr": "شركة المراكز العربية",
+          "BrokerID": 3804,
+          "BrokerNameEn": "Arqaam Capital ",
+          "BrokerNameAr": "أرقام كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2021-08-15T00:00:00",
+          "EstimatedValue": 567.5,
+          "ActualValue": 775.4316
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

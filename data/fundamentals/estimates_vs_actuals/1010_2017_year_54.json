@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:02:19.2323287Z",
+  "requestId": "req_21eb2860bb494e22839148af09238a38",
+  "data": {
+    "symbol": "1010",
+    "fiscalYear": 2017,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 47,
+          "CompanyNameEn": "Riyad Bank",
+          "CompanyNameAr": "بنك الرياض",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2017-10-22T00:00:00",
+          "EstimatedValue": 3421.0,
+          "ActualValue": 3945.996
+        },
+        {
+          "CompanyID": 47,
+          "CompanyNameEn": "Riyad Bank",
+          "CompanyNameAr": "بنك الرياض",
+          "BrokerID": 2724,
+          "BrokerNameEn": "HSBC ",
+          "BrokerNameAr": "إتش إس بي سي ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2017-07-12T00:00:00",
+          "EstimatedValue": 3550.0,
+          "ActualValue": 3945.996
+        },
+        {
+          "CompanyID": 47,
+          "CompanyNameEn": "Riyad Bank",
+          "CompanyNameAr": "بنك الرياض",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2016-08-31T00:00:00",
+          "EstimatedValue": 3828.0,
+          "ActualValue": 3945.996
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

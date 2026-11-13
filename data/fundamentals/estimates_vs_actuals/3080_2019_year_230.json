@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:59:10.0931083Z",
+  "requestId": "req_b52b2681ca3349ebb5bfaf381b97a0e3",
+  "data": {
+    "symbol": "3080",
+    "fiscalYear": 2019,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 54,
+          "CompanyNameEn": "Eastern Province Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المنطقة الشرقية",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-06-23T00:00:00",
+          "EstimatedValue": 609.0,
+          "ActualValue": 728.798
+        },
+        {
+          "CompanyID": 54,
+          "CompanyNameEn": "Eastern Province Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المنطقة الشرقية",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-05-20T00:00:00",
+          "EstimatedValue": 770.9,
+          "ActualValue": 728.798
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

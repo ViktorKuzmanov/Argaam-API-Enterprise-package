@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:15:48.6585451Z",
+  "requestId": "req_0f56aefbb37546b6aec508b309d95b44",
+  "data": {
+    "marketId": 3,
+    "year": 2027,
+    "period": "quarter",
+    "fiscalPeriod": "q1",
+    "fsFieldId": 230,
+    "estimates": {
+      "forYear": 2027,
+      "fiscalPeriodValue": "Q1",
+      "fsFieldNameAr": "الإيرادات",
+      "fsFieldNameEn": "Sales",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 5000,
+          "companyNameAr": "شركة عطاء التعليمية",
+          "companyNameEn": "Ataa Educational Co.",
+          "estimatedValue": 181.1,
+          "actualValue": null
+        },
+        {
+          "companyID": 13995,
+          "companyNameAr": "شركة عزم السعودية للاتصالات وتقنية المعلومات",
+          "companyNameEn": "Saudi Azm for Communication and Information Technology Co.",
+          "estimatedValue": 98.0,
+          "actualValue": 104.416
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

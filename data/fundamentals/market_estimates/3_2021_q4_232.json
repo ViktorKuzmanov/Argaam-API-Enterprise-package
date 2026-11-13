@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:19:25.7356817Z",
+  "requestId": "req_8ba1939de1bc46a3ba9a4b2a2c22c5a2",
+  "data": {
+    "marketId": 3,
+    "year": 2021,
+    "period": "quarter",
+    "fiscalPeriod": "q4",
+    "fsFieldId": 232,
+    "estimates": {
+      "forYear": 2021,
+      "fiscalPeriodValue": "Q4",
+      "fsFieldNameAr": "إجمالي الدخل",
+      "fsFieldNameEn": "Total Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 30,
+          "companyNameAr": "شركة الإتصالات السعودية",
+          "companyNameEn": "Saudi Telecom Co.",
+          "estimatedValue": 8679.0,
+          "actualValue": 8515.847
+        },
+        {
+          "companyID": 31,
+          "companyNameAr": "شركة إتحاد إتصالات",
+          "companyNameEn": "Etihad Etisalat Co.",
+          "estimatedValue": 2327.0,
+          "actualValue": 2266.795
+        },
+        {
+          "companyID": 1007,
+          "companyNameAr": "الشركة المتقدمة للبتروكيماويات",
+          "companyNameEn": "Advanced Petrochemical Co.",
+          "estimatedValue": 251.0,
+          "actualValue": 245.281
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

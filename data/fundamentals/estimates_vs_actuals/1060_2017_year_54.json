@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:02:31.6968199Z",
+  "requestId": "req_78f7bfa2a6a6490eb41db906568ecf47",
+  "data": {
+    "symbol": "1060",
+    "fiscalYear": 2017,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 48,
+          "CompanyNameEn": "Saudi Awwal Bank",
+          "CompanyNameAr": "البنك السعودي الأول",
+          "BrokerID": 3964,
+          "BrokerNameEn": "QNB   ",
+          "BrokerNameAr": "بنك قطر الوطني",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2016-11-23T00:00:00",
+          "EstimatedValue": 4073.0,
+          "ActualValue": 3954.578
+        },
+        {
+          "CompanyID": 48,
+          "CompanyNameEn": "Saudi Awwal Bank",
+          "CompanyNameAr": "البنك السعودي الأول",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2016-08-31T00:00:00",
+          "EstimatedValue": 4262.0,
+          "ActualValue": 3954.578
+        },
+        {
+          "CompanyID": 48,
+          "CompanyNameEn": "Saudi Awwal Bank",
+          "CompanyNameAr": "البنك السعودي الأول",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2015-09-16T00:00:00",
+          "EstimatedValue": 4230.0,
+          "ActualValue": 3954.578
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

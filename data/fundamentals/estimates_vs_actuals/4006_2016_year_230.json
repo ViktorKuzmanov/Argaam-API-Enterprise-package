@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:07:19.4967473Z",
+  "requestId": "req_76b31b02d52f4caba1dfffcf4ee4fdc8",
+  "data": {
+    "symbol": "4006",
+    "fiscalYear": 2016,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 2500,
+          "CompanyNameEn": "Saudi Marketing Co.",
+          "CompanyNameAr": "الشركة السعودية للتسويق",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2016-07-28T00:00:00",
+          "EstimatedValue": 1962.0,
+          "ActualValue": 1676.99
+        },
+        {
+          "CompanyID": 2500,
+          "CompanyNameEn": "Saudi Marketing Co.",
+          "CompanyNameAr": "الشركة السعودية للتسويق",
+          "BrokerID": 2724,
+          "BrokerNameEn": "HSBC ",
+          "BrokerNameAr": "إتش إس بي سي ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2015-09-14T00:00:00",
+          "EstimatedValue": 2260.0,
+          "ActualValue": 1676.99
+        },
+        {
+          "CompanyID": 2500,
+          "CompanyNameEn": "Saudi Marketing Co.",
+          "CompanyNameAr": "الشركة السعودية للتسويق",
+          "BrokerID": 2734,
+          "BrokerNameEn": "Albilad Capital",
+          "BrokerNameAr": "البلاد المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2015-07-22T00:00:00",
+          "EstimatedValue": 1935.4,
+          "ActualValue": 1676.99
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:10:37.8874856Z",
+  "requestId": "req_a34b0ba326434eb8ac7c9a4c18867458",
+  "data": {
+    "symbol": "3090",
+    "fiscalYear": 2015,
+    "period": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 58,
+          "CompanyNameEn": "Tabuk Cement Co.",
+          "CompanyNameAr": "شركة أسمنت تبوك",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2015-12-01T00:00:00",
+          "EstimatedValue": 1932.8,
+          "ActualValue": 2031.432
+        },
+        {
+          "CompanyID": 58,
+          "CompanyNameEn": "Tabuk Cement Co.",
+          "CompanyNameAr": "شركة أسمنت تبوك",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2016-01-18T00:00:00",
+          "EstimatedValue": 1970.0,
+          "ActualValue": 2031.432
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

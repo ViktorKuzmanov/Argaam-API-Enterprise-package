@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:51:18.9968773Z",
+  "requestId": "req_4d6d3bbfed0f47c7aef7ff8a4be31cb6",
+  "data": {
+    "symbol": "2380",
+    "fiscalYear": 2022,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 600,
+          "CompanyNameEn": "Rabigh Refining and Petrochemical Co.",
+          "CompanyNameAr": "شركة رابغ للتكرير والبتروكيماويات",
+          "BrokerID": 10067,
+          "BrokerNameEn": "AlphaMena",
+          "BrokerNameAr": "الفامينا",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2022-08-14T00:00:00",
+          "EstimatedValue": 3090.0,
+          "ActualValue": -1114.881
+        },
+        {
+          "CompanyID": 600,
+          "CompanyNameEn": "Rabigh Refining and Petrochemical Co.",
+          "CompanyNameAr": "شركة رابغ للتكرير والبتروكيماويات",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2022-04-04T00:00:00",
+          "EstimatedValue": -172.8,
+          "ActualValue": -1114.881
+        },
+        {
+          "CompanyID": 600,
+          "CompanyNameEn": "Rabigh Refining and Petrochemical Co.",
+          "CompanyNameAr": "شركة رابغ للتكرير والبتروكيماويات",
+          "BrokerID": 2724,
+          "BrokerNameEn": "HSBC ",
+          "BrokerNameAr": "إتش إس بي سي ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2022-03-09T00:00:00",
+          "EstimatedValue": 3303.0,
+          "ActualValue": -1114.881
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

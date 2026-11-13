@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:58:27.3488771Z",
+  "requestId": "req_93843dccdfb644ba88e2c80e00076176",
+  "data": {
+    "symbol": "1304",
+    "fiscalYear": 2019,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 4515,
+          "CompanyNameEn": "Al Yamamah Steel Industries Co.",
+          "CompanyNameAr": "شركة اليمامة للصناعات الحديدية",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2017-01-23T00:00:00",
+          "EstimatedValue": 89.0,
+          "ActualValue": -39.876
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

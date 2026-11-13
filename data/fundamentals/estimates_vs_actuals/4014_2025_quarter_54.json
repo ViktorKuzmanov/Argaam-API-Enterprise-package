@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:41:12.9495839Z",
+  "requestId": "req_f23d3b88a77d4a71a72770957f67a962",
+  "data": {
+    "symbol": "4014",
+    "fiscalYear": 2025,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 13881,
+          "CompanyNameEn": "Scientific and Medical Equipment House Co.",
+          "CompanyNameAr": "شركة دار المعدات الطبية والعلمية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2025-06-30T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-07-06T00:00:00",
+          "EstimatedValue": 9.0,
+          "ActualValue": 12.3713
+        },
+        {
+          "CompanyID": 13881,
+          "CompanyNameEn": "Scientific and Medical Equipment House Co.",
+          "CompanyNameAr": "شركة دار المعدات الطبية والعلمية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2025-03-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-04-14T00:00:00",
+          "EstimatedValue": 5.0,
+          "ActualValue": 7.6891
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

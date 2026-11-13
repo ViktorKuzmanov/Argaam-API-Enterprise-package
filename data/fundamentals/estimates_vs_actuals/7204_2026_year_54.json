@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:39:30.2961931Z",
+  "requestId": "req_d4d80749d64f4a56b6e9311d895d958f",
+  "data": {
+    "symbol": "7204",
+    "fiscalYear": 2026,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 14801,
+          "CompanyNameEn": "Perfect Presentation for Commercial Services Co.",
+          "CompanyNameAr": "شركة العرض المتقن للخدمات التجارية",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2026-12-31T00:00:00",
+          "ForYear": 2026,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-05-22T00:00:00",
+          "EstimatedValue": 157.0,
+          "ActualValue": null
+        },
+        {
+          "CompanyID": 14801,
+          "CompanyNameEn": "Perfect Presentation for Commercial Services Co.",
+          "CompanyNameAr": "شركة العرض المتقن للخدمات التجارية",
+          "BrokerID": 2725,
+          "BrokerNameEn": "ANB Capital",
+          "BrokerNameAr": "العربي المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2026-12-31T00:00:00",
+          "ForYear": 2026,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-05-20T00:00:00",
+          "EstimatedValue": 216.0,
+          "ActualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

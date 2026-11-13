@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:42:17.5940286Z",
+  "requestId": "req_c6cc4500672f4042b43b94f7d3c859c2",
+  "data": {
+    "symbol": "8020",
+    "fiscalYear": 2025,
+    "period": "quarter",
+    "fsFieldId": 455,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 970,
+          "CompanyNameEn": "Malath Cooperative Insurance Co.",
+          "CompanyNameAr": "شركة ملاذ للتأمين التعاوني",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2025-06-30T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Insurance Revenues",
+          "FSFieldNameAr": "إيرادات التأمين",
+          "CreatedOn": "2025-07-06T00:00:00",
+          "EstimatedValue": 368.0,
+          "ActualValue": 365.951
+        },
+        {
+          "CompanyID": 970,
+          "CompanyNameEn": "Malath Cooperative Insurance Co.",
+          "CompanyNameAr": "شركة ملاذ للتأمين التعاوني",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2025-03-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Insurance Revenues",
+          "FSFieldNameAr": "إيرادات التأمين",
+          "CreatedOn": "2025-04-14T00:00:00",
+          "EstimatedValue": 378.0,
+          "ActualValue": 340.128
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

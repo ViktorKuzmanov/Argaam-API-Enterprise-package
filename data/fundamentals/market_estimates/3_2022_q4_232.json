@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:18:45.3626893Z",
+  "requestId": "req_47bc571be53c467b927dcfbd3e140178",
+  "data": {
+    "marketId": 3,
+    "year": 2022,
+    "period": "quarter",
+    "fiscalPeriod": "q4",
+    "fsFieldId": 232,
+    "estimates": {
+      "forYear": 2022,
+      "fiscalPeriodValue": "Q4",
+      "fsFieldNameAr": "إجمالي الدخل",
+      "fsFieldNameEn": "Total Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 30,
+          "companyNameAr": "شركة الإتصالات السعودية",
+          "companyNameEn": "Saudi Telecom Co.",
+          "estimatedValue": 9135.0,
+          "actualValue": 9028.663
+        },
+        {
+          "companyID": 31,
+          "companyNameAr": "شركة إتحاد إتصالات",
+          "companyNameEn": "Etihad Etisalat Co.",
+          "estimatedValue": 2447.0,
+          "actualValue": 2510.241
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

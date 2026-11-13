@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:53:45.9582218Z",
+  "requestId": "req_f7aba2e32e3045b6be74e6ea0d36a470",
+  "data": {
+    "symbol": "1140",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 153,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 44,
+          "CompanyNameEn": "Bank Albilad",
+          "CompanyNameAr": "بنك البلاد",
+          "BrokerID": 3659,
+          "BrokerNameEn": "YAQEEN",
+          "BrokerNameAr": "يقين",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Net Financing Investments",
+          "FSFieldNameAr": "صافي الاستثمارات التمويلية",
+          "CreatedOn": "2021-09-05T00:00:00",
+          "EstimatedValue": 3500.0,
+          "ActualValue": 82933.314
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

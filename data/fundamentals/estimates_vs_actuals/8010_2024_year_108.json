@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:45:48.2646284Z",
+  "requestId": "req_078841c75cae40d39f798b56c6bbbb1c",
+  "data": {
+    "symbol": "8010",
+    "fiscalYear": 2024,
+    "period": "year",
+    "fsFieldId": 108,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 33,
+          "CompanyNameEn": "The Company for Cooperative Insurance",
+          "CompanyNameAr": "الشركة التعاونية للتأمين",
+          "BrokerID": 3674,
+          "BrokerNameEn": "Itqan Capital",
+          "BrokerNameAr": "إتقان كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "Net Premiums written",
+          "FSFieldNameAr": "صافي اقساط التامين المكتتبة",
+          "CreatedOn": "2021-07-06T00:00:00",
+          "EstimatedValue": 11036.0,
+          "ActualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

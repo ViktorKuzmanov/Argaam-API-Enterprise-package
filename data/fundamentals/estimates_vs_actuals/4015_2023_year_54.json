@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:48:13.5054882Z",
+  "requestId": "req_5de923eac21f411c962643143670c916",
+  "data": {
+    "symbol": "4015",
+    "fiscalYear": 2023,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 15187,
+          "CompanyNameEn": "Jamjoom Pharmaceuticals Factory Co.",
+          "CompanyNameAr": "شركة مصنع جمجوم للأدوية ",
+          "BrokerID": 3932,
+          "BrokerNameEn": "United Securities Company  ",
+          "BrokerNameAr": "المتحدة للأوراق المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2024-01-07T00:00:00",
+          "EstimatedValue": 280.0,
+          "ActualValue": 292.4001
+        },
+        {
+          "CompanyID": 15187,
+          "CompanyNameEn": "Jamjoom Pharmaceuticals Factory Co.",
+          "CompanyNameAr": "شركة مصنع جمجوم للأدوية ",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2023-07-05T00:00:00",
+          "EstimatedValue": 288.0,
+          "ActualValue": 292.4001
+        },
+        {
+          "CompanyID": 15187,
+          "CompanyNameEn": "Jamjoom Pharmaceuticals Factory Co.",
+          "CompanyNameAr": "شركة مصنع جمجوم للأدوية ",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2023-06-20T00:00:00",
+          "EstimatedValue": 289.0,
+          "ActualValue": 292.4001
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

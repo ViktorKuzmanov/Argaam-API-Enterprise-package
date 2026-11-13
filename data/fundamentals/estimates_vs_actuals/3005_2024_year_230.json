@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:44:00.2165632Z",
+  "requestId": "req_d7db1f07f1ae41e98f30f8f4c1f40c01",
+  "data": {
+    "symbol": "3005",
+    "fiscalYear": 2024,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 3408,
+          "CompanyNameEn": "Umm Al-Qura Cement Co.",
+          "CompanyNameAr": "شركة أسمنت ام القرى",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-06-29T00:00:00",
+          "EstimatedValue": 264.0,
+          "ActualValue": 265.59
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

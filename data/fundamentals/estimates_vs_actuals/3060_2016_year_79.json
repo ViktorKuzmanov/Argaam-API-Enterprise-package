@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:06:51.1221108Z",
+  "requestId": "req_3f0b9a1027244d1c9073df7ef7f7d304",
+  "data": {
+    "symbol": "3060",
+    "fiscalYear": 2016,
+    "period": "year",
+    "fsFieldId": 79,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 60,
+          "CompanyNameEn": "Yanbu Cement Co.",
+          "CompanyNameAr": "شركة أسمنت ينبع",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2016-01-11T00:00:00",
+          "EstimatedValue": 3543.0,
+          "ActualValue": 3538.685
+        },
+        {
+          "CompanyID": 60,
+          "CompanyNameEn": "Yanbu Cement Co.",
+          "CompanyNameAr": "شركة أسمنت ينبع",
+          "BrokerID": 2724,
+          "BrokerNameEn": "HSBC ",
+          "BrokerNameAr": "إتش إس بي سي ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2015-09-21T00:00:00",
+          "EstimatedValue": 3735.0,
+          "ActualValue": 3538.685
+        },
+        {
+          "CompanyID": 60,
+          "CompanyNameEn": "Yanbu Cement Co.",
+          "CompanyNameAr": "شركة أسمنت ينبع",
+          "BrokerID": 2734,
+          "BrokerNameEn": "Albilad Capital",
+          "BrokerNameAr": "البلاد المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2015-07-06T00:00:00",
+          "EstimatedValue": 3587.8,
+          "ActualValue": 3538.685
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

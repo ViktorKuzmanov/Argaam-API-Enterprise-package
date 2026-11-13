@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:19:00.6885653Z",
+  "requestId": "req_af87c039fb994340b0c23195a57270d7",
+  "data": {
+    "marketId": 3,
+    "year": 2022,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 66,
+    "estimates": {
+      "forYear": 2022,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "ودائع العملاء",
+      "fsFieldNameEn": "BS Customer Deposits",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 43,
+          "companyNameAr": "مصرف الراجحي",
+          "companyNameEn": "Al Rajhi Bank",
+          "estimatedValue": null,
+          "actualValue": 564924.688
+        },
+        {
+          "companyID": 44,
+          "companyNameAr": "بنك البلاد",
+          "companyNameEn": "Bank Albilad",
+          "estimatedValue": null,
+          "actualValue": 94842.747
+        },
+        {
+          "companyID": 826,
+          "companyNameAr": "مصرف الإنماء",
+          "companyNameEn": "Alinma Bank",
+          "estimatedValue": null,
+          "actualValue": 145168.49
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

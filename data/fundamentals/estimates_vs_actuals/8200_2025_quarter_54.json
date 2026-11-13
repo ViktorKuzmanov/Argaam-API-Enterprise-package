@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:42:20.6267855Z",
+  "requestId": "req_8afc75c020e94f52a60fb4f1d116373c",
+  "data": {
+    "symbol": "8200",
+    "fiscalYear": 2025,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1129,
+          "CompanyNameEn": "Saudi Reinsurance Co.",
+          "CompanyNameAr": "الشركة السعودية لإعادة التأمين",
+          "BrokerID": 3659,
+          "BrokerNameEn": "YAQEEN",
+          "BrokerNameAr": "يقين",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2025-09-30T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-10-12T00:00:00",
+          "EstimatedValue": 66.0,
+          "ActualValue": 30.7747
+        },
+        {
+          "CompanyID": 1129,
+          "CompanyNameEn": "Saudi Reinsurance Co.",
+          "CompanyNameAr": "الشركة السعودية لإعادة التأمين",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2025-06-30T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-07-06T00:00:00",
+          "EstimatedValue": 53.0,
+          "ActualValue": 52.5839
+        },
+        {
+          "CompanyID": 1129,
+          "CompanyNameEn": "Saudi Reinsurance Co.",
+          "CompanyNameAr": "الشركة السعودية لإعادة التأمين",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2025-03-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-04-14T00:00:00",
+          "EstimatedValue": 31.0,
+          "ActualValue": 35.4083
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

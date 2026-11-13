@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:55:29.1068909Z",
+  "requestId": "req_53ff56e52fe24ebd828ac945d0b77e4d",
+  "data": {
+    "symbol": "4008",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 4337,
+          "CompanyNameEn": "Saudi Company for Hardware",
+          "CompanyNameAr": "الشركة السعودية للعدد والأدوات",
+          "BrokerID": 3674,
+          "BrokerNameEn": "Itqan Capital",
+          "BrokerNameAr": "إتقان كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-10-03T00:00:00",
+          "EstimatedValue": 1458.0,
+          "ActualValue": 1272.503
+        },
+        {
+          "CompanyID": 4337,
+          "CompanyNameEn": "Saudi Company for Hardware",
+          "CompanyNameAr": "الشركة السعودية للعدد والأدوات",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-09-22T00:00:00",
+          "EstimatedValue": 1284.0,
+          "ActualValue": 1272.503
+        },
+        {
+          "CompanyID": 4337,
+          "CompanyNameEn": "Saudi Company for Hardware",
+          "CompanyNameAr": "الشركة السعودية للعدد والأدوات",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-03-24T00:00:00",
+          "EstimatedValue": 2115.0,
+          "ActualValue": 1272.503
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

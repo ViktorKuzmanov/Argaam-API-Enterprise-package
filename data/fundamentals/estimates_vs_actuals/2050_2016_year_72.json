@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:05:51.9122849Z",
+  "requestId": "req_b52a1d2dcfdd4f7282c2d8d30f504e7c",
+  "data": {
+    "symbol": "2050",
+    "fiscalYear": 2016,
+    "period": "year",
+    "fsFieldId": 72,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 3944,
+          "BrokerNameEn": "Arbah Capital",
+          "BrokerNameAr": "أرباح المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2016-12-14T00:00:00",
+          "EstimatedValue": 15124.0,
+          "ActualValue": 16037.561
+        },
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2016-12-06T00:00:00",
+          "EstimatedValue": 15420.0,
+          "ActualValue": 16037.561
+        },
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 2734,
+          "BrokerNameEn": "Albilad Capital",
+          "BrokerNameAr": "البلاد المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2016-12-04T00:00:00",
+          "EstimatedValue": 16428.0,
+          "ActualValue": 16037.561
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

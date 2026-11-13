@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:58:45.0158411Z",
+  "requestId": "req_e49815610f4a4d17a2d42cf2146b0297",
+  "data": {
+    "symbol": "2222",
+    "fiscalYear": 2019,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 3509,
+          "CompanyNameEn": "Saudi Arabian Oil Co.",
+          "CompanyNameAr": "شركة الزيت العربية السعودية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2020-01-19T00:00:00",
+          "EstimatedValue": 361000.0,
+          "ActualValue": 330816.0
+        },
+        {
+          "CompanyID": 3509,
+          "CompanyNameEn": "Saudi Arabian Oil Co.",
+          "CompanyNameAr": "شركة الزيت العربية السعودية",
+          "BrokerID": 3804,
+          "BrokerNameEn": "Arqaam Capital ",
+          "BrokerNameAr": "أرقام كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2019-12-15T00:00:00",
+          "EstimatedValue": 342883.0,
+          "ActualValue": 330816.0
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

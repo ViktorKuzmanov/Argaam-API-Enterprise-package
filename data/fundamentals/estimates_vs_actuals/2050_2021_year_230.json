@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:54:22.2105329Z",
+  "requestId": "req_0d7b5e6c3a144e649e5233c325d112e7",
+  "data": {
+    "symbol": "2050",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 3659,
+          "BrokerNameEn": "YAQEEN",
+          "BrokerNameAr": "يقين",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2021-02-22T00:00:00",
+          "EstimatedValue": 21976.0,
+          "ActualValue": 24669.163
+        },
+        {
+          "CompanyID": 85,
+          "CompanyNameEn": "Savola Group",
+          "CompanyNameAr": "مجموعة صافولا",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2020-05-20T00:00:00",
+          "EstimatedValue": 22451.0,
+          "ActualValue": 24669.163
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

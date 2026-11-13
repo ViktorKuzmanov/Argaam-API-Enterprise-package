@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:08:35.0263079Z",
+  "requestId": "req_433bfea2101d488ca59b65711c3a6757",
+  "data": {
+    "symbol": "1080",
+    "fiscalYear": 2015,
+    "period": "quarter",
+    "fsFieldId": 58,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 45,
+          "CompanyNameEn": "Arab National Bank",
+          "CompanyNameAr": "البنك العربي الوطني",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2015-09-30T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Net Loans and Advances",
+          "FSFieldNameAr": "صافي القروض و السلف",
+          "CreatedOn": "2015-10-18T00:00:00",
+          "EstimatedValue": 112416.0,
+          "ActualValue": 113284.059
+        },
+        {
+          "CompanyID": 45,
+          "CompanyNameEn": "Arab National Bank",
+          "CompanyNameAr": "البنك العربي الوطني",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2015-06-30T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Net Loans and Advances",
+          "FSFieldNameAr": "صافي القروض و السلف",
+          "CreatedOn": "2015-07-21T00:00:00",
+          "EstimatedValue": 110847.0,
+          "ActualValue": 111489.926
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

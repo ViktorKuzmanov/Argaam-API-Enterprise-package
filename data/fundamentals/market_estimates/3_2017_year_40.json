@@ -1,0 +1,66 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:21:46.3743152Z",
+  "requestId": "req_545b37b676ee49f0aa4424a97c1d49b2",
+  "data": {
+    "marketId": 3,
+    "year": 2017,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 40,
+    "estimates": {
+      "forYear": 2017,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "دخل العمليات",
+      "fsFieldNameEn": "Operating Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 43,
+          "companyNameAr": "مصرف الراجحي",
+          "companyNameEn": "Al Rajhi Bank",
+          "estimatedValue": 16267.666666666666,
+          "actualValue": 15904.854
+        },
+        {
+          "companyID": 46,
+          "companyNameAr": "بنك الجزيرة",
+          "companyNameEn": "Bank Aljazira",
+          "estimatedValue": 2716.0,
+          "actualValue": 2579.738
+        },
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 6835.0,
+          "actualValue": 7126.908
+        },
+        {
+          "companyID": 49,
+          "companyNameAr": "مجموعة سامبا المالية",
+          "companyNameEn": "Samba Financial Group",
+          "estimatedValue": 8586.0,
+          "actualValue": 7891.566
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": null,
+          "actualValue": 6576.207
+        },
+        {
+          "companyID": 826,
+          "companyNameAr": "مصرف الإنماء",
+          "companyNameEn": "Alinma Bank",
+          "estimatedValue": 4237.0,
+          "actualValue": 4372.956
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

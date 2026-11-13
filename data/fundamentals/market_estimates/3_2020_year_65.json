@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:19:56.0503504Z",
+  "requestId": "req_a3770561d7334fe7aaa1199b57487064",
+  "data": {
+    "marketId": 3,
+    "year": 2020,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "forYear": 2020,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "إجمالي الموجودات",
+      "fsFieldNameEn": "Total Assets",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 44,
+          "companyNameAr": "بنك البلاد",
+          "companyNameEn": "Bank Albilad",
+          "estimatedValue": null,
+          "actualValue": 95754.286
+        },
+        {
+          "companyID": 79,
+          "companyNameAr": "شركة سابك للمغذيات الزراعية",
+          "companyNameEn": "SABIC Agri-Nutrients Co.",
+          "estimatedValue": null,
+          "actualValue": 9994.777
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

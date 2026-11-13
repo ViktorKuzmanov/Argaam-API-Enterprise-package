@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:19:32.8945931Z",
+  "requestId": "req_85a004b6330f445db24b006d1a1e2e44",
+  "data": {
+    "marketId": 3,
+    "year": 2021,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 33,
+    "estimates": {
+      "forYear": 2021,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "صافي دخل العمولات الخاصة",
+      "fsFieldNameEn": "Net Special Commission Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 45,
+          "companyNameAr": "البنك العربي الوطني",
+          "companyNameEn": "Arab National Bank",
+          "estimatedValue": 4840.0,
+          "actualValue": 4672.032
+        },
+        {
+          "companyID": 47,
+          "companyNameAr": "بنك الرياض",
+          "companyNameEn": "Riyad Bank",
+          "estimatedValue": 8452.0,
+          "actualValue": 8293.173
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 5511.0,
+          "actualValue": 5698.645
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": 22791.0,
+          "actualValue": 22207.587
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

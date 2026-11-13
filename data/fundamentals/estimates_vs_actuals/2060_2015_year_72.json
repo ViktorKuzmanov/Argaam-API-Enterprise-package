@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:09:36.2488056Z",
+  "requestId": "req_363a512d9d3d4ffe9a6c4e619d8b9356",
+  "data": {
+    "symbol": "2060",
+    "fiscalYear": 2015,
+    "period": "year",
+    "fsFieldId": 72,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 72,
+          "CompanyNameEn": "National Industrialization Co.",
+          "CompanyNameAr": "شركة التصنيع الوطنية",
+          "BrokerID": 2724,
+          "BrokerNameEn": "HSBC ",
+          "BrokerNameAr": "إتش إس بي سي ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2015-09-08T00:00:00",
+          "EstimatedValue": 33895.0,
+          "ActualValue": 31226.937
+        },
+        {
+          "CompanyID": 72,
+          "CompanyNameEn": "National Industrialization Co.",
+          "CompanyNameAr": "شركة التصنيع الوطنية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2014-10-22T00:00:00",
+          "EstimatedValue": 28612.0,
+          "ActualValue": 31226.937
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:50:35.884781Z",
+  "requestId": "req_32947a198e1348228fb020b17bc10f2a",
+  "data": {
+    "symbol": "2010",
+    "fiscalYear": 2022,
+    "period": "quarter",
+    "fsFieldId": 79,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 77,
+          "CompanyNameEn": "Saudi Basic Industries Corp.",
+          "CompanyNameAr": "الشركة السعودية للصناعات الأساسية",
+          "BrokerID": 4490,
+          "BrokerNameEn": "Goldman Sachs",
+          "BrokerNameAr": "غولدمان ساكس",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2022-06-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2022-07-04T00:00:00",
+          "EstimatedValue": 52367.0,
+          "ActualValue": 213495.74
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

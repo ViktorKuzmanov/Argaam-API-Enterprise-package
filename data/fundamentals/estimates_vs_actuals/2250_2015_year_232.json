@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:09:42.4730417Z",
+  "requestId": "req_0c10e981d00d4f3db33411835ce258ff",
+  "data": {
+    "symbol": "2250",
+    "fiscalYear": 2015,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 4415,
+          "BrokerNameEn": "99Hlala Capital",
+          "BrokerNameAr": "تسعة وتسعون هللة المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2015-11-16T00:00:00",
+          "EstimatedValue": 2312.0,
+          "ActualValue": 2481.77
+        },
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2015-09-23T00:00:00",
+          "EstimatedValue": 2202.0,
+          "ActualValue": 2481.77
+        },
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2015-10-19T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 2481.77
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:56:16.3650072Z",
+  "requestId": "req_762b59f27586436fb1147d4d54b2180a",
+  "data": {
+    "symbol": "7200",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 72,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 5192,
+          "CompanyNameEn": "Al Moammar Information Systems Co.",
+          "CompanyNameAr": "شركة المعمر لأنظمة المعلومات",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2021-07-05T00:00:00",
+          "EstimatedValue": 887.0,
+          "ActualValue": 818.105
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

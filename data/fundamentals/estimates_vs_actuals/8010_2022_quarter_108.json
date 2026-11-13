@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:53:17.9048654Z",
+  "requestId": "req_09290143c18b4358bd67b6424972c126",
+  "data": {
+    "symbol": "8010",
+    "fiscalYear": 2022,
+    "period": "quarter",
+    "fsFieldId": 108,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 33,
+          "CompanyNameEn": "The Company for Cooperative Insurance",
+          "CompanyNameAr": "الشركة التعاونية للتأمين",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2022-09-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Net Premiums written",
+          "FSFieldNameAr": "صافي اقساط التامين المكتتبة",
+          "CreatedOn": "2022-10-06T00:00:00",
+          "EstimatedValue": 2689.0,
+          "ActualValue": null
+        },
+        {
+          "CompanyID": 33,
+          "CompanyNameEn": "The Company for Cooperative Insurance",
+          "CompanyNameAr": "الشركة التعاونية للتأمين",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2022-06-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Net Premiums written",
+          "FSFieldNameAr": "صافي اقساط التامين المكتتبة",
+          "CreatedOn": "2022-07-05T00:00:00",
+          "EstimatedValue": 2705.0,
+          "ActualValue": null
+        },
+        {
+          "CompanyID": 33,
+          "CompanyNameEn": "The Company for Cooperative Insurance",
+          "CompanyNameAr": "الشركة التعاونية للتأمين",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2022-06-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Net Premiums written",
+          "FSFieldNameAr": "صافي اقساط التامين المكتتبة",
+          "CreatedOn": "2022-06-29T00:00:00",
+          "EstimatedValue": 2162.0,
+          "ActualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

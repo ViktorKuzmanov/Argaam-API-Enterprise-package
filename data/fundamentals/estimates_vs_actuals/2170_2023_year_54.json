@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:46:56.3877871Z",
+  "requestId": "req_78287ef43c8146c4bd654609041949dc",
+  "data": {
+    "symbol": "2170",
+    "fiscalYear": 2023,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 63,
+          "CompanyNameEn": "Alujain Corp.",
+          "CompanyNameAr": "شركة اللجين",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2023-12-06T00:00:00",
+          "EstimatedValue": 40.0,
+          "ActualValue": -82.245
+        },
+        {
+          "CompanyID": 63,
+          "CompanyNameEn": "Alujain Corp.",
+          "CompanyNameAr": "شركة اللجين",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2023-09-20T00:00:00",
+          "EstimatedValue": 43.596,
+          "ActualValue": -82.245
+        },
+        {
+          "CompanyID": 63,
+          "CompanyNameEn": "Alujain Corp.",
+          "CompanyNameAr": "شركة اللجين",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2023-12-31T00:00:00",
+          "ForYear": 2023,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2023-01-29T00:00:00",
+          "EstimatedValue": 38.0,
+          "ActualValue": -82.245
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

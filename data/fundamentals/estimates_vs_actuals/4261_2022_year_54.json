@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:52:30.2173002Z",
+  "requestId": "req_508f51ccbf5546448a0312c5eb40c959",
+  "data": {
+    "symbol": "4261",
+    "fiscalYear": 2022,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 5122,
+          "CompanyNameEn": "Theeb Rent a Car Co.",
+          "CompanyNameAr": "شركة ذيب لتأجير السيارات",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2022-08-18T00:00:00",
+          "EstimatedValue": 161.0,
+          "ActualValue": 193.1079
+        },
+        {
+          "CompanyID": 5122,
+          "CompanyNameEn": "Theeb Rent a Car Co.",
+          "CompanyNameAr": "شركة ذيب لتأجير السيارات",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2022-05-24T00:00:00",
+          "EstimatedValue": 138.0,
+          "ActualValue": 193.1079
+        },
+        {
+          "CompanyID": 5122,
+          "CompanyNameEn": "Theeb Rent a Car Co.",
+          "CompanyNameAr": "شركة ذيب لتأجير السيارات",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2021-06-14T00:00:00",
+          "EstimatedValue": 177.5,
+          "ActualValue": 193.1079
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

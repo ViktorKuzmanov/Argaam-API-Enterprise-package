@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:54:26.6266418Z",
+  "requestId": "req_b4167e24e38c4edf819958f785204f46",
+  "data": {
+    "symbol": "2081",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 13068,
+          "CompanyNameEn": "Alkhorayef Water and Power Technologies Co.",
+          "CompanyNameAr": "شركة الخريف لتقنية المياه والطاقة",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2021-08-22T00:00:00",
+          "EstimatedValue": 672.0,
+          "ActualValue": 569.039
+        },
+        {
+          "CompanyID": 13068,
+          "CompanyNameEn": "Alkhorayef Water and Power Technologies Co.",
+          "CompanyNameAr": "شركة الخريف لتقنية المياه والطاقة",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2021-02-15T00:00:00",
+          "EstimatedValue": 753.0,
+          "ActualValue": 569.039
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

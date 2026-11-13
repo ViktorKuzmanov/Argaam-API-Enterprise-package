@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:09:40.3817654Z",
+  "requestId": "req_a64d2a6e3d4e4c74beed4939c1285785",
+  "data": {
+    "symbol": "2160",
+    "fiscalYear": 2015,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 64,
+          "CompanyNameEn": "Saudi Arabian Amiantit Co.",
+          "CompanyNameAr": "شركة أميانتيت العربية السعودية",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2016-01-04T00:00:00",
+          "EstimatedValue": 24.0,
+          "ActualValue": 22.472
+        },
+        {
+          "CompanyID": 64,
+          "CompanyNameEn": "Saudi Arabian Amiantit Co.",
+          "CompanyNameAr": "شركة أميانتيت العربية السعودية",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2015-09-30T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2015-10-05T00:00:00",
+          "EstimatedValue": 21.0,
+          "ActualValue": 27.064
+        },
+        {
+          "CompanyID": 64,
+          "CompanyNameEn": "Saudi Arabian Amiantit Co.",
+          "CompanyNameAr": "شركة أميانتيت العربية السعودية",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2015-06-30T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2015-09-23T00:00:00",
+          "EstimatedValue": 23.0,
+          "ActualValue": 25.98
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

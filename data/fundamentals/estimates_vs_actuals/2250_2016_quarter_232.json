@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:06:00.056943Z",
+  "requestId": "req_a56f7a5abe63460195b99d2f4cee15b8",
+  "data": {
+    "symbol": "2250",
+    "fiscalYear": 2016,
+    "period": "quarter",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2016-06-30T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2016-07-28T00:00:00",
+          "EstimatedValue": 579.0,
+          "ActualValue": 573.533
+        },
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2016-03-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2016-04-21T00:00:00",
+          "EstimatedValue": 556.0,
+          "ActualValue": 425.142
+        },
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2016-03-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2016-04-05T00:00:00",
+          "EstimatedValue": 472.0,
+          "ActualValue": 425.142
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

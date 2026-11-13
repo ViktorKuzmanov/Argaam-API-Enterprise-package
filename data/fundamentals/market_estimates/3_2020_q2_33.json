@@ -1,0 +1,59 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:20:08.5358969Z",
+  "requestId": "req_02f46562c96740eab1c6fc37fd351ad4",
+  "data": {
+    "marketId": 3,
+    "year": 2020,
+    "period": "quarter",
+    "fiscalPeriod": "q2",
+    "fsFieldId": 33,
+    "estimates": {
+      "forYear": 2020,
+      "fiscalPeriodValue": "Q2",
+      "fsFieldNameAr": "صافي دخل العمولات الخاصة",
+      "fsFieldNameEn": "Net Special Commission Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 45,
+          "companyNameAr": "البنك العربي الوطني",
+          "companyNameEn": "Arab National Bank",
+          "estimatedValue": 1186.0,
+          "actualValue": 1199.051
+        },
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 1748.0,
+          "actualValue": 1815.138
+        },
+        {
+          "companyID": 49,
+          "companyNameAr": "مجموعة سامبا المالية",
+          "companyNameEn": "Samba Financial Group",
+          "estimatedValue": 1505.0,
+          "actualValue": 1390.948
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 1207.0,
+          "actualValue": 1296.826
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": 3401.0,
+          "actualValue": 3957.524
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

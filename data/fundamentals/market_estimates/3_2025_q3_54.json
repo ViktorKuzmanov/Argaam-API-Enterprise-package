@@ -1,0 +1,864 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:16:56.9455954Z",
+  "requestId": "req_633492fd93764879a16dac326407eac1",
+  "data": {
+    "marketId": 3,
+    "year": 2025,
+    "period": "quarter",
+    "fiscalPeriod": "q3",
+    "fsFieldId": 54,
+    "estimates": {
+      "forYear": 2025,
+      "fiscalPeriodValue": "Q3",
+      "fsFieldNameAr": "الربح الصافي  ",
+      "fsFieldNameEn": "IS Net Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 30,
+          "companyNameAr": "شركة الإتصالات السعودية",
+          "companyNameEn": "Saudi Telecom Co.",
+          "estimatedValue": 3604.7818181818184,
+          "actualValue": 4106.941
+        },
+        {
+          "companyID": 31,
+          "companyNameAr": "شركة إتحاد إتصالات",
+          "companyNameEn": "Etihad Etisalat Co.",
+          "estimatedValue": 814.12875,
+          "actualValue": 916.42
+        },
+        {
+          "companyID": 33,
+          "companyNameAr": "الشركة التعاونية للتأمين",
+          "companyNameEn": "The Company for Cooperative Insurance",
+          "estimatedValue": 212.1,
+          "actualValue": 173.258
+        },
+        {
+          "companyID": 34,
+          "companyNameAr": "الشركة الوطنية للتنمية الزراعية",
+          "companyNameEn": "National Agricultural Development Co.",
+          "estimatedValue": 124.5,
+          "actualValue": 110.6709
+        },
+        {
+          "companyID": 43,
+          "companyNameAr": "مصرف الراجحي",
+          "companyNameEn": "Al Rajhi Bank",
+          "estimatedValue": 6008.983333333334,
+          "actualValue": 6360.203
+        },
+        {
+          "companyID": 44,
+          "companyNameAr": "بنك البلاد",
+          "companyNameEn": "Bank Albilad",
+          "estimatedValue": 767.8571428571429,
+          "actualValue": 766.497
+        },
+        {
+          "companyID": 45,
+          "companyNameAr": "البنك العربي الوطني",
+          "companyNameEn": "Arab National Bank",
+          "estimatedValue": 1350.25,
+          "actualValue": 1329.46
+        },
+        {
+          "companyID": 46,
+          "companyNameAr": "بنك الجزيرة",
+          "companyNameEn": "Bank Aljazira",
+          "estimatedValue": 378.75,
+          "actualValue": 400.127
+        },
+        {
+          "companyID": 47,
+          "companyNameAr": "بنك الرياض",
+          "companyNameEn": "Riyad Bank",
+          "estimatedValue": 2532.1428571428573,
+          "actualValue": 2687.401
+        },
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 2103.5,
+          "actualValue": 2143.584
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 1360.0,
+          "actualValue": 1352.927
+        },
+        {
+          "companyID": 51,
+          "companyNameAr": "البنك الأول",
+          "companyNameEn": "Alawwal Bank",
+          "estimatedValue": 2078.0,
+          "actualValue": null
+        },
+        {
+          "companyID": 52,
+          "companyNameAr": "البنك السعودي للإستثمار",
+          "companyNameEn": "Saudi Investment Bank",
+          "estimatedValue": 511.3333333333333,
+          "actualValue": 518.408
+        },
+        {
+          "companyID": 53,
+          "companyNameAr": "شركة الأسمنت العربية",
+          "companyNameEn": "Arabian Cement Co.",
+          "estimatedValue": 20.425,
+          "actualValue": 65.494
+        },
+        {
+          "companyID": 54,
+          "companyNameAr": "شركة أسمنت المنطقة الشرقية",
+          "companyNameEn": "Eastern Province Cement Co.",
+          "estimatedValue": 46.875,
+          "actualValue": 35.661
+        },
+        {
+          "companyID": 55,
+          "companyNameAr": "شركة أسمنت القصيم",
+          "companyNameEn": "Qassim Cement Co.",
+          "estimatedValue": 47.63333333333333,
+          "actualValue": 41.3903
+        },
+        {
+          "companyID": 56,
+          "companyNameAr": "شركة الأسمنت السعودية",
+          "companyNameEn": "Saudi Cement Co.",
+          "estimatedValue": 84.18571428571428,
+          "actualValue": 53.226
+        },
+        {
+          "companyID": 57,
+          "companyNameAr": "شركة أسمنت المنطقة الجنوبية",
+          "companyNameEn": "Southern Province Cement Co.",
+          "estimatedValue": 19.285714285714285,
+          "actualValue": 3.0
+        },
+        {
+          "companyID": 58,
+          "companyNameAr": "شركة أسمنت تبوك",
+          "companyNameEn": "Tabuk Cement Co.",
+          "estimatedValue": 14.5,
+          "actualValue": 8.2503
+        },
+        {
+          "companyID": 59,
+          "companyNameAr": "شركة أسمنت اليمامة",
+          "companyNameEn": "Yamama Cement Co.",
+          "estimatedValue": 109.9625,
+          "actualValue": 35.8667
+        },
+        {
+          "companyID": 60,
+          "companyNameAr": "شركة أسمنت ينبع",
+          "companyNameEn": "Yanbu Cement Co.",
+          "estimatedValue": 16.904,
+          "actualValue": 28.3692
+        },
+        {
+          "companyID": 62,
+          "companyNameAr": "شركة المراعي",
+          "companyNameEn": "Almarai Co.",
+          "estimatedValue": 614.68,
+          "actualValue": 613.239
+        },
+        {
+          "companyID": 63,
+          "companyNameAr": "شركة اللجين",
+          "companyNameEn": "Alujain Corp.",
+          "estimatedValue": 22.666666666666668,
+          "actualValue": 16.386
+        },
+        {
+          "companyID": 72,
+          "companyNameAr": "شركة التصنيع الوطنية",
+          "companyNameEn": "National Industrialization Co.",
+          "estimatedValue": -10.575,
+          "actualValue": -558.515
+        },
+        {
+          "companyID": 75,
+          "companyNameAr": "الشركة السعودية للصناعات الدوائية والمستلزمات الطبية",
+          "companyNameEn": "Saudi Pharmaceutical Industries and Medical Appliances Corp.",
+          "estimatedValue": 52.0,
+          "actualValue": 42.138
+        },
+        {
+          "companyID": 77,
+          "companyNameAr": "الشركة السعودية للصناعات الأساسية",
+          "companyNameEn": "Saudi Basic Industries Corp.",
+          "estimatedValue": 482.0885714285714,
+          "actualValue": 433.657
+        },
+        {
+          "companyID": 78,
+          "companyNameAr": "الشركة السعودية لمنتجات الألبان والأغذية",
+          "companyNameEn": "Saudia Dairy and Foodstuff Co.",
+          "estimatedValue": 232.0,
+          "actualValue": 184.53
+        },
+        {
+          "companyID": 79,
+          "companyNameAr": "شركة سابك للمغذيات الزراعية",
+          "companyNameEn": "SABIC Agri-Nutrients Co.",
+          "estimatedValue": 1224.7428571428572,
+          "actualValue": 1289.873
+        },
+        {
+          "companyID": 85,
+          "companyNameAr": "مجموعة صافولا",
+          "companyNameEn": "Savola Group",
+          "estimatedValue": 122.0,
+          "actualValue": 385.562
+        },
+        {
+          "companyID": 86,
+          "companyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "companyNameEn": "Saudi Industrial Investment Group",
+          "estimatedValue": 22.833333333333332,
+          "actualValue": 8.0
+        },
+        {
+          "companyID": 88,
+          "companyNameAr": "شركة ينبع الوطنية للبتروكيماويات",
+          "companyNameEn": "Yanbu National Petrochemical Co.",
+          "estimatedValue": 70.64571428571429,
+          "actualValue": 74.189
+        },
+        {
+          "companyID": 95,
+          "companyNameAr": "شركة جرير للتسويق",
+          "companyNameEn": "Jarir Marketing Co.",
+          "estimatedValue": 318.64285714285717,
+          "actualValue": 324.907
+        },
+        {
+          "companyID": 98,
+          "companyNameAr": "الشركة العقارية السعودية",
+          "companyNameEn": "Saudi Real Estate Co.",
+          "estimatedValue": 39.0,
+          "actualValue": 38.904
+        },
+        {
+          "companyID": 100,
+          "companyNameAr": "الشركة السعودية لخدمات السيارات والمعدات",
+          "companyNameEn": "Saudi Automotive Services Co.",
+          "estimatedValue": 5.85,
+          "actualValue": 8.4137
+        },
+        {
+          "companyID": 105,
+          "companyNameAr": "شركة طيبة للإستثمار",
+          "companyNameEn": "Taiba Investments Co.",
+          "estimatedValue": 58.0,
+          "actualValue": 60.3927
+        },
+        {
+          "companyID": 577,
+          "companyNameAr": "شركة الدريس للخدمات البترولية و النقليات",
+          "companyNameEn": "Aldrees Petroleum and Transport Services Co.",
+          "estimatedValue": 104.0,
+          "actualValue": 112.5115
+        },
+        {
+          "companyID": 585,
+          "companyNameAr": "شركة الصحراء العالمية للبتروكيماويات",
+          "companyNameEn": "Sahara International Petrochemical Co.",
+          "estimatedValue": -4.083333333333333,
+          "actualValue": -468.697
+        },
+        {
+          "companyID": 598,
+          "companyNameAr": "شركة كيان السعودية للبتروكيماويات",
+          "companyNameEn": "Saudi Kayan Petrochemical Co.",
+          "estimatedValue": -409.275,
+          "actualValue": -336.249
+        },
+        {
+          "companyID": 826,
+          "companyNameAr": "مصرف الإنماء",
+          "companyNameEn": "Alinma Bank",
+          "estimatedValue": 1605.625,
+          "actualValue": 1592.015
+        },
+        {
+          "companyID": 836,
+          "companyNameAr": "شركة التعدين العربية السعودية",
+          "companyNameEn": "Saudi Arabian Mining Co.",
+          "estimatedValue": 2204.92,
+          "actualValue": 2205.1298
+        },
+        {
+          "companyID": 843,
+          "companyNameAr": "الشركة المتحدة الدولية للمواصلات",
+          "companyNameEn": "United International Transportation Co.",
+          "estimatedValue": 86.54,
+          "actualValue": 80.27
+        },
+        {
+          "companyID": 878,
+          "companyNameAr": "شركة بوبا العربية للتأمين التعاوني",
+          "companyNameEn": "Bupa Arabia for Cooperative Insurance Co.",
+          "estimatedValue": 311.575,
+          "actualValue": 364.005
+        },
+        {
+          "companyID": 883,
+          "companyNameAr": "مجموعة سيرا القابضة",
+          "companyNameEn": "Seera Group Holding",
+          "estimatedValue": 59.875,
+          "actualValue": 34.1451
+        },
+        {
+          "companyID": 886,
+          "companyNameAr": "شركة أسمنت المنطقة الشمالية",
+          "companyNameEn": "Northern Region Cement Co.",
+          "estimatedValue": 19.0,
+          "actualValue": 16.045
+        },
+        {
+          "companyID": 911,
+          "companyNameAr": "شركة أسواق عبدالله العثيم",
+          "companyNameEn": "Abdullah Al Othaim Markets Co.",
+          "estimatedValue": 50.9,
+          "actualValue": 17.7216
+        },
+        {
+          "companyID": 920,
+          "companyNameAr": "شركة دار الأركان للتطوير العقاري",
+          "companyNameEn": "Dar Alarkan Real Estate Development Co.",
+          "estimatedValue": 187.0,
+          "actualValue": 255.638
+        },
+        {
+          "companyID": 1007,
+          "companyNameAr": "الشركة المتقدمة للبتروكيماويات",
+          "companyNameEn": "Advanced Petrochemical Co.",
+          "estimatedValue": 61.443333333333335,
+          "actualValue": 71.813
+        },
+        {
+          "companyID": 1022,
+          "companyNameAr": "شركة أسمنت نجران",
+          "companyNameEn": "Najran Cement Co.",
+          "estimatedValue": 10.34,
+          "actualValue": 3.069
+        },
+        {
+          "companyID": 1055,
+          "companyNameAr": "شركة أسمنت المدينة",
+          "companyNameEn": "City Cement Co.",
+          "estimatedValue": 29.425,
+          "actualValue": 8.7484
+        },
+        {
+          "companyID": 1058,
+          "companyNameAr": "شركة الإتصالات المتنقلة السعودية",
+          "companyNameEn": "Mobile Telecommunication Company Saudi Arabia",
+          "estimatedValue": 134.63714285714286,
+          "actualValue": 152.809
+        },
+        {
+          "companyID": 1086,
+          "companyNameAr": "مجموعة أسترا الصناعية",
+          "companyNameEn": "Astra Industrial Group",
+          "estimatedValue": 158.25,
+          "actualValue": 167.4426
+        },
+        {
+          "companyID": 1109,
+          "companyNameAr": "شركة هرفي للخدمات الغذائية",
+          "companyNameEn": "Herfy Food Services Co.",
+          "estimatedValue": -6.0,
+          "actualValue": -48.1252
+        },
+        {
+          "companyID": 1129,
+          "companyNameAr": "الشركة السعودية لإعادة التأمين",
+          "companyNameEn": "Saudi Reinsurance Co.",
+          "estimatedValue": 66.0,
+          "actualValue": 30.7747
+        },
+        {
+          "companyID": 1181,
+          "companyNameAr": "شركة دله للخدمات الصحية",
+          "companyNameEn": "Dallah Healthcare Co.",
+          "estimatedValue": 130.36666666666667,
+          "actualValue": 141.9
+        },
+        {
+          "companyID": 1524,
+          "companyNameAr": "شركة المواساة للخدمات الطبية",
+          "companyNameEn": "Mouwasat Medical Services Co.",
+          "estimatedValue": 185.25714285714287,
+          "actualValue": 199.6574
+        },
+        {
+          "companyID": 1526,
+          "companyNameAr": "الشركة السعودية لأنابيب الصلب",
+          "companyNameEn": "Saudi Steel Pipe Co.",
+          "estimatedValue": 30.2,
+          "actualValue": 26.0
+        },
+        {
+          "companyID": 1880,
+          "companyNameAr": "شركة الحسن غازي إبراهيم شاكر",
+          "companyNameEn": "Al Hassan Ghazi Ibrahim Shaker Co.",
+          "estimatedValue": 21.3,
+          "actualValue": 17.819
+        },
+        {
+          "companyID": 1897,
+          "companyNameAr": "شركة كاتريون للتموين القابضة",
+          "companyNameEn": "CATRION Catering Holding Co.",
+          "estimatedValue": 79.06666666666666,
+          "actualValue": 97.0213
+        },
+        {
+          "companyID": 1907,
+          "companyNameAr": "الشركة المتحدة للإلكترونيات",
+          "companyNameEn": "United Electronics Co.",
+          "estimatedValue": 145.3,
+          "actualValue": 142.746
+        },
+        {
+          "companyID": 2298,
+          "companyNameAr": "الشركة الوطنية للرعاية الطبية",
+          "companyNameEn": "National Medical Care Co.",
+          "estimatedValue": 81.025,
+          "actualValue": 82.2011
+        },
+        {
+          "companyID": 2983,
+          "companyNameAr": "الشركة العربية لخدمات الإنترنت والاتصالات",
+          "companyNameEn": "Arabian Internet and Communications Services Co.",
+          "estimatedValue": 452.23545454545456,
+          "actualValue": 416.846
+        },
+        {
+          "companyID": 3069,
+          "companyNameAr": "شركة لومي للتأجير",
+          "companyNameEn": "Lumi Rental Co.",
+          "estimatedValue": 52.56,
+          "actualValue": 52.707
+        },
+        {
+          "companyID": 3376,
+          "companyNameAr": "شركة أم القرى للتنمية والإعمار",
+          "companyNameEn": "Umm Al Qura for Development and Construction Co.",
+          "estimatedValue": 480.0,
+          "actualValue": 516.5681
+        },
+        {
+          "companyID": 3408,
+          "companyNameAr": "شركة أسمنت ام القرى",
+          "companyNameEn": "Umm Al-Qura Cement Co.",
+          "estimatedValue": 11.7,
+          "actualValue": 11.806
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": 5747.822222222222,
+          "actualValue": 6468.657
+        },
+        {
+          "companyID": 3433,
+          "companyNameAr": "الشركة السعودية للخدمات الأرضية",
+          "companyNameEn": "Saudi Ground Services Co.",
+          "estimatedValue": 100.45,
+          "actualValue": 101.503
+        },
+        {
+          "companyID": 3438,
+          "companyNameAr": "شركة الحمادي القابضة",
+          "companyNameEn": "Al Hammadi Holding",
+          "estimatedValue": 72.42,
+          "actualValue": 51.8931
+        },
+        {
+          "companyID": 3509,
+          "companyNameAr": "شركة الزيت العربية السعودية",
+          "companyNameEn": "Saudi Arabian Oil Co.",
+          "estimatedValue": 96854.53571428571,
+          "actualValue": 97264.0
+        },
+        {
+          "companyID": 3815,
+          "companyNameAr": "شركة الدواء للخدمات الطبية",
+          "companyNameEn": "Aldawaa Medical Services Co.",
+          "estimatedValue": 88.26666666666667,
+          "actualValue": 69.064
+        },
+        {
+          "companyID": 4067,
+          "companyNameAr": "شركة مجموعة تداول السعودية القابضة",
+          "companyNameEn": "Saudi Tadawul Group Holding Co.",
+          "estimatedValue": 84.97,
+          "actualValue": 82.6616
+        },
+        {
+          "companyID": 4269,
+          "companyNameAr": "شركة أكوا باور",
+          "companyNameEn": "ACWA POWER Co.",
+          "estimatedValue": 546.8466666666667,
+          "actualValue": 371.167
+        },
+        {
+          "companyID": 4286,
+          "companyNameAr": "شركة مستشفى الدكتور سليمان عبدالقادر فقيه",
+          "companyNameEn": "Dr. Soliman Abdel Kader Fakeeh Hospital Co.",
+          "estimatedValue": 65.9,
+          "actualValue": 71.643
+        },
+        {
+          "companyID": 4298,
+          "companyNameAr": "شركة طيران ناس",
+          "companyNameEn": "Flynas Co.",
+          "estimatedValue": 151.33333333333334,
+          "actualValue": 120.2165
+        },
+        {
+          "companyID": 4307,
+          "companyNameAr": "شركة مرافق الكهرباء والمياه بالجبيل وينبع",
+          "companyNameEn": "The Power and Water Utility Company for Jubail and Yanbu",
+          "estimatedValue": 132.0,
+          "actualValue": 170.674
+        },
+        {
+          "companyID": 4337,
+          "companyNameAr": "الشركة السعودية للعدد والأدوات",
+          "companyNameEn": "Saudi Company for Hardware",
+          "estimatedValue": 52.3,
+          "actualValue": 39.3613
+        },
+        {
+          "companyID": 4367,
+          "companyNameAr": "الشركة العربية للتعهدات الفنية",
+          "companyNameEn": "Arabian Contracting Services Co.",
+          "estimatedValue": -47.0,
+          "actualValue": -82.481
+        },
+        {
+          "companyID": 4391,
+          "companyNameAr": "شركة مجموعة كابلات الرياض",
+          "companyNameEn": "Riyadh Cables Group Co.",
+          "estimatedValue": 287.52,
+          "actualValue": 281.4897
+        },
+        {
+          "companyID": 4433,
+          "companyNameAr": "مجموعة الدكتور سليمان الحبيب للخدمات الطبية",
+          "companyNameEn": "Dr. Sulaiman Al Habib Medical Services Group",
+          "estimatedValue": 622.5,
+          "actualValue": 602.2847
+        },
+        {
+          "companyID": 4434,
+          "companyNameAr": "شركة الحفر العربية",
+          "companyNameEn": "Arabian Drilling Co.",
+          "estimatedValue": -14.264,
+          "actualValue": -9.4
+        },
+        {
+          "companyID": 4451,
+          "companyNameAr": "شركة أسمنت الرياض",
+          "companyNameEn": "Riyadh Cement Co.",
+          "estimatedValue": 47.175,
+          "actualValue": 15.0
+        },
+        {
+          "companyID": 4475,
+          "companyNameAr": "شركة الشرق الأوسط للرعاية الصحية",
+          "companyNameEn": "Middle East Healthcare Co.",
+          "estimatedValue": 62.166666666666664,
+          "actualValue": -89.66
+        },
+        {
+          "companyID": 4516,
+          "companyNameAr": "شركة لجام للرياضة",
+          "companyNameEn": "Leejam Sports Co.",
+          "estimatedValue": 106.35,
+          "actualValue": 81.0
+        },
+        {
+          "companyID": 4537,
+          "companyNameAr": "شركة أرامكو السعودية لزيوت الأساس",
+          "companyNameEn": "Saudi Aramco Base Oil Co.",
+          "estimatedValue": 252.35666666666665,
+          "actualValue": 278.826
+        },
+        {
+          "companyID": 4638,
+          "companyNameAr": "شركة المراكز العربية",
+          "companyNameEn": "Arabian Centres Co.",
+          "estimatedValue": 288.75,
+          "actualValue": 500.6513
+        },
+        {
+          "companyID": 5122,
+          "companyNameAr": "شركة ذيب لتأجير السيارات",
+          "companyNameEn": "Theeb Rent a Car Co.",
+          "estimatedValue": 49.82,
+          "actualValue": 50.1717
+        },
+        {
+          "companyID": 5131,
+          "companyNameAr": "شركة بن داود القابضة",
+          "companyNameEn": "BinDawood Holding Co.",
+          "estimatedValue": 37.24,
+          "actualValue": 42.0683
+        },
+        {
+          "companyID": 5135,
+          "companyNameAr": "شركة المنجم للأغذية",
+          "companyNameEn": "Almunajem Foods Co.",
+          "estimatedValue": 30.6,
+          "actualValue": 31.688
+        },
+        {
+          "companyID": 5192,
+          "companyNameAr": "شركة المعمر لأنظمة المعلومات",
+          "companyNameEn": "Al Moammar Information Systems Co.",
+          "estimatedValue": 22.6,
+          "actualValue": 25.1025
+        },
+        {
+          "companyID": 5268,
+          "companyNameAr": "شركة مهارة للموارد البشرية",
+          "companyNameEn": "Maharah Human Resources Co.",
+          "estimatedValue": 41.4,
+          "actualValue": 44.4643
+        },
+        {
+          "companyID": 10201,
+          "companyNameAr": "شركة رتال للتطوير العمراني",
+          "companyNameEn": "Retal Urban Development Co.",
+          "estimatedValue": 64.0,
+          "actualValue": 55.4976
+        },
+        {
+          "companyID": 11071,
+          "companyNameAr": "شركة سال السعودية للخدمات اللوجستية",
+          "companyNameEn": "SAL Saudi Logistics Services Co.",
+          "estimatedValue": 158.13333333333333,
+          "actualValue": 180.89
+        },
+        {
+          "companyID": 11828,
+          "companyNameAr": "شركة علم",
+          "companyNameEn": "Elm Co.",
+          "estimatedValue": 618.25875,
+          "actualValue": 558.7279
+        },
+        {
+          "companyID": 12760,
+          "companyNameAr": "شركة النهدي الطبية",
+          "companyNameEn": "Nahdi Medical Co.",
+          "estimatedValue": 201.0,
+          "actualValue": 161.2489
+        },
+        {
+          "companyID": 12964,
+          "companyNameAr": "شركة مطاعم بيت الشطيرة للوجبات السريعة",
+          "companyNameEn": "Shatirah House Restaurant Co.",
+          "estimatedValue": 1.3,
+          "actualValue": 3.4435
+        },
+        {
+          "companyID": 13068,
+          "companyNameAr": "شركة الخريف لتقنية المياه والطاقة",
+          "companyNameEn": "Alkhorayef Water and Power Technologies Co.",
+          "estimatedValue": 67.0,
+          "actualValue": 69.5854
+        },
+        {
+          "companyID": 13453,
+          "companyNameAr": "شركة المطاحن العربية للمنتجات الغذائية",
+          "companyNameEn": "Arabian Mills for Food Products Co.",
+          "estimatedValue": 64.0,
+          "actualValue": 62.5362
+        },
+        {
+          "companyID": 13454,
+          "companyNameAr": "شركة المطاحن الرابعة",
+          "companyNameEn": "Fourth Milling Co.",
+          "estimatedValue": 48.0,
+          "actualValue": 52.1171
+        },
+        {
+          "companyID": 13502,
+          "companyNameAr": "شركة جاهز الدولية لتقنية نظم المعلومات",
+          "companyNameEn": "Jahez International Company for Information System Technology",
+          "estimatedValue": 51.0,
+          "actualValue": 62.6331
+        },
+        {
+          "companyID": 13515,
+          "companyNameAr": "شركة التنمية الغذائية",
+          "companyNameEn": "Tanmiah Food Co.",
+          "estimatedValue": 1.1,
+          "actualValue": -15.8
+        },
+        {
+          "companyID": 13805,
+          "companyNameAr": "شركة الآمار الغذائية",
+          "companyNameEn": "Alamar Foods Co.",
+          "estimatedValue": 15.0,
+          "actualValue": 15.6614
+        },
+        {
+          "companyID": 13934,
+          "companyNameAr": "شركة جاز العربية للخدمات",
+          "companyNameEn": "Gas Arabian Services Co.",
+          "estimatedValue": 35.0,
+          "actualValue": 38.1489
+        },
+        {
+          "companyID": 13986,
+          "companyNameAr": "شركة المصانع الكبرى للتعدين",
+          "companyNameEn": "Almasane Alkobra Mining Co.",
+          "estimatedValue": 83.0,
+          "actualValue": 81.3697
+        },
+        {
+          "companyID": 14277,
+          "companyNameAr": "شركة تمكين للموارد البشرية",
+          "companyNameEn": "Tamkeen Human Resource Co.",
+          "estimatedValue": 26.9,
+          "actualValue": 23.9327
+        },
+        {
+          "companyID": 14629,
+          "companyNameAr": "شركة أديس القابضة",
+          "companyNameEn": "Ades Holding Co.",
+          "estimatedValue": 206.79888888888888,
+          "actualValue": 214.573
+        },
+        {
+          "companyID": 14801,
+          "companyNameAr": "شركة العرض المتقن للخدمات التجارية",
+          "companyNameEn": "Perfect Presentation for Commercial Services Co.",
+          "estimatedValue": 38.5,
+          "actualValue": 32.7836
+        },
+        {
+          "companyID": 14806,
+          "companyNameAr": "شركة مجموعة إم بي سي",
+          "companyNameEn": "MBC Group Co.",
+          "estimatedValue": 10.6,
+          "actualValue": 19.739
+        },
+        {
+          "companyID": 15023,
+          "companyNameAr": "شركة أمريكانا للمطاعم العالمية بي إل سي - شركة أجنبية",
+          "companyNameEn": "Americana Restaurants International PLC - Foreign Company",
+          "estimatedValue": 198.08,
+          "actualValue": 160.905
+        },
+        {
+          "companyID": 15170,
+          "companyNameAr": "شركة الموارد للقوى البشرية",
+          "companyNameEn": "Al Mawarid Manpower Co.",
+          "estimatedValue": 33.93333333333333,
+          "actualValue": 36.983
+        },
+        {
+          "companyID": 15187,
+          "companyNameAr": "شركة مصنع جمجوم للأدوية ",
+          "companyNameEn": "Jamjoom Pharmaceuticals Factory Co.",
+          "estimatedValue": 115.18,
+          "actualValue": 106.6722
+        },
+        {
+          "companyID": 15432,
+          "companyNameAr": "الشركة المتحدة الدولية القابضة",
+          "companyNameEn": "United International Holding Co.",
+          "estimatedValue": 66.5,
+          "actualValue": 81.5529
+        },
+        {
+          "companyID": 15705,
+          "companyNameAr": "شركة المطاحن الأولى",
+          "companyNameEn": "First Milling Co.",
+          "estimatedValue": 68.05,
+          "actualValue": 71.6579
+        },
+        {
+          "companyID": 16275,
+          "companyNameAr": "شركة مياهنا",
+          "companyNameEn": "Miahona Co.",
+          "estimatedValue": 6.0,
+          "actualValue": 4.5628
+        },
+        {
+          "companyID": 16303,
+          "companyNameAr": "شركة الأندية للرياضة ",
+          "companyNameEn": "Sport Clubs Co.",
+          "estimatedValue": 5.0,
+          "actualValue": 16.3175
+        },
+        {
+          "companyID": 16437,
+          "companyNameAr": "شركة الشرق الأوسط للصناعات الدوائية",
+          "companyNameEn": "Middle East Pharmaceutical Industries Co.",
+          "estimatedValue": 11.666666666666666,
+          "actualValue": 8.2783
+        },
+        {
+          "companyID": 16485,
+          "companyNameAr": "شركة المطاحن الحديثة للمنتجات الغذائية",
+          "companyNameEn": "Modern Mills for Food Products Co.",
+          "estimatedValue": 56.833333333333336,
+          "actualValue": 56.1363
+        },
+        {
+          "companyID": 16511,
+          "companyNameAr": "شركة الموسى الصحية",
+          "companyNameEn": "Almoosa Health Co.",
+          "estimatedValue": 59.5,
+          "actualValue": 65.8
+        },
+        {
+          "companyID": 16515,
+          "companyNameAr": "شركة نايس ون بيوتي للتسويق الإلكتروني",
+          "companyNameEn": "Nice One Beauty Digital Marketing Co.",
+          "estimatedValue": 27.8,
+          "actualValue": 5.9202
+        },
+        {
+          "companyID": 16903,
+          "companyNameAr": "الشركة السعودية لحلول القوى البشرية",
+          "companyNameEn": "Saudi Manpower Solutions Co.",
+          "estimatedValue": 36.95,
+          "actualValue": 40.603
+        },
+        {
+          "companyID": 17152,
+          "companyNameAr": "شركة الماجد للعود",
+          "companyNameEn": "Al Majed Oud Co.",
+          "estimatedValue": 25.45,
+          "actualValue": 30.1073
+        },
+        {
+          "companyID": 17417,
+          "companyNameAr": "الشركة العربية للاستثمار الزراعي والصناعي",
+          "companyNameEn": "Arabian Company for Agricultural and Industrial Investment",
+          "estimatedValue": 4.35,
+          "actualValue": -5.2
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

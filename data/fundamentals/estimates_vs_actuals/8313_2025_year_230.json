@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:42:27.7605622Z",
+  "requestId": "req_ab565b37f4704ed3b3cb789710ebeb16",
+  "data": {
+    "symbol": "8313",
+    "fiscalYear": 2025,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 15706,
+          "CompanyNameEn": "Rasan Information Technology Co.",
+          "CompanyNameAr": "شركة رسن لتقنية المعلومات",
+          "BrokerID": 2725,
+          "BrokerNameEn": "ANB Capital",
+          "BrokerNameAr": "العربي المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2025-04-17T00:00:00",
+          "EstimatedValue": 561.0,
+          "ActualValue": 653.252
+        },
+        {
+          "CompanyID": 15706,
+          "CompanyNameEn": "Rasan Information Technology Co.",
+          "CompanyNameAr": "شركة رسن لتقنية المعلومات",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2024-06-12T00:00:00",
+          "EstimatedValue": 594.0,
+          "ActualValue": 653.252
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

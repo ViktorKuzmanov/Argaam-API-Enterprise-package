@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:06:02.1514977Z",
+  "requestId": "req_e4e7251dcec0471b8b60d523dd8f9ae5",
+  "data": {
+    "symbol": "2250",
+    "fiscalYear": 2016,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 4415,
+          "BrokerNameEn": "99Hlala Capital",
+          "BrokerNameAr": "تسعة وتسعون هللة المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2015-11-16T00:00:00",
+          "EstimatedValue": 8524.0,
+          "ActualValue": 6066.505
+        },
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2015-09-23T00:00:00",
+          "EstimatedValue": 5650.0,
+          "ActualValue": 6066.505
+        },
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 2724,
+          "BrokerNameEn": "HSBC ",
+          "BrokerNameAr": "إتش إس بي سي ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2015-09-09T00:00:00",
+          "EstimatedValue": 6140.0,
+          "ActualValue": 6066.505
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

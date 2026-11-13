@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:54:55.9201262Z",
+  "requestId": "req_f6ee59d881584aa2aea5d33e6a9161e4",
+  "data": {
+    "symbol": "3020",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 72,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 59,
+          "CompanyNameEn": "Yamama Cement Co.",
+          "CompanyNameAr": "شركة أسمنت اليمامة",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2022-01-18T00:00:00",
+          "EstimatedValue": 1669.0,
+          "ActualValue": 1642.813
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

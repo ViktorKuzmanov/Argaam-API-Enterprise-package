@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:17:57.3612196Z",
+  "requestId": "req_652977d96d054fbba0407aa571a674d2",
+  "data": {
+    "marketId": 14,
+    "year": 2024,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 72,
+    "estimates": {
+      "forYear": 2024,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "اجمالي المطلوبات",
+      "fsFieldNameEn": "Total Liabilities",
+      "marketID": 14,
+      "analysEstimates": [
+        {
+          "companyID": 12766,
+          "companyNameAr": "شركة رواسي البناء للاستثمار",
+          "companyNameEn": "Rawasi Albina Investment Co.",
+          "estimatedValue": 65618.0,
+          "actualValue": 97.5666
+        },
+        {
+          "companyID": 13492,
+          "companyNameAr": "شركة تدوير البيئة الأهلية",
+          "companyNameEn": "National Environmental Recycling Co.",
+          "estimatedValue": 47.0,
+          "actualValue": 182.6064
+        },
+        {
+          "companyID": 13703,
+          "companyNameAr": "شركة الحاسوب للتجارة",
+          "companyNameEn": "Alhasoob Co.",
+          "estimatedValue": 51.0,
+          "actualValue": 63.9852
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

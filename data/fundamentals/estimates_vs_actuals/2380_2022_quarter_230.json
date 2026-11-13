@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:51:19.5690621Z",
+  "requestId": "req_3e0b0a4265b5485a939c5a9da0483b43",
+  "data": {
+    "symbol": "2380",
+    "fiscalYear": 2022,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 600,
+          "CompanyNameEn": "Rabigh Refining and Petrochemical Co.",
+          "CompanyNameAr": "شركة رابغ للتكرير والبتروكيماويات",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2022-09-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-10-06T00:00:00",
+          "EstimatedValue": 16207.5,
+          "ActualValue": 12644.859
+        },
+        {
+          "CompanyID": 600,
+          "CompanyNameEn": "Rabigh Refining and Petrochemical Co.",
+          "CompanyNameAr": "شركة رابغ للتكرير والبتروكيماويات",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2022-06-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-07-21T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 18100.013
+        },
+        {
+          "CompanyID": 600,
+          "CompanyNameEn": "Rabigh Refining and Petrochemical Co.",
+          "CompanyNameAr": "شركة رابغ للتكرير والبتروكيماويات",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2022-03-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-04-12T00:00:00",
+          "EstimatedValue": 12129.1,
+          "ActualValue": 14401.618
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

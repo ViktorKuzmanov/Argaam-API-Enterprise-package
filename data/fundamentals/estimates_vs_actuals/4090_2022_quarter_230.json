@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:52:12.2511385Z",
+  "requestId": "req_f3b6f0e7752945208736653e735ba6ab",
+  "data": {
+    "symbol": "4090",
+    "fiscalYear": 2022,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 105,
+          "CompanyNameEn": "Taiba Investments Co.",
+          "CompanyNameAr": "شركة طيبة للإستثمار",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2022-09-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-10-05T00:00:00",
+          "EstimatedValue": 82.9,
+          "ActualValue": 90.872
+        },
+        {
+          "CompanyID": 105,
+          "CompanyNameEn": "Taiba Investments Co.",
+          "CompanyNameAr": "شركة طيبة للإستثمار",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2022-06-30T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-07-06T00:00:00",
+          "EstimatedValue": 62.0,
+          "ActualValue": 81.174
+        },
+        {
+          "CompanyID": 105,
+          "CompanyNameEn": "Taiba Investments Co.",
+          "CompanyNameAr": "شركة طيبة للإستثمار",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2022-03-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-04-07T00:00:00",
+          "EstimatedValue": 40.0,
+          "ActualValue": 52.554
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

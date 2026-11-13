@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:03:38.2143364Z",
+  "requestId": "req_110dc600b9444e609e36d5a213da17f9",
+  "data": {
+    "symbol": "3030",
+    "fiscalYear": 2017,
+    "period": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 56,
+          "CompanyNameEn": "Saudi Cement Co.",
+          "CompanyNameAr": "شركة الأسمنت السعودية",
+          "BrokerID": 2734,
+          "BrokerNameEn": "Albilad Capital",
+          "BrokerNameAr": "البلاد المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2016-01-19T00:00:00",
+          "EstimatedValue": 3965.0,
+          "ActualValue": 3935.768
+        },
+        {
+          "CompanyID": 56,
+          "CompanyNameEn": "Saudi Cement Co.",
+          "CompanyNameAr": "شركة الأسمنت السعودية",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2015-06-22T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 3935.768
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

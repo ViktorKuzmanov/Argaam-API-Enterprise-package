@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:21:42.2841956Z",
+  "requestId": "req_672e2f4cfdfd447190dcb13c36166582",
+  "data": {
+    "marketId": 3,
+    "year": 2017,
+    "period": "quarter",
+    "fiscalPeriod": "q1",
+    "fsFieldId": 232,
+    "estimates": {
+      "forYear": 2017,
+      "fiscalPeriodValue": "Q1",
+      "fsFieldNameAr": "إجمالي الدخل",
+      "fsFieldNameEn": "Total Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 62,
+          "companyNameAr": "شركة المراعي",
+          "companyNameEn": "Almarai Co.",
+          "estimatedValue": 1319.8,
+          "actualValue": 1177.43
+        },
+        {
+          "companyID": 4475,
+          "companyNameAr": "شركة الشرق الأوسط للرعاية الصحية",
+          "companyNameEn": "Middle East Healthcare Co.",
+          "estimatedValue": 232.6,
+          "actualValue": 180.467
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

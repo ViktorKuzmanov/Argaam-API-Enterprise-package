@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:07:32.7742994Z",
+  "requestId": "req_c9f9e86bd73948eb9e83dd4e76be0b0b",
+  "data": {
+    "symbol": "4031",
+    "fiscalYear": 2016,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 3433,
+          "CompanyNameEn": "Saudi Ground Services Co.",
+          "CompanyNameAr": "الشركة السعودية للخدمات الأرضية",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2017-01-03T00:00:00",
+          "EstimatedValue": 690.0,
+          "ActualValue": 607.186
+        },
+        {
+          "CompanyID": 3433,
+          "CompanyNameEn": "Saudi Ground Services Co.",
+          "CompanyNameAr": "الشركة السعودية للخدمات الأرضية",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2016-09-30T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2016-09-08T00:00:00",
+          "EstimatedValue": 740.0,
+          "ActualValue": 741.272
+        },
+        {
+          "CompanyID": 3433,
+          "CompanyNameEn": "Saudi Ground Services Co.",
+          "CompanyNameAr": "الشركة السعودية للخدمات الأرضية",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2016-06-30T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2016-07-03T00:00:00",
+          "EstimatedValue": 654.0,
+          "ActualValue": 692.451
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

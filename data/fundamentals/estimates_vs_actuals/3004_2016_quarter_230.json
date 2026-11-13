@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:06:30.207248Z",
+  "requestId": "req_497228bbe16d43a388a7fc738a93b791",
+  "data": {
+    "symbol": "3004",
+    "fiscalYear": 2016,
+    "period": "quarter",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 886,
+          "CompanyNameEn": "Northern Region Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المنطقة الشمالية",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2016-09-30T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2016-09-27T00:00:00",
+          "EstimatedValue": 197.0,
+          "ActualValue": 141.387
+        },
+        {
+          "CompanyID": 886,
+          "CompanyNameEn": "Northern Region Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المنطقة الشمالية",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2016-06-30T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2016-06-30T00:00:00",
+          "EstimatedValue": 249.0,
+          "ActualValue": 251.671
+        },
+        {
+          "CompanyID": 886,
+          "CompanyNameEn": "Northern Region Cement Co.",
+          "CompanyNameAr": "شركة أسمنت المنطقة الشمالية",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2016-03-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2016-04-25T00:00:00",
+          "EstimatedValue": 280.6,
+          "ActualValue": 231.141
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

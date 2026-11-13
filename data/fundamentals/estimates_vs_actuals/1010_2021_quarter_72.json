@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:53:30.9058099Z",
+  "requestId": "req_d8845c8781844aa78c1f986b350ff3a8",
+  "data": {
+    "symbol": "1010",
+    "fiscalYear": 2021,
+    "period": "quarter",
+    "fsFieldId": 72,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 47,
+          "CompanyNameEn": "Riyad Bank",
+          "CompanyNameAr": "بنك الرياض",
+          "BrokerID": 4758,
+          "BrokerNameEn": "FAB Securities",
+          "BrokerNameAr": "أبوظبي الأول للأوراق المالية",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2022-01-23T00:00:00",
+          "EstimatedValue": 207617.0,
+          "ActualValue": 278436.047
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

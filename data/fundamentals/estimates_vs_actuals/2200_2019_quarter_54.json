@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:58:46.1666329Z",
+  "requestId": "req_c692a1c456694b0bbcd5aa7c8581286d",
+  "data": {
+    "symbol": "2200",
+    "fiscalYear": 2019,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 76,
+          "CompanyNameEn": "Arabian Pipes Co.",
+          "CompanyNameAr": "الشركة العربية للأنابيب",
+          "BrokerID": 15979,
+          "BrokerNameEn": "OSOOL AND BAKHEET",
+          "BrokerNameAr": "أصول وبخيت",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2020-01-09T00:00:00",
+          "EstimatedValue": 3.8,
+          "ActualValue": 4.879
+        },
+        {
+          "CompanyID": 76,
+          "CompanyNameEn": "Arabian Pipes Co.",
+          "CompanyNameAr": "الشركة العربية للأنابيب",
+          "BrokerID": 15979,
+          "BrokerNameEn": "OSOOL AND BAKHEET",
+          "BrokerNameAr": "أصول وبخيت",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2019-09-30T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2019-10-07T00:00:00",
+          "EstimatedValue": 12.4,
+          "ActualValue": 9.186
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

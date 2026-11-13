@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:08:44.0427552Z",
+  "requestId": "req_f3c16a8a3e2d40daa182f975bb00c7e7",
+  "data": {
+    "symbol": "1080",
+    "fiscalYear": 2015,
+    "period": "year",
+    "fsFieldId": 72,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 45,
+          "CompanyNameEn": "Arab National Bank",
+          "CompanyNameAr": "البنك العربي الوطني",
+          "BrokerID": 3440,
+          "BrokerNameEn": "NBK Capital ",
+          "BrokerNameAr": "الوطنى للاستثمار",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2016-01-17T00:00:00",
+          "EstimatedValue": 143725.0,
+          "ActualValue": 147789.42
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

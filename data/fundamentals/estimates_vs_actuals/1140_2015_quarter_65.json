@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:08:46.77846Z",
+  "requestId": "req_e0e954b04f384f50a82972ba305fa246",
+  "data": {
+    "symbol": "1140",
+    "fiscalYear": 2015,
+    "period": "quarter",
+    "fsFieldId": 65,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 44,
+          "CompanyNameEn": "Bank Albilad",
+          "CompanyNameAr": "بنك البلاد",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2015-06-30T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2015-08-17T00:00:00",
+          "EstimatedValue": 49143.0,
+          "ActualValue": 49143.242
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

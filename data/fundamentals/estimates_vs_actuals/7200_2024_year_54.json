@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:45:45.662921Z",
+  "requestId": "req_38630239596d4354b18d503cc69ba390",
+  "data": {
+    "symbol": "7200",
+    "fiscalYear": 2024,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 5192,
+          "CompanyNameEn": "Al Moammar Information Systems Co.",
+          "CompanyNameAr": "شركة المعمر لأنظمة المعلومات",
+          "BrokerID": 3932,
+          "BrokerNameEn": "United Securities Company  ",
+          "BrokerNameAr": "المتحدة للأوراق المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2023-06-07T00:00:00",
+          "EstimatedValue": 62.0,
+          "ActualValue": 121.738
+        },
+        {
+          "CompanyID": 5192,
+          "CompanyNameEn": "Al Moammar Information Systems Co.",
+          "CompanyNameAr": "شركة المعمر لأنظمة المعلومات",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2023-03-15T00:00:00",
+          "EstimatedValue": 125.0,
+          "ActualValue": 121.738
+        },
+        {
+          "CompanyID": 5192,
+          "CompanyNameEn": "Al Moammar Information Systems Co.",
+          "CompanyNameAr": "شركة المعمر لأنظمة المعلومات",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2022-05-16T00:00:00",
+          "EstimatedValue": 167.9,
+          "ActualValue": 121.738
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

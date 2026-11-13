@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:06:22.0415331Z",
+  "requestId": "req_5a61ec489ba5459a879bdacd3d15752b",
+  "data": {
+    "symbol": "2350",
+    "fiscalYear": 2016,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 598,
+          "CompanyNameEn": "Saudi Kayan Petrochemical Co.",
+          "CompanyNameAr": "شركة كيان السعودية للبتروكيماويات",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2014-12-31T00:00:00",
+          "EstimatedValue": 9552.0,
+          "ActualValue": 8608.817
+        },
+        {
+          "CompanyID": 598,
+          "CompanyNameEn": "Saudi Kayan Petrochemical Co.",
+          "CompanyNameAr": "شركة كيان السعودية للبتروكيماويات",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2014-08-12T00:00:00",
+          "EstimatedValue": 7581.0,
+          "ActualValue": 8608.817
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:40:07.1552078Z",
+  "requestId": "req_ffe9570ad1fb4840bc8b3452c8954e60",
+  "data": {
+    "symbol": "1835",
+    "fiscalYear": 2025,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 14277,
+          "CompanyNameEn": "Tamkeen Human Resource Co.",
+          "CompanyNameAr": "شركة تمكين للموارد البشرية",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2026-01-14T00:00:00",
+          "EstimatedValue": 102.0,
+          "ActualValue": 95.102
+        },
+        {
+          "CompanyID": 14277,
+          "CompanyNameEn": "Tamkeen Human Resource Co.",
+          "CompanyNameAr": "شركة تمكين للموارد البشرية",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2024-11-27T00:00:00",
+          "EstimatedValue": 78.0,
+          "ActualValue": 95.102
+        },
+        {
+          "CompanyID": 14277,
+          "CompanyNameEn": "Tamkeen Human Resource Co.",
+          "CompanyNameAr": "شركة تمكين للموارد البشرية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2024-11-26T00:00:00",
+          "EstimatedValue": 91.0,
+          "ActualValue": 95.102
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

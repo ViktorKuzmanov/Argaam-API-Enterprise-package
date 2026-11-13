@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:39:40.3185696Z",
+  "requestId": "req_db038fa706d1420687417dc43f121560",
+  "data": {
+    "symbol": "9603",
+    "fiscalYear": 2026,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 16483,
+          "CompanyNameEn": "Horizon Educational Co.",
+          "CompanyNameAr": "شركة الأفق التعليمية",
+          "BrokerID": 3939,
+          "BrokerNameEn": "Alawwal Capital",
+          "BrokerNameAr": "الأول كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2026-12-31T00:00:00",
+          "ForYear": 2026,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-07-17T00:00:00",
+          "EstimatedValue": 13.69,
+          "ActualValue": 15.177
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:57:33.0550298Z",
+  "requestId": "req_cc52a760b2f847abb8b67a1384ed2659",
+  "data": {
+    "symbol": "4004",
+    "fiscalYear": 2020,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1181,
+          "CompanyNameEn": "Dallah Healthcare Co.",
+          "CompanyNameAr": "شركة دله للخدمات الصحية",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-06-27T00:00:00",
+          "EstimatedValue": 1221.8,
+          "ActualValue": 1318.254
+        },
+        {
+          "CompanyID": 1181,
+          "CompanyNameEn": "Dallah Healthcare Co.",
+          "CompanyNameAr": "شركة دله للخدمات الصحية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2018-09-16T00:00:00",
+          "EstimatedValue": 1369.0,
+          "ActualValue": 1318.254
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

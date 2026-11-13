@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:18:32.825648Z",
+  "requestId": "req_3d32bf898eab43ffa12c5f52f0efcac0",
+  "data": {
+    "marketId": 14,
+    "year": 2023,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "forYear": 2023,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "إجمالي الدخل",
+      "fsFieldNameEn": "Total Income",
+      "marketID": 14,
+      "analysEstimates": [
+        {
+          "companyID": 12766,
+          "companyNameAr": "شركة رواسي البناء للاستثمار",
+          "companyNameEn": "Rawasi Albina Investment Co.",
+          "estimatedValue": 32312.0,
+          "actualValue": 42.499
+        },
+        {
+          "companyID": 13492,
+          "companyNameAr": "شركة تدوير البيئة الأهلية",
+          "companyNameEn": "National Environmental Recycling Co.",
+          "estimatedValue": 56.0,
+          "actualValue": 41.446
+        },
+        {
+          "companyID": 13703,
+          "companyNameAr": "شركة الحاسوب للتجارة",
+          "companyNameEn": "Alhasoob Co.",
+          "estimatedValue": 20.8,
+          "actualValue": 14.36
+        },
+        {
+          "companyID": 13994,
+          "companyNameAr": "الشركة الطبية العربية العالمية القابضة",
+          "companyNameEn": "Arabian International Healthcare Holding Co.",
+          "estimatedValue": null,
+          "actualValue": 190.038
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:05:23.086599Z",
+  "requestId": "req_01f60a819dc740708381f16329395718",
+  "data": {
+    "symbol": "1211",
+    "fiscalYear": 2016,
+    "period": "quarter",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 836,
+          "CompanyNameEn": "Saudi Arabian Mining Co.",
+          "CompanyNameAr": "شركة التعدين العربية السعودية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2016-06-30T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2016-07-19T00:00:00",
+          "EstimatedValue": 616.5,
+          "ActualValue": 580.945
+        },
+        {
+          "CompanyID": 836,
+          "CompanyNameEn": "Saudi Arabian Mining Co.",
+          "CompanyNameAr": "شركة التعدين العربية السعودية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2016-03-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2016-04-20T00:00:00",
+          "EstimatedValue": 442.0,
+          "ActualValue": 494.857
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

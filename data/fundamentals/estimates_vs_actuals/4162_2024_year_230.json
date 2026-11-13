@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:44:53.6125162Z",
+  "requestId": "req_e54174fdd98447ae80464018af315557",
+  "data": {
+    "symbol": "4162",
+    "fiscalYear": 2024,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 5135,
+          "CompanyNameEn": "Almunajem Foods Co.",
+          "CompanyNameAr": "شركة المنجم للأغذية",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2024-08-14T00:00:00",
+          "EstimatedValue": 3491.0,
+          "ActualValue": 3346.984
+        },
+        {
+          "CompanyID": 5135,
+          "CompanyNameEn": "Almunajem Foods Co.",
+          "CompanyNameAr": "شركة المنجم للأغذية",
+          "BrokerID": 10872,
+          "BrokerNameEn": "CI Capital",
+          "BrokerNameAr": "سي أي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2024-03-05T00:00:00",
+          "EstimatedValue": 3630.0,
+          "ActualValue": 3346.984
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

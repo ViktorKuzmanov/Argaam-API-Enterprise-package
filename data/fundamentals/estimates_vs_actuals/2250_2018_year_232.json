@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:00:51.8906928Z",
+  "requestId": "req_117836f6a4014f1ab6051f5f23869249",
+  "data": {
+    "symbol": "2250",
+    "fiscalYear": 2018,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 3659,
+          "BrokerNameEn": "YAQEEN",
+          "BrokerNameAr": "يقين",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2018-12-31T00:00:00",
+          "ForYear": 2018,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2018-06-11T00:00:00",
+          "EstimatedValue": 2815.0,
+          "ActualValue": 2683.106
+        },
+        {
+          "CompanyID": 86,
+          "CompanyNameEn": "Saudi Industrial Investment Group",
+          "CompanyNameAr": "المجموعة السعودية للإستثمار الصناعي",
+          "BrokerID": 4483,
+          "BrokerNameEn": "Sico",
+          "BrokerNameAr": "سيكو",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2018-12-31T00:00:00",
+          "ForYear": 2018,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2018-01-23T00:00:00",
+          "EstimatedValue": 3670.0,
+          "ActualValue": 2683.106
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

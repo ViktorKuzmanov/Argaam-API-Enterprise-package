@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:57:28.7871992Z",
+  "requestId": "req_8f5c4bc1946e4eb296df393862b75191",
+  "data": {
+    "symbol": "4003",
+    "fiscalYear": 2020,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1907,
+          "CompanyNameEn": "United Electronics Co.",
+          "CompanyNameAr": "الشركة المتحدة للإلكترونيات",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2020-12-14T00:00:00",
+          "EstimatedValue": 5895.0,
+          "ActualValue": 5962.315
+        },
+        {
+          "CompanyID": 1907,
+          "CompanyNameEn": "United Electronics Co.",
+          "CompanyNameAr": "الشركة المتحدة للإلكترونيات",
+          "BrokerID": 3674,
+          "BrokerNameEn": "Itqan Capital",
+          "BrokerNameAr": "إتقان كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-11-19T00:00:00",
+          "EstimatedValue": 4985.0,
+          "ActualValue": 5962.315
+        },
+        {
+          "CompanyID": 1907,
+          "CompanyNameEn": "United Electronics Co.",
+          "CompanyNameAr": "الشركة المتحدة للإلكترونيات",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-01-15T00:00:00",
+          "EstimatedValue": 5269.0,
+          "ActualValue": 5962.315
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:42:19.6340941Z",
+  "requestId": "req_359b3950a2d34193b354ba7b1f4dc971",
+  "data": {
+    "symbol": "8060",
+    "fiscalYear": 2025,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1012,
+          "CompanyNameEn": "Walaa Cooperative Insurance Co.",
+          "CompanyNameAr": "شركة ولاء للتأمين التعاوني",
+          "BrokerID": 2725,
+          "BrokerNameEn": "ANB Capital",
+          "BrokerNameAr": "العربي المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-04-17T00:00:00",
+          "EstimatedValue": 127.0,
+          "ActualValue": -175.816
+        },
+        {
+          "CompanyID": 1012,
+          "CompanyNameEn": "Walaa Cooperative Insurance Co.",
+          "CompanyNameAr": "شركة ولاء للتأمين التعاوني",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2023-11-30T00:00:00",
+          "EstimatedValue": -38.0,
+          "ActualValue": -175.816
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:05:58.0799247Z",
+  "requestId": "req_36fa4665dc7c49eda5a51e28cc57fe68",
+  "data": {
+    "symbol": "2240",
+    "fiscalYear": 2016,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 89,
+          "CompanyNameEn": "Advanced Building Industries Co.",
+          "CompanyNameAr": "شركة صناعات البناء المتقدمة",
+          "BrokerID": 15979,
+          "BrokerNameEn": "OSOOL AND BAKHEET",
+          "BrokerNameAr": "أصول وبخيت",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2016-12-18T00:00:00",
+          "EstimatedValue": 41.9,
+          "ActualValue": 1.11
+        },
+        {
+          "CompanyID": 89,
+          "CompanyNameEn": "Advanced Building Industries Co.",
+          "CompanyNameAr": "شركة صناعات البناء المتقدمة",
+          "BrokerID": 15979,
+          "BrokerNameEn": "OSOOL AND BAKHEET",
+          "BrokerNameAr": "أصول وبخيت",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2016-09-30T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2016-09-25T00:00:00",
+          "EstimatedValue": 45.3,
+          "ActualValue": 41.154
+        },
+        {
+          "CompanyID": 89,
+          "CompanyNameEn": "Advanced Building Industries Co.",
+          "CompanyNameAr": "شركة صناعات البناء المتقدمة",
+          "BrokerID": 15979,
+          "BrokerNameEn": "OSOOL AND BAKHEET",
+          "BrokerNameAr": "أصول وبخيت",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2016-06-30T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2016-06-22T00:00:00",
+          "EstimatedValue": 57.2,
+          "ActualValue": 51.22
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

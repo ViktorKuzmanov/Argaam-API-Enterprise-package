@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:55:31.9928883Z",
+  "requestId": "req_1f9ba2d8240a4b68b5316ef7c6db41b1",
+  "data": {
+    "symbol": "4009",
+    "fiscalYear": 2021,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 4475,
+          "CompanyNameEn": "Middle East Healthcare Co.",
+          "CompanyNameAr": "شركة الشرق الأوسط للرعاية الصحية",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2019-06-27T00:00:00",
+          "EstimatedValue": 600.0,
+          "ActualValue": 608.18
+        },
+        {
+          "CompanyID": 4475,
+          "CompanyNameEn": "Middle East Healthcare Co.",
+          "CompanyNameAr": "شركة الشرق الأوسط للرعاية الصحية",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2021-12-31T00:00:00",
+          "ForYear": 2021,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2018-05-07T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 608.18
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

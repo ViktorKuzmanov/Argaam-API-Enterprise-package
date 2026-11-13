@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:42:55.6045418Z",
+  "requestId": "req_53ce05d8400a4288a47b0f0e9ba6405f",
+  "data": {
+    "symbol": "1322",
+    "fiscalYear": 2024,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 13986,
+          "CompanyNameEn": "Almasane Alkobra Mining Co.",
+          "CompanyNameAr": "شركة المصانع الكبرى للتعدين",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2024-03-14T00:00:00",
+          "EstimatedValue": 741.0,
+          "ActualValue": 780.649
+        },
+        {
+          "CompanyID": 13986,
+          "CompanyNameEn": "Almasane Alkobra Mining Co.",
+          "CompanyNameAr": "شركة المصانع الكبرى للتعدين",
+          "BrokerID": 3729,
+          "BrokerNameEn": "GIB Capital",
+          "BrokerNameAr": "جي آي بي كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2022-11-22T00:00:00",
+          "EstimatedValue": 761.0,
+          "ActualValue": 780.649
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

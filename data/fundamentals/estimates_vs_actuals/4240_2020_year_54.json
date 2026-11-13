@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:57:55.6406437Z",
+  "requestId": "req_be47a1b1ba804c1da29d6447dfb47f1f",
+  "data": {
+    "symbol": "4240",
+    "fiscalYear": 2020,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 917,
+          "CompanyNameEn": "AFG International Co.",
+          "CompanyNameAr": "شركة إيه إف جي إنترناشونال",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2019-09-22T00:00:00",
+          "EstimatedValue": -656.3,
+          "ActualValue": -1090.753
+        },
+        {
+          "CompanyID": 917,
+          "CompanyNameEn": "AFG International Co.",
+          "CompanyNameAr": "شركة إيه إف جي إنترناشونال",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2019-02-12T00:00:00",
+          "EstimatedValue": 492.0,
+          "ActualValue": -1090.753
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

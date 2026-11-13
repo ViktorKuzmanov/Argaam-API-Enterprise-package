@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:05:49.8509519Z",
+  "requestId": "req_5f4d7433b5a748bf8cb608fe1292a6a9",
+  "data": {
+    "symbol": "2040",
+    "fiscalYear": 2016,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 66,
+          "CompanyNameEn": "Saudi Ceramic Co.",
+          "CompanyNameAr": "شركة الخزف السعودي",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2016-05-16T00:00:00",
+          "EstimatedValue": 1457.0,
+          "ActualValue": 1303.519
+        },
+        {
+          "CompanyID": 66,
+          "CompanyNameEn": "Saudi Ceramic Co.",
+          "CompanyNameAr": "شركة الخزف السعودي",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2016-12-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2015-09-23T00:00:00",
+          "EstimatedValue": 1442.0,
+          "ActualValue": 1303.519
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

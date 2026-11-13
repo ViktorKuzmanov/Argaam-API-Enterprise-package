@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:53:06.3958737Z",
+  "requestId": "req_1da6e4192fac4d3ebce3c9f4947df08f",
+  "data": {
+    "symbol": "7200",
+    "fiscalYear": 2022,
+    "period": "year",
+    "fsFieldId": 72,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 5192,
+          "CompanyNameEn": "Al Moammar Information Systems Co.",
+          "CompanyNameAr": "شركة المعمر لأنظمة المعلومات",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2022-05-16T00:00:00",
+          "EstimatedValue": 957.0,
+          "ActualValue": 1237.5944
+        },
+        {
+          "CompanyID": 5192,
+          "CompanyNameEn": "Al Moammar Information Systems Co.",
+          "CompanyNameAr": "شركة المعمر لأنظمة المعلومات",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Liabilities",
+          "FSFieldNameAr": "اجمالي المطلوبات",
+          "CreatedOn": "2021-07-05T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 1237.5944
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

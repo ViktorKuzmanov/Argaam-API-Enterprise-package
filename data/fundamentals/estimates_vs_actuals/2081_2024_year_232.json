@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:43:15.1663233Z",
+  "requestId": "req_0b0db213772f4c9a8b009236475a5c08",
+  "data": {
+    "symbol": "2081",
+    "fiscalYear": 2024,
+    "period": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 13068,
+          "CompanyNameEn": "Alkhorayef Water and Power Technologies Co.",
+          "CompanyNameAr": "شركة الخريف لتقنية المياه والطاقة",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2022-10-27T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 384.324
+        },
+        {
+          "CompanyID": 13068,
+          "CompanyNameEn": "Alkhorayef Water and Power Technologies Co.",
+          "CompanyNameAr": "شركة الخريف لتقنية المياه والطاقة",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2021-02-15T00:00:00",
+          "EstimatedValue": 263.0,
+          "ActualValue": 384.324
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

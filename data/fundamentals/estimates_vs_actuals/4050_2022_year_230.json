@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:52:12.1878765Z",
+  "requestId": "req_56b393b4a0b64f4bb17d0835fc2af12a",
+  "data": {
+    "symbol": "4050",
+    "fiscalYear": 2022,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 100,
+          "CompanyNameEn": "Saudi Automotive Services Co.",
+          "CompanyNameAr": "الشركة السعودية لخدمات السيارات والمعدات",
+          "BrokerID": 10347,
+          "BrokerNameEn": "Beltone Financial",
+          "BrokerNameAr": "بلتون المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2020-06-21T00:00:00",
+          "EstimatedValue": 3477.0,
+          "ActualValue": 7852.211
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

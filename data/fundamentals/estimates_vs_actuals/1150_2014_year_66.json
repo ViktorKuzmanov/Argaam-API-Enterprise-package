@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:12:24.7637914Z",
+  "requestId": "req_7961284457594773b18d959d45514e5f",
+  "data": {
+    "symbol": "1150",
+    "fiscalYear": 2014,
+    "period": "year",
+    "fsFieldId": 66,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 826,
+          "CompanyNameEn": "Alinma Bank",
+          "CompanyNameAr": "مصرف الإنماء",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2014-12-31T00:00:00",
+          "ForYear": 2014,
+          "FSFieldNameEn": "BS Customer Deposits",
+          "FSFieldNameAr": "ودائع العملاء",
+          "CreatedOn": "2014-10-26T00:00:00",
+          "EstimatedValue": 51830.7,
+          "ActualValue": 59427.825
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

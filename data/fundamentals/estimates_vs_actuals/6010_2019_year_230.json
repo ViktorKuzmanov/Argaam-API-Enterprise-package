@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:13:52.8402434Z",
+  "requestId": "req_1105330c106d492ca0239cb9be10d222",
+  "data": {
+    "symbol": "6010",
+    "fiscalYear": 2019,
+    "period": "year",
+    "fsFieldId": 230,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 34,
+          "CompanyNameEn": "National Agricultural Development Co.",
+          "CompanyNameAr": "الشركة الوطنية للتنمية الزراعية",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-04-14T00:00:00",
+          "EstimatedValue": 2121.0,
+          "ActualValue": 2225.256
+        },
+        {
+          "CompanyID": 34,
+          "CompanyNameEn": "National Agricultural Development Co.",
+          "CompanyNameAr": "الشركة الوطنية للتنمية الزراعية",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2019-12-31T00:00:00",
+          "ForYear": 2019,
+          "FSFieldNameEn": "Sales",
+          "FSFieldNameAr": "الإيرادات",
+          "CreatedOn": "2019-03-24T00:00:00",
+          "EstimatedValue": 2030.0,
+          "ActualValue": 2225.256
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:03:34.770193Z",
+  "requestId": "req_509122e540ad4bb78d1e5d661f3959f4",
+  "data": {
+    "symbol": "3005",
+    "fiscalYear": 2017,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 3408,
+          "CompanyNameEn": "Umm Al-Qura Cement Co.",
+          "CompanyNameAr": "شركة أسمنت ام القرى",
+          "BrokerID": 15979,
+          "BrokerNameEn": "OSOOL AND BAKHEET",
+          "BrokerNameAr": "أصول وبخيت",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2018-01-07T00:00:00",
+          "EstimatedValue": 5.9,
+          "ActualValue": 35.112
+        },
+        {
+          "CompanyID": 3408,
+          "CompanyNameEn": "Umm Al-Qura Cement Co.",
+          "CompanyNameAr": "شركة أسمنت ام القرى",
+          "BrokerID": 15979,
+          "BrokerNameEn": "OSOOL AND BAKHEET",
+          "BrokerNameAr": "أصول وبخيت",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2017-09-30T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2017-10-04T00:00:00",
+          "EstimatedValue": 7.6,
+          "ActualValue": 5.107
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

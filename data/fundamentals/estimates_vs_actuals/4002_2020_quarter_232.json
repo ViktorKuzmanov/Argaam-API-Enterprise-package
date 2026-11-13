@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:57:26.6266462Z",
+  "requestId": "req_90e2ce2b8fdc4e7cb3ae6aa410b16a41",
+  "data": {
+    "symbol": "4002",
+    "fiscalYear": 2020,
+    "period": "quarter",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1524,
+          "CompanyNameEn": "Mouwasat Medical Services Co.",
+          "CompanyNameAr": "شركة المواساة للخدمات الطبية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2020-06-30T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2020-08-20T00:00:00",
+          "EstimatedValue": 219.0,
+          "ActualValue": 219.014
+        },
+        {
+          "CompanyID": 1524,
+          "CompanyNameEn": "Mouwasat Medical Services Co.",
+          "CompanyNameAr": "شركة المواساة للخدمات الطبية",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2020-03-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2020-08-20T00:00:00",
+          "EstimatedValue": 221.0,
+          "ActualValue": 220.553
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

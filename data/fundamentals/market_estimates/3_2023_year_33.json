@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:18:22.1716002Z",
+  "requestId": "req_f95375d02eb6454a85a34e359ce05030",
+  "data": {
+    "marketId": 3,
+    "year": 2023,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 33,
+    "estimates": {
+      "forYear": 2023,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "صافي دخل العمولات الخاصة",
+      "fsFieldNameEn": "Net Special Commission Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": null,
+          "actualValue": 10341.469
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": null,
+          "actualValue": 27008.94
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

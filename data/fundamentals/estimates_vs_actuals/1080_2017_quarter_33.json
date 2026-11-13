@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:02:32.956874Z",
+  "requestId": "req_cb6077997858486da4301c5e83759ab5",
+  "data": {
+    "symbol": "1080",
+    "fiscalYear": 2017,
+    "period": "quarter",
+    "fsFieldId": 33,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 45,
+          "CompanyNameEn": "Arab National Bank",
+          "CompanyNameAr": "البنك العربي الوطني",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2017-12-31T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Net Special Commission Income",
+          "FSFieldNameAr": "صافي دخل العمولات الخاصة",
+          "CreatedOn": "2018-01-08T00:00:00",
+          "EstimatedValue": 1184.0,
+          "ActualValue": 1196.526
+        },
+        {
+          "CompanyID": 45,
+          "CompanyNameEn": "Arab National Bank",
+          "CompanyNameAr": "البنك العربي الوطني",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2017-09-30T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Net Special Commission Income",
+          "FSFieldNameAr": "صافي دخل العمولات الخاصة",
+          "CreatedOn": "2017-10-08T00:00:00",
+          "EstimatedValue": 1208.0,
+          "ActualValue": 1183.938
+        },
+        {
+          "CompanyID": 45,
+          "CompanyNameEn": "Arab National Bank",
+          "CompanyNameAr": "البنك العربي الوطني",
+          "BrokerID": 2501,
+          "BrokerNameEn": "Riyad Capital",
+          "BrokerNameAr": "الرياض المالية",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2017-06-30T00:00:00",
+          "ForYear": 2017,
+          "FSFieldNameEn": "Net Special Commission Income",
+          "FSFieldNameAr": "صافي دخل العمولات الخاصة",
+          "CreatedOn": "2017-07-13T00:00:00",
+          "EstimatedValue": 1092.0,
+          "ActualValue": 1215.366
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:07:04.3932502Z",
+  "requestId": "req_9587abc0bf1849edac58cc32d43b40ce",
+  "data": {
+    "symbol": "4003",
+    "fiscalYear": 2016,
+    "period": "quarter",
+    "fsFieldId": 232,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1907,
+          "CompanyNameEn": "United Electronics Co.",
+          "CompanyNameAr": "الشركة المتحدة للإلكترونيات",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2016-03-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2016-04-24T00:00:00",
+          "EstimatedValue": 128.3,
+          "ActualValue": 97.512
+        },
+        {
+          "CompanyID": 1907,
+          "CompanyNameEn": "United Electronics Co.",
+          "CompanyNameAr": "الشركة المتحدة للإلكترونيات",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2016-03-31T00:00:00",
+          "ForYear": 2016,
+          "FSFieldNameEn": "Total Income",
+          "FSFieldNameAr": "إجمالي الدخل",
+          "CreatedOn": "2016-04-24T00:00:00",
+          "EstimatedValue": 113.0,
+          "ActualValue": 97.512
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

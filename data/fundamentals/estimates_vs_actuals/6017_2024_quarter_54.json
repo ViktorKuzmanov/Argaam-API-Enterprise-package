@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:45:29.6083118Z",
+  "requestId": "req_7ec41855395748bea70fbbd065d068bc",
+  "data": {
+    "symbol": "6017",
+    "fiscalYear": 2024,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 13502,
+          "CompanyNameEn": "Jahez International Company for Information System Technology",
+          "CompanyNameAr": "شركة جاهز الدولية لتقنية نظم المعلومات",
+          "BrokerID": 3932,
+          "BrokerNameEn": "United Securities Company  ",
+          "BrokerNameAr": "المتحدة للأوراق المالية",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-01-09T00:00:00",
+          "EstimatedValue": 64.0,
+          "ActualValue": 65.1352
+        },
+        {
+          "CompanyID": 13502,
+          "CompanyNameEn": "Jahez International Company for Information System Technology",
+          "CompanyNameAr": "شركة جاهز الدولية لتقنية نظم المعلومات",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2024-12-31T00:00:00",
+          "ForYear": 2024,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2025-01-05T00:00:00",
+          "EstimatedValue": 58.0,
+          "ActualValue": 65.1352
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

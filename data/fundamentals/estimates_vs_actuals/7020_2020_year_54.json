@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:58:01.7074574Z",
+  "requestId": "req_f5bddd64dc9e4b0197f8c17c81e44cef",
+  "data": {
+    "symbol": "7020",
+    "fiscalYear": 2020,
+    "period": "year",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 31,
+          "CompanyNameEn": "Etihad Etisalat Co.",
+          "CompanyNameAr": "شركة إتحاد إتصالات",
+          "BrokerID": 4758,
+          "BrokerNameEn": "FAB Securities",
+          "BrokerNameAr": "أبوظبي الأول للأوراق المالية",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2020-12-08T00:00:00",
+          "EstimatedValue": 726.0,
+          "ActualValue": 783.254
+        },
+        {
+          "CompanyID": 31,
+          "CompanyNameEn": "Etihad Etisalat Co.",
+          "CompanyNameAr": "شركة إتحاد إتصالات",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2020-02-20T00:00:00",
+          "EstimatedValue": 521.0,
+          "ActualValue": 783.254
+        },
+        {
+          "CompanyID": 31,
+          "CompanyNameEn": "Etihad Etisalat Co.",
+          "CompanyNameAr": "شركة إتحاد إتصالات",
+          "BrokerID": 2604,
+          "BrokerNameEn": "Al Rajhi Capital ",
+          "BrokerNameAr": "الراجحي المالية ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2020-12-31T00:00:00",
+          "ForYear": 2020,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2018-02-22T00:00:00",
+          "EstimatedValue": 742.0,
+          "ActualValue": 783.254
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:51:12.6577398Z",
+  "requestId": "req_b5b1835f55df4c9b87f5cf6a841b7e56",
+  "data": {
+    "symbol": "2330",
+    "fiscalYear": 2022,
+    "period": "year",
+    "fsFieldId": 65,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1007,
+          "CompanyNameEn": "Advanced Petrochemical Co.",
+          "CompanyNameAr": "الشركة المتقدمة للبتروكيماويات",
+          "BrokerID": 2701,
+          "BrokerNameEn": "AlJazira Capital",
+          "BrokerNameAr": "الجزيرة كابيتال ",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2022-06-29T00:00:00",
+          "EstimatedValue": 6722.0,
+          "ActualValue": 8238.356
+        },
+        {
+          "CompanyID": 1007,
+          "CompanyNameEn": "Advanced Petrochemical Co.",
+          "CompanyNameAr": "الشركة المتقدمة للبتروكيماويات",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2022-03-02T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 8238.356
+        },
+        {
+          "CompanyID": 1007,
+          "CompanyNameEn": "Advanced Petrochemical Co.",
+          "CompanyNameAr": "الشركة المتقدمة للبتروكيماويات",
+          "BrokerID": 4616,
+          "BrokerNameEn": "U-Capital",
+          "BrokerNameAr": "أوبار كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2022-12-31T00:00:00",
+          "ForYear": 2022,
+          "FSFieldNameEn": "Total Assets",
+          "FSFieldNameAr": "إجمالي الموجودات",
+          "CreatedOn": "2022-01-25T00:00:00",
+          "EstimatedValue": 7400.0,
+          "ActualValue": 8238.356
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

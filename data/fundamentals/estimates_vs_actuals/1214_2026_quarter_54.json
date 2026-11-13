@@ -1,0 +1,88 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:37:30.5995035Z",
+  "requestId": "req_a8b53a8a96ae4d3ab66bbc4d2d8a1708",
+  "data": {
+    "symbol": "1214",
+    "fiscalYear": 2026,
+    "period": "quarter",
+    "fsFieldId": 54,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 1880,
+          "CompanyNameEn": "Al Hassan Ghazi Ibrahim Shaker Co.",
+          "CompanyNameAr": "شركة الحسن غازي إبراهيم شاكر",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2026-09-30T00:00:00",
+          "ForYear": 2026,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2026-11-04T00:00:00",
+          "EstimatedValue": 9.2,
+          "ActualValue": 6.117
+        },
+        {
+          "CompanyID": 1880,
+          "CompanyNameEn": "Al Hassan Ghazi Ibrahim Shaker Co.",
+          "CompanyNameAr": "شركة الحسن غازي إبراهيم شاكر",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q2",
+          "ForDate": "2026-06-30T00:00:00",
+          "ForYear": 2026,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2026-07-09T00:00:00",
+          "EstimatedValue": 19.6,
+          "ActualValue": 5.315
+        },
+        {
+          "CompanyID": 1880,
+          "CompanyNameEn": "Al Hassan Ghazi Ibrahim Shaker Co.",
+          "CompanyNameAr": "شركة الحسن غازي إبراهيم شاكر",
+          "BrokerID": 2930,
+          "BrokerNameEn": "SNB Capital",
+          "BrokerNameAr": "الأهلي كابيتال",
+          "FiscalPeriodValue": "Q1",
+          "ForDate": "2026-03-31T00:00:00",
+          "ForYear": 2026,
+          "FSFieldNameEn": "IS Net Income",
+          "FSFieldNameAr": "الربح الصافي  ",
+          "CreatedOn": "2026-04-12T00:00:00",
+          "EstimatedValue": 28.7,
+          "ActualValue": 24.28
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T01:41:12.8424146Z",
+  "requestId": "req_853e15e3e54949328abb8e2a837ee588",
+  "data": {
+    "symbol": "4008",
+    "fiscalYear": 2025,
+    "period": "year",
+    "fsFieldId": 79,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 4337,
+          "CompanyNameEn": "Saudi Company for Hardware",
+          "CompanyNameAr": "الشركة السعودية للعدد والأدوات",
+          "BrokerID": 3674,
+          "BrokerNameEn": "Itqan Capital",
+          "BrokerNameAr": "إتقان كابيتال",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2022-06-15T00:00:00",
+          "EstimatedValue": 663.0,
+          "ActualValue": 370.7873
+        },
+        {
+          "CompanyID": 4337,
+          "CompanyNameEn": "Saudi Company for Hardware",
+          "CompanyNameAr": "الشركة السعودية للعدد والأدوات",
+          "BrokerID": 2928,
+          "BrokerNameEn": "EFG-Hermes",
+          "BrokerNameAr": "إي اف چي هيرميس",
+          "FiscalPeriodValue": "YEAR",
+          "ForDate": "2025-12-31T00:00:00",
+          "ForYear": 2025,
+          "FSFieldNameEn": "Total Owners Equity",
+          "FSFieldNameAr": "مجموع حقوق الملكية",
+          "CreatedOn": "2022-03-07T00:00:00",
+          "EstimatedValue": null,
+          "ActualValue": 370.7873
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

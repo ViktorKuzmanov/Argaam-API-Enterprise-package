@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:18:47.1316715Z",
+  "requestId": "req_1de730843c044abbb16605c91a38776b",
+  "data": {
+    "marketId": 3,
+    "year": 2022,
+    "period": "quarter",
+    "fiscalPeriod": "q1",
+    "fsFieldId": 72,
+    "estimates": {
+      "forYear": 2022,
+      "fiscalPeriodValue": "Q1",
+      "fsFieldNameAr": "اجمالي المطلوبات",
+      "fsFieldNameEn": "Total Liabilities",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 45,
+          "companyNameAr": "البنك العربي الوطني",
+          "companyNameEn": "Arab National Bank",
+          "estimatedValue": 131419.0,
+          "actualValue": 172558.429
+        },
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 184609.0,
+          "actualValue": 228914.687
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 146286.0,
+          "actualValue": 182782.997
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

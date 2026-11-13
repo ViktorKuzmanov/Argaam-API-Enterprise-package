@@ -1,0 +1,72 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:08:25.1750193Z",
+  "requestId": "req_a8e90bf1a4ec442092cc52f8478f8584",
+  "data": {
+    "symbol": "1010",
+    "fiscalYear": 2015,
+    "period": "quarter",
+    "fsFieldId": 40,
+    "estimates": {
+      "contentType": null,
+      "serializerSettings": {
+        "converters": [],
+        "allowTrailingCommas": false,
+        "defaultBufferSize": 16384,
+        "encoder": null,
+        "dictionaryKeyPolicy": null,
+        "ignoreNullValues": false,
+        "defaultIgnoreCondition": 0,
+        "numberHandling": 0,
+        "ignoreReadOnlyProperties": false,
+        "ignoreReadOnlyFields": false,
+        "includeFields": false,
+        "maxDepth": 0,
+        "propertyNamingPolicy": null,
+        "propertyNameCaseInsensitive": false,
+        "readCommentHandling": 0,
+        "unknownTypeHandling": 0,
+        "writeIndented": false,
+        "referenceHandler": null
+      },
+      "statusCode": null,
+      "value": [
+        {
+          "CompanyID": 47,
+          "CompanyNameEn": "Riyad Bank",
+          "CompanyNameAr": "بنك الرياض",
+          "BrokerID": 3664,
+          "BrokerNameEn": " BSF Capital",
+          "BrokerNameAr": "بي إس إف كابيتال",
+          "FiscalPeriodValue": "Q4",
+          "ForDate": "2015-12-31T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Operating Income",
+          "FSFieldNameAr": "دخل العمليات",
+          "CreatedOn": "2016-01-19T00:00:00",
+          "EstimatedValue": 2096.0,
+          "ActualValue": 1888.023
+        },
+        {
+          "CompanyID": 47,
+          "CompanyNameEn": "Riyad Bank",
+          "CompanyNameAr": "بنك الرياض",
+          "BrokerID": 2703,
+          "BrokerNameEn": "Alistithmar for Financial Securities and Brokerage",
+          "BrokerNameAr": "الاستثمار للأوراق المالية والوساطة",
+          "FiscalPeriodValue": "Q3",
+          "ForDate": "2015-09-30T00:00:00",
+          "ForYear": 2015,
+          "FSFieldNameEn": "Operating Income",
+          "FSFieldNameAr": "دخل العمليات",
+          "CreatedOn": "2015-10-13T00:00:00",
+          "EstimatedValue": 1955.0,
+          "ActualValue": 1862.109
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

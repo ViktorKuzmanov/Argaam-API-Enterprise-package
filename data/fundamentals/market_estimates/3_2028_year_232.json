@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:15:13.5423912Z",
+  "requestId": "req_5b311d58cbd049f0ae7a1cdb6babcb64",
+  "data": {
+    "marketId": 3,
+    "year": 2028,
+    "period": "year",
+    "fiscalPeriod": "year",
+    "fsFieldId": 232,
+    "estimates": {
+      "forYear": 2028,
+      "fiscalPeriodValue": "YEAR",
+      "fsFieldNameAr": "إجمالي الدخل",
+      "fsFieldNameEn": "Total Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 32,
+          "companyNameAr": "الشركة السعودية للطاقة",
+          "companyNameEn": "Saudi Energy Co.",
+          "estimatedValue": 69399.0,
+          "actualValue": null
+        },
+        {
+          "companyID": 577,
+          "companyNameAr": "شركة الدريس للخدمات البترولية و النقليات",
+          "companyNameEn": "Aldrees Petroleum and Transport Services Co.",
+          "estimatedValue": null,
+          "actualValue": null
+        },
+        {
+          "companyID": 15706,
+          "companyNameAr": "شركة رسن لتقنية المعلومات",
+          "companyNameEn": "Rasan Information Technology Co.",
+          "estimatedValue": 721.0,
+          "actualValue": null
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}
