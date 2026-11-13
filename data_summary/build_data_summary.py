@@ -39,7 +39,7 @@ API_NAMES = {
 
 # APIs whose data is fully downloaded: their fetch script's --dry-run shows 0 calls left. They get a green
 # "✓ Done" badge on the page; the others show "In progress". Add a folder here once its dry-run reaches 0.
-DONE = {"funds", "m&a", "projects"}
+DONE = {"funds", "m&a", "projects", "fundamentals"}
 
 # For the APIs still downloading, "What's left" on the page comes from their fetch script's --dry-run (no API calls).
 # Folder -> [(pattern in the dry-run output, what to call it on the page)]; the pattern's number is the count left,

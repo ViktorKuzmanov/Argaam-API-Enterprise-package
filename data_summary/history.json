@@ -370,23 +370,28 @@
   }
  },
  {
-  "taken": "2026-11-12T22:21",
+  "taken": "2026-11-13T03:36",
   "apis": {
    "fundamentals": {
-    "files": 33435,
-    "bytes": 596044649,
-    "records": 762352,
-    "calls": 33913,
+    "files": 53140,
+    "bytes": 832362533,
+    "records": 1063944,
+    "calls": 54183,
     "endpoints": {
      "financials_history": {
-      "files": 14901,
-      "bytes": 322919386,
-      "records": 41501
+      "files": 20021,
+      "bytes": 445011364,
+      "records": 56595
      },
      "ratios_history": {
-      "files": 15038,
-      "bytes": 202585204,
-      "records": 602179
+      "files": 20848,
+      "bytes": 281994549,
+      "records": 836866
+     },
+     "estimates_vs_actuals": {
+      "files": 7075,
+      "bytes": 30798628,
+      "records": 37247
      },
      "analyst_estimates": {
       "files": 833,
@@ -412,6 +417,11 @@
       "files": 270,
       "bytes": 7338095,
       "records": 27179
+     },
+     "market_estimates": {
+      "files": 1700,
+      "bytes": 4017933,
+      "records": 14564
      },
      "rankings": {
       "files": 26,
