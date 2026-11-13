@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:33:24.2242778Z",
+  "requestId": "req_fb322cb48ce94388b8ef14e51a026ca0",
+  "data": {
+    "marketId": 3,
+    "year": 2016,
+    "period": "quarter",
+    "fiscalPeriod": "q4",
+    "fsFieldId": 232,
+    "estimates": {
+      "forYear": 2016,
+      "fiscalPeriodValue": "Q4",
+      "fsFieldNameAr": "إجمالي الدخل",
+      "fsFieldNameEn": "Total Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 95,
+          "companyNameAr": "شركة جرير للتسويق",
+          "companyNameEn": "Jarir Marketing Co.",
+          "estimatedValue": 231.5,
+          "actualValue": 244.799
+        },
+        {
+          "companyID": 1007,
+          "companyNameAr": "الشركة المتقدمة للبتروكيماويات",
+          "companyNameEn": "Advanced Petrochemical Co.",
+          "estimatedValue": 213.0,
+          "actualValue": 228.952
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

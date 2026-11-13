@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:34:18.4346282Z",
+  "requestId": "req_cf317bd92db54daf80f31e715f28b6de",
+  "data": {
+    "marketId": 3,
+    "year": 2014,
+    "period": "quarter",
+    "fiscalPeriod": "q1",
+    "fsFieldId": 230,
+    "estimates": {
+      "forYear": 2014,
+      "fiscalPeriodValue": "Q1",
+      "fsFieldNameAr": "الإيرادات",
+      "fsFieldNameEn": "Sales",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 53,
+          "companyNameAr": "شركة الأسمنت العربية",
+          "companyNameEn": "Arabian Cement Co.",
+          "estimatedValue": 384.0,
+          "actualValue": 422.468
+        },
+        {
+          "companyID": 886,
+          "companyNameAr": "شركة أسمنت المنطقة الشمالية",
+          "companyNameEn": "Northern Region Cement Co.",
+          "estimatedValue": 174.0,
+          "actualValue": 308.525
+        },
+        {
+          "companyID": 1022,
+          "companyNameAr": "شركة أسمنت نجران",
+          "companyNameEn": "Najran Cement Co.",
+          "estimatedValue": 160.0,
+          "actualValue": 168.679
+        },
+        {
+          "companyID": 1055,
+          "companyNameAr": "شركة أسمنت المدينة",
+          "companyNameEn": "City Cement Co.",
+          "estimatedValue": 108.0,
+          "actualValue": 121.738
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

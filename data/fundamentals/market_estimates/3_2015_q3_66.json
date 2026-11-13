@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:34:08.3972205Z",
+  "requestId": "req_a45f093b70a44bbe88bbc40f9ee4edb1",
+  "data": {
+    "marketId": 3,
+    "year": 2015,
+    "period": "quarter",
+    "fiscalPeriod": "q3",
+    "fsFieldId": 66,
+    "estimates": {
+      "forYear": 2015,
+      "fiscalPeriodValue": "Q3",
+      "fsFieldNameAr": "ودائع العملاء",
+      "fsFieldNameEn": "BS Customer Deposits",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 43,
+          "companyNameAr": "مصرف الراجحي",
+          "companyNameEn": "Al Rajhi Bank",
+          "estimatedValue": 269975.0,
+          "actualValue": 271548.73
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

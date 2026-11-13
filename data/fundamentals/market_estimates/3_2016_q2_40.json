@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:33:30.6649127Z",
+  "requestId": "req_d4e4be2ed9864eb786305b820839b28a",
+  "data": {
+    "marketId": 3,
+    "year": 2016,
+    "period": "quarter",
+    "fiscalPeriod": "q2",
+    "fsFieldId": 40,
+    "estimates": {
+      "forYear": 2016,
+      "fiscalPeriodValue": "Q2",
+      "fsFieldNameAr": "دخل العمليات",
+      "fsFieldNameEn": "Operating Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 1649.0,
+          "actualValue": 1612.88
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": 4669.0,
+          "actualValue": 4660.246
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

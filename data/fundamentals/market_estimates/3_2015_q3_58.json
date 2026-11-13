@@ -1,0 +1,73 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:34:04.8032956Z",
+  "requestId": "req_5d56ae953df14713b30eb32a75e97099",
+  "data": {
+    "marketId": 3,
+    "year": 2015,
+    "period": "quarter",
+    "fiscalPeriod": "q3",
+    "fsFieldId": 58,
+    "estimates": {
+      "forYear": 2015,
+      "fiscalPeriodValue": "Q3",
+      "fsFieldNameAr": "صافي القروض و السلف",
+      "fsFieldNameEn": "Net Loans and Advances",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 45,
+          "companyNameAr": "البنك العربي الوطني",
+          "companyNameEn": "Arab National Bank",
+          "estimatedValue": 112416.0,
+          "actualValue": 113284.059
+        },
+        {
+          "companyID": 47,
+          "companyNameAr": "بنك الرياض",
+          "companyNameEn": "Riyad Bank",
+          "estimatedValue": 138504.0,
+          "actualValue": 138464.666
+        },
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 126899.0,
+          "actualValue": 129568.933
+        },
+        {
+          "companyID": 49,
+          "companyNameAr": "مجموعة سامبا المالية",
+          "companyNameEn": "Samba Financial Group",
+          "estimatedValue": 132200.0,
+          "actualValue": 127356.922
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 126331.0,
+          "actualValue": 124408.128
+        },
+        {
+          "companyID": 51,
+          "companyNameAr": "البنك الأول",
+          "companyNameEn": "Alawwal Bank",
+          "estimatedValue": 72100.0,
+          "actualValue": 73499.388
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": 236047.0,
+          "actualValue": 238604.434
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

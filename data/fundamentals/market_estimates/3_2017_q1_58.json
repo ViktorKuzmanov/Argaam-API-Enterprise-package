@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:32:56.4704094Z",
+  "requestId": "req_214fe6dd47e14b54a271ec7cd2b6ac59",
+  "data": {
+    "marketId": 3,
+    "year": 2017,
+    "period": "quarter",
+    "fiscalPeriod": "q1",
+    "fsFieldId": 58,
+    "estimates": {
+      "forYear": 2017,
+      "fiscalPeriodValue": "Q1",
+      "fsFieldNameAr": "صافي القروض و السلف",
+      "fsFieldNameEn": "Net Loans and Advances",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 45,
+          "companyNameAr": "البنك العربي الوطني",
+          "companyNameEn": "Arab National Bank",
+          "estimatedValue": 117244.0,
+          "actualValue": 116039.53
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 131400.0,
+          "actualValue": 129090.572
+        },
+        {
+          "companyID": 51,
+          "companyNameAr": "البنك الأول",
+          "companyNameEn": "Alawwal Bank",
+          "estimatedValue": 77085.0,
+          "actualValue": 70481.33
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

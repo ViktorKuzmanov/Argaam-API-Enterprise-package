@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:33:27.8346599Z",
+  "requestId": "req_f24770c790574a52a96e46d61a062207",
+  "data": {
+    "marketId": 3,
+    "year": 2016,
+    "period": "quarter",
+    "fiscalPeriod": "q2",
+    "fsFieldId": 65,
+    "estimates": {
+      "forYear": 2016,
+      "fiscalPeriodValue": "Q2",
+      "fsFieldNameAr": "إجمالي الموجودات",
+      "fsFieldNameEn": "Total Assets",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 194197.0,
+          "actualValue": 191870.595
+        },
+        {
+          "companyID": 49,
+          "companyNameAr": "مجموعة سامبا المالية",
+          "companyNameEn": "Samba Financial Group",
+          "estimatedValue": 233992.0,
+          "actualValue": 233992.294
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 186675.0,
+          "actualValue": 193912.184
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": 459819.0,
+          "actualValue": 452613.52
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

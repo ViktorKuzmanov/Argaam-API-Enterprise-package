@@ -1,0 +1,73 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:34:01.5584009Z",
+  "requestId": "req_3a5ce443b1984aafb3e95a1d18dacdf5",
+  "data": {
+    "marketId": 3,
+    "year": 2015,
+    "period": "quarter",
+    "fiscalPeriod": "q3",
+    "fsFieldId": 33,
+    "estimates": {
+      "forYear": 2015,
+      "fiscalPeriodValue": "Q3",
+      "fsFieldNameAr": "صافي دخل العمولات الخاصة",
+      "fsFieldNameEn": "Net Special Commission Income",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 45,
+          "companyNameAr": "البنك العربي الوطني",
+          "companyNameEn": "Arab National Bank",
+          "estimatedValue": 1005.3,
+          "actualValue": 994.537
+        },
+        {
+          "companyID": 47,
+          "companyNameAr": "بنك الرياض",
+          "companyNameEn": "Riyad Bank",
+          "estimatedValue": 1249.0,
+          "actualValue": 1261.046
+        },
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 1077.5,
+          "actualValue": 1079.011
+        },
+        {
+          "companyID": 49,
+          "companyNameAr": "مجموعة سامبا المالية",
+          "companyNameEn": "Samba Financial Group",
+          "estimatedValue": 1213.0,
+          "actualValue": 1183.544
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 1062.5,
+          "actualValue": 1044.112
+        },
+        {
+          "companyID": 51,
+          "companyNameAr": "البنك الأول",
+          "companyNameEn": "Alawwal Bank",
+          "estimatedValue": 589.5,
+          "actualValue": 605.735
+        },
+        {
+          "companyID": 3413,
+          "companyNameAr": "البنك الأهلي السعودي",
+          "companyNameEn": "The Saudi National Bank",
+          "estimatedValue": 3034.7,
+          "actualValue": 3255.597
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

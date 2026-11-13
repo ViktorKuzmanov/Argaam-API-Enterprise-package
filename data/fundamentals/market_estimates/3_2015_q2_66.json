@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:34:08.4005789Z",
+  "requestId": "req_ee98df21dd75486c9bfc2bb1f1031a4f",
+  "data": {
+    "marketId": 3,
+    "year": 2015,
+    "period": "quarter",
+    "fiscalPeriod": "q2",
+    "fsFieldId": 66,
+    "estimates": {
+      "forYear": 2015,
+      "fiscalPeriodValue": "Q2",
+      "fsFieldNameAr": "ودائع العملاء",
+      "fsFieldNameEn": "BS Customer Deposits",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 44,
+          "companyNameAr": "بنك البلاد",
+          "companyNameEn": "Bank Albilad",
+          "estimatedValue": 38302.0,
+          "actualValue": 38302.119
+        },
+        {
+          "companyID": 826,
+          "companyNameAr": "مصرف الإنماء",
+          "companyNameEn": "Alinma Bank",
+          "estimatedValue": 62900.0,
+          "actualValue": 60588.593
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

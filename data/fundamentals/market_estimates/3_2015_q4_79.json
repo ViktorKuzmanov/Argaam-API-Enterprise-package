@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:33:49.0593053Z",
+  "requestId": "req_62e54e68baf644e89bac9dea4b830d31",
+  "data": {
+    "marketId": 3,
+    "year": 2015,
+    "period": "quarter",
+    "fiscalPeriod": "q4",
+    "fsFieldId": 79,
+    "estimates": {
+      "forYear": 2015,
+      "fiscalPeriodValue": "Q4",
+      "fsFieldNameAr": "مجموع حقوق الملكية",
+      "fsFieldNameEn": "Total Owners Equity",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 34,
+          "companyNameAr": "الشركة الوطنية للتنمية الزراعية",
+          "companyNameEn": "National Agricultural Development Co.",
+          "estimatedValue": 1364.5,
+          "actualValue": 1364.524
+        },
+        {
+          "companyID": 56,
+          "companyNameAr": "شركة الأسمنت السعودية",
+          "companyNameEn": "Saudi Cement Co.",
+          "estimatedValue": 3349.7,
+          "actualValue": 3255.822
+        },
+        {
+          "companyID": 77,
+          "companyNameAr": "الشركة السعودية للصناعات الأساسية",
+          "companyNameEn": "Saudi Basic Industries Corp.",
+          "estimatedValue": 162023.1,
+          "actualValue": 209857.186
+        },
+        {
+          "companyID": 95,
+          "companyNameAr": "شركة جرير للتسويق",
+          "companyNameEn": "Jarir Marketing Co.",
+          "estimatedValue": 1532.0,
+          "actualValue": 1503.597
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

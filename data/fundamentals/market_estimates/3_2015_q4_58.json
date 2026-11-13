@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:34:04.7528586Z",
+  "requestId": "req_b86d2fcc52834a25a74930e7d99e6adf",
+  "data": {
+    "marketId": 3,
+    "year": 2015,
+    "period": "quarter",
+    "fiscalPeriod": "q4",
+    "fsFieldId": 58,
+    "estimates": {
+      "forYear": 2015,
+      "fiscalPeriodValue": "Q4",
+      "fsFieldNameAr": "صافي القروض و السلف",
+      "fsFieldNameEn": "Net Loans and Advances",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 48,
+          "companyNameAr": "البنك السعودي الأول",
+          "companyNameEn": "Saudi Awwal Bank",
+          "estimatedValue": 123173.0,
+          "actualValue": 125946.636
+        },
+        {
+          "companyID": 49,
+          "companyNameAr": "مجموعة سامبا المالية",
+          "companyNameEn": "Samba Financial Group",
+          "estimatedValue": 127971.0,
+          "actualValue": 130001.23
+        },
+        {
+          "companyID": 50,
+          "companyNameAr": "البنك السعودي الفرنسي",
+          "companyNameEn": "Banque Saudi Fransi",
+          "estimatedValue": 62620.5,
+          "actualValue": 123769.457
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

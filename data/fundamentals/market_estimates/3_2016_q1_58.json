@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:33:34.1838539Z",
+  "requestId": "req_08a49060209248e781d0bbdf65bdadd0",
+  "data": {
+    "marketId": 3,
+    "year": 2016,
+    "period": "quarter",
+    "fiscalPeriod": "q1",
+    "fsFieldId": 58,
+    "estimates": {
+      "forYear": 2016,
+      "fiscalPeriodValue": "Q1",
+      "fsFieldNameAr": "صافي القروض و السلف",
+      "fsFieldNameEn": "Net Loans and Advances",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 46,
+          "companyNameAr": "بنك الجزيرة",
+          "companyNameEn": "Bank Aljazira",
+          "estimatedValue": 42323.0,
+          "actualValue": 43322.374
+        },
+        {
+          "companyID": 47,
+          "companyNameAr": "بنك الرياض",
+          "companyNameEn": "Riyad Bank",
+          "estimatedValue": null,
+          "actualValue": 152563.848
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}

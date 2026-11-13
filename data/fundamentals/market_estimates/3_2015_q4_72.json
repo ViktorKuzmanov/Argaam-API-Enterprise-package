@@ -1,0 +1,52 @@
+{
+  "success": true,
+  "apiVersion": "1.0.0",
+  "timestamp": "2026-11-13T02:33:47.0276504Z",
+  "requestId": "req_8b5fdee0371d4a67826190be5f47f660",
+  "data": {
+    "marketId": 3,
+    "year": 2015,
+    "period": "quarter",
+    "fiscalPeriod": "q4",
+    "fsFieldId": 72,
+    "estimates": {
+      "forYear": 2015,
+      "fiscalPeriodValue": "Q4",
+      "fsFieldNameAr": "اجمالي المطلوبات",
+      "fsFieldNameEn": "Total Liabilities",
+      "marketID": 3,
+      "analysEstimates": [
+        {
+          "companyID": 34,
+          "companyNameAr": "الشركة الوطنية للتنمية الزراعية",
+          "companyNameEn": "National Agricultural Development Co.",
+          "estimatedValue": 2430.2,
+          "actualValue": 2461.139
+        },
+        {
+          "companyID": 56,
+          "companyNameAr": "شركة الأسمنت السعودية",
+          "companyNameEn": "Saudi Cement Co.",
+          "estimatedValue": 1072.1,
+          "actualValue": 1257.767
+        },
+        {
+          "companyID": 77,
+          "companyNameAr": "الشركة السعودية للصناعات الأساسية",
+          "companyNameEn": "Saudi Basic Industries Corp.",
+          "estimatedValue": 165904.4,
+          "actualValue": 118361.968
+        },
+        {
+          "companyID": 95,
+          "companyNameAr": "شركة جرير للتسويق",
+          "companyNameEn": "Jarir Marketing Co.",
+          "estimatedValue": 1129.0,
+          "actualValue": 907.395
+        }
+      ]
+    }
+  },
+  "meta": null,
+  "rateLimit": null
+}
