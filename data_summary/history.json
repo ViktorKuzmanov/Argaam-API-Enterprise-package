@@ -370,7 +370,7 @@
   }
  },
  {
-  "taken": "2026-11-13T03:36",
+  "taken": "2026-11-13T04:11",
   "apis": {
    "fundamentals": {
     "files": 53140,
@@ -494,25 +494,30 @@
     }
    },
    "macroeconomic": {
-    "files": 911,
-    "bytes": 25886771,
-    "records": 97244,
-    "calls": 1223,
+    "files": 1734,
+    "bytes": 46671432,
+    "records": 187387,
+    "calls": 13305,
     "endpoints": {
      "commodity_history": {
-      "files": 8,
-      "bytes": 9574569,
-      "records": 40293
+      "files": 30,
+      "bytes": 20449653,
+      "records": 86138
      },
      "petro_history": {
-      "files": 16,
-      "bytes": 7823548,
-      "records": 15012
+      "files": 33,
+      "bytes": 15368048,
+      "records": 29234
      },
      "commodity_shipping": {
       "files": 6,
       "bytes": 5693961,
       "records": 25826
+     },
+     "consumer_history": {
+      "files": 161,
+      "bytes": 2450403,
+      "records": 32883
      },
      "commodity_other_history": {
       "files": 3,
@@ -529,15 +534,10 @@
       "bytes": 519916,
       "records": 2822
      },
-     "consumer_history": {
-      "files": 17,
-      "bytes": 258501,
-      "records": 3452
-     },
      "indicator_values": {
-      "files": 553,
-      "bytes": 165975,
-      "records": 613
+      "files": 1193,
+      "bytes": 339150,
+      "records": 1258
      },
      "petro_index_history": {
       "files": 1,
